@@ -1,0 +1,25 @@
+{
+  "name": "opensight",
+  "description": "open sight official website source code",
+  "main": "",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "open",
+    "sight"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}
