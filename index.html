@@ -44,19 +44,23 @@
       </div><!--/.nav-collapse -->
     </div>
   </header>
-  <div class="jumbotron">
-    <div class="container">
-      <h1>源景视频，“视”无边际</h1>
-      <p>互联网视频服务平台</p>
+  <!-- <div class="jumbotron"> -->
+    <div class="container slogan">
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-md-offset-6">
+          <h2>源景视频，“视”无边际</h2>
+          <p>互联网视频服务平台</p>
+        </div>
+      </div>
     </div>
-  </div>
+  <!-- </div> -->
 
   <div id="content"></div>
   <script type="juicer/juicertemplete" id="content-tmpl">
     {@each contents as content}
       <div class="container">
         <div class="page-header">
-          <h2>${content.header}</h2>
+          <h3>${content.header}</h3>
         </div>
         <div class="row">
           {@each content.list as item}
@@ -64,7 +68,7 @@
               <div class="thumbnail">
                 <img src="${item.src}" alt="${item.alt}">
                 <div class="caption">
-                  <h3>${item.title}</h3>
+                  <h4>${item.title}</h4>
                   <p>${item.desc}</p>
                 </div>
               </div>

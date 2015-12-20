@@ -2,7 +2,10 @@ body{
   font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
   /*padding-top: 70px;*/
 }
-
+.slogan{
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
 .bs-docs-footer {
   padding-top: 40px;
   padding-bottom: 40px;
