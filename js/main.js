@@ -6,7 +6,7 @@ var initContents = function(){
 };
 
 $(function() {
-  initContents();
+  // initContents();
   $('.thumbnail').matchHeight({
     byRow: true,
     property: 'height',
