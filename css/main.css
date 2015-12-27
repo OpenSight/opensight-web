@@ -35,35 +35,35 @@ body{
 .zhsq{
   color: #f0ad4e;
   /*color: #298c4c;*/
-  background: #000 url(../img/zhsq.png) no-repeat 40% 50%;
+  background: #000 url(../img/zhsq.png) no-repeat 30% 50%;
 }
 .zhsq .container{
   padding-top: 150px;
 }
 .xxny{
-  color: #5cb85c;
-  background: #999 url(../img/xxny.png) no-repeat 95% 50%;
+  color: #428bca;
+  background: #999 url(../img/xxny.png) no-repeat 50% 50%;
 }
 .xxny .container{
-  padding-top: 150px;
+  padding-top: 0;
 }
 .hdzb{
   color: #5bc0de;
-  background: #000 url(../img/hdzb.png) no-repeat 0% 50%;
+  background: #000 url(../img/hdzb.png) no-repeat 50% 50%;
 }
 .hdzb .container{
-  padding-top: 320px;
+  padding-top: 280px;
 }
 .ycjy{
   color: #eee;
-  background: #804f17 url(../img/ycjy.png) no-repeat 90% 50%;
+  background: #804f17 url(../img/ycjy.png) no-repeat 50% 50%;
 }
 .ycjy .container{
-  padding-top: 50px;
+  padding-top: 0;
 }
 .srdz{
   color: #d9534f;
-  background: #000 url(../img/srdz.png) no-repeat 20% 50%;
+  background: #000 url(../img/srdz.png) no-repeat 150% 50%;
 }
 .srdz .container{
   padding-top: 150px;
