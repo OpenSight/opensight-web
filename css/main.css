@@ -20,6 +20,11 @@ body{
   padding-top: 0;
   padding-bottom: 0;
   color: #606060;
+  height: 605px;
+  background: url(../img/slogan.png) no-repeat center center;
+}
+.slogan-context{
+  margin-top: 150px;
 }
 .slogan a{
   color: #606060;
