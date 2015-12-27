@@ -24,49 +24,141 @@
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <header  class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="container">
-      <div class="navbar-header" >
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">
-          <img alt="Open Sight" src="..."></a>
-      </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">登录</a></li>
-          <li><a href="#">注册</a></li>
-        </ul>
-      </div><!--/.nav-collapse -->
-    </div>
-  </header>
+  
   <!-- <div class="jumbotron"> -->
     <div class="container slogan">
-      <div class="row">
-        <div class="col-md-6 col-sm-6" style="postion: relative;">
-          <!-- <h2>源景视频，“视”无边际</h2>
-          <p>互联网视频服务平台</p> -->
-          <img src="img/slogan.jpg" alt="" width="100%">
+      <header  class="navbar" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+              <img alt="Open Sight" src="img/logo.png"></a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li>
+                <a href="#">视频广场</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="col-md-6 col-sm-6">
+      </header>
+      <div class="row slogan-context">
+        <!-- <div class="col-md-6 col-sm-6" style="postion: relative;">
+          <img src="img/slogan.jpg" alt="" width="100%">
+        </div> -->
+        <div class="col-md-6 col-sm-6 col-lg-4 col-lg-offset-8 col-md-offset-6 col-sm-offset-6">
           <h2>源景视频，“视”无边际</h2>
           <p>互联网视频服务平台</p>
+          <br />
+          <p>
+            <button class="btn btn-success btn-block btn-lg">免费注册</button>
+          </p>
+          <p class="text-center">或<a href="#">登录</a></p>
         </div>
       </div>
     </div>
   <!-- </div> -->
-
-  <div id="content"></div>
-  <script type="juicer/juicertemplete" id="content-tmpl">
-    {@each contents as content}
-      <div class="container">
-        <div class="page-header">
-          <h3>${content.header}</h3>
+  <div class="container">
+    <div class="page-header">
+      <h3>产品优势</h3>
+    </div>
+    <div class="row">
+      <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+        <div class="thumbnail">
+          <img src="img/ycsp.png" alt="远程视频">  
+          <div class="caption">
+            <h4 class="text-primary">远程视频</h4>
+            <p class="text-muted">借助互联网，以极低的成本将实时视频传送到全球任何一处的用户，不再受固定范围的局限性。</p>
+          </div>
         </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+        <div class="thumbnail">
+          <img src="img/gbfx.jpg" alt="高并发性">  
+          <div class="caption">
+            <h4 class="text-success">高并发性</h4>
+            <p class="text-muted">通过遍布全国的服务器，轻松实现数万路视频转发，用户从最近的节点拉取视频，保证了视频播放的极致体验。</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+        <div class="thumbnail">
+          <img src="img/tx.png" alt="弹性伸缩">  
+          <div class="caption">
+            <h4 class="text-danger">弹性伸缩</h4>
+            <p class="text-muted">可随时按照项目需要对系统规模进行伸缩，最大限度减少资源的浪费。</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+        <div class="thumbnail">
+          <img src="img/gkkx.png" alt="高可靠性">  
+          <div class="caption">
+            <h4 class="text-primary">高可靠性</h4>
+            <p class="text-muted">系统可用性高达99.95%，录像存储可靠性不低于99.99999999%。提供7*24小时运维监控服务。</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+        <div class="thumbnail">
+          <img src="img/sbjr.jpg" alt="设备兼容">  
+          <div class="caption">
+            <h4 class="text-success">设备兼容</h4>
+            <p class="text-muted">完全兼容不同厂商的IP摄像机，再无对接烦恼，不再受制于某一设备厂家。</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+        <div class="thumbnail">
+          <img src="img/yy.jpg" alt="便捷性">  
+          <div class="caption">
+            <h4 class="text-danger">便捷性</h4>
+            <p class="text-muted">提供标准媒体协议和格式，兼容html5。轻松实现Web，APP，公众号等方式的视频接入。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jumbotron yycj zhsq">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <h3>智慧社区</h3>
+          <p>
+            业主在家中可随时调看儿童游乐区、园区休闲区、地下车库,园区入口访客等视频图像，实时园区看护，体现了对家人的关爱;车位实时看护，一旦发生非法占用，刮擦，可疑人员，可即时通知业主及管理人员。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jumbotron yycj xxny">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-8 col-lg-offset-4 col-md-offset-4">
+          <h3>新型农业</h3>
+          <p>
+            业主或租户通过手机实时观看田地里农作物，牲畜的生产情况，提升用户体验。农民可以24小时远程看护，基于实时视频+传感器数据的网络巡查方式将替代了原始的人工巡查。农业专家远程监测动植物生长情况，结合当地环境和土壤采集数据，实现远程诊断。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jumbotron yycj hdzb">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-offset-6 col-md-offset-6 col-lg-6 col-md-6">
+          <h3>微活动直播</h3>
+          <p>
+            小活动（小型晚会，幼儿演出、比赛等）无能力做传统的现场直播，但是处在各地的客户却希望实时收看/互动？为什么不尝试一下超低成本的微活动直播？通过微信公众号，APP等方式，即可以将活动现场定向推送到特定的用户群，且按观看量付费。
+          </p>
+        </div>
+<<<<<<< HEAD
         <div class="row">
           {@each content.list as item}
             <div class="col-sm-6 col-md-4 col-md-4 col-lg-3">
@@ -79,10 +171,36 @@
               </div>
             </div>
           {@/each}
+=======
+      </div>
+    </div>
+  </div>
+  <div class="jumbotron yycj ycjy">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <h3>远程实时课堂</h3>
+          <p>
+            学生早已对基于桌面共享技术的远程教育模式抱怨甚多？课堂授课时讲师生动的表情，语气，肢体语言，黑板分析等元素才是用户体验的关键。源景系统免费安装全套设备，利用高清摄像头以及高质量拾音器，将课堂现场实时传送到各地的教室，且费用低廉......
+          </p>
+>>>>>>> refs/remotes/origin/master
         </div>
       </div>
-    {@/each}
-  </script>
+    </div>
+  </div>
+  <div class="jumbotron yycj srdz">
+    <div class="container">
+      <div class="row">
+        <div class=" col-lg-offset-6 col-md-offset-6 col-lg-3 col-md-3">
+          <h3>私人定制</h3>
+          <p>
+            根据各行业的特殊要求，提供方案咨询，技术支持，定制功能研发等各项视频定制服务，摆脱过去万金油式的单一平台模式，更贴合用户的实际需要。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="bs-docs-footer" role="contentinfo">
     <div class="container">
       <ul class="bs-docs-footer-links text-muted list-inline">
@@ -95,7 +213,7 @@
         </li>
         <li>·</li>
         <li>
-          <a href="#">API</a>
+          <a href="swagger-ui/dist/">API</a>
         </li>
         <li>·</li>
         <li>
@@ -106,13 +224,12 @@
     </div>
   </footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- <script src="http://cdn.bootcss.com/jquery.matchHeight/0.5.2/jquery.matchHeight-min.js"></script> -->
 <script src="bower_components/matchHeight/jquery.matchHeight-min.js"></script>
-<script src="bower_components/juicer/juicer-min.js"></script>
-<script src="js/content.js"></script>
+<!-- <script src="bower_components/juicer/juicer-min.js"></script> -->
+<!-- <script src="js/content.js"></script> -->
 <script src="js/main.js"></script>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

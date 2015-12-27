@@ -2,9 +2,32 @@ body{
   font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
   /*padding-top: 70px;*/
 }
+.navbar-brand{
+  padding-bottom: 0;
+  padding-top: 0;
+}
+.thumbnail{
+  border: 0 none;
+}
+.jumbotron p{
+  font-size: 14px;
+}
+.navbar a{
+  color: #606060;
+}
+
 .slogan{
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: #606060;
+  height: 605px;
+  background: url(../img/slogan.png) no-repeat center center;
+}
+.slogan-context{
+  margin-top: 150px;
+}
+.slogan a{
+  color: #606060;
 }
 .bs-docs-footer {
   padding-top: 40px;
@@ -13,4 +36,47 @@ body{
   color: #767676;
   text-align: center;
   border-top: 1px solid #e5e5e5;
+}
+
+.yycj{
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 460px;
+  margin-bottom: 0;
+}
+.zhsq{
+  color: #f0ad4e;
+  /*color: #298c4c;*/
+  background: #000 url(../img/zhsq.png) no-repeat 30% 50%;
+}
+.zhsq .container{
+  padding-top: 150px;
+}
+.xxny{
+  color: #123;
+  background: #999 url(../img/xxny.png) no-repeat 50% 50%;
+}
+.xxny .container{
+  padding-top: 0;
+}
+.hdzb{
+  color: #5bc0de;
+  background: #000 url(../img/hdzb.png) no-repeat 50% 50%;
+}
+.hdzb .container{
+  padding-top: 320px;
+}
+.ycjy{
+  color: #eee;
+  background: #804f17 url(../img/ycjy.png) no-repeat 50% 50%;
+}
+.ycjy .container{
+  padding-top: 0;
+}
+.srdz{
+  color: #d9534f;
+  background: #000 url(../img/srdz.png) no-repeat 200px 50%;
+}
+.srdz .container{
+  padding-top: 150px;
 }
