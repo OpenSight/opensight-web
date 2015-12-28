@@ -63,8 +63,8 @@ body{
   height: 100%;
 }
 .xxny{
-  color: #123;
-  background: #999 url(../img/xxny.png) no-repeat 50% 50%;
+  color: #fff;
+  background: url(../img/xxny.png) no-repeat 50% 50%;
 }
 .xxny .container{
   padding-top: 0;
