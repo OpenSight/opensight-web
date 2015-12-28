@@ -15,19 +15,27 @@ body{
 .navbar a{
   color: #606060;
 }
-
+.navbar{
+  margin-bottom: 0px;
+}
+.page-header{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 0;
+}
 .slogan{
   padding-top: 0;
   padding-bottom: 0;
-  color: #606060;
-  height: 605px;
-  background: url(../img/slogan.png) no-repeat center center;
+  color: #fff;
+  height: 450px;
+  background: #313749 url(../img/slogan.jpg) 650px center no-repeat;
+  margin-bottom: 0;
 }
 .slogan-context{
   margin-top: 150px;
 }
-.slogan a{
-  color: #606060;
+.slogan a,.slogan p{
+  color: #9B9FAD;
 }
 .bs-docs-footer {
   padding-top: 40px;
@@ -47,10 +55,12 @@ body{
 .zhsq{
   color: #f0ad4e;
   /*color: #298c4c;*/
-  background: #000 url(../img/zhsq.png) no-repeat 30% 50%;
+  background: #0D0D0F;
 }
 .zhsq .container{
   padding-top: 150px;
+  background: #0D0D0F url(../img/zhsq.png) no-repeat right center;
+  height: 100%;
 }
 .xxny{
   color: #123;
@@ -61,10 +71,10 @@ body{
 }
 .hdzb{
   color: #5bc0de;
-  background: #000 url(../img/hdzb.png) no-repeat 50% 50%;
+  background: #000 url(../img/hdzb.png) no-repeat -30% 50%;
 }
 .hdzb .container{
-  padding-top: 320px;
+  padding-top: 280px;
 }
 .ycjy{
   color: #eee;
@@ -75,8 +85,10 @@ body{
 }
 .srdz{
   color: #d9534f;
-  background: #000 url(../img/srdz.png) no-repeat 200px 50%;
+  background: #000;
 }
 .srdz .container{
+  height: 100%;
+  background: url(../img/srdz.png) no-repeat left center;
   padding-top: 150px;
 }
