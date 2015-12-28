@@ -52,36 +52,35 @@ body{
   height: 460px;
   margin-bottom: 0;
 }
+.yycj .row > div{
+  background: #000;
+  opacity: 0.7;
+  border-radius: 20px;
+  color:  #fff;
+}
+.yycj .row{
+  padding-top: 150px;
+}
 .zhsq{
   color: #f0ad4e;
   /*color: #298c4c;*/
   background: #0D0D0F;
 }
 .zhsq .container{
-  padding-top: 150px;
   background: #0D0D0F url(../img/zhsq.png) no-repeat right center;
   height: 100%;
 }
 .xxny{
-  color: #fff;
+  color: #3c763d;
   background: url(../img/xxny.png) no-repeat 50% 50%;
-}
-.xxny .container{
-  padding-top: 0;
 }
 .hdzb{
   color: #5bc0de;
-  background: #000 url(../img/hdzb.png) no-repeat -30% 50%;
-}
-.hdzb .container{
-  padding-top: 280px;
+  background: #000 url(../img/hdzb.png) no-repeat 50% 50%;
 }
 .ycjy{
-  color: #eee;
-  background: #804f17 url(../img/ycjy.png) no-repeat 50% 50%;
-}
-.ycjy .container{
-  padding-top: 0;
+  color: #000;
+  background: #e5ddd3 url(../img/ycjy.png) no-repeat right center;
 }
 .srdz{
   color: #d9534f;
@@ -90,5 +89,4 @@ body{
 .srdz .container{
   height: 100%;
   background: url(../img/srdz.png) no-repeat left center;
-  padding-top: 150px;
 }
