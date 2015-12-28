@@ -70,6 +70,9 @@ body{
   background: #0D0D0F url(../img/zhsq.png) no-repeat right center;
   height: 100%;
 }
+.zhsq .row > div{
+  background: #0D0D0F;
+}
 .xxny{
   color: #3c763d;
   background: url(../img/xxny.png) no-repeat 50% 50%;
@@ -79,8 +82,11 @@ body{
   background: #000 url(../img/hdzb.png) no-repeat 50% 50%;
 }
 .ycjy{
-  color: #000;
   background: #e5ddd3 url(../img/ycjy.png) no-repeat right center;
+}
+.ycjy .row > div{
+  color: #222;
+  background: #e5ddd3;
 }
 .srdz{
   color: #d9534f;
