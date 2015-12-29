@@ -10,7 +10,7 @@ body{
   border: 0 none;
 }
 .jumbotron p{
-  font-size: 14px;
+  font-size: 16px;
 }
 .navbar a{
   color: #606060;
@@ -19,7 +19,7 @@ body{
   margin-bottom: 0px;
 }
 .page-header{
-  margin-top: 20px;
+  /*margin-top: 20px;*/
   margin-bottom: 10px;
   padding-bottom: 0;
 }
@@ -54,7 +54,7 @@ body{
 }
 .yycj .row > div{
   background: #000;
-  opacity: 0.7;
+  opacity: 0.8;
   border-radius: 20px;
   color:  #fff;
 }
@@ -65,6 +65,9 @@ body{
   color: #f0ad4e;
   /*color: #298c4c;*/
   background: #0D0D0F;
+}
+.zhsq .row{
+  padding-top: 50px;
 }
 .zhsq .container{
   background: #0D0D0F url(../img/zhsq.png) no-repeat right center;
@@ -77,15 +80,24 @@ body{
   color: #3c763d;
   background: url(../img/xxny.png) no-repeat 50% 50%;
 }
+.xxny .row{
+  padding-top: 250px;
+}
 .hdzb{
   color: #5bc0de;
   background: #000 url(../img/hdzb.png) no-repeat 50% 50%;
 }
+.hdzb .row{
+  padding-top: 230px;
+}
 .ycjy{
   background: #e5ddd3 url(../img/ycjy.png) no-repeat right center;
 }
+.ycjy .row{
+  padding-top: 10px;
+}
 .ycjy .row > div{
-  color: #222;
+  color: #5bc0de;
   background: #e5ddd3;
 }
 .srdz{
