@@ -64,17 +64,17 @@ body{
 .zhsq{
   color: #f0ad4e;
   /*color: #298c4c;*/
-  background: #0D0D0F;
+  background: #19191B;
 }
 .zhsq .row{
   padding-top: 50px;
 }
 .zhsq .container{
-  background: #0D0D0F url(../img/zhsq.png) no-repeat right center;
+  background: #19191B url(../img/zhsq.png) no-repeat right center;
   height: 100%;
 }
 .zhsq .row > div{
-  background: #0D0D0F;
+  background: #19191B;
 }
 .xxny{
   color: #3c763d;
