@@ -70,7 +70,7 @@ body{
   padding-top: 50px;
 }
 .zhsq .container{
-  background: #19191B url(../img/zhsq.png) no-repeat right center;
+  background: #19191B url(../img/zhsq.jpg) no-repeat right center;
   height: 100%;
 }
 .zhsq .row > div{
@@ -78,20 +78,20 @@ body{
 }
 .xxny{
   color: #3c763d;
-  background: url(../img/xxny.png) no-repeat 50% 50%;
+  background: url(../img/xxny.jpg) no-repeat 50% 50%;
 }
 .xxny .row{
   padding-top: 250px;
 }
 .hdzb{
   color: #5bc0de;
-  background: #000 url(../img/hdzb.png) no-repeat 50% 50%;
+  background: #000 url(../img/hdzb.jpg) no-repeat 50% 50%;
 }
 .hdzb .row{
   padding-top: 230px;
 }
 .ycjy{
-  background: #e5ddd3 url(../img/ycjy.png) no-repeat right center;
+  background: #e5ddd3 url(../img/ycjy.jpg) no-repeat right center;
 }
 .ycjy .row{
   padding-top: 10px;
@@ -107,5 +107,5 @@ body{
 }
 .srdz .container{
   height: 100%;
-  background: url(../img/srdz.png) no-repeat left center;
+  background: url(../img/srdz.jpg) no-repeat left center;
 }
