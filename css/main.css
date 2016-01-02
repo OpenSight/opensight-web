@@ -2,6 +2,9 @@ body{
   font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
   /*padding-top: 70px;*/
 }
+.navbar-toggle .icon-bar {
+  background-color: #25A8E1;
+}
 .navbar-brand{
   padding-bottom: 0;
   padding-top: 0;
