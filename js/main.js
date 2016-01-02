@@ -7,10 +7,10 @@ var initContents = function(){
 
 $(function() {
   // initContents();
-  $('.thumbnail').matchHeight({
-    byRow: true,
-    property: 'height',
-    target: null,
-    remove: false
-  });
+  // $('.thumbnail').matchHeight({
+  //   byRow: true,
+  //   property: 'height',
+  //   target: null,
+  //   remove: false
+  // });
 });
