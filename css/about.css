@@ -17,12 +17,26 @@ body{
   text-align: center;
   border-top: 1px solid #e5e5e5;
 }
-h1{
+h1,
+a,
+a:hover,
+.about-catalog h3,
+.about-catalog h4{
   color: #25A8E1;
+}
+h3{
+  color: #5Ac3F0;
+}
+h4{
+  color: #0C6A92;
 }
 p{
   padding-top: 5px;
   padding-bottom: 5px;
+}
+a,
+a:hover{
+  color: #25A8E1;
 }
 
 .section{
@@ -39,7 +53,3 @@ p{
   border-left: 1px solid #777;
 }
 
-.about-catalog a,
-.about-catalog a:hover{
-  color: #25A8E1;
-}
