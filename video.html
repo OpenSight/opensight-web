@@ -11,6 +11,7 @@
   <!-- Place favicon.ico in the root directory -->
 
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bower_components/video.js/dist/video-js.min.css">
   <link rel="stylesheet" href="css/square.css">
 </head>
 <body>
@@ -52,51 +53,34 @@
 
   <div class="container squera-container">
     <div class="row">
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a><img src="img/fxdq.jpeg" alt="杭州复兴大桥"></a>
-          <div class="caption">
-            <p><a href="">杭州复兴大桥</a></p>
+      <div class="col-xs-12">
+        <div class="thumbnail" id="videoPlayerWrapper">
+          <div id="videoPlayer">
+            <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="" id="moviename" width="720" height="480">
+              <param name="movie"  value="flashls/bin/release/flashlsChromeless.swf?inline=1" />            
+              <param name="quality" value="autohigh" />            
+              <param name="swliveconnect" value="true" />            
+              <param name="allowScriptAccess" value="sameDomain" />            
+              <param name="bgcolor" value="#0" />            
+              <param name="allowFullScreen" value="true" />            
+              <param name="wmode" value="window" />            
+              <param name="FlashVars" value="callback=flashlsCallback" />            
+
+              <embed src="flashls/bin/release/flashlsChromeless.swf?inline=1" width="720" height="480" name="moviename"
+                    quality="autohigh"
+                    bgcolor="#0"
+                    align="middle" allowFullScreen="true"
+                    allowScriptAccess="sameDomain"
+                    type="application/x-shockwave-flash"
+                    swliveconnect="true"
+                    wmode="window"
+                    FlashVars="callback=flashlsCallback"
+                    pluginspage="http://www.macromedia.com/go/getflashplayer" />
+            </object>
           </div>
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a><img src="img/dyzb.jpeg" alt="斗鱼直播"></a>
+          <!-- <a><img src="img/fxdq.jpeg" alt="杭州复兴大桥"></a> -->
           <div class="caption">
-            <p><a href="">斗鱼直播</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a><img src="img/wdty.jpeg" alt="威度篮球场"></a>
-          <div class="caption">
-            <p><a href="">威度篮球场</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a><img src="img/fxdq.jpeg" alt="杭州复兴大桥"></a>
-          <div class="caption">
-            <p><a href="">杭州复兴大桥</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a><img src="img/dyzb.jpeg" alt="斗鱼直播"></a>
-          <div class="caption">
-            <p><a href="">斗鱼直播</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a><img src="img/wdty.jpeg" alt="威度篮球场"></a>
-          <div class="caption">
-            <p><a href="">威度篮球场</a></p>
+            <p id="play">杭州复兴大桥</p>
           </div>
         </div>
       </div>
@@ -128,6 +112,17 @@
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="flashls/examples/chromeless/flashlsAPI.js"></script>
+<!-- <script src="flashls/examples/libs/ParsedQueryString.js"></script> -->
+<!-- <script src="flashls/examples/libs/JSLoaderFragment.js"></script> -->
+<!-- <script src="flashls/examples/libs/JSLoaderPlaylist.js"></script> -->
+<script src="flashls/examples/libs/js2flash.js"></script>
+<!-- <script src="flashls/examples/libs/canvas.js"></script> -->
+<!-- <script src="flashls/examples/libs/metrics.js"></script> -->
+<!-- <script src="flashls/examples/libs/jsonpack.js"></script> -->
+
+<script src="js/video.js"></script>
+
 <!-- <script src="http://cdn.bootcss.com/jquery.matchHeight/0.5.2/jquery.matchHeight-min.js"></script> -->
 <!-- <script src="bower_components/matchHeight/jquery.matchHeight-min.js"></script> -->
 <!-- <script src="bower_components/juicer/juicer-min.js"></script> -->
