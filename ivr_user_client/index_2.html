@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IVR-USER-CLIENT</title>
+    <link rel="shortcut icon" href="./StorLever.html2_files/favicon.ico">
+    <link rel="stylesheet" href="./StorLever.html2_files/bootstrap.min.css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="./StorLever.html2_files/loading-bar.css">
+    <link rel="stylesheet" href="./StorLever.html2_files/app.css">
+    <!-- <link rel="stylesheet" href="http://192.168.1.120:6543/static/css/isteven-multi-select.css"> -->
+    <link rel="stylesheet" href="./StorLever.html2_files/font-awesome.min.css">
+</head>
+<body ng-controller="MenuList" class="storlever">
+<!-- Fixed navbar -->
+<header  class="navbar navbar-fixed-top ng-hide" ng-show="inited" role="navigation">
+    <div class="container first-container">
+        <div class="navbar-header" >
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" style="padding-top: 0px;padding-bottom: 0px;">
+                <img alt="Open Sight" src="./StorLever.html2_files/logo.png"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-click="activeNode(1, $event)" ng-class="{active: root.node_id===1}">
+                    <a href="http://192.168.1.120:6543/#" class="ng-binding">用户信息</a>
+                </li>
+                <li  ng-click="activeNode(2, $event)" ng-class="{active: root.node_id===2}">
+                    <a href="http://192.168.1.120:6543/#" class="ng-binding">项目</a>
+                </li>
+                <li  ng-click="activeNode(3, $event)" ng-class="{active: root.node_id===3}">
+                    <a href="http://192.168.1.120:6543/#" class="ng-binding">摄像头</a>
+                </li>
+                <li  ng-click="activeNode(4, $event)" ng-class="{active: root.node_id===4}">
+                    <a href="http://192.168.1.120:6543/#" class="ng-binding">api key</a>
+                </li>
+
+                <li ng-click="Logout()"><a>注销</a></li>
+                <li ng-click="Help()"><a>帮助</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+        <div class="col-sm-10" id="contentContainer" ng-view>
+
+        </div>
+    </div>
+</div>
+
+<footer class="bs-docs-footer" role="contentinfo">
+    <div class="container">
+        <ul class="bs-docs-footer-links text-muted list-inline">
+            <li>
+                <a href="about.html#about" target="_blank">关于我们</a>
+            </li>
+            <li>·</li>
+            <li>
+                <a href="#">法律条款</a>
+            </li>
+            <li>·</li>
+            <li>
+                <a href="swagger-ui/dist/" target="_blank">API</a>
+            </li>
+            <li>·</li>
+            <li>
+                <a href="about.html#conc" target="_blank">联系我们</a>
+            </li>
+        </ul>
+        <p>© 2015 源景工作室 版权所有. ICP证：浙ICP备15041027号</p>
+    </div>
+</footer>
+
+<div class="modal fade" id="myErrorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{gModal.Label}}</h4>
+            </div>
+            <div class="modal-body">
+                {{gModal.ErrorContent}}
+            </div>
+            <div class="modal-body" ng-show="gModal.DetailShown">
+                {{gModal.ErrorContentDetail}}
+            </div>
+            <div class="modal-footer" ng-show="gModal.SingleButtonShown">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="gModal.DetailShown = !gModal.DetailShown;">Detail</button>
+            </div>
+            <div class="modal-footer" ng-show="gModal.MutiButtonShown">
+                <button type="button" class="btn btn-default" ng-click="gModal.goOn();">Yes</button>
+                <button type="button" class="btn btn-default" ng-click="gModal.stop();">No</button>
+                <button type="button" class="btn btn-primary" ng-click="gModal.DetailShown = !gModal.DetailShown;">Detail</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="zzz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #25A8E1">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color: #ffffff">登录</h4>
+            </div>
+            <div class="container">
+                <form class="form-signin">
+                    <input class="input-block-level" placeholder="用户名" type="text">
+                    <input class="input-block-level" placeholder="密码" type="password">
+                    <label class="checkbox">
+                        <input value="remember-me" type="checkbox"> Remember me
+                    </label>
+                    <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+                </form>
+            </div>
+
+
+            <div class="modal-footer">
+                <button class="btn btn-large btn-primary" style="background-color: #FF9620" ng-click="Login()" >提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="LoginModal" class="container modal fade" role="dialog" aria-labelledby="myModalLabel">
+
+    <form class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input class="input-block-level" placeholder="Email address" type="text">
+        <input class="input-block-level" placeholder="Password" type="password">
+        <label class="checkbox">
+            <input value="remember-me" type="checkbox"> Remember me
+        </label>
+        <button class="btn btn-large btn-primary" style="background-color: #25A8E1" ng-click="Login()">Sign in</button>
+    </form>
+
+</div>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="./StorLever.html2_files/jquery-2.1.1.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="./StorLever.html2_files/bootstrap.min.js"></script>
+<script src="./StorLever.html2_files/angular.min.js"></script>
+<script src="./StorLever.html2_files/angular-route.min.js"></script>
+<script src="./StorLever.html2_files/animate.js"></script>
+<script src="./StorLever.html2_files/loading-bar.js"></script>
+<script src="./StorLever.html2_files/ui-bootstrap-tpls-0.11.2.min.js"></script>
+<script src="./StorLever.html2_files/Chart.min.js"></script>
+<script src="./StorLever.html2_files/angular-chart.js"></script>
+<!-- <script src="http://192.168.1.120:6543/static/js/isteven-multi-select.js"></script> -->
+<script src="./StorLever.html2_files/script.js"></script>
+
+<script src="./StorLever.html2_files/app.js"></script>
+<script src="./StorLever.html2_files/services.js"></script>
+<script src="./StorLever.html2_files/controllers.js"></script>
+<script src="./StorLever.html2_files/filters.js"></script>
+<script src="./StorLever.html2_files/directives.js"></script>
+<style type="text/css">
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+    }
+
+    .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    }
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+        margin-bottom: 10px;
+    }
+    .form-signin input[type="text"],
+    .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+    }
+
+</style>
+
+</body>
+</html>
