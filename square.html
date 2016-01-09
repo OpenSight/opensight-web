@@ -51,56 +51,12 @@
   </header>  
 
   <div class="container squera-container">
-    <div class="row">
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a href="video.html"><img src="img/fxdq.jpeg" alt="杭州复兴大桥"></a>
-          <div class="caption">
-            <p><a href="video.html">杭州复兴大桥</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a href="video.html"><img src="img/dyzb.jpeg" alt="斗鱼直播"></a>
-          <div class="caption">
-            <p><a href="video.html">斗鱼直播</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a href="video.html"><img src="img/wdty.jpeg" alt="威度篮球场"></a>
-          <div class="caption">
-            <p><a href="video.html">威度篮球场</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a><img src="img/fxdq.jpeg" alt="杭州复兴大桥"></a>
-          <div class="caption">
-            <p><a href="">杭州复兴大桥</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a><img src="img/dyzb.jpeg" alt="斗鱼直播"></a>
-          <div class="caption">
-            <p><a href="">斗鱼直播</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="thumbnail">
-          <a><img src="img/wdty.jpeg" alt="威度篮球场"></a>
-          <div class="caption">
-            <p><a href="">威度篮球场</a></p>
-          </div>
-        </div>
-      </div>
+    <div class="row" id="container">
     </div>
+    <div class="row loading hidden" id="loading">
+      <span></span>
+    </div>
+    <div class="row" id="lastpage"></div>
   </div>
 
   <footer class="bs-docs-footer" role="contentinfo">
@@ -128,11 +84,10 @@
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- <script src="http://cdn.bootcss.com/jquery.matchHeight/0.5.2/jquery.matchHeight-min.js"></script> -->
 <!-- <script src="bower_components/matchHeight/jquery.matchHeight-min.js"></script> -->
-<!-- <script src="bower_components/juicer/juicer-min.js"></script> -->
+<script src="bower_components/juicer/juicer-min.js"></script>
 <!-- <script src="js/content.js"></script> -->
-<!-- <script src="js/main.js"></script> -->
+<script src="js/square.js"></script>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
 <script>
@@ -146,5 +101,17 @@
 
 </script>
 -->
+<script type="text/html" id="tmpl">
+  {@each list as item}
+    <div class="col-md-3 col-sm-4 col-xs-6">
+      <div class="thumbnail">
+        <a href="${item.uuid|getLink}" target="_blank"><img src="${item.src}" alt="${item.desc}"></a>
+        <div class="caption">
+          <a href="${item.uuid|getLink}" target="_blank">${item.desc}</a>
+        </div>
+      </div>
+    </div>
+  {@/each}
+</script>
 </body>
 </html>
