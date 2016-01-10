@@ -15,4 +15,4 @@ var attrs = {
   name: "videoPlayer"
 };
 
-swfobject.embedSWF("GrindPlayer.swf", "videoPlayer", "854", "480", "10.2", null, flashvars, params, attrs);
+swfobject.embedSWF("GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);

@@ -46,3 +46,21 @@ body{
   height: 120px;
   background: url(../img/loading.gif) center no-repeat;
 }
+
+/*video page*/
+.live{
+  position: relative;
+}
+.img-container{
+  visibility: hidden;
+}
+.img-container img{
+  width: 100%;
+}
+.player-container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
