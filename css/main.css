@@ -11,14 +11,26 @@ body{
 }
 .thumbnail{
   border: 0 none;
-  /*height: 287px;*/
+  height: 275px;
 }
-.caption h4{
+/*.caption h4{
   font-weight: bold;
   text-align: center;
+}*/
+.caption .text-muted{
+  word-break:break-all; /*支持IE，chrome，FF不支持*/
+　word-wrap:break-word;/*支持IE，chrome，FF*/
 }
 .jumbotron p{
   font-size: 16px;
+}
+.btn-highlight{
+  background-color: #25A8E1;
+  border-color: #0C6A92;
+  color: #FFF;
+}
+.text-highlight{
+  color: #25A8E1;
 }
 .navbar a{
   color: #606060;
@@ -65,8 +77,8 @@ body{
 }
 .yycj .row > div{
   background: #000;
-  opacity: 0.8;
-  border-radius: 20px;
+  opacity: 0.7;
+  /*border-radius: 20px;*/
   color:  #fff;
 }
 .yycj .row{
