@@ -22,10 +22,53 @@ body {
 }
 .storlever .navbar{
   min-height: 40px;
+  background: #25A8E1;
 }
 .storlever .navbar-collapse.collapse{
   /*height: 30px !important;*/
 }
+
+body{
+    font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+    /*padding-top: 70px;*/
+}
+.navbar-toggle .icon-bar {
+    background-color: #25A8E1;
+}
+.navbar-brand{
+    padding-bottom: 0;
+    padding-top: 0;
+}
+.thumbnail{
+    border: 0 none;
+    /*height: 287px;*/
+}
+.caption h4{
+    font-weight: bold;
+    text-align: center;
+}
+.jumbotron p{
+    font-size: 16px;
+}
+.navbar a{
+    color: #ffffcc;
+}
+.navbar{
+    margin-bottom: 0px;
+}
+.cpys{
+    margin-bottom: 50px;
+}
+.bs-docs-footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 100px;
+    color: #767676;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+    background: #0c6a92;
+}
+
 .storlever .navbar-brand,
 .storlever .nav>li>a{
   padding-top: 10px;
@@ -384,4 +427,35 @@ body {
 }
 .pie-legend dt span.legend-color7{
   background-color: #4D5360;
+}
+
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
+
+.form-signin {
+    max-width: 300px;
+    padding: 19px 29px 29px;
+    margin: 0 auto 20px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 7px 9px;
 }
