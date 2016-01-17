@@ -123,8 +123,8 @@ HlsVideo.prototype = {
         clearInterval(_this.tiptimer);
         _this.tiptimer = undefined;
       }
-      $('#playTipSec').text(sec);
       sec--;
+      $('#playTipSec').text(sec);
     }, 1000);
   }
 };
