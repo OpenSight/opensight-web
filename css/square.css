@@ -63,7 +63,7 @@ body{
   left: 0;
   height: 100%;
   width: 100%;
-  background: #000;
+  background: #000 url(../img/play-logo.png) no-repeat center;
 }
 .text-name{
   margin-top: 2px;
