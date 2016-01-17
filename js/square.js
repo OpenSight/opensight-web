@@ -1,6 +1,6 @@
-var project = 'weizhong';
+var project = 'demo';
 var Square = function(){
-  this.api = 'http://121.41.72.231:10080/api-demo/dist';
+  this.api = 'http://121.41.72.231:5001/api/ivc/v1/projects/';
 
   this.page = {start: 0, limit: 24};
   this.loading = false;
@@ -25,41 +25,28 @@ Square.prototype = {
     this.loading = true;
     console.log('get');
     _this = this;
-    // $.get(this.api + '/' + project + '/cameras', this.page, function(list){
-
-    // }, 'json');
-    
     var loading = $('#loading').removeClass('hidden');
-    setTimeout(function(){
-      var list = {
-        total: 1,
-        start: 0,
-        list: [{
-          "project_name": "string",
-          "uuid": "string",
-          "device_uuid": "uuid",
-          "src": "http://www.opensight.cn/img/fxdq.jpeg",
-          "channel_index": 0,
-          "flags": 0,
-          "is_online": 0,
-          "name": "string",
-          "desc": "杭州复兴大桥",
-          "long_desc": "string",
-          "longitude": 0,
-          "latitude": 0,
-          "altitude": 0,
-          "ctime": "string",
-          "utime": "string"
-        }]
-      };
-      _this.loading = false;
-      if (0 === list.list.length){
-        _this.finished = true;
+    $.ajax({
+      url: this.api +  project + '/cameras',
+      cache: true,
+      data: _this.page,
+      type: 'GET',
+      success: function(data){
+        _this.loading = false;
+        if (0 === data.list.length) {
+          _this.finished = true;
+        }
+        _this.page.start += data.list.length;
+        for (var i = 0, l = data.list.length; i < l; i++){
+          data.list[i].src = "http://www.opensight.cn/img/fxdq.jpeg";
+        }
+        _this.render(data);
+        loading.addClass('hidden');
+      },
+      error: function(){
+        loading.addClass('hidden');
       }
-      _this.page.start += list.list.length;
-      _this.render(list);
-      loading.addClass('hidden');
-    }, 1000);
+    });
   },
   on: function(){
     console.log('on');

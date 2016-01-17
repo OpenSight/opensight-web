@@ -24,10 +24,18 @@ body{
 .jumbotron p{
   font-size: 16px;
 }
-.btn-highlight{
+.btn-highlight, .btn-highlight:active{
   background-color: #25A8E1;
   border-color: #0C6A92;
   color: #FFF;
+}
+/*.btn-highlight.active.focus, .btn-highlight.active:focus,
+.btn-highlight.focus, .btn-highlight:active.focus,
+.btn-highlight:active:focus, .btn-highlight:focus {
+  outline: invert none medium;
+}*/
+.btn-highlight.focus, .btn-highlight:focus, .btn-highlight:hover {
+    color: #FFF;
 }
 .text-highlight{
   color: #25A8E1;
@@ -133,6 +141,11 @@ body{
   background: url(../img/srdz.jpg) no-repeat left center;
 }
 
+@media (min-width: 992px) and (max-width: 1200px) {
+  .slogan{
+    background-position: 400px center;
+  }
+}
 
 @media (max-width: 768px){
   h2{

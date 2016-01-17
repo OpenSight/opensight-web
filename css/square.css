@@ -64,3 +64,15 @@ body{
   height: 100%;
   width: 100%;
 }
+.text-name{
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.text-desc{
+  margin-top: 0;
+  margin-bottom: 5px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
