@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>办公区</title>
+  <title>直播</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -52,7 +52,7 @@
   </header>  
 
   <div class="container squera-container">
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-xs-8">
         <div class="thumbnail" id="videoPlayerWrapper">
           <div class="live">
@@ -61,15 +61,38 @@
               <div id="videoPlayer"></div>
             </div>
           </div>
-          <!-- <a><img src="img/fxdq.jpeg" alt="杭州复兴大桥"></a> -->
           <div class="caption">
             <p id="play">办公区</p>
           </div>
         </div>
       </div>
+      <div class="col-xs-4">
+        <p></p>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-xs-8">
+        <div class="thumbnail" id="videoPlayerWrapper">
+          <div class="live">
+            <div class="img-container"><img id="img" src="img/fxdq.jpeg" alt=""></div>
+            <div class="player-container">
+              <div id="videoPlayer">
+                <p class="play-tip pull-right">
+                  <span class="text-highlight" id="playTipSec">10</span>
+                  秒之后直播开始
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <h3><span class="text-highlight">名称：</span><span id="name"></span></h3>
+        <p><span class="text-highlight">描述：</span><span id="desc"></span></p>
+        <p><span class="text-highlight">详细信息：</span><span id="long_desc"></span></p>
+      </div>
     </div>
   </div>
-  <div id="GrindPlayer"></div>
 
   <footer class="bs-docs-footer" role="contentinfo">
     <div class="container squera-container">
