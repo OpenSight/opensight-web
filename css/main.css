@@ -54,17 +54,22 @@ body{
   margin-bottom: 10px;
   padding-bottom: 0;
 }
-.slogan{
-  padding-top: 150px;
-  padding-bottom: 0;
-  color: #fff;
-  height: 450px;
-  background: #313749 url(../img/slogan.jpg) 650px center no-repeat;
+.slogan-jumbotron{
+  padding: 0;
   margin-bottom: 0;
+  background: #000;
 }
-/*.slogan-context{
+.slogan{
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  color: #fff;
+  height: 460px;
+  background: #000 url(../img/slogan.png) right center no-repeat;
+}
+.slogan-text{
   margin-top: 150px;
-}*/
+}
 .slogan a,.slogan p{
   color: #9B9FAD;
 }
@@ -86,7 +91,7 @@ body{
 .yycj .row > div{
   background: #000;
   opacity: 0.7;
-  /*border-radius: 20px;*/
+  border-radius: 4px;
   color:  #fff;
 }
 .yycj .row{
@@ -143,7 +148,7 @@ body{
 
 @media (min-width: 992px) and (max-width: 1200px) {
   .slogan{
-    background-position: 400px center;
+    /*background-position: 400px center;*/
   }
 }
 
@@ -155,6 +160,9 @@ body{
     padding-top: 10px;
     background-position: center center;
     background-size: auto 220px;
+  }
+  .slogan-text{
+    margin-top: 0;
   }
   .slogan-user{
     padding-top: 250px;

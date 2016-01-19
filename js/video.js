@@ -119,9 +119,10 @@ HlsVideo.prototype = {
     var _this = this;
     var sec = 10;
     this.tiptimer = setInterval(function(){
-      if (0 === sec && undefined !== _this.tiptimer){
+      if (1 === sec && undefined !== _this.tiptimer){
         clearInterval(_this.tiptimer);
         _this.tiptimer = undefined;
+        return;
       }
       sec--;
       $('#playTipSec').text(sec);
