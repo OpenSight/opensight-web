@@ -37,9 +37,9 @@ Square.prototype = {
           _this.finished = true;
         }
         _this.page.start += data.list.length;
-        for (var i = 0, l = data.list.length; i < l; i++){
-          data.list[i].src = "http://www.opensight.cn/img/fxdq.jpeg";
-        }
+        // for (var i = 0, l = data.list.length; i < l; i++){
+        //   data.list[i].preview = "http://www.opensight.cn/img/fxdq.jpeg";
+        // }
         _this.render(data);
         loading.addClass('hidden');
       },

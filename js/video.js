@@ -1,19 +1,3 @@
-
-// var flashvars = {
-//   src: 'http://www.opensight.cn/hls/camera1.m3u8',
-//   plugin_hls: "flashlsOSMF.swf",
-//   autoPlay: true
-// };
-// var params = {
-//   allowFullScreen: true,
-//   allowScriptAccess: "always",
-//   bgcolor: "#000000"
-// };
-// var attrs = {
-//   name: "videoPlayer"
-// };
-
-// swfobject.embedSWF("GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
 function parseUrl(){
   var seach = window.location.href.substring(window.location.href.indexOf('?') + 1);
   var arr = seach.split('&');
@@ -54,12 +38,14 @@ HlsVideo.prototype = {
       // src: 'http://www.opensight.cn/hls/camera1.m3u8',
       src: info.url,
       plugin_hls: "flashlsOSMF.swf",
+      scaleMode: 'stretch',
       autoPlay: true
     };
 
     var params = {
       allowFullScreen: true,
       allowScriptAccess: "always",
+      wmode: 'opaque',
       bgcolor: "#000000"
     };
     var attrs = {
@@ -76,8 +62,8 @@ HlsVideo.prototype = {
       async: false,
       type: 'GET',
       success: function(info){
-        info.src = "http://www.opensight.cn/img/fxdq.jpeg";
-        $('#img').attr('src', info.src);
+        // info.preview = "http://www.opensight.cn/img/fxdq.jpeg";
+        $('#img').attr('src', info.preview);
         _this.showCamareInfo(info);
       }
     });

@@ -105,7 +105,7 @@
   {@each list as item}
     <div class="col-md-3 col-sm-4 col-xs-6">
       <div class="thumbnail">
-        <a href="${item.uuid|getLink}"><img src="${item.src}" alt="${item.name}"></a>
+        <a href="${item.uuid|getLink}"><img src="${item.preview}" alt="${item.name}"></a>
         <div class="caption">
           <p class="text-name"><a href="${item.uuid|getLink}">${item.name}</a></p>
           <p class="text-muted text-desc">${item.desc}</p>
