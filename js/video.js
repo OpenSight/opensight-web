@@ -18,6 +18,7 @@ function parseUrl(){
 };
 
 var HlsVideo = function(opts){
+  // alert(document.createElement('video').canPlayType('application/x-mpegURL'));
   if ('' === document.createElement('video').canPlayType('application/x-mpegURL')){
     this.html5 = false;
   } else {
@@ -61,10 +62,17 @@ HlsVideo.prototype = {
   },
   addVideoTag: function(info){
     var id = 'videoPlayer';
-    var html = '<video id="' + id + '" class="video" controls preload autoplay width="100%" height="100%">' +
+    var html = '<video id="' + id + '" class="video" controls preload autoplay="autoplay" width="100%" height="100%">' +
       '<source src = "' + info.url + '" type = "application/x-mpegURL">' +
     '</video>';
     var el = $('#' + id).parent().html(html);
+    setTimeout(function(){
+      var player = document.getElementById(id);
+      player.play();
+      player.pause();
+      player.load();
+      player.play();
+    }, 100);
   },
   getCamareInfo: function(){
     var _this = this;
