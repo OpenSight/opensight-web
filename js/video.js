@@ -18,6 +18,11 @@ function parseUrl(){
 };
 
 var HlsVideo = function(opts){
+  if ('' === document.createElement('video').canPlayType('application/x-mpegURL')){
+    this.html5 = false;
+  } else {
+    this.html5 = true;
+  }
   this.api = 'http://121.41.72.231:5001/api/ivc/v1/projects/';
   this.project = opts.project;
   this.uuid = opts.uuid;
@@ -54,6 +59,13 @@ HlsVideo.prototype = {
 
     swfobject.embedSWF("GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
   },
+  addVideoTag: function(info){
+    var id = 'videoPlayer';
+    var html = '<video id="' + id + '" class="video" controls preload autoplay width="100%" height="100%">' +
+      '<source src = "' + info.url + '" type = "application/x-mpegURL">' +
+    '</video>';
+    var el = $('#' + id).parent().html(html);
+  },
   getCamareInfo: function(){
     var _this = this;
     $.ajax({
@@ -81,7 +93,11 @@ HlsVideo.prototype = {
       data: {format: 'hls', quality: 'ld', create: true},
       type: 'POST',
       success: function(info){
-        _this.loadFlash(info);
+        if (true === _this.html5){
+          _this.addVideoTag(info);
+        } else {
+          _this.loadFlash(info);
+        }
         _this.keepalive(info.session_id);
 
         if (undefined !== _this.tiptimer) {
