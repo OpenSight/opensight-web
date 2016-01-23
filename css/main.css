@@ -167,4 +167,35 @@ body{
   .slogan-user{
     padding-top: 250px;
   }
+  .yycj{
+    height: auto;
+  }
+  .yycj .row > div {
+    opacity: 1;
+  }
+  .zhsq .container, .xxny, .hdzb, .ycjy, .srdz .container{
+    background-position: center bottom;
+    background-size: auto 220px;
+    padding-bottom: 220px;
+  }
+  .yycj .row {
+    padding-top: 10px;
+  }
+  .xxny{
+    background-color: rgb(192, 206, 206);
+  }
+  .xxny .row > div{
+    background-color: transparent;
+    color: #000;
+  }
+  .hdzb{
+    background-color: rgb(13, 13, 48);
+  }
+  .hdzb .row > div{
+    background-color: transparent;
+    color: #fff;
+  }
+  .ycjy{
+    background-position: right bottom;
+  }
 }
