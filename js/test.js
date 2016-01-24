@@ -18,6 +18,9 @@ var start = function(uuid, timeout){
         window.location.href = info.url;
         starting = false;
       }, timeout);
+    },
+    error: function(){
+      $('#tip').removeClass('hidden').html('启动失败，请检查。');
     }
   });
 };
@@ -28,6 +31,7 @@ var stop = function(uuid){
     return;
   }
   $('#tip').removeClass('hidden').html('正在停止。。。');
+  var flag = true;
   $.ajax({
     url: 'http://121.41.72.231:5001/api/ivc/v1/projects/demo/cameras/' + uuid + '/sessions',
     async: false,
@@ -43,12 +47,24 @@ var stop = function(uuid){
           url: 'http://121.41.72.231:5001/api/ivc/v1/projects/demo/cameras/' + uuid + '/sessions/' + info.list[i].session_id,
           async: false,
           cache: false,
-          type: 'DELETE'
+          type: 'DELETE',
+          error: function() {
+            /* Act on the event */
+            flag = false;
+          };
         });
       };
-    }
+    },
+    error: function() {
+      /* Act on the event */
+      flag = false;
+    };
   });
-  $('#tip').removeClass('hidden').html('停止完成。');
+  if (true === flag){
+    $('#tip').removeClass('hidden').html('停止完成。');
+  } else {
+    $('#tip').removeClass('hidden').html('停止失败，请检查。');
+  }
 };
 
 $(function(){
