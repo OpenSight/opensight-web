@@ -114,14 +114,14 @@ body{
 }
 .xxny{
   color: #3c763d;
-  background: url(../img/xxny.jpg) no-repeat 50% 50%;
+  background: url(../img/xxny.jpg) repeat-x 50% 50%;
 }
 .xxny .row{
   padding-top: 250px;
 }
 .hdzb{
   color: #5bc0de;
-  background: #000 url(../img/hdzb.jpg) no-repeat 50% 50%;
+  background: #000 url(../img/hdzb.jpg) repeat-x 50% 50%;
 }
 .hdzb .row{
   padding-top: 230px;
