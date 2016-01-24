@@ -174,8 +174,10 @@ var start = function(uuid){
     },
     type: 'POST',
     success: function(info) {
-      $('#tip').addClass('hidden');
-      window.location.href = info.url;
+      $('#tip').html('5秒后跳转');
+      setTimeout(function(){
+        window.location.href = info.url;
+      }, 5000);
     }
   });
 };
