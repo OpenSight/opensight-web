@@ -70,7 +70,11 @@ HlsVideo.prototype = {
       var player = document.getElementById(id);
       player.play();
       player.pause();
-      player.load();
+      var u = window.navigator.userAgent.toLowerCase();
+      if (-1 === u.indexOf('windows') && -1 !== u.indexOf('android')){
+        player.load();
+      }
+      // player.load();
       player.play();
     }, 100);
   },
