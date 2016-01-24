@@ -58,7 +58,7 @@ var stop = function(uuid){
     error: function() {
       /* Act on the event */
       flag = false;
-    };
+    }
   });
   if (true === flag){
     $('#tip').removeClass('hidden').html('停止完成。');
