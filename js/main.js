@@ -1,16 +1,7 @@
 
-var initContents = function(){
-  var tmpl = $('#content-tmpl').text();
-  var html = juicer(tmpl, {contents: contents});
-  $('#content').html(html);
-};
-
 $(function() {
-  // initContents();
-  // $('.thumbnail').matchHeight({
-  //   byRow: true,
-  //   property: 'height',
-  //   target: null,
-  //   remove: false
-  // });
+  $('#login').click(function(event) {
+    /* Act on the event */
+    window.location.href = 'login.html';
+  });
 });
