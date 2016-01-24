@@ -131,7 +131,7 @@ HlsVideo.prototype = {
   },
   updateTip: function(){
     var _this = this;
-    var sec = 10;
+    var sec = 12;
     this.tiptimer = setInterval(function(){
       if (1 === sec && undefined !== _this.tiptimer){
         clearInterval(_this.tiptimer);
