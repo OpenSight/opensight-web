@@ -1,0 +1,49 @@
+body{
+  font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+  /*padding-top: 70px;*/
+}
+.navbar-toggle .icon-bar {
+  background-color: #25A8E1;
+}
+.navbar-brand{
+  padding-bottom: 0;
+  padding-top: 0;
+}
+.navbar{
+  margin-bottom: 0;
+}
+.bs-docs-footer {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-top: 50px;
+  color: #767676;
+  text-align: center;
+  border-top: 1px solid #e5e5e5;
+}
+
+a,
+a:hover{
+  color: #25A8E1;
+}
+.login-background{
+  background-color: #eee;
+}
+.login-container{
+  margin: 100px auto 10px auto;
+  background-color: #fff;
+  border: #ddd;
+  border-radius: 4px;
+  box-shadow: 3px 3px 8px #ddd, -3px -3px 8px #ddd;
+  width: 300px;
+  padding: 10px;
+}
+.input-group{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.login-forget{
+  margin-bottom: 100px;
+}
+.login-header{
+  color: #25A8E1;
+}
