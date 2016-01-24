@@ -163,6 +163,7 @@ var timer = undefined;
 var prev = undefined;
 
 var start = function(uuid){
+  $('#tip').removeClass('hidden');
   $.ajax({
     url: 'http://121.41.72.231:5001/api/ivc/v1/projects/demo/cameras/' + uuid + '/sessions',
     async: false,
@@ -173,6 +174,7 @@ var start = function(uuid){
     },
     type: 'POST',
     success: function(info) {
+      $('#tip').addClass('hidden');
       window.location.href = info.url;
     }
   });
