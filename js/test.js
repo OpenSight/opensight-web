@@ -166,7 +166,7 @@ var start = function(uuid){
   $('#tip').removeClass('hidden');
   $.ajax({
     url: 'http://121.41.72.231:5001/api/ivc/v1/projects/demo/cameras/' + uuid + '/sessions',
-    async: false,
+    // async: false,
     data: {
       format: 'hls',
       quality: 'ld',
