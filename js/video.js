@@ -1,5 +1,11 @@
 function parseUrl(){
-  var seach = window.location.href.substring(window.location.href.indexOf('?') + 1);
+  var href = window.location.href;
+  var start = href.indexOf('?') + 1;
+  var stop = href.indexOf('#');
+  if (-1 === stop){
+    stop = href.length;
+  }
+  var seach = href.substring(start, stop);
   var arr = seach.split('&');
   var data = {};
   var idx = 0;
@@ -66,17 +72,14 @@ HlsVideo.prototype = {
       '<source src = "' + info.url + '" type = "application/x-mpegURL">' +
     '</video>';
     var el = $('#' + id).parent().html(html);
-    setTimeout(function(){
-      var player = document.getElementById(id);
-      player.play();
-      player.pause();
-      var u = window.navigator.userAgent.toLowerCase();
-      if (-1 === u.indexOf('windows') && -1 !== u.indexOf('android')){
-        player.load();
-      }
-      // player.load();
-      player.play();
-    }, 100);
+    var player = document.getElementById(id);
+    player.play();
+    player.pause();
+    var u = window.navigator.userAgent.toLowerCase();
+    if (-1 === u.indexOf('windows') && -1 !== u.indexOf('android')) {
+      player.load();
+    }
+    player.play();
   },
   getCamareInfo: function(){
     var _this = this;
@@ -86,7 +89,6 @@ HlsVideo.prototype = {
       async: false,
       type: 'GET',
       success: function(info){
-        // info.preview = "http://www.opensight.cn/img/fxdq.jpeg";
         $('#img').attr('src', info.preview);
         _this.showCamareInfo(info);
       }
