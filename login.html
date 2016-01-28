@@ -27,21 +27,21 @@
   <!-- Add your site or application content here -->
   <div class="container-fluid login-background">
     <div class="login-container">
-      <form action="" class="container-fluid">
+      <form action="http://121.41.72.231:5001/api/ivc/v1/plaintext_login" method="POST" class="container-fluid" id="form">
         <h4 class="login-header">
           <span class="glyphicon glyphicon-user"></span>
           用户登录
         </h4>
         <div class="input-group">
           <div class="input-group-addon"><span class="glyphicon glyphicon-user nput-group-addon"></span></div>
-          <input type="text" class="form-control" id="username" placeholder="用户名"></div>
+          <input type="text" class="form-control" id="username" placeholder="用户名" name="username"></div>
         <div class="input-group">
           <div class="input-group-addon"><span class="fa fa-key"></span></div>
-          <input type="password" class="form-control" id="password" placeholder="密码"></div>
+          <input type="password" class="form-control" id="password" placeholder="密码" name="password"></div>
         <div class="checkbox">
           <label class="text-muted">
-            <input type="checkbox">记住密码</label>
-          <button type="submit" class="btn btn-primary pull-right">登录</button>
+            <input id="remember" type="checkbox">记住密码</label>
+          <button type="submit" class="btn btn-primary pull-right" id="login">登录</button>
         </div>
       </form>
     </div>
@@ -52,11 +52,13 @@
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+<script src="bower_components/js-base64/base64.js"></script>
 <!-- <script src="http://cdn.bootcss.com/jquery.matchHeight/0.5.2/jquery.matchHeight-min.js"></script> -->
 <!-- <script src="bower_components/matchHeight/jquery.matchHeight-min.js"></script> -->
 <!-- <script src="bower_components/juicer/juicer-min.js"></script> -->
 <!-- <script src="js/content.js"></script> -->
-<!-- <script src="js/main.js"></script> -->
+<script src="js/login.js"></script>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
 <script>

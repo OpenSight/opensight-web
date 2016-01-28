@@ -22,6 +22,9 @@
   "dependencies": {
     "bootstrap": "~3.3.6",
     "juicer": "~0.4.0",
-    "font-awesome": "~4.5.0"
+    "font-awesome": "~4.5.0",
+    "jquery.cookie": "~1.4.1",
+    "angular": "~1.4.9",
+    "js-base64": "~2.1.9"
   }
 }

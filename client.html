@@ -1,0 +1,163 @@
+<!doctype html>
+<html class="no-js" lang="">
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/js-base64/base64.js"></script>
+<script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+<script>
+var Jwt = function(){
+  var params = this.getUrlParams();
+  this.init(params.jwt, params.ui, params.url);
+  
+  this.keepalive();
+};
+Jwt.prototype = {
+  init: function(jwt, ui, url){
+    if (undefined !== url){
+      $.cookie('url', url, {expires: 30});
+      this.url = url;
+    } else {
+      url = $.cookie('url');
+      this.url = undefined === url ? 'login.html' : url;
+    }
+
+    if (undefined !== jwt){
+      $.cookie('jwt', jwt);
+      this.jwt = jwt;
+    } else {
+      this.jwt = $.cookie('jwt');
+    }
+    if (0 >= this.check()){
+      this.jump();
+    }
+
+    var claim = this.parse();
+    if (undefined !== claim.aud){
+      this.aud = claim.aud;
+    } else {
+      this.jump();
+    }
+
+    if (undefined !== ui){
+      ui = JSON.parse(Base64.decode(ui));
+      if (undefined !== ui.password){
+        $.cookie('pwd', ui.password);
+        this.pwd = ui.password;
+      } else {
+        this.pwd = $.cookie('pwd');
+      }
+    } else {
+      this.pwd = $.cookie('pwd');
+    }
+  },
+  getUrlParams: function(){
+    var href = window.location.href;
+    var start = href.indexOf('?') + 1;
+    var stop = href.indexOf('#');
+    if (-1 === stop){
+      stop = href.length;
+    }
+    var seach = href.substring(start, stop);
+    return this.parseStr(seach, '&');
+  },
+  parseStr: function(str, sp){
+    var arr = str.split(sp);
+    var data = {};
+    var idx = 0;
+    for (var i = 0, l = arr.length; i < l; i++){
+      var tmp = arr[i].split('=');
+      if (2 > tmp.length){
+        continue;
+      }
+      data[tmp[0]] = tmp[1];
+      idx++;
+    }
+    return data;
+  },
+  check: function(jwt){
+    if (undefined === this.jwt){
+      return -1;
+    }
+    var claim = this.parse();
+    if (undefined === claim.exp){
+      return -1;
+    }
+    var t = Math.ceil((new Date().getTime()) / 1000)
+    return (claim.exp - t);
+  },
+  update: function(){},
+  parse: function(){
+    var list = Base64.decode(this.jwt).match(/\{[^\{\}]*\}/g);
+    for (var i = 0, l = list.length; i < l; i++){
+      var obj = JSON.parse(list[i]);
+      if (undefined === obj.aud || undefined === obj.exp){
+        continue;
+      }
+      return obj;
+    }
+    return {};
+  },
+  get: function(){
+    return this.jwt;
+  },
+  jump: function(url){
+    url = undefined === url ? this.url : url;
+    window.location.replace(url);
+  },
+  keepalive: function(){
+    var _this = this;
+    var interval = 10 * 60 * 1000;
+    setInterval(function(){
+      if (interval > _this.check()){
+        _this.update();
+      }
+    }, interval);
+  }
+};
+var jwt = new Jwt();
+</script>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>IVR</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <!--[if lt IE 8]>
+  <p class="browserupgrade">
+    You are using an <strong>outdated</strong>
+    browser. Please
+    <a href="http://browsehappy.com/">upgrade your browser</a>
+    to improve your experience.
+  </p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- <script src="http://cdn.bootcss.com/jquery.matchHeight/0.5.2/jquery.matchHeight-min.js"></script> -->
+<!-- <script src="bower_components/matchHeight/jquery.matchHeight-min.js"></script> -->
+<script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-71601701-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+-->
+</body>
+</html>
