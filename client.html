@@ -84,7 +84,34 @@ Jwt.prototype = {
     var t = Math.ceil((new Date().getTime()) / 1000)
     return (claim.exp - t);
   },
-  update: function(){},
+  update: function(){
+    if (undefined === this.pwd){
+      this.jump();
+    }
+    if (true === this.updateing){
+      return false;
+    }
+    this.updateing = true;
+    var d = new Date ();
+    d.setHours (d.getHours () + 1);
+    var e = Math.ceil(d.getTime() / 1000);
+
+    var data = {username: this.aud, password: this.pwd, expired: e};
+    var _this = this;
+    $.ajax({
+      url: 'http://121.41.72.231:5001/api/ivc/v1/plaintext_login',
+      data: data,
+      type: 'POST',
+      success: function(json){
+        _this.jwt = json.jwt;
+        _this.updateing = false;
+      }, 
+      error: function() {
+        /* Act on the event */
+        _this.updateing = false;
+      }
+    });
+  },
   parse: function(){
     var list = Base64.decode(this.jwt).match(/\{[^\{\}]*\}/g);
     for (var i = 0, l = list.length; i < l; i++){
