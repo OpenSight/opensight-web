@@ -52,6 +52,9 @@ Jwt.prototype = {
   getUrlParams: function(){
     var href = window.location.href;
     var start = href.indexOf('?') + 1;
+    if (0 === start){
+      return {};
+    }
     var stop = href.indexOf('#');
     if (-1 === stop){
       stop = href.length;
@@ -128,7 +131,13 @@ Jwt.prototype = {
   },
   jump: function(url){
     url = undefined === url ? this.url : url;
-    window.location.replace(url);
+    var href = window.location.href;
+    var idx = href.indexOf('?');
+    var page = href;
+    if (-1 !== idx){
+      page = href.substring(0, idx);
+    }
+    window.location.replace(url + '?page=' + page);
   },
   keepalive: function(){
     var _this = this;
