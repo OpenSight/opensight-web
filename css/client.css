@@ -6,3 +6,25 @@ body{
   padding-bottom: 5px;
   padding-top: 5px;
 }
+.nav-dropdown-toggle{
+  margin-left: 20px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 20px;
+  position: relative;
+  padding: 10px 15px;
+  color: #25a8e1;
+  text-decoration: none;
+}
+.nav-dropdown-toggle:focus, .nav-dropdown-toggle:hover, 
+.nav-ui-sref.active, .nav-dropdown.active>.nav-ui-sref{
+  text-decoration: none;
+  background-color: #eee;
+}
+@media (min-width: 768px){
+  .nav-dropdown-toggle {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+}
+

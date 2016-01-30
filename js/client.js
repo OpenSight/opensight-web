@@ -39,7 +39,7 @@ var app = angular.module('client', [
       templateUrl: 'views/key.html'
     })
     .state('project', {
-      url: '/project/:name',
+      url: '/project/:project',
       templateUrl: 'views/menu.html'
     })
     .state('project.details.project', {

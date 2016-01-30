@@ -4,7 +4,13 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   $scope.project = {
     list: [{name: 'p1'}, {name: 'p2'}, {name: 'p3'}]
   };
-  $scope.selected = 'default';
-  console.log($rootScope.$stateParams);
-  console.log($rootScope.$state);
+  // $scope.selected = 'default';
+  $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
+    console.log(toState);
+    if ('default' === toState.name){
+      $scope.selected = 'default';
+    } else if (undefined !== toParams.project){
+      $scope.selected = toParams.project;
+    }
+  });
 }]);
