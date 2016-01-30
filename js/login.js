@@ -1,5 +1,5 @@
 var Login = function(){
-  this.url = 'http://localhost/git/opensight/client.html';
+  this.url = 'http://121.41.72.231/client.html';
   this.api = 'http://121.41.72.231:5001/api/ivc/v1/';
   this.timeInterval = 0;
 
