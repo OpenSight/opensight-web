@@ -1,37 +1,57 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('app', [
+var app = angular.module('client', [
+  // 'ngAnimate',
   'ui.router',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'app.controller'
 ])
-.config(function($stateProvider, $urlRouterProvider) {
-  //
-  // For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise("/state1");
-  //
-  // Now set up the states
+.run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
+  // It's very handy to add references to $state and $stateParams to the $rootScope
+  // so that you can access them from any scope within your applications.For example,
+  // <li ng-class="{ active: $state.includes('contacts.list') }"> will set the <li>
+  // to active whenever 'contacts.list' or one of its decendents is active.
+  $rootScope.$state = $state;
+  $rootScope.$stateParams = $stateParams;
+}])
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+  /////////////////////////////
+  // Redirects and Otherwise //
+  /////////////////////////////
+  // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
+  $urlRouterProvider
+    // .when('/c?id', '/contacts/:id')
+    // .when('/user/:id', '/contacts/:id')
+    .otherwise('/default');
+  // Use $stateProvider to configure your states.
   $stateProvider
-    .state('state1', {
-      url: "/state1",
-      templateUrl: "partials/state1.html"
+    .state("default", {
+      url: "/default",
+      templateUrl: 'views/default.html'
     })
-    .state('state1.list', {
-      url: "/list",
-      templateUrl: "partials/state1.list.html",
-      controller: function($scope) {
-        $scope.items = ["A", "List", "Of", "Items"];
-      }
+    .state('user', {
+      url: '/user',
+      templateUrl: 'views/user.html'
     })
-    .state('state2', {
-      url: "/state2",
-      templateUrl: "partials/state2.html"
+    .state('key', {
+      url: '/key',
+      templateUrl: 'views/key.html'
     })
-    .state('state2.list', {
-      url: "/list",
-      templateUrl: "partials/state2.list.html",
-      controller: function($scope) {
-        $scope.things = ["A", "Set", "Of", "Things"];
-      }
+    .state('project', {
+      url: '/project/:name',
+      templateUrl: 'views/menu.html'
+    })
+    .state('project.details.project', {
+      url: '/project/{projectid}/project',
+      templateUrl: 'views/project.html'
+    })
+    .state('project.details.camare', {
+      url: '/project/details/camare',
+      templateUrl: 'views/default.html'
+    })
+    .state('project.details.log', {
+      url: '/project/details/log',
+      templateUrl: 'views/log.html'
     });
-});
+}]);

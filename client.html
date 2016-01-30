@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="zh-CN" ng-app="app">
+<html class="no-js" lang="zh-CN" ng-app="client">
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/js-base64/base64.js"></script>
 <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
@@ -17,7 +17,8 @@
 
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/public.css">
+  <link rel="stylesheet" href="css/client.css">
 </head>
 <body>
   <!--[if lt IE 8]>
@@ -29,7 +30,7 @@
   </p>
   <![endif]-->
   <!-- Add your site or application content here -->
-  <header  class="navbar" role="navigation" id="header">
+  <header  class="navbar navbar-fixed-top" role="navigation" ng-controller="header">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -43,19 +44,45 @@
         </a>
       </div>
       <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              {{selected}}
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a ui-sref="default">default</a></li>
+              <li role="separator" class="divider"></li>
+              <li ng-repeat="pro in project.list">
+                <a ui-sref="project({name: pro.name})">{{pro.name}}</a>
+              </li>
+              <li><a href="#">Something else here</a></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </li>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a href="square.html">视频广场</a>
+            <li><a ui-sref="user">{{username}}</a></li>
           </li>
           <li>
-            <a href="#">更多</a>
+            <li><a ui-sref="key">access key</a></li>
+          </li>
+          <li>
+            <li><a href="#">注销</a></li>
           </li>
         </ul>
       </div>
     </div>
   </header>
+  <div ui-view></div>
 <script src="bower_components/angular/angular.min.js"></script>
+<!-- <script src="bower_components/angular-animate/angular-animate.min.js"></script> -->
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="js/client.js"></script>
+<script src="js/client/container.js"></script>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
 <script>
