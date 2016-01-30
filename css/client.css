@@ -16,9 +16,17 @@ body{
   color: #25a8e1;
   text-decoration: none;
 }
+
+.nav-dropdown>.nav-ui-sref:focus,.nav-dropdown>.nav-ui-sref:hover
 .nav-dropdown-toggle:focus, .nav-dropdown-toggle:hover, 
 .nav-ui-sref.active, .nav-dropdown.active>.nav-ui-sref{
   text-decoration: none;
+  background-color: #eee;
+}
+.navbar-default .navbar-nav>li>.nav-ui-sref.active, .navbar-default .navbar-nav>li>.nav-ui-sref.active{
+  background-color: #eee;
+}
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
   background-color: #eee;
 }
 @media (min-width: 768px){
