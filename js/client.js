@@ -22,7 +22,7 @@ var app = angular.module('client', [
   // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
   $urlRouterProvider
     // .when('/c?id', '/contacts/:id')
-    // .when('/user/:id', '/contacts/:id')
+    .when('/project/:name', '/project/:name/project')
     .otherwise('/default');
   // Use $stateProvider to configure your states.
   $stateProvider
@@ -42,16 +42,16 @@ var app = angular.module('client', [
       url: '/project/:project',
       templateUrl: 'views/menu.html'
     })
-    .state('project.details.project', {
-      url: '/project/{projectid}/project',
+    .state('project.project', {
+      url: '/project',
       templateUrl: 'views/project.html'
     })
-    .state('project.details.camare', {
-      url: '/project/details/camare',
-      templateUrl: 'views/default.html'
+    .state('project.camare', {
+      url: '/camare',
+      templateUrl: 'views/camare.html'
     })
-    .state('project.details.log', {
-      url: '/project/details/log',
+    .state('project.log', {
+      url: '/log',
       templateUrl: 'views/log.html'
     });
 }]);
