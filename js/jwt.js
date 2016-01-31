@@ -123,7 +123,6 @@ Jwt.prototype = {
   },
   get: function(){
     return {aud: this.aud, jwt: jwt};
-    return this.jwt;
   },
   jump: function(url){
     url = undefined === url ? this.url : url;

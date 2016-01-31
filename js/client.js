@@ -14,6 +14,21 @@ var app = angular.module('client', [
   // to active whenever 'contacts.list' or one of its decendents is active.
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
+  $rootScope.$jwt = jwt;
+}])
+.config(['$httpProvider', '$rootScopeProvider', function($httpProvider, $rootScopeProvider) {
+  $httpProvider.interceptors.push(function($q, $rootScope) {
+    return {
+      request: function(config) {
+        config.headers['Content-Type']  = 'application/json';
+        return config;
+      },
+      responseError: function(rejection, response, status) {
+        $rootScope.$broadcast('responseErrorStart', rejection);
+        return $q.reject(rejection);
+      }
+    };
+  });
 }])
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   /////////////////////////////
