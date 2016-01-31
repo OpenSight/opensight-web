@@ -21,7 +21,7 @@ Login.prototype = {
     }
     this.logining = true;
     var d = new Date ();
-    d.setHours (d.getHours () + 1);
+    d.setHours(d.getHours() + 1);
     var e = Math.ceil(d.getTime() / 1000);
 
     var data = {username: u, password: p, expired: e};

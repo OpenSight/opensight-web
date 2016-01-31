@@ -90,7 +90,7 @@ Jwt.prototype = {
     }
     this.updateing = true;
     var d = new Date ();
-    d.setHours (d.getHours () + 1);
+    d.setHours(d.getHours() + 1);
     var e = Math.ceil(d.getTime() / 1000);
 
     var data = {username: this.aud, password: this.pwd, expired: e};
@@ -101,6 +101,7 @@ Jwt.prototype = {
       type: 'POST',
       success: function(json){
         _this.jwt = json.jwt;
+        $.cookie('jwt', json.jwt);
         _this.updateing = false;
       }, 
       error: function() {
