@@ -1,0 +1,202 @@
+<div class="container-fluid container-compact os-tab-container" ng-controller="Customers">
+<div class="row row-in-tab os-row-no-padding">
+<div class="col-sm-12 input-group os-table-toolbar">
+    <span class="input-group-addon">
+        <i class="fa fa-search"></i>
+    </span>
+    <input type="text" class="form-control" placeholder="Filter..." style="width:20%" ng-model="customerlist.seach" />
+    <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加" ng-click="customer.add()">
+        <i  class="fa fa-plus"></i>
+    </span>
+    <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="customer.refresh()">
+        <i  class="fa fa-refresh"></i>
+    </span>
+</div>
+
+<div class="panel os-panel" ng-show="customer.addShown">
+    <div class="panel-body">
+        <form class="form-horizontal os-form" role="form">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="customer.data_add.username" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" ng-model="customer.data_add.password" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">职位</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="customer.data_add.title" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">管理员权限</label>
+                <div class="col-sm-4">
+                    <input type="checkbox" ng-model="customer.data_add.is_privilege" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">描述</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="customer.data_add.desc" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">详细描述</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="customer.data_add.long_desc" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">各种标志位</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="customer.data_add.flags" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">手机号</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="customer.data_add.cellphone" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">电子邮箱</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="customer.data_add.email" />
+                </div>
+            </div>
+
+            <div class="form-group os-submit-group">
+                <label class="col-sm-1 control-label"></label>
+                <div class="col-sm-4">
+                    <button class="btn btn-default" ng-click="customer.data_add.submitForm()"><i class="fa fa-check"></i>&nbsp;确定</button>
+                    <button class="btn btn-default" ng-click="customer.data_add.close()"><i class="fa fa-remove"></i>&nbsp;取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="col-sm-12 os-table-container">
+    <table class="table os-table">
+        <thead>
+        <tr>
+            <th class="col-sm-2">用户名</th>
+            <th class="col-sm-2">职位</th>
+            <th class="col-sm-2">类型</th>
+            <th class="col-sm-4">描述</th>
+            <th class="col-sm-2">删除</th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="u in customerlist.data.list | filter: customerlist.seach">
+        <tr>
+            <td ng-click="customer.data.showDetail(u, $index)">{{u.username}}</td>
+            <td ng-click="customer.data.showDetail(u, $index)">{{u.title}}</td>
+            <td ng-click="customer.data.showDetail(u, $index)">{{u.user_type}}</td>
+            <td ng-click="customer.data.showDetail(u, $index)">{{u.desc}}</td>
+            <td ng-click="customer.delete_one(u)" style="cursor:pointer;"><i class="fa fa-trash"></i></td>
+        </tr>
+        <tr class="ng-hide" ng-show="customer.data_mod.bDetailShown[$index]">
+            <td colspan="999">
+                <div class="panel os-panel">
+                    <div class="panel-body">
+                        <form class="form-horizontal os-form" role="form">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">用户名</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{customer.data_mod.data[$index].username}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">职位</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" ng-model="customer.data_mod.data[$index].title"  />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">desc</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" ng-model="customer.data_mod.data[$index].desc"  />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">long_desc</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" ng-model="customer.data_mod.data[$index].long_desc"  />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">flags</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{customer.data_mod.data[$index].flags}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">cellphone</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" ng-model="customer.data_mod.data[$index].cellphone"  />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">email</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" ng-model="customer.data_mod.data[$index].email"  />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">user_type</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{customer.data_mod.data[$index].user_type}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">ctime</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{customer.data_mod.data[$index].ctime}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">utime</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{customer.data_mod.data[$index].utime}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">ltime</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{customer.data_mod.data[$index].ltime}}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group os-submit-group">
+                                <label class="col-sm-1 control-label"></label>
+                                <div class="col-sm-4">
+                                    <button class="btn btn-default" ng-click="customer.data_mod.submitForm(u,$index)"><i class="fa fa-check"></i>&nbsp;确定</button>
+                                    <button class="btn btn-default" ng-click="customer.data_mod.close(u,$index)"><i class="fa fa-remove"></i>&nbsp;取消</button>
+                                    <button class="btn btn-default" ng-click="customer.delete_one(customer.data_mod.data[$index])"><i class="fa fa-trash"></i>&nbsp;删除</button>
+                                </div>
+                            </div>
+                            <div class="form-group os-submit-group">
+                                <label class="col-sm-2 control-label">密码重置</label>
+                                <div class="col-sm-4">
+                                    <input type="password" class="form-control" ng-model="customer.data_mod.data[$index].new_password" />
+                                </div>
+                                <button class="btn btn-default" ng-click="customer.data_mod.passwdReset(u,$index)"><i class="fa fa-check"></i>&nbsp;确定</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</div>
+</div>

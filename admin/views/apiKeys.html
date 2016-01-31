@@ -1,0 +1,132 @@
+<tab heading="用户" ng-model="project.data_mod.tabs[3]" select="project.user.initCameras()">
+    <div class="col-sm-12 input-group os-table-toolbar">
+                              <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加用户" ng-click="project.user.hotAdd()">
+                                  <i  class="fa fa-plus"></i>
+                              </span>
+
+                              <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.user.hotRefresh()">
+                                <i  class="fa fa-refresh"></i>
+                              </span>
+    </div>
+    <div class="panel os-panel" ng-show="project.user.hotAddShown">
+        <div class="panel-body">
+            <form class="form-horizontal os-form" role="form">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">用户名</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" ng-model="project.user.data_add.name" required />
+                    </div>
+                </div>
+                <div class="form-group os-submit-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-4">
+                        <button class="btn btn-default" ng-click="project.user.data_add.submitForm()"><i class="fa fa-check"></i>&nbsp;确定</button>
+                        <button class="btn btn-default" ng-click="project.user.data_add.close()"><i class="fa fa-remove"></i>&nbsp;取消</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="col-sm-12 os-table-container">
+        <table class="table os-table">
+            <thead>
+            <tr>
+                <th class="col-sm-2">用户名</th>
+                <th class="col-sm-2">title</th>
+                <th class="col-sm-2">flags</th>
+                <th class="col-sm-2">类型</th>
+                <th class="col-sm-2">描述</th>
+                <th class="col-sm-2">删除</th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="u in project.userlist.data.servers | filter: project.userlist.seach">
+            <tr>
+                <td ng-click="project.user.data.showDetail(u, $index)">{{u.username}}</td>
+                <td ng-click="project.user.data.showDetail(u, $index)">{{u.title}}</td>
+                <td ng-click="project.user.data.showDetail(u, $index)">{{u.flags}}</td>
+                <td ng-click="project.user.data.showDetail(u, $index)">{{u.user_type}}</td>
+                <td ng-click="project.user.data.showDetail(u, $index)">{{u.desc}}</td>
+                <td ng-click="project.user.delete_one(u)" style="cursor:pointer;"><i class="fa fa-trash"></i></td>
+            </tr>
+            <tr class="ng-hide" ng-show="project.user.data_mod.bDetailShown[$index]">
+                <td colspan="999">
+                    <div class="panel os-panel">
+                        <div class="panel-body">
+                            <form class="form-horizontal os-form" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">用户名</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.user.data_mod.username[$index]}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">title</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.user.data_mod.title[$index]}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">cellphone</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.user.data_mod.cellphone[$index]}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">email</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.user.data_mod.email[$index]}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">flags</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.user.data_mod.flags[$index]}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">类型</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.user.data_mod.user_type[$index]}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">描述</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.user.data_mod.desc[$index]}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">详细描述</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.user.data_mod.long_desc[$index]}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">ltime</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.user.data_mod.ltime[$index]}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">ctime</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.user.data_mod.ctime[$index]}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">utime</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.user.data_mod.utime[$index]}}</p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</tab>

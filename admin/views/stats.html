@@ -1,4 +1,4 @@
-<div class="container-fluid container-compact os-tab-container" ng-controller="Bond">
+<div class="container-fluid container-compact os-tab-container statCan" ng-controller="Stats">
     <div class="panel os-panel">
         <div class="panel-body">
             <H4>系统状态</H4>
@@ -6,22 +6,22 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label">用户</label>
                     <div class="col-sm-7">
-                        <p class="form-control-static">1000000 ，其中在线 6 名</p>
+                        <p class="form-control-static">{{state.userCount}} 名</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">项目</label>
                     <div class="col-sm-7">
-                        <p class="form-control-static">555555</p>
+                        <p class="form-control-static">{{state.projectCount}} 个</p>
                     </div>
                 </div>
-                <div class="form-group">
+                <!--div class="form-group">
                     <label class="col-sm-1 control-label">camera</label>
                     <div class="col-sm-7">
-                        <p class="form-control-static">999999，333直播中，6666待机中，999掉线</p>
+                        <p class="form-control-static">{{state.cameraCount}} ，{{state.cameraOnline}} 直播中，{{state.cameraOffline}}掉线</p>
                     </div>
 
-                </div>
+                </div-->
 
 
             </form>

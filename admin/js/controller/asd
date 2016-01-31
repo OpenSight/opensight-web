@@ -1,0 +1,235 @@
+
+    $scope.project.user = (function () {
+        return {
+            initUsers: function () {
+                if ($scope.project.userlist.data!==undefined && $scope.project.userlist.data.list!==undefined){
+                    $scope.project.user.refresh();
+                }else{
+                    $scope.destroy();
+                    $scope.project.userlist.get();
+                }
+            },
+
+            refresh: function () {
+                angular.forEach($scope.project.userlist.data.list, function (item, index, array) {
+                    if ($scope.project.user.data_mod.bDetailShown && $scope.project.user.data_mod.bDetailShown[index] !== undefined)
+                        $scope.project.user.data_mod.bDetailShown[index]  = false;
+                });
+                $scope.project.userlist.data = {};
+                $scope.project.user.initUsers();
+            },
+
+            add: function () {
+                if ($scope.project.user.addShown === undefined) $scope.project.user.addShown = false;
+                $scope.project.user.addShown = !$scope.project.user.addShown;
+                if ($scope.project.user.addShown === true)
+                    $scope.project.user.data_add.init();
+            },
+
+            data_add: (function () {
+                return {
+                    clean_data: function () {//clean add field
+                        if ($scope.project.user.data_add === undefined)
+                            $scope.project.user.data_add = {};
+                        $scope.project.user.data_add.username = "";
+                    },
+
+                    submitForm: function () {//add one user
+                        var postData = {
+                            username: $scope.project.user.data_add.username
+                        };
+
+                        $scope.project.user.data_add.token = Math.random();
+                        $scope.aborter = $q.defer(),
+                            $http.post("http://121.41.72.231:5001/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/users", postData, {
+                                timeout: $scope.aborter.promise,
+                                headers:  {
+                                    "Authorization" : "Bearer "+$scope.authToken,
+                                    "Content-Type": "application/json"
+                                }
+                            }).success(function (response) {
+                                    $scope.project.user.refresh();
+                                }).error(function (response,status) {
+                                    //response.ErrorContent = "加入user失败";
+                                    //$scope.$emit("errorEmit",response);
+                                    //bendichuliweimiao
+
+                                    var tmpMsg = {};
+
+                                    tmpMsg.Label = "错误";
+                                    tmpMsg.ErrorContent = "加入user失败";
+                                    tmpMsg.ErrorContentDetail = response;
+                                    tmpMsg.SingleButtonShown = true;
+                                    tmpMsg.MutiButtonShown = false;
+                                    tmpMsg.Token =  $scope.project.user.data_add.token;
+                                    //tmpMsg.Callback = "addMdCallBack";
+                                    if (status === 403 || (response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                        //$scope.$emit("Logout", tmpMsg);
+                                        $state.go('logOut',{info: response.info,traceback: response.traceback});
+                                    }else
+                                        $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                                    // $scope.project.user.refresh();
+                                });
+                    },
+
+                    close: function () {//clean input,close add div
+                        //$scope.project.user.data_add.clean_data();
+                        //$scope.project.user.addShown = false;
+                        $scope.project.user.add();
+                    },
+
+                    init: function () {
+                        $scope.project.user.data_add.clean_data();
+                    },
+
+                    addMdCallBack:function (event, msg) {
+
+                    }
+                };
+            })(),
+
+            delete_one: function (item) {
+                $scope.project.user.data.delOneToken = Math.random();
+                $scope.aborter = $q.defer(),
+                    $http.delete("http://121.41.72.231:5001/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/users/"+item.username, {
+                        timeout: $scope.aborter.promise,
+                        headers:  {
+                            "Authorization" : "Bearer "+$scope.authToken,
+                            "Content-Type": "application/json"
+                        }
+                    }).success(function (response) {
+                            $scope.project.user.refresh();
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "移出user"+ item.username +"失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            tmpMsg.Token =  $scope.project.user.data.delOneToken;
+                            //tmpMsg.Callback = "delMdCallBack";
+                            if (status === 403 || (response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+                            //$scope.project.user.refresh();
+                        });
+            },
+
+            delMdCallBack:function (event, msg) {
+
+            },
+
+            data: (function () {
+                return {
+                    showDetail: function (item, index) {
+                        if ($scope.project.user.data_mod.bDetailShown === undefined) $scope.project.user.data_mod.bDetailShown = [];
+                        if ($scope.project.user.data_mod.bDetailShown[index] === undefined) $scope.project.user.data_mod.bDetailShown[index] = false;
+                        $scope.project.user.data_mod.bDetailShown[index] = !(true === $scope.project.user.data_mod.bDetailShown[index]);
+
+                        if ($scope.project.user.data_mod.bDetailShown[index] === true) {//开
+                            $scope.project.user.data_mod.initDetail(item, index);
+                        } else {
+
+                        }
+                    }
+                };
+            })(),
+
+            data_mod: (function () {
+                return {
+                    initData: function(item,index) {
+                        if ($scope.project.user.data_mod.bDetailShown[index] === true) {
+                            if ($scope.project.user.data_mod.data === undefined)
+                                $scope.project.user.data_mod.data = [];
+                            $scope.project.user.data_mod.data[index] = item;
+                        }
+                    },
+
+                    initDetail: function (item,index) {
+                        if ($scope.project.user.data_mod.bDetailShown[index] === undefined
+                            || $scope.project.user.data_mod.bDetailShown[index] === false)
+                            return;
+
+                        $scope.aborter = $q.defer(),
+                            $http.get("http://121.41.72.231:5001/api/ivc/v1/users/"+item.username, {
+                                timeout: $scope.aborter.promise,
+                                headers:  {
+                                    "Authorization" : "Bearer "+$scope.authToken,
+                                    "Content-Type": "application/json"
+                                }
+                            }).success(function (response) {
+                                    $scope.project.user.data_mod.initData(response,index);
+                                }).error(function (response,status) {
+                                    var tmpMsg = {};
+                                    tmpMsg.Label = "错误";
+                                    tmpMsg.ErrorContent = "user"+ item.username +"get失败";
+                                    tmpMsg.ErrorContentDetail = response;
+                                    tmpMsg.SingleButtonShown = true;
+                                    tmpMsg.MutiButtonShown = false;
+                                    //tmpMsg.Token =  $scope.project.user.data_mod.addHotSpToken;
+                                    tmpMsg.Callback = "modMdCallBack";
+                                    if (status === 403 || (response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                        //$scope.$emit("Logout", tmpMsg);
+                                        $state.go('logOut',{info: response.info,traceback: response.traceback});
+                                    }else
+                                        $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                                    //$scope.project.user.data_mod.hotRefresh(item, index);
+                                });
+                    },
+
+                    rm: function (item,index) {
+                        $scope.project.user.delete_one(item);
+                    },
+
+                    destroy: function () {
+                    }
+                };
+            })()
+
+
+
+        }
+    })();
+
+    $scope.project.userlist = (function () {
+        return {
+            get: function () {//clean input,close add div
+                $scope.project.user.data_add.clean_data();
+                //$scope.user.addShown = false;
+                $scope.aborter = $q.defer(),
+                    $http.get("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/users?start=0&limit=100", {
+                        timeout: $scope.aborter.promise,
+                        headers:  {
+                            "Authorization" : "Bearer "+$scope.authToken,
+                            "Content-Type": "application/json"
+                        }
+
+                    }).success(function (response) {
+                            $scope.project.userlist.data = {};
+                            $scope.project.userlist.data = response;
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "获取项目内用户列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            //tmpMsg.Token =  $scope.user.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "user.show";
+                            if (status === 403 || (response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
+            }
+
+
+        };
+    })();

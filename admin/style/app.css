@@ -21,13 +21,16 @@ body {
   opacity: 0;
 }
 .storlever .navbar{
-  min-height: 40px;
-  background: #25A8E1;
+  min-height: 45px;
+  background: #E2E8EC;
 }
 .storlever .navbar-collapse.collapse{
   /*height: 30px !important;*/
 }
 
+.statCan{
+    background-color: #cfcfcf;
+}
 body{
     font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
     /*padding-top: 70px;*/
@@ -51,7 +54,7 @@ body{
     font-size: 16px;
 }
 .navbar a{
-    color: #ffffcc;
+    color: #000000;
 }
 .navbar{
     margin-bottom: 0px;
@@ -104,7 +107,7 @@ body{
   border: 0 none;
 }
 .menu-list-branch a{
-  color: #aaa;
+  color: #86949A;
   font-weight: bold;
   text-decoration: none;
   outline: none;
@@ -274,7 +277,7 @@ body{
   font-weight: bold;
 }
 .os-panel .panel-body{
-  padding: 10px 0 0 0;
+  padding: 15px;
 }
 
 .os-form>.form-group{
@@ -427,12 +430,6 @@ body{
 }
 .pie-legend dt span.legend-color7{
   background-color: #4D5360;
-}
-
-body {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #f5f5f5;
 }
 
 .form-signin {

@@ -16,43 +16,79 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
     };
 
     $urlRouterProvider
-        .otherwise('/stats');
+        .otherwise('/home/stats');
 
-    $stateProvider.
-        state('stats', {
+    $stateProvider
+        .state('home', {
+            url: '/home',
+            views: {
+                '':{
+                    templateUrl: './views/home.html',
+                    resolve: {
+                        load: app.asyncjs("./js/controller/home.js")
+                    }
+                }
+            }
+        })
+        .state('home.stats', {
             url: '/stats',
-            templateUrl: './views/stats.html',
-            resolve: {
-                load: app.asyncjs("./js/controller/stats.js")
+            views: {
+                '': {
+                    templateUrl: './views/stats.html',
+                    resolve: {
+                        load: app.asyncjs("./js/controller/stats.js")
+                    }
+                }
+            }
+        })
+        .state('home.keyManage', {
+            url: '/key_manage',
+            views: {
+                '': {
+                    templateUrl: './views/keyManage.html',
+                    resolve: {
+                        load: app.asyncjs("./js/controller/keyManage.js")
+                    }
+                }
+            }
+
+        })
+        .state('home.customers', {
+            url: '/customers',
+            views: {
+                '': {
+                    templateUrl: './views/customers.html',
+                    resolve: {
+                        load: app.asyncjs("./js/controller/customers.js")
+                    }
+                }
+            }
+        })
+        .state('home.projects', {
+            url: '/projects',
+            views: {
+                '': {
+                    templateUrl: './views/projectList.html',
+                    resolve: {
+                        load: app.asyncjs("./js/controller/project.js")
+                    }
+                }
             }
         })
         .state('userInfo', {
             url: '/user',
             templateUrl: './views/userInfo.html',
             resolve: {
-                load: app.asyncjs("./js/controller/user.js")
+                load: app.asyncjs(["./js/controller/user.js", "./js/sjcl.js"])
             }
         })
-        .state('customers', {
-            url: '/customers',
-            templateUrl: './views/customers.html',
-            resolve: {
-                load: app.asyncjs("./js/controller/customers.js")
-            }
-        })
-        .state('projects', {
-            url: '/projects',
-            templateUrl: './views/projectList.html',
-            resolve: {
-                load: app.asyncjs("./js/controller/project.js")
-            }
-        }).state('camera', {
+        .state('camera', {
             url: '/ipc',
             templateUrl: './views/cameraList.html',
             resolve: {
                 load: app.asyncjs("./js/controller/ipc.js")
             }
-        }).state('apiKey', {
+        }).state('keys', {
             url: '/key',
             templateUrl: './views/apiKeys.html',
             resolve: {
@@ -67,6 +103,7 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
         }).state('logOut', {
             url: '/logOut',
             templateUrl: './views/logOut.html',
+            params: {info: null,traceback:null},
             resolve: {
                 load: app.asyncjs("./js/controller/logout.js")
             }
