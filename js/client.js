@@ -16,10 +16,11 @@ var app = angular.module('client', [
   $rootScope.$stateParams = $stateParams;
   $rootScope.$jwt = jwt;
 }])
-.config(['$httpProvider', '$rootScopeProvider', function($httpProvider, $rootScopeProvider) {
+.config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push(function($q, $rootScope) {
     return {
       request: function(config) {
+        config.headers.Authorization  = "Bearer " + jwt.jwt;
         config.headers['Content-Type']  = 'application/json';
         return config;
       },
