@@ -9,7 +9,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
             },
 
             refresh: function () {
-                angular.forEach($scope.customerlist.data.servers, function (item, index, array) {
+                angular.forEach($scope.customerlist.data.list, function (item, index, array) {
                     if ($scope.customer.data_mod.bDetailShown && $scope.customer.data_mod.bDetailShown[index] !== undefined)
                         $scope.customer.data_mod.bDetailShown[index]  = false;
                 });
@@ -24,6 +24,11 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                     $scope.customer.data_add.init();
             },
 
+            encryptPasswd: function (passwd) {
+                return sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(passwd, G_salt, 100000));
+                //return sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2("password", "salt", 1));
+            },
+
             data_add: (function () {
                 return {
                     clean_data: function () {//clean add field
@@ -33,7 +38,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                         $scope.customer.data_add.password = "";
                         $scope.customer.data_add.is_privilege = false;
                         $scope.customer.data_add.title = "";
-                        $scope.customer.data_add.flags = "";
+                        $scope.customer.data_add.flags = 0;
                         $scope.customer.data_add.cellphone = "";
                         $scope.customer.data_add.email = "";
                         $scope.customer.data_add.desc = "";
@@ -44,7 +49,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                         var postData = {
                             username: $scope.customer.data_add.username,
                             title: $scope.customer.data_add.title,
-                            password: $scope.customer.data_add.password,
+                            password: $scope.customer.encryptPasswd($scope.customer.data_add.password),
                             is_privilege: $scope.customer.data_add.is_privilege,
                             desc: $scope.customer.data_add.desc,
                             long_desc: $scope.customer.data_add.long_desc,
@@ -238,7 +243,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                     },
                     passwdReset:function (item, index) {
                         var postData =  {
-                            new_password: $scope.customer.data_mod.data[index].new_password
+                            new_password: $scope.customer.encryptPasswd($scope.customer.data_mod.data[index].new_password)
                         };
 
                         //$scope.customer.data_mod.updateCustomers = Math.random();

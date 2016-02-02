@@ -1,104 +1,89 @@
-app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, $http, $q){
-    $scope.customer = (function () {
+app.register.controller('Access', ['$scope', '$http', '$q', function($scope, $http, $q){
+    $scope.access = (function () {
         return {
             show: function () {
                 $scope.destroy();
                 $scope.authToken = G_token;
-                $scope.customerlist.get();
+                $scope.accesslist.get();
                 return true;
             },
 
             refresh: function () {
-                angular.forEach($scope.customerlist.data.list, function (item, index, array) {
-                    if ($scope.customer.data_mod.bDetailShown && $scope.customer.data_mod.bDetailShown[index] !== undefined)
-                        $scope.customer.data_mod.bDetailShown[index]  = false;
+                angular.forEach($scope.accesslist.data.list, function (item, index, array) {
+                    if ($scope.access.data_mod.bDetailShown && $scope.access.data_mod.bDetailShown[index] !== undefined)
+                        $scope.access.data_mod.bDetailShown[index]  = false;
                 });
 
-                $scope.customer.show();
+                $scope.access.show();
             },
 
             add: function () {
-                if ($scope.customer.addShown === undefined) $scope.customer.addShown = false;
-                $scope.customer.addShown = !$scope.customer.addShown;
-                if ($scope.customer.addShown === true)
-                    $scope.customer.data_add.init();
-            },
-
-            encryptPasswd: function (passwd) {
-                return sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(passwd, G_salt, 100000));
-                //return sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2("password", "salt", 1));
+                if ($scope.access.addShown === undefined) $scope.access.addShown = false;
+                $scope.access.addShown = !$scope.access.addShown;
+                if ($scope.access.addShown === true)
+                    $scope.access.data_add.init();
             },
 
             data_add: (function () {
                 return {
                     clean_data: function () {//clean add field
-                        if ($scope.customer.data_add === undefined)
-                            $scope.customer.data_add = {};
-                        $scope.customer.data_add.username = "";
-                        $scope.customer.data_add.password = "";
-                        $scope.customer.data_add.is_privilege = false;
-                        $scope.customer.data_add.title = "";
-                        $scope.customer.data_add.flags = 0;
-                        $scope.customer.data_add.cellphone = "";
-                        $scope.customer.data_add.email = "";
-                        $scope.customer.data_add.desc = "";
-                        $scope.customer.data_add.long_desc = "";
+                        if ($scope.access.data_add === undefined)
+                            $scope.access.data_add = {};
+                        $scope.access.data_add.key_type = false;
+                        $scope.access.data_add.enabled = true;
+                        $scope.access.data_add.desc = "";
+                        $scope.access.data_add.username = "";
                     },
 
-                    submitForm: function () {//add one customer
+                    submitForm: function () {//add one access
                         var postData = {
-                            username: $scope.customer.data_add.username,
-                            title: $scope.customer.data_add.title,
-                            password: $scope.customer.encryptPasswd($scope.customer.data_add.password),
-                            is_privilege: $scope.customer.data_add.is_privilege,
-                            desc: $scope.customer.data_add.desc,
-                            long_desc: $scope.customer.data_add.long_desc,
-                            flags: $scope.customer.data_add.flags,
-                            cellphone: $scope.customer.data_add.cellphone,
-                            email: $scope.customer.data_add.email
+                            key_type: (($scope.access.data_add.key_type === false)?0:1),
+                            enabled: $scope.access.data_add.enabled,
+                            desc: $scope.access.data_add.desc,
+                            username: $scope.access.data_add.username
                         };
 
-                        $scope.customer.data_add.token = Math.random();
+                        $scope.access.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/users", postData, {
+                            $http.post("http://121.41.72.231:5001/api/ivc/v1/access_keys", postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
                                     "Content-Type": "application/json"
                                 }
                             }).success(function (response) {
-                                    $scope.customer.refresh();
+                                    $scope.access.refresh();
                                 }).error(function (response,status) {
-                                    //response.ErrorContent = "添加customer失败";
+                                    //response.ErrorContent = "添加access失败";
                                     //$scope.$emit("errorEmit",response);
                                     //bendichuliweimiao
 
                                     var tmpMsg = {};
 
                                     tmpMsg.Label = "错误";
-                                    tmpMsg.ErrorContent = "添加用户失败";
+                                    tmpMsg.ErrorContent = "添加access key失败";
                                     tmpMsg.ErrorContentDetail = response;
                                     tmpMsg.SingleButtonShown = true;
                                     tmpMsg.MutiButtonShown = false;
-                                    tmpMsg.Token =  $scope.customer.data_add.token;
+                                    tmpMsg.Token =  $scope.access.data_add.token;
                                     tmpMsg.Callback = "addMdCallBack";
                                     if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         $scope.$emit("Logout", tmpMsg);
                                     }else
                                         $scope.$emit("Ctr1ModalShow", tmpMsg);
 
-                                    // $scope.customer.refresh();
+                                    // $scope.access.refresh();
                                 });
                     },
 
                     close: function () {//clean input,close add div
-                        //$scope.customer.data_add.clean_data();
-                        //$scope.customer.addShown = false;
-                        $scope.customer.add();
+                        //$scope.access.data_add.clean_data();
+                        //$scope.access.addShown = false;
+                        $scope.access.add();
                     },
 
                     init: function () {
-                        $scope.customer.data_add.clean_data();
+                        $scope.access.data_add.clean_data();
                     },
 
                     addMdCallBack:function (event, msg) {
@@ -108,30 +93,30 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
             })(),
 
             delete_one: function (item) {
-                $scope.customer.data.delOneToken = Math.random();
+                $scope.access.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
-                    $http.delete("http://121.41.72.231:5001/api/ivc/v1/users/"+item.username, {
+                    $http.delete("http://121.41.72.231:5001/api/ivc/v1/access_keys/"+item.key_id, {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
                             "Content-Type": "application/json"
                         }
                     }).success(function (response) {
-                            $scope.customer.refresh();
+                            $scope.access.refresh();
                         }).error(function (response,status) {
                             var tmpMsg = {};
                             tmpMsg.Label = "错误";
-                            tmpMsg.ErrorContent = "删除用户"+ item.username +"失败";
+                            tmpMsg.ErrorContent = "删除access key"+ item.key_id +"失败";
                             tmpMsg.ErrorContentDetail = response;
                             tmpMsg.SingleButtonShown = true;
                             tmpMsg.MutiButtonShown = false;
-                            tmpMsg.Token =  $scope.customer.data.delOneToken;
+                            tmpMsg.Token =  $scope.access.data.delOneToken;
                             tmpMsg.Callback = "delMdCallBack";
                             if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 $scope.$emit("Logout", tmpMsg);
                             }else
                                 $scope.$emit("Ctr1ModalShow", tmpMsg);
-                            //$scope.customer.refresh();
+                            //$scope.access.refresh();
                         });
             },
 
@@ -142,17 +127,12 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
             data: (function () {
                 return {
                     showDetail: function (item, index) {
-                        if ($scope.customer.data_mod.bDetailShown === undefined) $scope.customer.data_mod.bDetailShown = [];
-                        if ($scope.customer.data_mod.bDetailShown[index] === undefined) $scope.customer.data_mod.bDetailShown[index] = false;
-                        $scope.customer.data_mod.bDetailShown[index] = !(true === $scope.customer.data_mod.bDetailShown[index]);
-                        if ($scope.customer.data_mod.bDetailShown[index] === true) {//开
-                            $scope.customer.data_mod.selectItem = item;
-                            /*
-                            if ($scope.customer.data_mod.tabs===undefined)
-                                $scope.customer.data_mod.tabs = [];
-                            $scope.customer.data_mod.tabs[0] = true;
-                            */
-                            $scope.customer.data_mod.initDetail(item, index);
+                        if ($scope.access.data_mod.bDetailShown === undefined) $scope.access.data_mod.bDetailShown = [];
+                        if ($scope.access.data_mod.bDetailShown[index] === undefined) $scope.access.data_mod.bDetailShown[index] = false;
+                        $scope.access.data_mod.bDetailShown[index] = !(true === $scope.access.data_mod.bDetailShown[index]);
+                        if ($scope.access.data_mod.bDetailShown[index] === true) {//开
+                            $scope.access.data_mod.selectItem = item;
+                            $scope.access.data_mod.initDetail(item, index);
                         } else {
 
                         }
@@ -163,117 +143,120 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
             data_mod: (function () {
                 return {
                     initData: function(item, index) {
-                        if ($scope.customer.data_mod.bDetailShown[index] === true) {
-                            if ($scope.customer.data_mod.data === undefined)
-                                $scope.customer.data_mod.data = [];
-                            $scope.customer.data_mod.data[index] = item;
+                        if ($scope.access.data_mod.bDetailShown[index] === true) {
+                            if ($scope.access.data_mod.data === undefined)
+                                $scope.access.data_mod.data = [];
+                            $scope.access.data_mod.data[index] = item;
                         }
                     },
 
                     initDetail: function (item, index) {
-                        if ($scope.customer.data_mod.bDetailShown[index] === undefined
-                            || $scope.customer.data_mod.bDetailShown[index] === false)
+                        if ($scope.access.data_mod.bDetailShown[index] === undefined
+                            || $scope.access.data_mod.bDetailShown[index] === false)
                             return;
 
                         $scope.aborter = $q.defer(),
-                            $http.get("http://121.41.72.231:5001/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username, {
+                            $http.get("http://121.41.72.231:5001/api/ivc/v1/access_keys/"+item.key_id, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
                                     "Content-Type": "application/json"
                                 }
                             }).success(function (response) {
-                                    $scope.customer.data_mod.initData(response, index);
+                                    $scope.access.data_mod.initData(response, index);
                                 }).error(function (response,status) {
                                     var tmpMsg = {};
                                     tmpMsg.Label = "错误";
-                                    tmpMsg.ErrorContent = "用户"+ $scope.customer.data_mod.selectItem.username +"详细信息get失败";
+                                    tmpMsg.ErrorContent = "用户"+ $scope.access.data_mod.selectItem.username +"详细信息get失败";
                                     tmpMsg.ErrorContentDetail = response;
                                     tmpMsg.SingleButtonShown = true;
                                     tmpMsg.MutiButtonShown = false;
-                                    tmpMsg.Token =  $scope.customer.data_mod.addHotSpToken;
+                                    tmpMsg.Token =  $scope.access.data_mod.addHotSpToken;
                                     tmpMsg.Callback = "modMdCallBack";
                                     if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         $scope.$emit("Logout", tmpMsg);
                                     }else
                                         $scope.$emit("Ctr1ModalShow", tmpMsg);
 
-                                    //$scope.customer.data_mod.refresh(item, index);
+                                    //$scope.access.data_mod.refresh(item, index);
                                 });
+
+
                     },
 
-                    submitForm: function (item, index) {
-                        var postData =  {
-                            cellphone: $scope.customer.data_mod.data[index].cellphone,
-                            title: $scope.customer.data_mod.data[index].title,
-                            desc: $scope.customer.data_mod.data[index].desc,
-                            long_desc: $scope.customer.data_mod.data[index].long_desc,
-                            email: $scope.customer.data_mod.data[index].email
+                    submitForm: function (item, index) {//mod one access
+                        var postData = {
+                            enabled: $scope.access.data_mod.data[index].enabled,
+                            desc: $scope.access.data_mod.data[index].desc
                         };
 
-                        $scope.customer.data_mod.updateCustomers = Math.random();
+                        $scope.access.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.put("http://121.41.72.231:5001/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username, postData, {
+                            $http.put("http://121.41.72.231:5001/api/ivc/v1/access_keys/"+item.key_id, postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
                                     "Content-Type": "application/json"
                                 }
                             }).success(function (response) {
-                                    $scope.customer.refresh();
+                                   // $scope.access.refresh();
                                 }).error(function (response,status) {
+                                    //response.ErrorContent = "添加access失败";
+                                    //$scope.$emit("errorEmit",response);
+                                    //bendichuliweimiao
+
                                     var tmpMsg = {};
+
                                     tmpMsg.Label = "错误";
-                                    tmpMsg.ErrorContent = "用户"+ $scope.customer.data_mod.name+"更新用户失败";
+                                    tmpMsg.ErrorContent = "修改access key失败";
                                     tmpMsg.ErrorContentDetail = response;
                                     tmpMsg.SingleButtonShown = true;
                                     tmpMsg.MutiButtonShown = false;
-                                    tmpMsg.Token =  $scope.customer.data_mod.addHotSpToken;
-                                    tmpMsg.Callback = "modMdCallBack";
+                                    tmpMsg.Token =  $scope.access.data_add.token;
+                                    tmpMsg.Callback = "addMdCallBack";
                                     if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         $scope.$emit("Logout", tmpMsg);
                                     }else
                                         $scope.$emit("Ctr1ModalShow", tmpMsg);
 
-                                    // $scope.customer.data_mod.refresh(item, index);
+                                    // $scope.access.refresh();
                                 });
                     },
+
                     close: function (item, index) {
-                        $scope.customer.data_mod.initDetail(item, index);
+                        $scope.access.data_mod.initDetail(item, index);
                     },
-                    passwdReset:function (item, index) {
-                        var postData =  {
-                            new_password: $scope.customer.encryptPasswd($scope.customer.data_mod.data[index].new_password)
-                        };
 
-                        //$scope.customer.data_mod.updateCustomers = Math.random();
+                    accessGet:function (item, index) {
+                        //$scope.access.data_mod.updateCustomers = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username+"/password_reset", postData, {
+                            $http.get("http://121.41.72.231:5001/api/ivc/v1/access_keys/"+item.key_id+"/secret", {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
                                     "Content-Type": "application/json"
                                 }
                             }).success(function (response) {
-                                    //$scope.customer.data_mod.refresh(item, index);
+                                    item.secret = response.secret;
                                 }).error(function (response,status) {
                                     var tmpMsg = {};
                                     tmpMsg.Label = "错误";
-                                    tmpMsg.ErrorContent = "用户"+ $scope.customer.data_mod.selectItem.username+"重置用户密码失败";
+                                    tmpMsg.ErrorContent = "获取密钥失败";
                                     tmpMsg.ErrorContentDetail = response;
                                     tmpMsg.SingleButtonShown = true;
                                     tmpMsg.MutiButtonShown = false;
-                                    tmpMsg.Token =  $scope.customer.data_mod.addHotSpToken;
+                                    tmpMsg.Token =  $scope.access.data_mod.addHotSpToken;
                                     tmpMsg.Callback = "modMdCallBack";
                                     if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         $scope.$emit("Logout", tmpMsg);
                                     }else
                                         $scope.$emit("Ctr1ModalShow", tmpMsg);
 
-                                    // $scope.customer.data_mod.refresh(item, index);
+                                    // $scope.access.data_mod.refresh(item, index);
                                 });
 
                     },
+
                     modMdCallBack:function (event, msg) {
 
                     },
@@ -286,13 +269,13 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
         }
     })();
 
-    $scope.customerlist = (function () {
+    $scope.accesslist = (function () {
         return {
             get: function () {//clean input,close add div
-                $scope.customer.data_add.clean_data();
-                //$scope.customer.addShown = false;
+                $scope.access.data_add.clean_data();
+                //$scope.access.addShown = false;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://121.41.72.231:5001/api/ivc/v1/users?start=0&limit=100", {
+                    $http.get("http://121.41.72.231:5001/api/ivc/v1/access_keys?start=0&limit=100", {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -300,16 +283,16 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                         }
 
                     }).success(function (response) {
-                            $scope.customerlist.data = response;
+                            $scope.accesslist.data = response;
                         }).error(function (response,status) {
                             var tmpMsg = {};
                             tmpMsg.Label = "错误";
-                            tmpMsg.ErrorContent = "获取用户列表失败";
+                            tmpMsg.ErrorContent = "获取access key列表失败";
                             tmpMsg.ErrorContentDetail = response;
                             tmpMsg.SingleButtonShown = true;
                             tmpMsg.MutiButtonShown = false;
-                            //tmpMsg.Token =  $scope.customer.data_mod.addHotSpToken;
-                            tmpMsg.Callback = "customer.show";
+                            //tmpMsg.Token =  $scope.access.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "access.show";
                             if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 $scope.$emit("Logout", tmpMsg);
                             }else
@@ -318,8 +301,8 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                         });
 
             },
-            getKey: function (event, newkey) {
-                $scope.authToken = newkey;
+            getKey: function (event, newaccess) {
+                $scope.authToken = newaccess;
             }
 
 
@@ -334,19 +317,19 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
     };
 
     $scope.$on('$destroy', $scope.destroy);
-    $scope.$on("newToken",$scope.customerlist.getKey);
+    $scope.$on("newToken",$scope.accesslist.getKey);
     /*
-    $scope.$on("customer.show",$scope.customer.show);
+     $scope.$on("access.show",$scope.access.show);
 
 
-//add all callback
-    $scope.$on('modMdCallBack', $scope.customer.data_mod.modMdCallBack);
-    $scope.$on('addMdCallBack', $scope.customer.data_add.addMdCallBack);
-    $scope.$on('delMdCallBack', $scope.customer.delMdCallBack);
+     //add all callback
+     $scope.$on('modMdCallBack', $scope.access.data_mod.modMdCallBack);
+     $scope.$on('addMdCallBack', $scope.access.data_add.addMdCallBack);
+     $scope.$on('delMdCallBack', $scope.access.delMdCallBack);
      */
-    $scope.customer.show();
+    $scope.access.show();
 
-//init customer list
-    //$scope.$emit("freshToken","customer.show");
+//init access list
+    //$scope.$emit("freshToken","access.show");
 
 }]);

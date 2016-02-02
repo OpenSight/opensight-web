@@ -59,7 +59,7 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
                 '': {
                     templateUrl: './views/customers.html',
                     resolve: {
-                        load: app.asyncjs("./js/controller/customers.js")
+                        load: app.asyncjs(["./js/controller/customers.js", "./js/sjcl.js"])
                     }
                 }
             }
