@@ -237,7 +237,17 @@ app.register.controller('Access', ['$scope', '$http', '$q', function($scope, $ht
                                     "Content-Type": "application/json"
                                 }
                             }).success(function (response) {
-                                    item.secret = response.secret;
+                                    var tmpMsg = {};
+                                    tmpMsg.Label = "secret信息";
+                                    tmpMsg.ErrorContent = response.secret;
+                                    tmpMsg.ErrorContentDetail = response;
+                                    tmpMsg.SingleButtonShown = false;
+                                    tmpMsg.MutiButtonShown = false;
+                                    tmpMsg.MessageShown = true;
+                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                        $scope.$emit("Logout", tmpMsg);
+                                    }else
+                                        $scope.$emit("Ctr1ModalShow", tmpMsg);
                                 }).error(function (response,status) {
                                     var tmpMsg = {};
                                     tmpMsg.Label = "错误";

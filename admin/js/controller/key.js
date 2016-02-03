@@ -162,6 +162,45 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
 
                     },
 
+                    accessGet:function (item, index) {
+                        //$scope.access.data_mod.updateCustomers = Math.random();
+                        $scope.aborter = $q.defer(),
+                            $http.get("http://121.41.72.231:5001/api/ivc/v1/access_keys/"+item.key_id+"/secret", {
+                                timeout: $scope.aborter.promise,
+                                headers:  {
+                                    "Authorization" : "Bearer "+$scope.authToken,
+                                    "Content-Type": "application/json"
+                                }
+                            }).success(function (response) {
+                                    var tmpMsg = {};
+                                    tmpMsg.Label = "secret信息";
+                                    tmpMsg.ErrorContent = response.secret;
+                                    tmpMsg.ErrorContentDetail = response;
+                                    tmpMsg.SingleButtonShown = false;
+                                    tmpMsg.MutiButtonShown = false;
+                                    tmpMsg.MessageShown = true;
+                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                        $scope.$emit("Logout", tmpMsg);
+                                    }else
+                                        $scope.$emit("Ctr1ModalShow", tmpMsg);
+                                }).error(function (response,status) {
+                                    var tmpMsg = {};
+                                    tmpMsg.Label = "错误";
+                                    tmpMsg.ErrorContent = "获取密钥失败";
+                                    tmpMsg.ErrorContentDetail = response;
+                                    tmpMsg.SingleButtonShown = true;
+                                    tmpMsg.MutiButtonShown = false;
+                                    tmpMsg.Token =  $scope.access.data_mod.addHotSpToken;
+                                    tmpMsg.Callback = "modMdCallBack";
+                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                        $scope.$emit("Logout", tmpMsg);
+                                    }else
+                                        $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                                    // $scope.access.data_mod.refresh(item, index);
+                                });
+
+                    },
 
                     modMdCallBack:function (event, msg) {
 

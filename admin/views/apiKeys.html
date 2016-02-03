@@ -54,7 +54,7 @@
                 <th class="col-sm-2">启用</th>
                 <th class="col-sm-2">类型</th>
                 <th class="col-sm-3">描述</th>
-                <th class="col-sm-2">ctime</th>
+                <th class="col-sm-2">生成时间</th>
             </tr>
             </thead>
             <tbody ng-repeat="u in keylist.data.list | filter: keylist.seach">
@@ -101,9 +101,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">ctime</label>
+                                    <label class="col-sm-2 control-label">生成时间</label>
                                     <div class="col-sm-4">
                                         <p class="form-control-static">{{key.data_mod.data[$index].ctime}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group os-submit-group">
+                                    <label class="col-sm-2 control-label">secret</label>
+                                    <div class="col-sm-2">
+                                        <button class="btn btn-default" ng-click="key.data_mod.accessGet(u,$index)"><i class="fa fa-key"></i>&nbsp;获取</button>
                                     </div>
                                 </div>
                             </form>

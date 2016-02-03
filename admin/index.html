@@ -69,6 +69,9 @@
             <div class="modal-body" ng-show="gModal.DetailShown">
                 {{gModal.ErrorContentDetail}}
             </div>
+            <div class="modal-footer" ng-show="gModal.MessageShown">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
             <div class="modal-footer" ng-show="gModal.SingleButtonShown">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" ng-click="gModal.DetailShown = !gModal.DetailShown;">Detail</button>
@@ -109,8 +112,8 @@
 <script src="js/animate.js"></script>
 <script src="js/loading-bar.js"></script>
 <script src="js/ui-bootstrap-tpls-0.11.2.min.js"></script>
-<script src="js/Chart.min.js"></script>
-<script src="js/angular-chart.js"></script>
+<!--script src="js/Chart.min.js"></script>
+<script src="js/angular-chart.js"></script-->
 <!-- <script src="http://192.168.1.120:6543/static/js/isteven-multi-select.js"></script> -->
 <!--script src="./StorLever.html2_files/script.js"></script-->
 
