@@ -14,13 +14,12 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     }
   });
 
-  $http.get(api + "projects", {
-  }).success(function(response) {
+  $http.get(api + "projects", {}).success(function(response) {
     $scope.project = response;
   }).error(function(response, status) {
     console.log('error');
   });
-  $scope.$on('responseErrorStart', function(rejection, response, status){
+  $scope.$on('responseErrorStart', function(rejection, response, status) {
     console.log('responseErrorStart');
   });
 }]).controller('project', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
@@ -49,4 +48,13 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       console.log('error');
     });
   };
+}]).controller('camera', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+  $scope.project = $rootScope.$stateParams.project;
+  $scope.camera = {list:[]};
+
+  $http.get(api + "projects/" + $scope.project + '/cameras', {}).success(function(response) {
+    $scope.camera = response;
+  }).error(function(response, status) {
+    console.log('error');
+  });
 }]);
