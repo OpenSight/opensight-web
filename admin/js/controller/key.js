@@ -65,7 +65,7 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
                                     tmpMsg.MutiButtonShown = false;
                                     tmpMsg.Token =  $scope.key.data_add.token;
                                     tmpMsg.Callback = "addMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         $scope.$emit("Logout", tmpMsg);
                                     }else
                                         $scope.$emit("Ctr1ModalShow", tmpMsg);
@@ -110,7 +110,7 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
                             tmpMsg.MutiButtonShown = false;
                             tmpMsg.Token =  $scope.key.data.delOneToken;
                             tmpMsg.Callback = "delMdCallBack";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 $scope.$emit("Logout", tmpMsg);
                             }else
                                 $scope.$emit("Ctr1ModalShow", tmpMsg);
@@ -179,7 +179,7 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
                                     tmpMsg.SingleButtonShown = false;
                                     tmpMsg.MutiButtonShown = false;
                                     tmpMsg.MessageShown = true;
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         $scope.$emit("Logout", tmpMsg);
                                     }else
                                         $scope.$emit("Ctr1ModalShow", tmpMsg);
@@ -192,7 +192,7 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
                                     tmpMsg.MutiButtonShown = false;
                                     tmpMsg.Token =  $scope.access.data_mod.addHotSpToken;
                                     tmpMsg.Callback = "modMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         $scope.$emit("Logout", tmpMsg);
                                     }else
                                         $scope.$emit("Ctr1ModalShow", tmpMsg);
@@ -238,7 +238,7 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
                             tmpMsg.MutiButtonShown = false;
                             //tmpMsg.Token =  $scope.key.data_mod.addHotSpToken;
                             tmpMsg.Callback = "key.show";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 $scope.$emit("Logout", tmpMsg);
                             }else
                                 $scope.$emit("Ctr1ModalShow", tmpMsg);

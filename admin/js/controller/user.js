@@ -49,7 +49,7 @@ app.register.controller('UserInfo', ['$scope', '$http', '$q','$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     //tmpMsg.Token =  $scope.userinfo.data_mod.addHotSpToken;
                                     //tmpMsg.Callback = "modMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined &&  response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined &&  response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -86,7 +86,7 @@ app.register.controller('UserInfo', ['$scope', '$http', '$q','$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     //tmpMsg.Token =  $scope.userinfo.data_mod.modUserInfoToken;
                                     //tmpMsg.Callback = "modMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined &&  response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined &&  response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -145,7 +145,7 @@ app.register.controller('UserInfo', ['$scope', '$http', '$q','$state', function(
 
                                 }).error(function (response,status) {
                                     tmpMsg.ErrorContentDetail = response;
-                                    if (status === 403 || (response!==undefined && response.info!==undefined &&  response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined &&  response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else

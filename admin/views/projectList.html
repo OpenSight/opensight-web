@@ -97,15 +97,13 @@
 
 
 <div class="row row-in-tab os-row-no-padding ng-hide" ng-show="project.data_mod.bDetailShown">
-<div class="col-sm-12 input-group os-table-toolbar">
-              <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回项目列表" ng-click="project.data_mod.showList()">
-                <i  class="fa fa-reply-all"></i>
-              </span>
-</div>
-<div class="col-sm-12 os-table-container" >
+<div class="col-sm-12 os-table-container" style="border:none">
 <tr>
 <td colspan="999">
 <tabset>
+<span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;padding-right:10px;" title="返回项目列表" ng-click="project.data_mod.showList()">
+                <i  class="fa fa-reply-all"></i>
+              </span>
 <tab heading="项目信息" active="project.data_mod.tabs[0]" select="project.data_mod.initDetail()">
     <div class="panel os-panel">
         <div class="panel-body">
@@ -282,7 +280,7 @@
 </div>
 
 <div class="col-sm-12 os-table-container">
-    <table class="table os-table">
+    <table class="table os-table table-striped table-hover">
         <thead>
         <tr>
             <th class="col-sm-2">设备名称</th>

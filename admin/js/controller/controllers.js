@@ -1,4 +1,5 @@
 var G_token,G_user,G_salt;
+
 function G_GetQueryString(name)
 {
     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -65,6 +66,7 @@ app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', function($scope
 
                 $scope.gModal.LogoutButtonShown = errMsg.LogoutButtonShown;
                 $scope.gModal.SingleButtonShown = errMsg.SingleButtonShown;
+                $scope.gModal.MessageShown = errMsg.MessageShown;
                 $scope.gModal.MutiButtonShown = errMsg.MutiButtonShown;
                 $scope.gModal.Token = errMsg.Token;
                 $scope.gModal.Callback = errMsg.Callback;

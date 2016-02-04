@@ -33,7 +33,7 @@ app.register.controller('Stats', ['$scope', '$http', '$q','$state', function($sc
                             
                             //tmpMsg.Token =  $scope.project.data_mod.addHotSpToken;
                             tmpMsg.Callback = "project.show";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 //$scope.$emit("Logout", tmpMsg);
                                 $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
@@ -74,7 +74,7 @@ app.register.controller('Stats', ['$scope', '$http', '$q','$state', function($sc
                             tmpMsg.MutiButtonShown = false;
                             //tmpMsg.Token =  $scope.customer.data_mod.addHotSpToken;
                             tmpMsg.Callback = "customer.show";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 $scope.$emit("Logout", tmpMsg);
                             }else
                                 $scope.$emit("Ctr1ModalShow", tmpMsg);

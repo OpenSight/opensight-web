@@ -80,7 +80,7 @@ body{
 }
 .storlever .navbar-brand{
   height: 40px;
-  color: #ed930d;
+  color: #152E3E;
 }
 .first-container{
   /*margin-top: 100px;*/
@@ -331,6 +331,7 @@ body{
 }
 .os-table-container>.os-table{
   margin-bottom: 0;
+
 }
 .os-table>thead>tr>th{
   border-bottom-width: 1px;

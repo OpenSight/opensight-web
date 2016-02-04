@@ -84,7 +84,7 @@
 </div>
 
 <div class="col-sm-12 os-table-container">
-    <table class="table os-table">
+    <table class="table os-table table-striped table-hover">
         <thead>
         <tr>
             <th class="col-sm-2">用户名</th>
@@ -95,12 +95,14 @@
         </tr>
         </thead>
         <tbody ng-repeat="u in customerlist.data.list | filter: customerlist.seach">
-        <tr>
+        {{$index}}
+        <tr class="ng-hide" ng-show="trHidden[$index%2]"></tr>
+        <tr style="cursor:pointer;">
             <td ng-click="customer.data.showDetail(u, $index)">{{u.username}}</td>
             <td ng-click="customer.data.showDetail(u, $index)">{{u.title}}</td>
             <td ng-click="customer.data.showDetail(u, $index)">{{u.user_type}}</td>
             <td ng-click="customer.data.showDetail(u, $index)">{{u.desc}}</td>
-            <td ng-click="customer.delete_one(u)" style="cursor:pointer;"><i class="fa fa-trash"></i></td>
+            <td ng-click="customer.delete_one(u)"><i class="fa fa-trash"></i></td>
         </tr>
         <tr class="ng-hide" ng-show="customer.data_mod.bDetailShown[$index]">
             <td colspan="999">

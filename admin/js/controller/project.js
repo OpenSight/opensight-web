@@ -102,7 +102,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     tmpMsg.Token =  $scope.project.data_add.token;
                                     tmpMsg.Callback = "addMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -148,7 +148,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             tmpMsg.MutiButtonShown = false;
                             tmpMsg.Token =  $scope.project.data.delOneToken;
                             tmpMsg.Callback = "delMdCallBack";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 //$scope.$emit("Logout", tmpMsg);
                                 $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
@@ -228,7 +228,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     tmpMsg.Token =  $scope.project.data_mod.addHotSpToken;
                                     tmpMsg.Callback = "modMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -267,7 +267,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     tmpMsg.Token =  $scope.project.data_mod.submitForm;
                                     //tmpMsg.Callback = "odCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -319,7 +319,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             tmpMsg.MutiButtonShown = false;
                             //tmpMsg.Token =  $scope.project.data_mod.addHotSpToken;
                             tmpMsg.Callback = "project.show";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 //$scope.$emit("Logout", tmpMsg);
                                 $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
@@ -422,7 +422,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     tmpMsg.Token =  $scope.project.device.data_add.token;
                                     //tmpMsg.Callback = "addMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -468,7 +468,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             tmpMsg.MutiButtonShown = false;
                             tmpMsg.Token =  $scope.project.device.data.delOneToken;
                             //tmpMsg.Callback = "delMdCallBack";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 //$scope.$emit("Logout", tmpMsg);
                                 $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
@@ -530,7 +530,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     //tmpMsg.Token =  $scope.project.device.data_mod.addHotSpToken;
                                     tmpMsg.Callback = "modMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -574,7 +574,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     tmpMsg.Token =  $scope.project.device.data_mod.submitForm;
                                     //tmpMsg.Callback = "odCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -627,7 +627,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             tmpMsg.MutiButtonShown = false;
                             //tmpMsg.Token =  $scope.device.data_mod.addHotSpToken;
                             tmpMsg.Callback = "device.show";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 //$scope.$emit("Logout", tmpMsg);
                                 $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
@@ -721,7 +721,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     tmpMsg.Token =  $scope.project.camera.data_add.token;
                                     //tmpMsg.Callback = "addMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -767,7 +767,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             tmpMsg.MutiButtonShown = false;
                             tmpMsg.Token =  $scope.project.camera.data.delOneToken;
                             //tmpMsg.Callback = "delMdCallBack";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 //$scope.$emit("Logout", tmpMsg);
                                 $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
@@ -829,7 +829,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     //tmpMsg.Token =  $scope.project.camera.data_mod.addHotSpToken;
                                     tmpMsg.Callback = "modMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -869,7 +869,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     tmpMsg.Token =  $scope.project.camera.data_mod.submitForm;
                                     //tmpMsg.Callback = "odCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -922,7 +922,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             tmpMsg.MutiButtonShown = false;
                             //tmpMsg.Token =  $scope.camera.data_mod.addHotSpToken;
                             tmpMsg.Callback = "camera.show";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 //$scope.$emit("Logout", tmpMsg);
                                 $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
@@ -1005,7 +1005,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     //tmpMsg.Token =  $scope.project.session.data_mod.addHotSpToken;
                                     tmpMsg.Callback = "modMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -1056,7 +1056,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             tmpMsg.SingleButtonShown = true;
                             tmpMsg.MutiButtonShown = false;
                             tmpMsg.Callback = "session.show";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 //$scope.$emit("Logout", tmpMsg);
                                 $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
@@ -1135,7 +1135,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     tmpMsg.Token =  $scope.project.user.data_add.token;
                                     //tmpMsg.Callback = "addMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -1181,7 +1181,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             tmpMsg.MutiButtonShown = false;
                             tmpMsg.Token =  $scope.project.user.data.delOneToken;
                             //tmpMsg.Callback = "delMdCallBack";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 //$scope.$emit("Logout", tmpMsg);
                                 $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
@@ -1243,7 +1243,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     tmpMsg.MutiButtonShown = false;
                                     //tmpMsg.Token =  $scope.project.user.data_mod.addHotSpToken;
                                     tmpMsg.Callback = "modMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         //$scope.$emit("Logout", tmpMsg);
                                         $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
@@ -1292,7 +1292,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             tmpMsg.MutiButtonShown = false;
                             //tmpMsg.Token =  $scope.user.data_mod.addHotSpToken;
                             tmpMsg.Callback = "user.show";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                 //$scope.$emit("Logout", tmpMsg);
                                 $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
