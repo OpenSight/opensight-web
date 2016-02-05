@@ -50,7 +50,7 @@ HlsVideo.prototype = {
       // src: 'http://www.opensight.cn/hls/camera1.m3u8',
       src: info.url,
       plugin_hls: "flashlsOSMF.swf",
-      scaleMode: 'zoom',
+      // scaleMode: 'none',
       autoPlay: true
     };
 
@@ -89,7 +89,7 @@ HlsVideo.prototype = {
       async: false,
       type: 'GET',
       success: function(info){
-        $('#img').attr('src', info.preview);
+        // $('#img').attr('src', info.preview);
         _this.showCamareInfo(info);
       },
       error: function(){
