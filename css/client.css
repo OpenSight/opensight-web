@@ -29,6 +29,9 @@ body{
 .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
   background-color: #eee;
 }
+.text-pointer,.text-pointer span{
+  cursor: pointer;
+}
 @media (min-width: 768px){
   .nav-dropdown-toggle {
     padding-top: 15px;

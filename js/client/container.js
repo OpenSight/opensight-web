@@ -60,10 +60,29 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
 }]).controller('log', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.project = $rootScope.$stateParams.project;
   $scope.log = {list:[]};
+  $scope.params = {
+    start_from: '2000-01-01T00:00:00',
+    end_to: '2055-01-01T00:00:00',
+    limit: 100
+  };
+  $scope.next = function(){
+    get($scope.params);
+  };
 
-  $http.get(api + "projects/" + $scope.project + '/session_logs', {}).success(function(response) {
-    $scope.log = response;
-  }).error(function(response, status) {
-    console.log('error');
-  });
+  var get = function(params){
+    $http({
+      url: api + "projects/" + $scope.project + '/session_logs', 
+      method: "GET",
+      params: params
+    }).success(function(response) {
+      $scope.log = response;
+      if (response.list.length === $scope.params.limit){
+        $scope.params.last_end_time = response.list[response.list.length - 1].end;
+        $scope.params.last_session_id = response.list[response.list.length - 1].uuid;
+      }
+    }).error(function(response, status) {
+      console.log('error');
+    });
+  };
+  get($scope.params);
 }]);
