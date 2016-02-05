@@ -65,7 +65,7 @@
                 </tr>
                 </thead>
                 <tbody ng-repeat="u in accesslist.data.list | filter: accesslist.seach">
-                <tr>
+                <tr style="cursor:pointer;">
                     <td ng-click="access.data.showDetail(u, $index)">{{u.key_id}}</td>
                     <td ng-click="access.data.showDetail(u, $index)">{{u.enabled===true?"启用":"停用"}}</td>
                     <td ng-click="access.data.showDetail(u, $index)">{{u.key_type===0?"普通权限密钥":"管理员权限密钥"}}</td>

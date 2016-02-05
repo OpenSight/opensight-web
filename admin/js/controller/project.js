@@ -129,6 +129,8 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
             })(),
 
             delete_one: function (item) {
+                var r=confirm("确认删除project "+ item.name +"吗？");
+                if (r===false) return;
                 $scope.project.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
                     $http.delete("http://121.41.72.231:5001/api/ivc/v1/projects/"+item.name, {
@@ -449,6 +451,8 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
             })(),
 
             delete_one: function (item) {
+                var r=confirm("确认删除device "+ item.name +"吗？");
+                if (r===false) return;
                 $scope.project.device.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
                     $http.delete("http://121.41.72.231:5001/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/devices/"+item.uuid, {
@@ -748,6 +752,8 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
             })(),
 
             delete_one: function (item) {
+                var r=confirm("确认删除camera "+ item.name +"吗？");
+                if (r===false) return;
                 $scope.project.camera.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
                     $http.delete("http://121.41.72.231:5001/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/cameras/"+item.uuid, {
@@ -1162,6 +1168,8 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
             })(),
 
             delete_one: function (item) {
+                var r=confirm("确认删除user "+ item.username +"吗？");
+                if (r===false) return;
                 $scope.project.user.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
                     $http.delete("http://121.41.72.231:5001/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/users/"+item.username, {

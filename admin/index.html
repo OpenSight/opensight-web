@@ -85,6 +85,10 @@
                 <button type="button" class="btn btn-default" ng-click="gModal.stop();">No</button>
                 <button type="button" class="btn btn-primary" ng-click="gModal.DetailShown = !gModal.DetailShown;">Detail</button>
             </div>
+            <div class="modal-footer" ng-show="gModal.ConfirmButtonShown">
+                <button type="button" class="btn btn-default" ng-click="gModal.goOn();">Yes</button>
+                <button type="button" class="btn btn-default" ng-click="gModal.stop();">No</button>
+            </div>
         </div>
     </div>
 </div>

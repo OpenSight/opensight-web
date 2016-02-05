@@ -91,6 +91,8 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
             })(),
 
             delete_one: function (item) {
+                var r=confirm("确认删除key "+ item.key_id +"吗？");
+                if (r===false) return;
                 $scope.key.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
                     $http.delete("http://121.41.72.231:5001/api/ivc/v1/access_keys/"+item.key_id, {

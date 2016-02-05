@@ -111,6 +111,8 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
             })(),
 
             delete_one: function (item) {
+                var r=confirm("确认删除用户 "+ item.username +"吗？");
+                if (r===false) return;
                 $scope.customer.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
                     $http.delete("http://121.41.72.231:5001/api/ivc/v1/users/"+item.username, {
@@ -139,6 +141,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
             },
 
             delMdCallBack:function (event, msg) {
+
 
             },
 

@@ -56,7 +56,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">详细描述</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="project.data_add.long_desc" />
+                    <textarea rows = "3" style="width: 100%" type="text" ng-model="project.data_add.long_desc"  />
                 </div>
             </div>
 
@@ -83,7 +83,7 @@
 </tr>
 </thead>
 <tbody ng-repeat="u in projectlist.data.list | filter: projectlist.seach">
-<tr>
+<tr style="cursor:pointer;">
     <td ng-click="project.data.showDetail(u, $index)">{{u.name}}</td>
     <td ng-click="project.data.showDetail(u, $index)">{{u.title}}</td>
     <td ng-click="project.data.showDetail(u, $index)">{{u.max_media_sessions}}</td>
@@ -101,7 +101,7 @@
 <tr>
 <td colspan="999">
 <tabset>
-<span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;padding-right:10px;" title="返回项目列表" ng-click="project.data_mod.showList()">
+<span class="btn-small" style="cursor:pointer;float:left;padding-top:6px;padding-left:10px;padding-right:10px;" title="返回项目列表" ng-click="project.data_mod.showList()">
                 <i  class="fa fa-reply-all"></i>
               </span>
 <tab heading="项目信息" active="project.data_mod.tabs[0]" select="project.data_mod.initDetail()">
@@ -152,8 +152,8 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">详细描述</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" ng-model="project.data_mod.data.long_desc"  />
+                    <div class="col-sm-4">
+                        <textarea rows = "3" style="width: 100%" type="text" ng-model="project.data_mod.data.long_desc"  />
                     </div>
                 </div>
                 <div class="form-group">
@@ -246,7 +246,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">详细描述</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="project.device.data_add.long_desc" />
+                    <textarea rows = "3" style="width: 100%" type="text" ng-model="project.device.data_add.long_desc"  />
                 </div>
             </div>
             <div class="form-group">
@@ -292,7 +292,7 @@
         </tr>
         </thead>
         <tbody ng-repeat="u in project.devicelist.data.list | filter: project.devicelist.seach">
-        <tr>
+        <tr style="cursor:pointer;">
             <td ng-click="project.device.data.showDetail(u, $index)">{{u.name}}</td>
             <td ng-click="project.device.data.showDetail(u, $index)">{{u.uuid}}</td>
             <td ng-click="project.device.data.showDetail(u, $index)">{{u.type}}</td>
@@ -381,7 +381,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">详细描述</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].long_desc"  />
+                                    <textarea rows = "3" style="width: 100%" type="text" ng-model="project.device.data_mod.data[$index].long_desc"  />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -486,7 +486,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">详细描述</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.camera.data_add.long_desc" />
+                        <textarea rows = "3" style="width: 100%" type="text" ng-model="project.camera.data_add.long_desc"  />
                     </div>
                 </div>
                 <div class="form-group">
@@ -532,7 +532,7 @@
             </tr>
             </thead>
             <tbody ng-repeat="u in project.cameralist.data.list | filter: project.cameralist.seach">
-            <tr>
+            <tr style="cursor:pointer;">
                 <td ng-click="project.camera.data.showDetail(u, $index)">{{u.name}}</td>
                 <td ng-click="project.camera.data.showDetail(u, $index)">{{u.uuid}}</td>
                 <td ng-click="project.camera.data.showDetail(u, $index)">{{u.flags}}</td>
@@ -602,7 +602,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">详细描述</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" ng-model="project.camera.data_mod.data[$index].long_desc"  />
+                                        <textarea rows = "3" style="width: 100%" type="text" ng-model="project.camera.data_mod.data[$index].long_desc"  />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -699,7 +699,7 @@
             </tr>
             </thead>
             <tbody ng-repeat="u in project.userlist.data.list | filter: project.userlist.seach">
-            <tr>
+            <tr style="cursor:pointer;">
                 <td ng-click="project.user.data.showDetail(u, $index)">{{u.username}}</td>
                 <td ng-click="project.user.data.showDetail(u, $index)">{{u.title}}</td>
                 <td ng-click="project.user.data.showDetail(u, $index)">{{u.flags}}</td>
@@ -757,7 +757,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">详细描述</label>
                                     <div class="col-sm-4">
-                                        <p class="form-control-static">{{project.user.data_mod.data[$index].long_desc}}</p>
+                                        <textarea rows = "3" style="width: 100%" type="text" ng-model="project.user.data_mod.data[$index].long_desc"  />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -817,7 +817,7 @@
             </tr>
             </thead>
             <tbody ng-repeat="u in project.sessionlist.data.list | filter: project.sessionlist.seach">
-            <tr>
+            <tr style="cursor:pointer;">
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.subuser}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.uuid}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.ip}}</td>

@@ -68,6 +68,7 @@ app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', function($scope
                 $scope.gModal.SingleButtonShown = errMsg.SingleButtonShown;
                 $scope.gModal.MessageShown = errMsg.MessageShown;
                 $scope.gModal.MutiButtonShown = errMsg.MutiButtonShown;
+                $scope.gModal.ConfirmButtonShown = errMsg.ConfirmButtonShown;
                 $scope.gModal.Token = errMsg.Token;
                 $scope.gModal.Callback = errMsg.Callback;
 
