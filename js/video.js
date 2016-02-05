@@ -50,7 +50,7 @@ HlsVideo.prototype = {
       // src: 'http://www.opensight.cn/hls/camera1.m3u8',
       src: info.url,
       plugin_hls: "flashlsOSMF.swf",
-      scaleMode: 'stretch',
+      scaleMode: 'zoom',
       autoPlay: true
     };
 
@@ -91,6 +91,9 @@ HlsVideo.prototype = {
       success: function(info){
         $('#img').attr('src', info.preview);
         _this.showCamareInfo(info);
+      },
+      error: function(){
+        _this.error();
       }
     });
   },
@@ -118,6 +121,9 @@ HlsVideo.prototype = {
           clearInterval(_this.tiptimer);
           _this.tiptimer = undefined;
         }
+      },
+      error: function(){
+        _this.error();
       }
     });
   },
@@ -133,7 +139,7 @@ HlsVideo.prototype = {
   },
   updateTip: function(){
     var _this = this;
-    var sec = 12;
+    var sec = 10;
     this.tiptimer = setInterval(function(){
       if (1 === sec && undefined !== _this.tiptimer){
         clearInterval(_this.tiptimer);
@@ -143,6 +149,13 @@ HlsVideo.prototype = {
       sec--;
       $('#playTipSec').text(sec);
     }, 1000);
+  },
+  error: function(){
+    if (undefined !== this.tiptimer){
+      clearInterval(this.tiptimer);
+      this.tiptimer = undefined;
+    }
+    alert('启动实况失败，请刷新页面重试。');
   }
 };
 

@@ -14,9 +14,31 @@ Square.prototype = {
     this.get();
     this.on();
 
-    juicer.register('getLink', function(uuid){
+    juicer.register('getLink', function(uuid, status){
+      if (0 === status){
+        return '';
+      }
       return 'video.html?uuid=' + uuid + '&project=' + project; 
     });
+    juicer.register('getCls', function(status){
+      if (1 === status){
+        return 'text-highlight';
+      } else if (2 === status){
+        return 'text-highlight';
+      } else {
+        return 'text-danger';
+      }
+    });
+    juicer.register('renderStatus', function(status){
+      if (1 === status){
+        return '在线';
+      } else if (2 === status){
+        return '直播中';
+      } else {
+        return '离线';
+      }
+    });
+    
   },
   get: function(){
     if (true === this.loading || true === this.finished){
