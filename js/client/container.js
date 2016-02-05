@@ -57,4 +57,13 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   }).error(function(response, status) {
     console.log('error');
   });
+}]).controller('log', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+  $scope.project = $rootScope.$stateParams.project;
+  $scope.log = {list:[]};
+
+  $http.get(api + "projects/" + $scope.project + '/session_logs', {}).success(function(response) {
+    $scope.log = response;
+  }).error(function(response, status) {
+    console.log('error');
+  });
 }]);

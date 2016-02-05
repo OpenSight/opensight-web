@@ -1,1 +1,28 @@
-log
+<div class="container-fluid" ng-controller="log">
+  <table class="table table-condensed table-hover table-bordered table-striped">
+    <thead>
+      <tr>
+        <th class="col-sm-2">子用户</th>
+        <th class="col-sm-4">uuid</th>
+        <th class="col-sm-2">ip</th>
+        <th class="col-sm-2">起始</th>
+        <th class="col-sm-2">结束</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in log.list">
+        <td>{{item.subuser}}</td>
+        <td>{{item.uuid}}</td>
+        <td>{{item.ip}}</td>
+        <td>{{item.start}}</td>
+        <td>{{item.end}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <nav>
+    <ul class="pager">
+      <li><a href="#">上一页</a></li>
+      <li><a href="#">下一页</a></li>
+    </ul>
+  </nav>
+</div>
