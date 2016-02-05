@@ -16,7 +16,7 @@ Square.prototype = {
 
     juicer.register('getLink', function(uuid, status){
       if (0 === status){
-        return '';
+        return '#';
       }
       return 'video.html?uuid=' + uuid + '&project=' + project; 
     });
