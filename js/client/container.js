@@ -49,11 +49,62 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     });
   };
 }]).controller('camera', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+  var getBitmap = function(f, bits) {
+    var t = [];
+    var i = 0;
+    do {
+      t[i] = f % 2;
+      f = Math.floor(f / 2);
+      i++;
+    } while (f > 0);
+    while (i < bits) {
+      t[i] = 0;
+      i++;
+    }
+    return t;
+  };
+  var parse = function(flags){
+    var m = getBitmap(flags, 8);
+    var ab = [{
+      text: 'LD',
+      title: '流畅',
+      cls: '',
+      idx: 0
+    }, {
+      text: 'SD',
+      title: '标清',
+      cls: '',
+      idx: 1
+    }, {
+      text: 'HD',
+      title: '高清',
+      cls: '',
+      idx: 2
+    }, {
+      text: 'FHD',
+      title: '超清',
+      cls: '',
+      idx: 3
+    }];
+    var t = [];
+    for (var i = 0, l = ab.length; i < l; i++){
+      if (1 === m[ab[i].idx]){
+        t.push(ab[i]);
+      }
+    }
+    return t;
+  };
+
   $scope.project = $rootScope.$stateParams.project;
   $scope.camera = {list:[]};
 
+
   $http.get(api + "projects/" + $scope.project + '/cameras', {}).success(function(response) {
+    for (var i = 0, l = response.list.length; i < l; i++){
+      response.list[i].ability = parse(response.list[i].flags);
+    }
     $scope.camera = response;
+
   }).error(function(response, status) {
     console.log('error');
   });
@@ -65,7 +116,14 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     end_to: '2055-01-01T00:00:00',
     limit: 100
   };
+  $scope.last = $scope.params;
+  $scope.index = 0;
   $scope.next = function(){
+    $scope.index++;
+    get($scope.params);
+  };
+  $scope.prev = function(){
+    $scope.index--;
     get($scope.params);
   };
 

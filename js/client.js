@@ -5,7 +5,8 @@ var app = angular.module('client', [
   // 'ngAnimate',
   'ui.router',
   'ui.bootstrap',
-  'app.controller'
+  'app.controller',
+  'app.filter'
 ])
 .run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
   // It's very handy to add references to $state and $stateParams to the $rootScope

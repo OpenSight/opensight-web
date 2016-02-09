@@ -1,23 +1,25 @@
 <div class="container-fluid" ng-controller="camera">
-  <table class="table table-condensed table-hover table-bordered table-striped" contenteditable="true">
+  <table class="table table-condensed table-hover table-bordered table-striped">
     <thead>
       <tr>
         <th class="col-sm-2">摄像机名称</th>
-        <th class="col-sm-4">uuid</th>
-        <th class="col-sm-2">flags</th>
         <th class="col-sm-1">在线状态</th>
-        <th class="col-sm-2">描述</th>
-        <th class="col-sm-1">删除</th>
+        <th class="col-sm-3">描述</th>
+        <th class="col-sm-2">预览</th>
+        <th class="col-sm-4">uuid</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="item in camera.list">
         <td>{{item.name}}</td>
-        <td>{{item.uuid}}</td>
-        <td>{{item.flags}}</td>
-        <td>{{item.is_online}}</td>
+        <td>{{item.is_online|online}}</td>
         <td>{{item.desc}}</td>
-        <td ng-click="del(item)" style="cursor:pointer;"><i class="fa fa-trash"></i></td>
+        <td>
+          <div class="btn-group btn-group-xs">
+            <button ng-repeat="it in item.ability" class="btn btn-primary" role="group" title={{it.title}} >{{it.text}}</button>
+          </div>
+        </td>
+        <td>{{item.uuid}}</td>
       </tr>
     </tbody>
   </table>
