@@ -1,7 +1,7 @@
 'use strict';
 var api = 'http://121.41.72.231:5001/api/ivc/v1/';
 angular.module('app.controller', []).controller('header', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
-  $scope.username = 'boss';
+  $scope.username = $rootScope.$jwt.get().aud;
   $scope.project = {
     list: []
   };
@@ -146,7 +146,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   };
   get($scope.params);
 }]).controller('default', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
-  $scope.username = 'boss';
+  $scope.username = $rootScope.$jwt.get().aud;
   $scope.project = $rootScope.project;
 
   $http.get(api + "users/" + $scope.username, {}).success(function(response) {
@@ -157,5 +157,13 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   $scope.$on('projectChangeSuccess', function(event, data) {
     $scope.project = data;
     console.log('projectChangeSuccess');
+  });
+}]).controller('user', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+  $scope.username = $rootScope.$jwt.get().aud;
+
+  $http.get(api + "users/" + $scope.username, {}).success(function(response) {
+    $scope.info = response;
+  }).error(function(response, status) {
+    console.log('error');
   });
 }]);

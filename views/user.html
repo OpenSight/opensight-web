@@ -1,1 +1,51 @@
-user
+<div class="container" ng-controller="user">
+  <form>
+    <div class="form-group">
+      <label>用户名</label>
+      <p class="form-control-static">{{username}}</p>
+    </div>
+    <div class="form-group">
+      <label>职位</label>
+      <input type="text" class="form-control" ng-model="info.title">
+    </div>
+    <div class="form-group">
+      <label>手机号</label>
+      <p class="form-control-static">{{info.cellphone}}</p>
+    </div>
+    <div class="form-group">
+      <label>电子邮箱</label>
+      <input type="text" class="form-control" ng-model="info.email">
+    </div>
+    <div class="form-group">
+      <label>简述</label>
+      <input type="text" class="form-control" ng-model="info.desc">
+    </div>
+    <div class="form-group">
+      <label>详细描述</label>
+      <textarea class="form-control" rows="3" ng-model="info.long_desc"></textarea>
+    </div>
+    <div class="form-group">
+      <label>用户类型</label>
+      <input type="text" class="form-control" ng-model="info.user_type">
+    </div>
+    <div class="form-group">
+      <label>flags</label>
+      <input type="text" class="form-control" ng-model="info.flags">
+    </div>
+    <div class="form-group">
+      <label>创建时间</label>
+      <p class="form-control-static">{{info.ctime}}</p>
+    </div>
+    <div class="form-group">
+      <label>更新时间</label>
+      <p class="form-control-static">{{info.utime}}</p>
+    </div>
+    <div class="form-group">
+      <label>上次登录时间</label>
+      <p class="form-control-static">{{info.ltime}}</p>
+    </div>
+    <p>
+      <button type="submit" class="btn btn-primary" ng-click="save()">保存</button>
+    </p>
+  </form>
+</div>
