@@ -10,4 +10,12 @@ angular.module('app.filter', []).filter('online', [function() {
       return '离线';
     }
   };
+}]).filter('publicattribute', [function() {
+  return function(bBublic) {
+    if (true === bBublic){
+      return '公开';
+    } else {
+      return '私有';
+    }
+  };
 }]);

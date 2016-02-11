@@ -38,4 +38,8 @@ body{
     padding-bottom: 15px;
   }
 }
-
+.client-card{
+  background-color: #F4F5F7;
+  border-radius: 0;
+  box-shadow: 3px 3px 8px #ddd;
+}
