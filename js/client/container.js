@@ -16,10 +16,12 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
 
   $http.get(api + "projects", {}).success(function(response) {
     $scope.project = response;
+    $rootScope.project = response;
+    $rootScope.$broadcast('projectChangeSuccess', response);
   }).error(function(response, status) {
     console.log('error');
   });
-  $scope.$on('responseErrorStart', function(rejection, response, status) {
+  $scope.$on('responseErrorStart', function(rejection) {
     console.log('responseErrorStart');
   });
 }]).controller('project', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
@@ -143,4 +145,17 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     });
   };
   get($scope.params);
+}]).controller('default', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+  $scope.username = 'boss';
+  $scope.project = $rootScope.project;
+
+  $http.get(api + "users/" + $scope.username, {}).success(function(response) {
+    $scope.userinfo = response;
+  }).error(function(response, status) {
+    console.log('error');
+  });
+  $scope.$on('projectChangeSuccess', function(event, data) {
+    $scope.project = data;
+    console.log('projectChangeSuccess');
+  });
 }]);
