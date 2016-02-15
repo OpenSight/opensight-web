@@ -1,4 +1,4 @@
-login.controller('loginCtrl', ['$scope', '$http', '$q','$location','$window', function($scope, $http, $q ,$location, $window){
+login.controller('loginCtrl', ['$scope', '$http', '$q','$location','$window','$cookieStore', function($scope, $http, $q ,$location, $window, $cookieStore){
     $scope.auth = (function () {
         return {
             check: function () {
@@ -45,7 +45,13 @@ login.controller('loginCtrl', ['$scope', '$http', '$q','$location','$window', fu
                     $http.post("http://121.41.72.231:5001/api/ivc/v1/user_login", postData, {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
-                            $window.location.href = "index.html?user="+$scope.admin+"&token="+response.jwt;
+                            $cookieStore.put('jwt',response.jwt);
+                            /*     var favoriteCookie = $cookieStore.get('myFavorite');
+                            *     // Removing a cookie
+                            *     $cookieStore.remove('myFavorite');
+                            *     */
+                            //$window.location.href = "index.html?user="+$scope.admin+"&token="+response.jwt;
+                            $window.location.href = "index.html?user="+$scope.admin;
                         }).error(function (response,state) {
                             var msg = "code: "+ state + "\n" + "message:" + response;
                             $scope.auth.init();

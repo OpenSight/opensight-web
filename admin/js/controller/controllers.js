@@ -10,9 +10,10 @@ G_token = G_GetQueryString("token");
 G_user = G_GetQueryString("user");
 G_salt = "opensight.cn";
 
-app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', function($scope, $http, $q, $window){
+app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore', function($scope, $http, $q, $window, $cookieStore){
     //$scope.token = G_GetQueryString("token");
     //$scope.user = G_GetQueryString("user");
+    G_token = $cookieStore.get('jwt');
     $scope.token = G_token;
     $scope.user = G_user;
     $scope.$on("Ctr1ModalShow",

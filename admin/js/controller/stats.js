@@ -1,4 +1,4 @@
-app.register.controller('Stats', ['$scope', '$http', '$q','$state', function($scope, $http, $q,$state){
+app.register.controller('Stats', ['$scope', '$http', '$q','$state', function($scope, $http, $q, $state){
     $scope.state = {};
     $scope.state.userCount =  "获取中";
     $scope.state.userOnline =  "获取中";

@@ -1,4 +1,4 @@
-var login = angular.module('login', []);
+var login = angular.module('login', ['ngCookies']);
 var G_salt = "opensight.cn";
 
 login.config(function($controllerProvider, $compileProvider, $filterProvider, $provide) {
