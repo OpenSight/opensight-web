@@ -75,6 +75,10 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
                 }
             }
         })
+        .state('home.projectDetail', {
+            url: '/projectsDetail'
+
+        })
         .state('userInfo', {
             url: '/user',
             templateUrl: './views/userInfo.html',

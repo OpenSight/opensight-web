@@ -170,6 +170,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                         if ($scope.project.data_mod.bDetailShown === undefined) $scope.project.data_mod.bDetailShown = false;
                         $scope.project.data_mod.bDetailShown = !(true === $scope.project.data_mod.bDetailShown);
                         */
+                        //$state.go('home.projectDetail');
                         $scope.project.listShown = false;
                         $scope.project.data_mod.bDetailShown = true;
                         if ($scope.project.data_mod.bDetailShown === true) {//开

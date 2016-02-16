@@ -1,4 +1,4 @@
-login.controller('loginCtrl', ['$scope', '$http', '$q','$location','$window','$cookieStore', function($scope, $http, $q ,$location, $window, $cookieStore){
+login.controller('loginCtrl', ['$scope', '$http', '$q','$location','$window','$cookieStore', function($scope, $http, $q ,$location, $window, $cookies){
     $scope.auth = (function () {
         return {
             check: function () {
@@ -35,17 +35,23 @@ login.controller('loginCtrl', ['$scope', '$http', '$q','$location','$window','$c
             },
 
             crypt_get: function () {
+                var d = new Date ();
+                d.setHours(d.getHours() + 1);
+                var e = Math.ceil(d.getTime() / 1000);
                 var postData = {
                     username: $scope.admin,
-                    password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2($scope.passwd, G_salt, 100000))
-
+                    password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2($scope.passwd, G_salt, 100000)),
+                    expired: e
                 };
 
                 $scope.aborter = $q.defer(),
                     $http.post("http://121.41.72.231:5001/api/ivc/v1/user_login", postData, {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
-                            $cookieStore.put('jwt',response.jwt);
+                            $cookies.put('jwt',response.jwt,{'expires': 30});
+                            //$cookies.put('jwt',response.jwt);
+                            $cookies.put('username',postData.username,{'expires': 30});
+                            $cookies.put('password',postData.password,{'expires': 30});
                             /*     var favoriteCookie = $cookieStore.get('myFavorite');
                             *     // Removing a cookie
                             *     $cookieStore.remove('myFavorite');
