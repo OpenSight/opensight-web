@@ -16,22 +16,22 @@
 <div class="panel os-panel" ng-show="customer.addShown">
     <div class="panel-body">
         <form class="form-horizontal os-form" role="form">
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">用户名</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="customer.data_add.username" required />
+                    <input type="text" class="form-control" ng-model="customer.data_add.username" placeholder="必填项" required />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">密码</label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" ng-model="customer.data_add.password" required />
+                    <input type="password" class="form-control" ng-model="customer.data_add.password" placeholder="必填项" required />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">别名</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="customer.data_add.title" required />
+                    <input type="text" class="form-control" ng-model="customer.data_add.title" placeholder="必填项" required />
                 </div>
             </div>
 
@@ -65,10 +65,10 @@
                     <input type="text" class="form-control" ng-model="customer.data_add.cellphone" />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">电子邮箱</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="customer.data_add.email" required />
+                    <input type="text" class="form-control" ng-model="customer.data_add.email" placeholder="必填项" required />
                 </div>
             </div>
 
@@ -88,7 +88,7 @@
         <thead>
         <tr>
             <th class="col-sm-2">用户名</th>
-            <th class="col-sm-2">职位</th>
+            <th class="col-sm-2">别名</th>
             <th class="col-sm-2">类型</th>
             <th class="col-sm-4">描述</th>
             <th class="col-sm-2">删除</th>

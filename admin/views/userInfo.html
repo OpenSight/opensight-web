@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">ltime</label>
+                                    <label class="col-sm-2 control-label">日志记录时间</label>
                                     <div class="col-sm-4">
                                         <p class="form-control-static">{{userinfo.data_mod.data.ltime}}</p>
                                     </div>
@@ -90,22 +90,22 @@
                         <div class="panel os-panel" >
                         <div class="panel-body">
                             <form class="form-horizontal os-form" role="form">
-                                <div class="form-group">
+                                <div class="form-group has-error">
                                     <label class="col-sm-2 control-label">旧密码</label>
                                     <div class="col-sm-4">
-                                        <input type="password" class="form-control" ng-model="userinfo.data_mod.old_password" required />
+                                        <input type="password" class="form-control" placeholder="必填项" ng-model="userinfo.data_mod.old_password" required />
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group has-error">
                                     <label class="col-sm-2 control-label">新密码</label>
                                     <div class="col-sm-4">
-                                        <input type="password" class="form-control" ng-model="userinfo.data_mod.new_password" required />
+                                        <input type="password" class="form-control" placeholder="必填项" ng-model="userinfo.data_mod.new_password" required />
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group has-error">
                                     <label class="col-sm-2 control-label">确认密码</label>
                                     <div class="col-sm-4">
-                                        <input type="password" class="form-control" ng-model="userinfo.data_mod.new_password_confirm" required />
+                                        <input type="password" class="form-control" placeholder="必填项" ng-model="userinfo.data_mod.new_password_confirm" required />
                                     </div>
                                 </div>
                                 <div class="form-group os-submit-group">

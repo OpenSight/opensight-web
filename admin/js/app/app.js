@@ -15,11 +15,14 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
         }];
     };
 
+
     $urlRouterProvider
+        .when('/home/jump', '/home/projects')
+        .when('/home', '/home/stats')
         .otherwise('/home/stats');
 
     $stateProvider
-        .state('home', {
+       .state('home', {
             url: '/home',
             views: {
                 '':{
@@ -40,6 +43,9 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
                     }
                 }
             }
+        })
+        .state('home.jump', {
+            url: '/jump'
         })
         .state('home.keyManage', {
             url: '/key_manage',

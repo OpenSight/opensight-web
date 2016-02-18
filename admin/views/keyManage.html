@@ -16,10 +16,10 @@
         <div class="panel os-panel" ng-show="access.addShown">
             <div class="panel-body">
                 <form class="form-horizontal os-form" role="form">
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label class="col-sm-2 control-label">用户名</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" ng-model="access.data_add.username" required/>
+                            <input type="text" class="form-control" ng-model="access.data_add.username" placeholder="必填项" required/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -59,8 +59,8 @@
                     <th class="col-sm-3">id</th>
                     <th class="col-sm-1">启用</th>
                     <th class="col-sm-2">类型</th>
-                    <th class="col-sm-3">描述</th>
-                    <th class="col-sm-2">ctime</th>
+                    <th class="col-sm-2">用户名</th>
+                    <th class="col-sm-3">生成时间</th>
                     <th class="col-sm-1">删除</th>
                 </tr>
                 </thead>
@@ -69,7 +69,7 @@
                     <td ng-click="access.data.showDetail(u, $index)">{{u.key_id}}</td>
                     <td ng-click="access.data.showDetail(u, $index)">{{u.enabled===true?"启用":"停用"}}</td>
                     <td ng-click="access.data.showDetail(u, $index)">{{u.key_type===0?"普通权限密钥":"管理员权限密钥"}}</td>
-                    <td ng-click="access.data.showDetail(u, $index)">{{u.desc}}</td>
+                    <td ng-click="access.data.showDetail(u, $index)">{{u.username}}</td>
                     <td ng-click="access.data.showDetail(u, $index)">{{u.ctime}}</td>
                     <td ng-click="access.delete_one(u)" style="cursor:pointer;"><i class="fa fa-trash"></i></td>
                 </tr>

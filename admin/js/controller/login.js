@@ -57,7 +57,7 @@ login.controller('loginCtrl', ['$scope', '$http', '$q','$location','$window','$c
                             *     $cookieStore.remove('myFavorite');
                             *     */
                             //$window.location.href = "index.html?user="+$scope.admin+"&token="+response.jwt;
-                            $window.location.href = "index.html?user="+$scope.admin;
+                            $window.location.href = "index.html";
                         }).error(function (response,state) {
                             var msg = "code: "+ state + "\n" + "message:" + response;
                             $scope.auth.init();

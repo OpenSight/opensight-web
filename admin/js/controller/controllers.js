@@ -6,14 +6,16 @@ function G_GetQueryString(name)
     var r = window.location.search.substr(1).match(reg);
     if(r!=null)return  unescape(r[2]); return null;
 }
-G_token = G_GetQueryString("token");
-G_user = G_GetQueryString("user");
+//G_token = G_GetQueryString("token");
+//G_user = G_GetQueryString("user");
 G_salt = "opensight.cn";
 
 app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore', function($scope, $http, $q, $window, $cookies){
     //$scope.token = G_GetQueryString("token");
     //$scope.user = G_GetQueryString("user");
     G_token = $cookies.get('jwt');
+    G_user = $cookies.get('username');
+    if (G_token===undefined) $window.location.href = "login.html";
     $scope.token = G_token;
     $scope.user = G_user;
     $scope.$on("Ctr1ModalShow",

@@ -17,28 +17,28 @@
 <div class="panel os-panel" ng-show="project.addShown">
     <div class="panel-body">
         <form class="form-horizontal os-form" role="form">
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">项目名称</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="project.data_add.project_name" required />
+                    <input type="text" class="form-control" ng-model="project.data_add.project_name" placeholder="必填项" required />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">项目标题</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="project.data_add.title" required />
+                    <input type="text" class="form-control" ng-model="project.data_add.title" placeholder="必填项"  required />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">流并发数</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="project.data_add.max_media_sessions" required />
+                    <input type="text" class="form-control" ng-model="project.data_add.max_media_sessions" placeholder="必填项" required />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">媒体服务器</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="project.data_add.media_server" required />
+                    <input type="text" class="form-control" ng-model="project.data_add.media_server" placeholder="必填项" required />
                 </div>
             </div>
             <div class="form-group">
@@ -195,22 +195,22 @@
 <div class="panel os-panel" ng-show="project.device.addShown">
     <div class="panel-body">
         <form class="form-horizontal os-form" role="form">
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">设备名称</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="project.device.data_add.name" required />
+                    <input type="text" class="form-control" ng-model="project.device.data_add.name" placeholder="必填项" required />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">设备类型</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="project.device.data_add.type" required />
+                    <input type="text" class="form-control" ng-model="project.device.data_add.type" placeholder="必填项" required />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">设备标志位</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="project.device.data_add.flags" required />
+                    <input type="text" class="form-control" ng-model="project.device.data_add.flags" placeholder="必填项" required />
                 </div>
             </div>
             <div class="form-group">
@@ -219,10 +219,10 @@
                     <input type="text" class="form-control" ng-model="project.device.data_add.login_code" />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-error">
                 <label class="col-sm-2 control-label">设备登陆密码</label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" ng-model="project.device.data_add.login_passwd" required />
+                    <input type="password" class="form-control" ng-model="project.device.data_add.login_passwd" placeholder="必填项" required />
                 </div>
             </div>
             <div class="form-group">
@@ -330,10 +330,10 @@
                                     <!--input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].type" required /-->
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group has-error">
                                 <label class="col-sm-2 control-label">flags</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].flags" required />
+                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].flags" placeholder="必填项" required />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -348,10 +348,10 @@
                                     <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].login_code"  />
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group has-error">
                                 <label class="col-sm-2 control-label">设备登陆密码</label>
                                 <div class="col-sm-4">
-                                    <input type="password" class="form-control" ng-model="project.device.data_mod.data[$index].login_passwd" required />
+                                    <input type="password" class="form-control" ng-model="project.device.data_mod.data[$index].login_passwd" placeholder="必填项" required />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -415,7 +415,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">ltime</label>
+                                <label class="col-sm-2 control-label">日志生成时间</label>
                                 <div class="col-sm-4">
                                     <p class="form-control-static">{{project.device.data_mod.data[$index].ltime}}</p>
                                 </div>
@@ -453,28 +453,28 @@
     <div class="panel os-panel" ng-show="project.camera.addShown">
         <div class="panel-body">
             <form class="form-horizontal os-form" role="form">
-                <div class="form-group">
+                <div class="form-group has-error">
                     <label class="col-sm-2 control-label">摄像机名称</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.camera.data_add.name" required />
+                        <input type="text" class="form-control" ng-model="project.camera.data_add.name" placeholder="必填项" required />
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group has-error">
                     <label class="col-sm-2 control-label">所属设备id</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.camera.data_add.device_uuid" required />
+                        <input type="text" class="form-control" ng-model="project.camera.data_add.device_uuid" placeholder="必填项" required />
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group has-error">
                     <label class="col-sm-2 control-label">所属设备通道</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.camera.data_add.channel_index" required />
+                        <input type="text" class="form-control" ng-model="project.camera.data_add.channel_index" placeholder="必填项" required />
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group has-error">
                     <label class="col-sm-2 control-label">flags</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.camera.data_add.flags" required />
+                        <input type="text" class="form-control" ng-model="project.camera.data_add.flags" placeholder="必填项" required />
                     </div>
                 </div>
                 <div class="form-group">
@@ -668,10 +668,10 @@
     <div class="panel os-panel" ng-show="project.user.addShown">
         <div class="panel-body">
             <form class="form-horizontal os-form" role="form">
-                <div class="form-group">
+                <div class="form-group has-error">
                     <label class="col-sm-2 control-label">用户名</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.user.data_add.username" required />
+                        <input type="text" class="form-control" ng-model="project.user.data_add.username" placeholder="必填项" required />
                     </div>
                 </div>
                 <div class="form-group os-submit-group">
@@ -691,7 +691,7 @@
             <thead>
             <tr>
                 <th class="col-sm-2">用户名</th>
-                <th class="col-sm-2">title</th>
+                <th class="col-sm-2">别名</th>
                 <th class="col-sm-2">flags</th>
                 <th class="col-sm-2">类型</th>
                 <th class="col-sm-2">描述</th>
@@ -719,7 +719,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">title</label>
+                                    <label class="col-sm-2 control-label">别名</label>
                                     <div class="col-sm-4">
                                         <p class="form-control-static">{{project.user.data_mod.data[$index].title}}</p>
                                     </div>
@@ -761,7 +761,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">ltime</label>
+                                    <label class="col-sm-2 control-label">日志记录时间</label>
                                     <div class="col-sm-4">
                                         <p class="form-control-static">{{project.user.data_mod.data[$index].ltime}}</p>
                                     </div>
