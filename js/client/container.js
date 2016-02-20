@@ -110,6 +110,34 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   }).error(function(response, status) {
     console.log('error');
   });
+}]).controller('camera-detail', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+  $scope.project = $rootScope.$stateParams.project;
+  $scope.camera = $rootScope.$stateParams.camera;
+  $scope.url = api + "projects/" + $scope.project + '/cameras/' + $scope.camera;
+
+  $http.get($scope.url, {
+  }).success(function(response) {
+    $scope.info = response;
+  }).error(function(response, status) {
+    console.log('error');
+  });
+
+  $scope.save = function(){
+    var data = {
+      flags: $scope.info.flags,
+      desc: $scope.info.desc,
+      long_desc: $scope.info.long_desc,
+      longitude: $scope.info.longitude,
+      latitude: $scope.info.latitude,
+      altitude: $scope.info.altitude,
+      Authorization: $scope.info.Authorization,
+    };
+    $http.put($scope.url, data).success(function(response) {
+      console.log('success');
+    }).error(function(response, status) {
+      console.log('error');
+    });
+  };
 }]).controller('log', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.project = $rootScope.$stateParams.project;
   $scope.log = {list:[]};

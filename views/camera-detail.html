@@ -1,0 +1,67 @@
+<div class="container-fluid" ng-controller="camera-detail">
+  <form>
+    <div class="form-group">
+      <label>摄像机名称</label>
+      <input type="text" class="form-control" ng-model="info.name">
+    </div>
+    <div class="form-group">
+      <label>所属项目</label>
+      <p class="form-control-static">{{info.project_name}}</p>
+    </div>
+    <div class="form-group">
+      <label>id</label>
+      <p class="form-control-static">{{info.uuid}}</p>
+    </div>
+    <div class="form-group">
+      <label>设备id</label>
+      <p class="form-control-static">{{info.device_uuid}}</p>
+    </div>
+    <div class="form-group">
+      <label>通道索引</label>
+      <p class="form-control-static">{{info.channel_index}}</p>
+    </div>
+    <div class="form-group">
+      <label>状态</label>
+      <p class="form-control-static">{{info.is_online|online}}</p>
+    </div>
+    <div class="form-group">
+      <label>摄像头标志位</label>
+      <p class="form-control-static">{{info.flags}}</p>
+    </div>
+    <div class="form-group">
+      <label>简述</label>
+      <input type="text" class="form-control" ng-model="info.desc">
+    </div>
+    <div class="form-group">
+      <label>详细描述</label>
+      <textarea class="form-control" rows="3" ng-model="info.long_desc"></textarea>
+    </div>
+    <div class="form-group">
+      <label>经度</label>
+      <input type="text" class="form-control" ng-model="info.longitude">
+    </div>
+    <div class="form-group">
+      <label>纬度</label>
+      <input type="text" class="form-control" ng-model="info.latitude">
+    </div> 
+    <div class="form-group">
+      <label>海拔</label>
+      <input type="text" class="form-control" ng-model="info.altitude">
+    </div>
+    <div class="form-group">
+      <label>认证header</label>
+      <input type="text" class="form-control" ng-model="info.Authorization">
+    </div>
+    <div class="form-group">
+      <label>创建时间</label>
+      <p class="form-control-static">{{info.ctime}}</p>
+    </div>
+    <div class="form-group">
+      <label>更新时间</label>
+      <p class="form-control-static">{{info.utime}}</p>
+    </div>
+    <p>
+      <button type="submit" class="btn btn-primary" ng-click="save()">保存</button>
+    </p>
+  </form>
+</div>

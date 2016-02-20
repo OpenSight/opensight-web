@@ -40,7 +40,7 @@ var HlsVideo = function(opts){
 HlsVideo.prototype = {
   init: function(){
     this.createSession();
-    this.getCamareInfo();
+    this.getCameraInfo();
     this.on();
     this.updateTip();
   },
@@ -81,7 +81,7 @@ HlsVideo.prototype = {
     }
     player.play();
   },
-  getCamareInfo: function(){
+  getCameraInfo: function(){
     var _this = this;
     $.ajax({
       url: this.api +  this.project + '/cameras/' + this.uuid,
@@ -90,14 +90,14 @@ HlsVideo.prototype = {
       type: 'GET',
       success: function(info){
         // $('#img').attr('src', info.preview);
-        _this.showCamareInfo(info);
+        _this.showCameraInfo(info);
       },
       error: function(){
         _this.error();
       }
     });
   },
-  showCamareInfo: function(info){
+  showCameraInfo: function(info){
     $('#name').text(info.name);
     $('#desc').text(info.desc);
     $('#long_desc').text(info.long_desc);

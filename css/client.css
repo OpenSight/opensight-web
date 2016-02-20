@@ -43,3 +43,9 @@ body{
   border-radius: 0;
   box-shadow: 3px 3px 8px #ddd;
 }
+.client-icon{
+  cursor: pointer;
+}
+.client-icon:hover{
+  color: #25a8e1;
+}

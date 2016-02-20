@@ -63,9 +63,13 @@ var app = angular.module('client', [
       url: '/project',
       templateUrl: 'views/project.html'
     })
-    .state('project.camare', {
-      url: '/camare',
-      templateUrl: 'views/camare.html'
+    .state('project.camera', {
+      url: '/camera',
+      templateUrl: 'views/camera.html'
+    })
+    .state('project.camera-detail', {
+      url: '/camera/:camera',
+      templateUrl: 'views/camera-detail.html'
     })
     .state('project.log', {
       url: '/log',
