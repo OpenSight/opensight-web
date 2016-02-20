@@ -415,7 +415,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">日志生成时间</label>
+                                <label class="col-sm-2 control-label">最后心跳时间</label>
                                 <div class="col-sm-4">
                                     <p class="form-control-static">{{project.device.data_mod.data[$index].ltime}}</p>
                                 </div>
@@ -637,9 +637,11 @@
                                 </div>
                                 <div class="form-group os-submit-group">
                                     <label class="col-sm-1 control-label"></label>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-8">
                                         <button class="btn btn-default" ng-click="project.camera.data_mod.submitForm(u,$index)"><i class="fa fa-check"></i>&nbsp;确定</button>
                                         <button class="btn btn-default" ng-click="project.camera.data_mod.reset(u,$index)"><i class="fa fa-remove"></i>&nbsp;取消</button>
+                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(u,$index,true)"><i class="fa fa-play"></i>&nbsp;开启直播</button>
+                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(u,$index,false)"><i class="fa fa-stop"></i>&nbsp;停止直播</button>
                                     </div>
                                 </div>
                             </form>
@@ -761,7 +763,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">日志记录时间</label>
+                                    <label class="col-sm-2 control-label">最后心跳时间</label>
                                     <div class="col-sm-4">
                                         <p class="form-control-static">{{project.user.data_mod.data[$index].ltime}}</p>
                                     </div>

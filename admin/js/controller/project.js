@@ -846,6 +846,41 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                 });
                     },
 
+                    play_switch: function (item,index,enable) {
+                        var postData =  {
+                            enable: enable
+                        };
+
+                        $scope.aborter = $q.defer(),
+                            $http.post("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras/"+item.uuid+"/stream_toggle", postData,{
+                                timeout: $scope.aborter.promise,
+                                headers:  {
+                                    "Authorization" : "Bearer "+$scope.authToken,
+                                    "Content-Type": "application/json"
+                                }
+                            }).success(function (response) {
+
+                                }).error(function (response,status) {
+                                    var tmpMsg = {};
+                                    tmpMsg.Label = "错误";
+                                    tmpMsg.ErrorContent = "camera"+ item.name +"直播控制失败";
+                                    tmpMsg.ErrorContentDetail = response;
+                                    tmpMsg.SingleButtonShown = true;
+                                    tmpMsg.MutiButtonShown = false;
+                                    //tmpMsg.Token =  $scope.project.camera.data_mod.addHotSpToken;
+                                    tmpMsg.Callback = "modMdCallBack";
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                        //$scope.$emit("Logout", tmpMsg);
+                                        $state.go('logOut',{info: response.info,traceback: response.traceback});
+                                    }else
+                                        $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                                    //$scope.project.camera.data_mod.hotRefresh(item, index);
+                                });
+                    },
+
+
+
                     submitForm: function (item,index) {
                         var postData =  {
                             flags: $scope.project.camera.data_mod.data[index].flags,
