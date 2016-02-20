@@ -40,6 +40,7 @@ var app = angular.module('client', [
   $urlRouterProvider
     // .when('/c?id', '/contacts/:id')
     .when('/project/:name', '/project/:name/project')
+    .when('/user', '/user/info')
     .otherwise('/default');
   // Use $stateProvider to configure your states.
   $stateProvider
@@ -49,7 +50,15 @@ var app = angular.module('client', [
     })
     .state('user', {
       url: '/user',
-      templateUrl: 'views/user.html'
+      templateUrl: 'views/user-menu.html'
+    })
+    .state('user.info', {
+      url: '/info',
+      templateUrl: 'views/user-info.html'
+    })
+    .state('user.passwd', {
+      url: '/passwd',
+      templateUrl: 'views/user-passwd.html'
     })
     .state('key', {
       url: '/key',

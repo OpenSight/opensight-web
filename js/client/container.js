@@ -14,7 +14,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     }
   });
 
-  $http.get(api + "projects", {}).success(function(response) {
+  $http.get(api + "users/" + $scope.username + '/projects', {}).success(function(response) {
     $scope.project = response;
     $rootScope.project = response;
     $rootScope.$broadcast('projectChangeSuccess', response);
@@ -129,8 +129,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       long_desc: $scope.info.long_desc,
       longitude: $scope.info.longitude,
       latitude: $scope.info.latitude,
-      altitude: $scope.info.altitude,
-      Authorization: $scope.info.Authorization,
+      altitude: $scope.info.altitude
     };
     $http.put($scope.url, data).success(function(response) {
       console.log('success');
@@ -186,7 +185,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     $scope.project = data;
     console.log('projectChangeSuccess');
   });
-}]).controller('user', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+}]).controller('user-info', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.username = $rootScope.$jwt.get().aud;
 
   $http.get(api + "users/" + $scope.username, {}).success(function(response) {
@@ -194,4 +193,25 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   }).error(function(response, status) {
     console.log('error');
   });
+}]).controller('user-passwd', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+  $scope.username = $rootScope.$jwt.get().aud;
+  $scope.old_password = '';
+  $scope.new_password = '';
+  $scope.repeat_password = '';
+
+  $scope.save = function(){
+    if ($scope.new_password !== $scope.repeat_password){
+      alert('确认密码输入不一致');
+      return false;
+    }
+    var data = {
+      old_password: $scope.old_password,
+      new_password: $scope.new_password
+    }
+    $http.put(api + "users/" + $scope.username + '/password', data).success(function(response) {
+      console.log('success');
+    }).error(function(response, status) {
+      console.log('error');
+    });
+  };
 }]);
