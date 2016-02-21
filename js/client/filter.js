@@ -18,4 +18,20 @@ angular.module('app.filter', []).filter('online', [function() {
       return '私有';
     }
   };
+}]).filter('key_type', [function() {
+  return function(type) {
+    if (1 === type){
+      return '管理员';
+    } else {
+      return '操作员';
+    }
+  };
+}]).filter('key_enabled', [function() {
+  return function(enabled) {
+    if (true === enabled){
+      return '启用';
+    } else {
+      return '停用';
+    }
+  };
 }]);

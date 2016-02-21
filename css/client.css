@@ -46,6 +46,35 @@ body{
 .client-icon{
   cursor: pointer;
 }
+.pagination-condensed{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.pagination-condensed>li>a,.pagination-condensed>li>span{
+  padding: 2px 5px;
+}
 .client-icon:hover{
   color: #25a8e1;
+}
+/*video page*/
+.live{
+  position: relative;
+}
+.img-container{
+  visibility: hidden;
+}
+.img-container img{
+  width: 100%;
+}
+.player-container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #000 url(../img/play-logo.png) no-repeat center;
+}
+.play-tip{
+  padding: 5px;
+  color: #FFF;
 }

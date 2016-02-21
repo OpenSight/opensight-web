@@ -3,24 +3,52 @@
     <thead>
       <tr>
         <th class="col-sm-2">摄像机名称</th>
-        <th class="col-sm-1">在线状态</th>
-        <th class="col-sm-3">描述</th>
-        <th class="col-sm-2">预览</th>
-        <th class="col-sm-4">配置</th>
+        <th class="col-sm-1 text-center">在线状态</th>
+        <th class="col-sm-2 text-center">允许直播</th>
+        <th class="col-sm-2 text-center">预览</th>
+        <th class="col-sm-1 text-center">操作</th>
+        <th class="col-sm-4">描述</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="item in camera.list">
         <td>{{item.name}}</td>
-        <td>{{item.is_online|online}}</td>
-        <td>{{item.desc}}</td>
-        <td>
+        <td class="text-center">{{item.is_online|online}}</td>
+        <td class="text-center">
           <div class="btn-group btn-group-xs">
-            <button ng-repeat="it in item.ability" class="btn btn-primary" role="group" title={{it.title}} >{{it.text}}</button>
+            <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[item.live]" title="允许直播" ng-click="enable(item, true)">允许</button>
+            <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[item.live]" title="禁止直播" ng-click="enable(item, false)">禁止</button>
           </div>
         </td>
-        <td><i class="glyphicon glyphicon-cog client-icon" ui-sref="project.camera-detail({camera: item.uuid})"></i></td>
+        <td class="text-center">
+          <div class="btn-group btn-group-xs">
+            <button ng-repeat="it in item.ability" class="btn btn-default text-primary" ng-disabled="!item.live" role="group" title={{it.title}} ng-click="preview(item, it.text)">{{it.text}}</button>
+          </div>
+        </td>
+        <td class="text-center"><i class="glyphicon glyphicon-cog client-icon" ui-sref="project.camera-detail({camera: item.uuid})"></i></td>
+        <td>{{item.desc}}</td>
       </tr>
     </tbody>
   </table>
+  <script type="text/ng-template" id="sessionModalContent.html">
+    <div class="modal-header">
+      <h3 class="modal-title">{{cam.name}}</h3>
+    </div>
+    <div class="modal-body">
+      <div class="live">
+        <div class="img-container"><img id="img" src="img/video.jpg" alt=""></div>
+        <div class="player-container">
+          <div id="videoPlayer">
+            <p class="play-tip pull-right">
+              <span class="text-primary" id="playTipSec">10</span>
+                秒之后直播开始
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">关闭</button>
+    </div>
+  </script>
 </div>

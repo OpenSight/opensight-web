@@ -1,1 +1,39 @@
-key
+<div class="container" ng-controller="key">
+  <table class="table table-condensed table-hover table-bordered table-striped">
+    <thead>
+      <tr>
+        <th class="col-sm-2">id</th>
+        <th class="col-sm-2">用户名</th>
+        <th class="col-sm-1">类型</th>
+        <th class="col-sm-1">状态</th>
+        <th class="col-sm-3">描述</th>
+        <th class="col-sm-2">创建时间</th>
+        <th class="col-sm-1">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in keys.list">
+        <td>{{item.key_id}}</td>
+        <td>{{item.username}}</td>
+        <td>{{item.key_type|key_type}}</td>
+        <td>{{item.enabled|key_enabled}}</td>
+        <td>{{item.desc}}</td>
+        <td>{{item.ctime}}</td>
+        <td>
+          <button class="btn btn-default btn-sm btn-primary" ng-click="open(item.key_id)"><i class="fa fa-key"></i>&nbsp;获取</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <script type="text/ng-template" id="secretModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">secret信息</h3>
+    </div>
+    <div class="modal-body">
+      {{secret}}
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">关闭</button>
+    </div>
+  </script>
+</div>

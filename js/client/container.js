@@ -13,8 +13,10 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       $scope.selected = toParams.project;
     }
   });
+  $scope.url = api + "users/" + $scope.username + '/projects';
+  $scope.url = api + 'projects';
 
-  $http.get(api + "users/" + $scope.username + '/projects', {}).success(function(response) {
+  $http.get($scope.url, {}).success(function(response) {
     $scope.project = response;
     $rootScope.project = response;
     $rootScope.$broadcast('projectChangeSuccess', response);
@@ -50,7 +52,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       console.log('error');
     });
   };
-}]).controller('camera', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+}]).controller('camera', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
   var getBitmap = function(f, bits) {
     var t = [];
     var i = 0;
@@ -94,7 +96,11 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
         t.push(ab[i]);
       }
     }
-    return t;
+
+    return {
+      live: 0 === m[5],
+      ability: t
+    };
   };
 
   $scope.project = $rootScope.$stateParams.project;
@@ -103,13 +109,44 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
 
   $http.get(api + "projects/" + $scope.project + '/cameras', {}).success(function(response) {
     for (var i = 0, l = response.list.length; i < l; i++){
-      response.list[i].ability = parse(response.list[i].flags);
+      var flags = parse(response.list[i].flags);
+      response.list[i].ability = flags.ability;
+      response.list[i].live = flags.live;
     }
     $scope.camera = response;
 
   }).error(function(response, status) {
     console.log('error');
   });
+
+  $scope.enable = function(cam, enabled){
+    var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
+    if (false === confirm(tip)){
+      return false;
+    }
+    var data = {
+      enable: enabled
+    };
+    $http.post(api + "projects/" + $scope.project + '/cameras/' + cam.uuid + '/stream_toggle', data).success(function(response) {
+      console.log('success');
+      cam.live = enabled;
+    }).error(function(response, status) {
+      console.log('error');
+    });
+  };
+  $scope.preview = function(cam, quality){
+    $scope.cam = cam;
+    $scope.quality = quality;
+    var modalInstance = $uibModal.open({
+      templateUrl: 'sessionModalContent.html',
+      controller: 'session',
+      resolve: {
+        caminfo: function () {
+          return {cam: $scope.cam, quality: $scope.quality};
+        }
+      }
+    });
+  };
 }]).controller('camera-detail', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.project = $rootScope.$stateParams.project;
   $scope.camera = $rootScope.$stateParams.camera;
@@ -213,5 +250,55 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     }).error(function(response, status) {
       console.log('error');
     });
+  };
+}]).controller('key', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
+  $scope.username = $rootScope.$jwt.get().aud;
+  $scope.url = api + "users/" + $scope.username + '/access_keys';
+
+  $http.get($scope.url, {}).success(function(response) {
+    $scope.keys = response;
+  }).error(function(response, status) {
+    console.log('error');
+  });
+
+  $scope.open = function(key_id){
+    $scope.key_id = key_id;
+    var modalInstance = $uibModal.open({
+      templateUrl: 'secretModalContent.html',
+      controller: 'secret',
+      resolve: {
+        access_key: function () {
+          return $scope.key_id;
+        }
+      }
+    });
+  };
+}]).controller('secret', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'access_key', function ($scope, $rootScope, $http, $uibModalInstance, access_key) {
+  $scope.username = $rootScope.$jwt.get().aud;
+  $scope.url = api + 'access_keys/' + access_key + '/secret';
+
+  $http.get($scope.url, {}).success(function(response) {
+    $scope.secret = response.secret;
+  }).error(function(response, status) {
+    console.log('error');
+  });
+  $scope.ok = function(){
+    $uibModalInstance.close();
+  };
+}]).controller('session', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'caminfo', function ($scope, $rootScope, $http, $uibModalInstance, caminfo) {
+  $scope.username = $rootScope.$jwt.get().aud;
+  $scope.project = $rootScope.$stateParams.project;
+  $scope.cam = caminfo.cam;
+  $scope.quality = caminfo.quality;
+  $scope.url = api + 'projects/' + $scope.project + '/cameras/' + caminfo.cam.uuid + '/sessions';
+  
+
+  $http.get($scope.url, {}).success(function(response) {
+    $scope.secret = response.secret;
+  }).error(function(response, status) {
+    console.log('error');
+  });
+  $scope.ok = function(){
+    $uibModalInstance.close();
   };
 }]);

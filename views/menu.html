@@ -3,7 +3,7 @@
     <div class="col-sm-2">
       <div class="list-group">
         <a ui-sref="project.project" ui-sref-active="active" class="list-group-item">项目信息</a>
-        <a ui-sref="project.camera" ui-sref-active="active" class="list-group-item">摄像机</a>
+        <a ui-sref="project.camera" ui-sref-active="active" ng-class="{active: $state.includes('project.camera') || $state.includes('project.camera-detail')}" class="list-group-item">摄像机</a>
         <a ui-sref="project.log" ui-sref-active="active" class="list-group-item">操作记录</a>
       </div>
     </div>
