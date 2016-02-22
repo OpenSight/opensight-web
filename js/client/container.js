@@ -287,7 +287,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   };
 }]).controller('session', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'caminfo', function ($scope, $rootScope, $http, $uibModalInstance, caminfo) {
   $scope.cam = caminfo.cam;
-  $scope.time = 10;
+  $scope.sec = 10;
 
   var user = $rootScope.$jwt.get().aud;
   var project = $rootScope.$stateParams.project;
@@ -352,6 +352,9 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       clearInterval(alivetimer);
       alivetimer = undefined;
     }
+    if (undefined === $scope.id){
+      return;
+    }
     $http.delete(url + '/' + $scope.id, {}).success(function(response) {
 
     }).error(function(response, status) {
@@ -360,12 +363,12 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   };
   var updateTip = function(){
     tiptimer = setInterval(function(){
-      if (1 === $scope.time && undefined !== tiptimer){
+      if (1 === $scope.sec && undefined !== tiptimer){
         clearInterval(tiptimer);
         tiptimer = undefined;
         return;
       }
-      $scope.time--;
+      $scope.sec--;
     }, 1000);
   };
 
