@@ -524,9 +524,9 @@
             <thead>
             <tr>
                 <th class="col-sm-2">摄像机名称</th>
-                <th class="col-sm-4">uuid</th>
-                <th class="col-sm-2">flags</th>
                 <th class="col-sm-1">在线状态</th>
+                <th class="col-sm-2">直播状态</th>
+                <th class="col-sm-4">支持流类型</th>
                 <th class="col-sm-2">描述</th>
                 <th class="col-sm-1">删除</th>
             </tr>
@@ -534,9 +534,18 @@
             <tbody ng-repeat="u in project.cameralist.data.list | filter: project.cameralist.seach">
             <tr style="cursor:pointer;">
                 <td ng-click="project.camera.data.showDetail(u, $index)">{{u.name}}</td>
-                <td ng-click="project.camera.data.showDetail(u, $index)">{{u.uuid}}</td>
-                <td ng-click="project.camera.data.showDetail(u, $index)">{{u.flags}}</td>
-                <td ng-click="project.camera.data.showDetail(u, $index)">{{u.is_online}}</td>
+                <td ng-click="project.camera.data.showDetail(u, $index)">{{u.is_online|online}}</td>
+                <td>
+                    <div class="btn-group btn-group-xs">
+                        <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[u.live]" title="允许直播" ng-click="project.camera.data_mod.play_switch(u, true)">允许</button>
+                        <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[u.live]" title="禁止直播" ng-click="project.camera.data_mod.play_switch(u, false)">禁止</button>
+                    </div>
+                </td>
+                <td ng-click="project.camera.data.showDetail(u, $index)">
+                    <div class="btn-group btn-group-xs">
+                        <button ng-repeat="it in u.ability" class="btn btn-default text-primary" ng-disabled="!u.live" role="group" title={{it.title}}>{{it.text}}</button>
+                    </div>
+                </td>
                 <td ng-click="project.camera.data.showDetail(u, $index)">{{u.desc}}</td>
                 <td ng-click="project.camera.delete_one(u)" style="cursor:pointer;"><i class="fa fa-trash"></i></td>
             </tr>
@@ -640,8 +649,8 @@
                                     <div class="col-sm-8">
                                         <button class="btn btn-default" ng-click="project.camera.data_mod.submitForm(u,$index)"><i class="fa fa-check"></i>&nbsp;确定</button>
                                         <button class="btn btn-default" ng-click="project.camera.data_mod.reset(u,$index)"><i class="fa fa-remove"></i>&nbsp;取消</button>
-                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(u,$index,true)"><i class="fa fa-play"></i>&nbsp;开启直播</button>
-                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(u,$index,false)"><i class="fa fa-stop"></i>&nbsp;停止直播</button>
+                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(u,true)"><i class="fa fa-play"></i>&nbsp;开启直播</button>
+                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(u,false)"><i class="fa fa-stop"></i>&nbsp;停止直播</button>
                                     </div>
                                 </div>
                             </form>

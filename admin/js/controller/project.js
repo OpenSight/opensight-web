@@ -846,7 +846,11 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                 });
                     },
 
-                    play_switch: function (item,index,enable) {
+                    play_switch: function (item,enable) {
+                        var tip = enable ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
+                        if (false === confirm(tip)){
+                            return false;
+                        }
                         var postData =  {
                             enable: enable
                         };
@@ -859,7 +863,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                     "Content-Type": "application/json"
                                 }
                             }).success(function (response) {
-
+                                    item.live = enable;
                                 }).error(function (response,status) {
                                     var tmpMsg = {};
                                     tmpMsg.Label = "错误";
@@ -939,6 +943,56 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
         }
     })();
 
+    var getBitmap = function(f, bits) {
+        var t = [];
+        var i = 0;
+        do {
+            t[i] = f % 2;
+            f = Math.floor(f / 2);
+            i++;
+        } while (f > 0);
+        while (i < bits) {
+            t[i] = 0;
+            i++;
+        }
+        return t;
+    };
+    var parse = function(flags){
+        var m = getBitmap(flags, 8);
+        var ab = [{
+            text: 'LD',
+            title: '流畅',
+            cls: '',
+            idx: 0
+        }, {
+            text: 'SD',
+            title: '标清',
+            cls: '',
+            idx: 1
+        }, {
+            text: 'HD',
+            title: '高清',
+            cls: '',
+            idx: 2
+        }, {
+            text: 'FHD',
+            title: '超清',
+            cls: '',
+            idx: 3
+        }];
+        var t = [];
+        for (var i = 0, l = ab.length; i < l; i++){
+            if (1 === m[ab[i].idx]){
+                t.push(ab[i]);
+            }
+        }
+
+        return {
+            live: 0 === m[5],
+            ability: t
+        };
+    };
+
     $scope.project.cameralist = (function () {
         return {
             get: function () {//clean input,close add div
@@ -954,6 +1008,11 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                         }
 
                     }).success(function (response) {
+                            for (var i = 0; i < response.list.length; i++){
+                                var flags = parse(response.list[i].flags);
+                                response.list[i].ability = flags.ability;
+                                response.list[i].live = flags.live;
+                            }
                             $scope.project.cameralist.data = response;
                         }).error(function (response,status) {
                             var tmpMsg = {};
