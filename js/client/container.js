@@ -286,19 +286,93 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     $uibModalInstance.close();
   };
 }]).controller('session', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'caminfo', function ($scope, $rootScope, $http, $uibModalInstance, caminfo) {
-  $scope.username = $rootScope.$jwt.get().aud;
-  $scope.project = $rootScope.$stateParams.project;
   $scope.cam = caminfo.cam;
-  $scope.quality = caminfo.quality;
-  $scope.url = api + 'projects/' + $scope.project + '/cameras/' + caminfo.cam.uuid + '/sessions';
-  
+  $scope.time = 10;
 
-  $http.get($scope.url, {}).success(function(response) {
-    $scope.secret = response.secret;
-  }).error(function(response, status) {
-    console.log('error');
-  });
+  var user = $rootScope.$jwt.get().aud;
+  var project = $rootScope.$stateParams.project;
+  var url = api + 'projects/' + project + '/cameras/' + caminfo.cam.uuid + '/sessions';
+  var tiptimer = undefined;
+  var alivetimer = undefined;
+
+  var create = function(){
+    $http.post(url, {format: 'hls', quality: caminfo.quality.toLowerCase(), create: true, user: user}).success(function(response) {
+      $scope.id = response.session_id;
+      if ('' === document.createElement('video').canPlayType('application/x-mpegURL')) {
+        loadFlash(response);
+      } else {
+        addVideoTag(response);
+      }
+      keepalive(response);
+      if (tiptimer) {
+        clearInterval(tiptimer);
+        tiptimer = undefined;
+      }
+    }).error(function(response, status) {
+      console.log('error');
+    });
+  };
+  var loadFlash = function(info){
+    var flashvars = {
+      // src: 'http://www.opensight.cn/hls/camera1.m3u8',
+      src: info.url,
+      plugin_hls: "flashlsOSMF.swf",
+      // scaleMode: 'none',
+      autoPlay: true
+    };
+
+    var params = {
+      allowFullScreen: true,
+      allowScriptAccess: "always",
+      wmode: 'opaque',
+      bgcolor: "#000000"
+    };
+    var attrs = {
+      name: "videoPlayer"
+    };
+
+    swfobject.embedSWF("GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
+  };
+  var addVideoTag = function(info){};
+  var keepalive = function(info){
+    if (undefined !== alivetimer){
+      clearInterval(alivetimer);
+      alivetimer = undefined;
+    }
+    alivetimer = setInterval(function(){
+      $http.post(url + '/' + info.session_id, {}).success(function(response) {
+
+      }).error(function(response, status) {
+        console.log('error');
+      });
+    }, 30000);
+  };
+  var stop = function(){
+    if (undefined !== alivetimer){
+      clearInterval(alivetimer);
+      alivetimer = undefined;
+    }
+    $http.delete(url + '/' + $scope.id, {}).success(function(response) {
+
+    }).error(function(response, status) {
+      console.log('error');
+    });
+  };
+  var updateTip = function(){
+    tiptimer = setInterval(function(){
+      if (1 === $scope.time && undefined !== tiptimer){
+        clearInterval(tiptimer);
+        tiptimer = undefined;
+        return;
+      }
+      $scope.time--;
+    }, 1000);
+  };
+
+  create();
+  updateTip();
   $scope.ok = function(){
+    stop();
     $uibModalInstance.close();
   };
 }]);
