@@ -532,21 +532,21 @@
             </tr>
             </thead>
             <tbody ng-repeat="u in project.cameralist.data.list | filter: project.cameralist.seach">
-            <tr style="cursor:pointer;">
-                <td ng-click="project.camera.data.showDetail(u, $index)">{{u.name}}</td>
-                <td ng-click="project.camera.data.showDetail(u, $index)">{{u.is_online|online}}</td>
+            <tr >
+                <td ng-click="project.camera.data.showDetail(u, $index)" style="cursor:pointer;">{{u.name}}</td>
+                <td ng-click="project.camera.data.showDetail(u, $index)" style="cursor:pointer;">{{u.is_online|online}}</td>
                 <td>
                     <div class="btn-group btn-group-xs">
                         <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[u.live]" title="允许直播" ng-click="project.camera.data_mod.play_switch(u, true)">允许</button>
                         <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[u.live]" title="禁止直播" ng-click="project.camera.data_mod.play_switch(u, false)">禁止</button>
                     </div>
                 </td>
-                <td ng-click="project.camera.data.showDetail(u, $index)">
+                <td ng-click="project.camera.data.showDetail(u, $index)" style="cursor:pointer;">
                     <div class="btn-group btn-group-xs">
                         <button ng-repeat="it in u.ability" class="btn btn-default text-primary" ng-disabled="!u.live" role="group" title={{it.title}}>{{it.text}}</button>
                     </div>
                 </td>
-                <td ng-click="project.camera.data.showDetail(u, $index)">{{u.desc}}</td>
+                <td style="cursor:pointer;"ng-click="project.camera.data.showDetail(u, $index)">{{u.desc}}</td>
                 <td ng-click="project.camera.delete_one(u)" style="cursor:pointer;"><i class="fa fa-trash"></i></td>
             </tr>
             <tr class="ng-hide" ng-show="project.camera.data_mod.bDetailShown[$index]">
@@ -593,7 +593,24 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">flags</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" ng-model="project.camera.data_mod.data[$index].flags"  />
+                                        <p class="form-control-static">{{project.camera.data_mod.data[$index].flags}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">截图状态</label>
+                                    <div class="col-sm-4">
+                                        <div class="btn-group btn-group-xs">
+                                            <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.data_mod.data[$index].pic]" title="允许截图" ng-click="project.camera.data_mod.data[$index].pic=!project.camera.data_mod.data[$index].pic">允许</button>
+                                            <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.data_mod.data[$index].pic]" title="禁止截图" ng-click="project.camera.data_mod.data[$index].pic=!project.camera.data_mod.data[$index].pic">禁止</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">支持流类型</label>
+                                    <div class="col-sm-8">
+                                        <div class="btn-group btn-group-xs">
+                                            <button ng-repeat="it in project.camera.data_mod.data[$index].stearmOptions" class="btn" role="group"  ng-class="{true:'btn-primary',false:'btn-default'}[it.on]" ng-click="it.on = !it.on" role="group" title={{it.title}}>{{it.text}}</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -649,10 +666,19 @@
                                     <div class="col-sm-8">
                                         <button class="btn btn-default" ng-click="project.camera.data_mod.submitForm(u,$index)"><i class="fa fa-check"></i>&nbsp;确定</button>
                                         <button class="btn btn-default" ng-click="project.camera.data_mod.reset(u,$index)"><i class="fa fa-remove"></i>&nbsp;取消</button>
-                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(u,true)"><i class="fa fa-play"></i>&nbsp;开启直播</button>
-                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(u,false)"><i class="fa fa-stop"></i>&nbsp;停止直播</button>
+                                        <!--button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(u,true)"><i class="fa fa-play"></i>&nbsp;开启直播</button>
+                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(u,false)"><i class="fa fa-stop"></i>&nbsp;停止直播</button-->
                                     </div>
                                 </div>
+                                <!--div class="form-group">
+                                    <label class="col-sm-2 control-label">直播状态</label>
+                                    <div class="col-sm-4">
+                                        <div class="btn-group btn-group-xs">
+                                            <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.data_mod.data[$index].live]" title="允许直播" ng-click="project.camera.data_mod.play_switch(project.camera.data_mod.data[$index], true)">允许</button>
+                                            <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.data_mod.data[$index].live]" title="禁止直播" ng-click="project.camera.data_mod.play_switch(project.camera.data_mod.data[$index], false)">禁止</button>
+                                        </div>
+                                    </div>
+                                </div-->
                             </form>
                         </div>
                     </div>

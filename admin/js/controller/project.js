@@ -810,6 +810,32 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             if ($scope.project.camera.data_mod.data === undefined)
                                 $scope.project.camera.data_mod.data = [];
                             $scope.project.camera.data_mod.data[index] = item;
+
+                            if ((item.flags & 0x20) === 0)
+                                $scope.project.camera.data_mod.data[index].live = true;
+                            else $scope.project.camera.data_mod.data[index].live = false;
+
+                            if ((item.flags & 0x10) === 0)
+                                $scope.project.camera.data_mod.data[index].pic = false;
+                            else $scope.project.camera.data_mod.data[index].pic = true;
+
+                            $scope.project.camera.data_mod.data[index].stearmOptions = [{
+                                text: 'LD',
+                                title: '流畅',
+                                on: !((item.flags & 0x01) === 0)
+                            }, {
+                                text: 'SD',
+                                title: '标清',
+                                on: !((item.flags & 0x02) === 0)
+                            }, {
+                                text: 'HD',
+                                title: '高清',
+                                on: !((item.flags & 0x04) === 0)
+                            }, {
+                                text: 'FHD',
+                                title: '超清',
+                                on: !((item.flags & 0x08) === 0)
+                            }];
                         }
                     },
 
@@ -883,11 +909,19 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                                 });
                     },
 
-
-
                     submitForm: function (item,index) {
+                        var allFlags = 0;
+                        for (var i = 0; i<$scope.project.camera.data_mod.data[index].stearmOptions.length; i++)
+                        {
+                            if ($scope.project.camera.data_mod.data[index].stearmOptions[i].on === true)
+                                allFlags+= (1<<i);
+                        }
+                        if ($scope.project.camera.data_mod.data[index].pic === true)
+                            allFlags+= (1<<4);
+
+
                         var postData =  {
-                            flags: $scope.project.camera.data_mod.data[index].flags,
+                            flags: allFlags,
                             desc: $scope.project.camera.data_mod.data[index].desc,
                             long_desc: $scope.project.camera.data_mod.data[index].long_desc,
                             longitude: $scope.project.camera.data_mod.data[index].longitude,
@@ -957,6 +991,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
         }
         return t;
     };
+
     var parse = function(flags){
         var m = getBitmap(flags, 8);
         var ab = [{
