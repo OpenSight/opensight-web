@@ -176,39 +176,71 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   };
 }]).controller('log', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.project = $rootScope.$stateParams.project;
-  $scope.log = {list:[]};
-  $scope.params = {
-    start_from: '2000-01-01T00:00:00',
-    end_to: '2055-01-01T00:00:00',
-    limit: 100
+  $scope.list = [];
+  $scope.start = {
+    dt: new Date(),
+    opened: false
   };
-  $scope.last = $scope.params;
-  $scope.index = 0;
+  $scope.end = {
+    dt: new Date(),
+    opened: false
+  };
+  $scope.params = {limit: 100};
+  $scope.bFirst = true;
+  $scope.bLast = true;
+  $scope.open = function(opts){
+    opts.opened = true;
+  };
+  $scope.query = function(opts){
+    $scope.params.start_from = format($scope.start.dt) + 'T00:00:00';
+    $scope.params.end_to = format($scope.end.dt) + 'T23:59:59';
+    $scope.params.reverse = false;
+    $scope.params.last_end_time = undefined;
+    $scope.params.last_session_id = undefined;
+    $scope.bFirst = true;
+
+    get($scope.params, function(){
+      $scope.bLast = true;
+    });
+    $scope.bLast = false;
+  };
+  
   $scope.next = function(){
-    $scope.index++;
-    get($scope.params);
+    $scope.params.reverse = false;
+    $scope.params.last_end_time = $scope.list[$scope.list.length - 1].end;;
+    $scope.params.last_session_id = $scope.list[$scope.list.length - 1].uuid;
+    get($scope.params, function(){
+      $scope.bLast = true;
+    });
+    $scope.bFirst = false;
   };
   $scope.prev = function(){
-    $scope.index--;
-    get($scope.params);
+    $scope.params.reverse = true;
+    $scope.params.last_end_time = $scope.list[0].end;;
+    $scope.params.last_session_id = $scope.list[0].uuid;
+    get($scope.params, function(){
+      $scope.bFirst = true;
+    });
+    $scope.bLast = false;
   };
 
-  var get = function(params){
+  var get = function(params, fn){
     $http({
       url: api + "projects/" + $scope.project + '/session_logs', 
       method: "GET",
       params: params
     }).success(function(response) {
-      $scope.log = response;
-      if (response.list.length === $scope.params.limit){
-        $scope.params.last_end_time = response.list[response.list.length - 1].end;
-        $scope.params.last_session_id = response.list[response.list.length - 1].uuid;
+      $scope.list = response.list;
+      if (response.list.length !== params.limit){
+        fn();
       }
     }).error(function(response, status) {
       console.log('error');
     });
   };
-  get($scope.params);
+  var format = function(dt){
+    return [dt.getFullYear(), dt.getMonth(), dt.getDate()].join('-');
+  };
 }]).controller('default', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.username = $rootScope.$jwt.get().aud;
   $scope.project = $rootScope.project;

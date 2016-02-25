@@ -78,3 +78,6 @@ body{
   padding: 5px;
   color: #FFF;
 }
+.form-inline{
+  margin-bottom: 10px;
+}
