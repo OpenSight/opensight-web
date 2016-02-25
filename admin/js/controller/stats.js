@@ -12,7 +12,7 @@ app.register.controller('Stats', ['$scope', '$http', '$q','$state','$window', fu
         return {
             get: function () {
                 $scope.aborter = $q.defer(),
-                    $http.get("http://121.41.72.231:5001/api/ivc/v1/projects?start=0&limit=100", {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects?start=0&limit=100", {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -54,7 +54,7 @@ app.register.controller('Stats', ['$scope', '$http', '$q','$state','$window', fu
         return {
             get: function () {
                 $scope.aborter = $q.defer(),
-                    $http.get("http://121.41.72.231:5001/api/ivc/v1/users?start=0&limit=100", {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/users?start=0&limit=100", {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,

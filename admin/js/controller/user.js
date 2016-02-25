@@ -32,7 +32,7 @@ app.register.controller('UserInfo', ['$scope', '$http', '$q','$state', function(
                         if ($scope.userinfo.data_mod.tabs[0] === undefined) $scope.userinfo.data_mod.tabs[0] = {};
                         $scope.userinfo.data_mod.tabs[0].active = true;
                         $scope.aborter = $q.defer(),
-                            $http.get("http://121.41.72.231:5001/api/ivc/v1/users/"+G_user, {
+                            $http.get("http://api.opensight.cn/api/ivc/v1/users/"+G_user, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+G_token,
@@ -69,7 +69,7 @@ app.register.controller('UserInfo', ['$scope', '$http', '$q','$state', function(
 
                        // $scope.userinfo.data_mod.modUserInfoToken = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.put("http://121.41.72.231:5001/api/ivc/v1/users/"+G_user, postData, {
+                            $http.put("http://api.opensight.cn/api/ivc/v1/users/"+G_user, postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+G_token,
@@ -135,7 +135,7 @@ app.register.controller('UserInfo', ['$scope', '$http', '$q','$state', function(
 
                         // $scope.userinfo.data_mod.modUserInfoToken = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.put("http://121.41.72.231:5001/api/ivc/v1/users/"+G_user+"/password", postData, {
+                            $http.put("http://api.opensight.cn/api/ivc/v1/users/"+G_user+"/password", postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+G_token,

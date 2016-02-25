@@ -63,7 +63,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
 
                         $scope.customer.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/users", postData, {
+                            $http.post("http://api.opensight.cn/api/ivc/v1/users", postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -115,7 +115,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                 if (r===false) return;
                 $scope.customer.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
-                    $http.delete("http://121.41.72.231:5001/api/ivc/v1/users/"+item.username, {
+                    $http.delete("http://api.opensight.cn/api/ivc/v1/users/"+item.username, {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -182,7 +182,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                             return;
 
                         $scope.aborter = $q.defer(),
-                            $http.get("http://121.41.72.231:5001/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username, {
+                            $http.get("http://api.opensight.cn/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -219,7 +219,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
 
                         $scope.customer.data_mod.updateCustomers = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.put("http://121.41.72.231:5001/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username, postData, {
+                            $http.put("http://api.opensight.cn/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username, postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -254,7 +254,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
 
                         //$scope.customer.data_mod.updateCustomers = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username+"/password_reset", postData, {
+                            $http.post("http://api.opensight.cn/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username+"/password_reset", postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -298,7 +298,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                 $scope.customer.data_add.clean_data();
                 //$scope.customer.addShown = false;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://121.41.72.231:5001/api/ivc/v1/users?start=0&limit=100", {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/users?start=0&limit=100", {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,

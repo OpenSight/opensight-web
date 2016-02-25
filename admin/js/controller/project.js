@@ -80,7 +80,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
 
                         $scope.project.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/projects", postData, {
+                            $http.post("http://api.opensight.cn/api/ivc/v1/projects", postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -133,7 +133,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                 if (r===false) return;
                 $scope.project.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
-                    $http.delete("http://121.41.72.231:5001/api/ivc/v1/projects/"+item.name, {
+                    $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+item.name, {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -214,7 +214,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             return;
 
                         $scope.aborter = $q.defer(),
-                            $http.get("http://121.41.72.231:5001/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name, {
+                            $http.get("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -253,7 +253,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
 
                         //$scope.project.data_mod.submitForm = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.put("http://121.41.72.231:5001/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name, postData, {
+                            $http.put("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name, postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -304,7 +304,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                 $scope.project.data_add.clean_data();
                 //$scope.project.addShown = false;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://121.41.72.231:5001/api/ivc/v1/projects?start=0&limit=100", {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects?start=0&limit=100", {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -403,7 +403,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
 
                         $scope.project.device.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/devices", postData, {
+                            $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/devices", postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -456,7 +456,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                 if (r===false) return;
                 $scope.project.device.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
-                    $http.delete("http://121.41.72.231:5001/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/devices/"+item.uuid, {
+                    $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/devices/"+item.uuid, {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -518,7 +518,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             return;
 
                         $scope.aborter = $q.defer(),
-                            $http.get("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/devices/"+item.uuid, {
+                            $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/devices/"+item.uuid, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -562,7 +562,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
 
                         //$scope.project.device.data_mod.submitForm = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.put("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/devices/"+item.uuid, postData, {
+                            $http.put("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/devices/"+item.uuid, postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -614,7 +614,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                 $scope.project.device.data_add.clean_data();
                 //$scope.device.addShown = false;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/devices?start=0&limit=100", {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/devices?start=0&limit=100", {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -678,8 +678,26 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                     clean_data: function () {//clean add field
                         if ($scope.project.camera.data_add === undefined)
                             $scope.project.camera.data_add = {};
+
+                        $scope.project.camera.data_add.stearmOptions = [{
+                            text: 'LD',
+                            title: '流畅',
+                            on: false
+                        }, {
+                            text: 'SD',
+                            title: '标清',
+                            on: false
+                        }, {
+                            text: 'HD',
+                            title: '高清',
+                            on: false
+                        }, {
+                            text: 'FHD',
+                            title: '超清',
+                            on: false
+                        }];
+                        $scope.project.camera.data_add.pic = false;
                         $scope.project.camera.data_add.name = "";
-                        $scope.project.camera.data_add.flags = 0;
                         $scope.project.camera.data_add.channel_index = 0;
                         $scope.project.camera.data_add.device_uuid = "";
                         $scope.project.camera.data_add.desc = "";
@@ -690,10 +708,18 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                     },
 
                     submitForm: function () {//add one camera
+                        var allFlags = 0;
+                        for (var i = 0; i<$scope.project.camera.data_add.stearmOptions.length; i++)
+                        {
+                            if ($scope.project.camera.data_add.stearmOptions[i].on === true)
+                                allFlags+= (1<<i);
+                        }
+                        if ($scope.project.camera.data_add.pic === true)
+                            allFlags+= (1<<4);
                         var postData = {
                             name: $scope.project.camera.data_add.name,
                             device_uuid: $scope.project.camera.data_add.device_uuid,
-                            flags: $scope.project.camera.data_add.flags,
+                            flags: allFlags,
                             channel_index: $scope.project.camera.data_add.channel_index,
                             desc: $scope.project.camera.data_add.desc,
                             long_desc: $scope.project.camera.data_add.long_desc,
@@ -704,7 +730,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
 
                         $scope.project.camera.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/cameras", postData, {
+                            $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/cameras", postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -757,7 +783,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                 if (r===false) return;
                 $scope.project.camera.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
-                    $http.delete("http://121.41.72.231:5001/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/cameras/"+item.uuid, {
+                    $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/cameras/"+item.uuid, {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -845,7 +871,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             return;
 
                         $scope.aborter = $q.defer(),
-                            $http.get("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras/"+item.uuid, {
+                            $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras/"+item.uuid, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -882,7 +908,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                         };
 
                         $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras/"+item.uuid+"/stream_toggle", postData,{
+                            $http.post("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras/"+item.uuid+"/stream_toggle", postData,{
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -932,7 +958,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
 
                         //$scope.project.camera.data_mod.submitForm = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.put("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras/"+item.uuid, postData, {
+                            $http.put("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras/"+item.uuid, postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -1035,7 +1061,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                 $scope.project.camera.data_add.clean_data();
                 //$scope.camera.addShown = false;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras?start=0&limit=100", {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras?start=0&limit=100", {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -1124,7 +1150,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             return;
 
                         $scope.aborter = $q.defer(),
-                            $http.get("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs/"+item.uuid, {
+                            $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs/"+item.uuid, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -1174,7 +1200,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                 */
                 if ($scope.project.data_mod.bDetailShown !== true) return;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs?start_from=" +start+
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs?start_from=" +start+
                         "&end_to=" +end+ "&limit=512", {
                         timeout: $scope.aborter.promise,
                         headers:  {
@@ -1249,7 +1275,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
 
                         $scope.project.user.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/users", postData, {
+                            $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/users", postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -1302,7 +1328,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                 if (r===false) return;
                 $scope.project.user.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
-                    $http.delete("http://121.41.72.231:5001/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/users/"+item.username, {
+                    $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/users/"+item.username, {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -1364,7 +1390,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                             return;
 
                         $scope.aborter = $q.defer(),
-                            $http.get("http://121.41.72.231:5001/api/ivc/v1/users/"+item.username, {
+                            $http.get("http://api.opensight.cn/api/ivc/v1/users/"+item.username, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -1412,7 +1438,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                 $scope.project.user.data_add.clean_data();
                 //$scope.user.addShown = false;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://121.41.72.231:5001/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/users?start=0&limit=100", {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/users?start=0&limit=100", {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,

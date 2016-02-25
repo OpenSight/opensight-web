@@ -122,7 +122,7 @@ app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore',
                     expired: 10000
                 };
                 $scope.aborter = $q.defer(),
-                    $http.post("http://121.41.72.231:5001/api/ivc/v1/plaintext_login", postData, {
+                    $http.post("http://api.opensight.cn/api/ivc/v1/plaintext_login", postData, {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
                             $scope.$broadcast("newToken", response.jwt);
@@ -164,7 +164,7 @@ app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore',
 
                 var postData = {username: $cookies.get('username'), password: $cookies.get('password'), expired: e};
                 $scope.aborter = $q.defer(),
-                    $http.post("http://121.41.72.231:5001/api/ivc/v1/user_login", postData, {
+                    $http.post("http://api.opensight.cn/api/ivc/v1/user_login", postData, {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
                             $cookies.put('jwt',response.jwt,{'expires': 30});

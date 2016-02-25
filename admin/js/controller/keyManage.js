@@ -45,7 +45,7 @@ app.register.controller('Access', ['$scope', '$http', '$q', function($scope, $ht
 
                         $scope.access.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/access_keys", postData, {
+                            $http.post("http://api.opensight.cn/api/ivc/v1/access_keys", postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -97,7 +97,7 @@ app.register.controller('Access', ['$scope', '$http', '$q', function($scope, $ht
                 if (r===false) return;
                 $scope.access.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
-                    $http.delete("http://121.41.72.231:5001/api/ivc/v1/access_keys/"+item.key_id, {
+                    $http.delete("http://api.opensight.cn/api/ivc/v1/access_keys/"+item.key_id, {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -158,7 +158,7 @@ app.register.controller('Access', ['$scope', '$http', '$q', function($scope, $ht
                             return;
 
                         $scope.aborter = $q.defer(),
-                            $http.get("http://121.41.72.231:5001/api/ivc/v1/access_keys/"+item.key_id, {
+                            $http.get("http://api.opensight.cn/api/ivc/v1/access_keys/"+item.key_id, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -194,7 +194,7 @@ app.register.controller('Access', ['$scope', '$http', '$q', function($scope, $ht
 
                         $scope.access.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.put("http://121.41.72.231:5001/api/ivc/v1/access_keys/"+item.key_id, postData, {
+                            $http.put("http://api.opensight.cn/api/ivc/v1/access_keys/"+item.key_id, postData, {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -232,7 +232,7 @@ app.register.controller('Access', ['$scope', '$http', '$q', function($scope, $ht
                     accessGet:function (item, index) {
                         //$scope.access.data_mod.updateCustomers = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.get("http://121.41.72.231:5001/api/ivc/v1/access_keys/"+item.key_id+"/secret", {
+                            $http.get("http://api.opensight.cn/api/ivc/v1/access_keys/"+item.key_id+"/secret", {
                                 timeout: $scope.aborter.promise,
                                 headers:  {
                                     "Authorization" : "Bearer "+$scope.authToken,
@@ -287,7 +287,7 @@ app.register.controller('Access', ['$scope', '$http', '$q', function($scope, $ht
                 $scope.access.data_add.clean_data();
                 //$scope.access.addShown = false;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://121.41.72.231:5001/api/ivc/v1/access_keys?start=0&limit=100", {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/access_keys?start=0&limit=100", {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,

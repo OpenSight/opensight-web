@@ -24,7 +24,7 @@ login.controller('loginCtrl', ['$scope', '$http', '$q','$location','$window','$c
                 };
 
                 $scope.aborter = $q.defer(),
-                    $http.post("http://121.41.72.231:5001/api/ivc/v1/plaintext_login", postData, {
+                    $http.post("http://api.opensight.cn/api/ivc/v1/plaintext_login", postData, {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
                             $window.location.href = "index.html?user="+$scope.admin+"&token="+response.jwt;
@@ -45,7 +45,7 @@ login.controller('loginCtrl', ['$scope', '$http', '$q','$location','$window','$c
                 };
 
                 $scope.aborter = $q.defer(),
-                    $http.post("http://121.41.72.231:5001/api/ivc/v1/user_login", postData, {
+                    $http.post("http://api.opensight.cn/api/ivc/v1/user_login", postData, {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
                             $cookies.put('jwt',response.jwt,{'expires': 30});
