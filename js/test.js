@@ -51,7 +51,7 @@ var stop = function(uuid){
           error: function() {
             /* Act on the event */
             flag = false;
-          };
+          }
         });
       };
     },
@@ -77,5 +77,29 @@ $(function(){
   $('#stop').click(function(){
     var uuid = $('#uuid').val();
     stop(uuid);
+  });
+
+  $('#preview').click(function(){
+    var uri = $('#url').val();
+    // uri = 'http://121.41.72.231/hls/NMen0dvaSCG_oS_m_ver6w.m3u8';
+    var flashvars = {
+      // src: 'http://www.opensight.cn/hls/camera1.m3u8',
+      src: uri,
+      plugin_hls: "flashlsOSMF.swf",
+      // scaleMode: 'none',
+      autoPlay: true
+    };
+
+    var params = {
+      allowFullScreen: true,
+      allowScriptAccess: "always",
+      wmode: 'opaque',
+      bgcolor: "#000000"
+    };
+    var attrs = {
+      name: "videoPlayer"
+    };
+
+    swfobject.embedSWF("GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
   });
 });
