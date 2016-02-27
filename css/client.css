@@ -43,7 +43,7 @@ body{
   border-radius: 0;
   box-shadow: 3px 3px 8px #ddd;
 }
-.client-icon{
+.pointer{
   cursor: pointer;
 }
 .pagination-condensed{
@@ -80,4 +80,21 @@ body{
 }
 .form-inline{
   margin-bottom: 10px;
+}
+
+.table-vertical-middle>tbody>tr>td,
+.table-vertical-middle>tbody>tr>th,
+.table-vertical-middle>tfoot>tr>td,
+.table-vertical-middle>tfoot>tr>th,
+.table-vertical-middle>thead>tr>td, 
+.table-vertical-middle>thead>tr>th{
+  vertical-align: middle;
+}
+.table-vertical-middle>thead>tr>td,
+.table-vertical-middle>thead>tr>th {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.pagination{
+  margin-top: 0;
 }

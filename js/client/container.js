@@ -106,15 +106,16 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   $scope.project = $rootScope.$stateParams.project;
   $scope.camera = {list:[]};
 
-
   $http.get(api + "projects/" + $scope.project + '/cameras', {}).success(function(response) {
     for (var i = 0, l = response.list.length; i < l; i++){
       var flags = parse(response.list[i].flags);
       response.list[i].ability = flags.ability;
       response.list[i].live = flags.live;
+      if (0 !== response.list[i].ability.length){
+        response.list[i].quality = response.list[i].ability[0].text;
+      }
     }
     $scope.camera = response;
-
   }).error(function(response, status) {
     console.log('error');
   });
@@ -134,15 +135,18 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       console.log('error');
     });
   };
-  $scope.preview = function(cam, quality){
+  $scope.select = function(cam, quality){
+    cam.quality = quality;
+  };
+  $scope.preview = function(cam, format){
+    cam.format = format;
     $scope.cam = cam;
-    $scope.quality = quality;
     var modalInstance = $uibModal.open({
       templateUrl: 'sessionModalContent.html',
       controller: 'session',
       resolve: {
         caminfo: function () {
-          return {cam: $scope.cam, quality: $scope.quality};
+          return $scope.cam;
         }
       }
     });
@@ -318,17 +322,17 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     $uibModalInstance.close();
   };
 }]).controller('session', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'caminfo', function ($scope, $rootScope, $http, $uibModalInstance, caminfo) {
-  $scope.cam = caminfo.cam;
+  $scope.cam = caminfo;
   $scope.sec = 10;
 
   var user = $rootScope.$jwt.get().aud;
   var project = $rootScope.$stateParams.project;
-  var url = api + 'projects/' + project + '/cameras/' + caminfo.cam.uuid + '/sessions';
+  var url = api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/sessions';
   var tiptimer = undefined;
   var alivetimer = undefined;
 
   var create = function(){
-    $http.post(url, {format: 'hls', quality: caminfo.quality.toLowerCase(), create: true, user: user}).success(function(response) {
+    $http.post(url, {format: caminfo.format.toLowerCase(), quality: caminfo.quality.toLowerCase(), create: true, user: user}).success(function(response) {
       $scope.id = response.session_id;
       if ('' === document.createElement('video').canPlayType('application/x-mpegURL')) {
         loadFlash(response);

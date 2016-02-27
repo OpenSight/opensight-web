@@ -1,35 +1,73 @@
 <div class="container-fluid" ng-controller="camera">
-  <table class="table table-condensed table-hover table-bordered table-striped">
+  <form class="form-inline">
+    <button class="btn btn-default" ng-click="query()">
+      <i class="glyphicon glyphicon-refresh pointer" ui-sref="project.camera-detail({camera: item.uuid})"></i>
+    </button>&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="form-group">
+      <select class="form-control">
+        <option value="name">名称</option>
+        <option value="desc">描述</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Jane Doe">
+    </div>
+    <button type="submit" class="btn btn-default" ng-click="query()">
+      <i class="glyphicon glyphicon-search pointer" ui-sref="project.camera-detail({camera: item.uuid})"></i>
+    </button>
+  </form>
+  <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
     <thead>
       <tr>
         <th class="col-sm-2">摄像机名称</th>
+        <th class="col-sm-3">描述</th>
         <th class="col-sm-1 text-center">在线状态</th>
         <th class="col-sm-2 text-center">允许直播</th>
-        <th class="col-sm-2 text-center">预览</th>
+        <th class="col-sm-3 text-center">预览</th>
         <th class="col-sm-1 text-center">操作</th>
-        <th class="col-sm-4">描述</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="item in camera.list">
         <td>{{item.name}}</td>
+        <td>{{item.desc}}</td>
         <td class="text-center">{{item.is_online|online}}</td>
         <td class="text-center">
-          <div class="btn-group btn-group-xs">
+          <div class="btn-group btn-group-sm">
             <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[item.live]" title="允许直播" ng-click="enable(item, true)">允许</button>
             <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[item.live]" title="禁止直播" ng-click="enable(item, false)">禁止</button>
           </div>
         </td>
         <td class="text-center">
-          <div class="btn-group btn-group-xs">
-            <button ng-repeat="it in item.ability" class="btn btn-default text-primary" ng-disabled="!item.live" role="group" title={{it.title}} ng-click="preview(item, it.text)">{{it.text}}</button>
+          <div class="btn-group btn-group-sm">
+            <button ng-repeat="it in item.ability" class="btn btn-default" role="group" ng-class="{'btn-primary': it.text === item.quality}" title={{it.title}} ng-click="select(item, it.text)">{{it.text}}</button>
           </div>
+          <!-- Single button -->
+          <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="!item.live">
+              预览 <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="pointer" ng-click="preview(item, 'rtmp')">RTMP</a></li>
+              <li><a class="pointer" ng-click="preview(item, 'hls')">HLS</a></li>
+            </ul>
+          </div>
+          <!-- <div class="btn-group btn-group-xs">
+            <button ng-repeat="it in item.ability" class="btn btn-default text-primary" ng-disabled="!item.live" role="group" title={{it.title}} ng-click="preview(item, it.text)">{{it.text}}</button>
+          </div> -->
         </td>
-        <td class="text-center"><i class="glyphicon glyphicon-cog client-icon" ui-sref="project.camera-detail({camera: item.uuid})"></i></td>
-        <td>{{item.desc}}</td>
+        <td class="text-center">
+          <button class="btn btn-default btn-sm">
+            <i class="glyphicon glyphicon-cog pointer" ui-sref="project.camera-detail({camera: item.uuid})"></i>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
+  <ul class="pagination">
+    <li class="text-primary text-pointer" ng-click="prev()" ng-class="{'disabled': bFirst}"><span>上一页</span></li>
+    <li class="text-primary text-pointer" ng-click="next()" ng-class="{'disabled': bLast}"><span>下一页</span></li>
+  </ul>
   <script type="text/ng-template" id="sessionModalContent.html">
     <div class="modal-header">
       <h3 class="modal-title">{{cam.name}}</h3>
