@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>直播</title>
+  <title>测试</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,7 +16,7 @@
 </head>
 <style>
   .live{
-    margin-top: 50px;
+    margin-top: 10px;
   }
 </style>
 <body>
@@ -57,66 +57,65 @@
   </header>  
 
   <div class="container squera-container">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">测试延时</h3>
-      </div>
-      <div class="panel-body">
-        <p>
-          <form class="form-inline">
-            <select name="" id="uuid" class="form-control">
-              <option value="8e9afacb-c0b7-4e22-b7c1-9468ff9adc22">demo_c1</option>
-              <option value="f4d4850f-474e-439c-a7fa-cd7b7b9c1344">demo_c2</option>
-              <option value="0d4afb76-420c-462f-9676-2c8f7433059a">hyt_c1</option>
-            </select>
-            <select name="" id="time" class="form-control">
-              <option value="0">0秒</option>
-              <option value="1000">1秒</option>
-              <option value="2000">2秒</option>
-              <option value="3000">3秒</option>
-              <option value="4000">4秒</option>
-              <option value="5000">5秒</option>
-              <option value="6000">6秒</option>
-              <option value="7000">7秒</option>
-              <option value="8000">8秒</option>
-              <option value="9000">9秒</option>
-              <option value="10000">10秒</option>
-            </select>
-            <button id="start" type="button" class="btn btn-primary">启动</button>
-            <button id="stop" type="button" class="btn btn-primary">停止</button>
-            <p id="tip" class="hidden bg-success"></p>
-          </form>
-        </p>
-      </div>
-      <div class="panel-footer">
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="container squera-container">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">测试流</h3>
-      </div>
-      <div class="panel-body">
-        <!-- <form class="form-horizontal"> -->
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="url" placeholder="url"></div>
-          <div class="col-sm-2">
-            <button class="btn btn-primary" id="preview">播放</button>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">测试流</h3>
           </div>
-        <!-- </form> -->
-        <div class="live">
-          <div class="img-container">
-            <img id="img" src="img/video.jpg" alt=""></div>
-          <div class="player-container">
-            <div id="videoPlayer"></div>
+          <div class="panel-body container-fluid">
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="url" placeholder="url"></div>
+            <div class="col-sm-2">
+              <button class="btn btn-primary" id="preview">播放</button>
+            </div>
+            <div class="live col-sm-12">
+              <div class="img-container">
+                <img id="img" src="img/video.jpg" alt=""></div>
+              <div class="player-container">
+                <div id="videoPlayer"></div>
+              </div>
+            </div>
           </div>
+          <div class="panel-footer">支持HLS、RTMP</div>
         </div>
       </div>
-      <div class="panel-footer">
-        支持HLS、RTMP
+      <div class="col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">测试Session延时</h3>
+          </div>
+          <div class="panel-body">
+            <p>
+              <form class="form-inline">
+                <select name="" id="uuid" class="form-control">
+                  <option value="8e9afacb-c0b7-4e22-b7c1-9468ff9adc22">demo_c1</option>
+                  <option value="f4d4850f-474e-439c-a7fa-cd7b7b9c1344">demo_c2</option>
+                  <option value="0d4afb76-420c-462f-9676-2c8f7433059a">hyt_c1</option>
+                </select>
+                <select name="" id="time" class="form-control">
+                  <option value="0">0秒</option>
+                  <option value="1000">1秒</option>
+                  <option value="2000">2秒</option>
+                  <option value="3000">3秒</option>
+                  <option value="4000">4秒</option>
+                  <option value="5000">5秒</option>
+                  <option value="6000">6秒</option>
+                  <option value="7000">7秒</option>
+                  <option value="8000">8秒</option>
+                  <option value="9000">9秒</option>
+                  <option value="10000">10秒</option>
+                </select>
+                <button id="start" type="button" class="btn btn-primary">启动</button>
+                <button id="stop" type="button" class="btn btn-primary">停止</button>
+                <p id="tip" class="hidden bg-success"></p>
+              </form>
+            </p>
+          </div>
+          <div class="panel-footer">
+            测试Session延时
+          </div>
+        </div>
       </div>
     </div>
   </div>
