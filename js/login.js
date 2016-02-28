@@ -64,6 +64,8 @@ Login.prototype = {
       stop = href.length;
     }
     var seach = href.substring(start, stop);
+    var url = window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash;
+    window.history.replaceState({} , '', url);
     return this.parseStr(seach, '&');
   },
   parseStr: function(str, sp){
