@@ -44,7 +44,7 @@
           </div>
           <!-- Single button -->
           <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="!item.live">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="(!item.live) || (!item.is_online)">
               预览 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
