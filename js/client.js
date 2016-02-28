@@ -64,6 +64,14 @@ var app = angular.module('client', [
       url: '/key',
       templateUrl: 'views/key.html'
     })
+    .state('add-key', {
+      url: '/add-key',
+      templateUrl: 'views/add-key.html'
+    })
+    .state('key-detail', {
+      url: '/key/:key',
+      templateUrl: 'views/key-detail.html'
+    })
     .state('project', {
       url: '/project/:project',
       templateUrl: 'views/menu.html'

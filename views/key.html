@@ -1,9 +1,9 @@
 <div class="container" ng-controller="key">
   <form class="form-inline">
-    <button class="btn btn-default" ng-click="refresh()">
+    <button class="btn btn-default" ng-click="query()">
       <i class="glyphicon glyphicon-refresh pointer"></i>
     </button>
-    <button class="btn btn-default" ng-click="refresh()">
+    <button class="btn btn-default" ui-sref="add-key">
       <i class="glyphicon glyphicon-plus pointer"></i>
     </button>
   </form>
@@ -29,6 +29,9 @@
         <td class="text-center">{{item.ctime}}</td>
         <td class="text-center">
           <button class="btn btn-default btn-sm btn-primary" ng-click="open(item.key_id)"><i class="fa fa-key"></i>&nbsp;获取</button>
+          <button class="btn btn-default btn-sm" ui-sref="key-detail({key: item.key_id})">
+            <i class="glyphicon glyphicon-cog pointer"></i>
+          </button>
           <button class="btn btn-default btn-sm" ng-click="del(item.key_id)"><i class="glyphicon glyphicon-trash"></i></button>
         </td>
       </tr>

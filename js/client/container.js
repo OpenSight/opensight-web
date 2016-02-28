@@ -32,7 +32,8 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   $scope.$on('responseErrorStart', function(rejection) {
     console.log('responseErrorStart');
   });
-}]).controller('project', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+}])
+.controller('project', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.project = $rootScope.$stateParams.project;
   $scope.boolFalse = false;
   $scope.boolTrue = true;
@@ -58,7 +59,8 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       console.log('error');
     });
   };
-}]).controller('camera', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
+}])
+.controller('camera', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
   var getBitmap = function(f, bits) {
     var t = [];
     var i = 0;
@@ -158,7 +160,8 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       }
     });
   };
-}]).controller('camera-detail', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+}])
+.controller('camera-detail', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.project = $rootScope.$stateParams.project;
   $scope.camera = $rootScope.$stateParams.camera;
   $scope.url = api + "projects/" + $scope.project + '/cameras/' + $scope.camera;
@@ -185,7 +188,8 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       console.log('error');
     });
   };
-}]).controller('log', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+}])
+.controller('log', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.project = $rootScope.$stateParams.project;
   $scope.list = [];
   $scope.start = {
@@ -252,7 +256,8 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   var format = function(dt){
     return [dt.getFullYear(), dt.getMonth(), dt.getDate()].join('-');
   };
-}]).controller('default', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+}])
+.controller('default', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.username = $rootScope.$jwt.get().aud;
   $scope.project = $rootScope.project;
 
@@ -265,7 +270,8 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     $scope.project = data;
     console.log('projectChangeSuccess');
   });
-}]).controller('user-info', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+}])
+.controller('user-info', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.username = $rootScope.$jwt.get().aud;
 
   $http.get(api + "users/" + $scope.username, {}).success(function(response) {
@@ -273,7 +279,8 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   }).error(function(response, status) {
     console.log('error');
   });
-}]).controller('user-passwd', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+}])
+.controller('user-passwd', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.username = $rootScope.$jwt.get().aud;
   $scope.old_password = '';
   $scope.new_password = '';
@@ -294,15 +301,18 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       console.log('error');
     });
   };
-}]).controller('key', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
+}])
+.controller('key', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
   $scope.username = $rootScope.$jwt.get().aud;
   $scope.url = api + "users/" + $scope.username + '/access_keys';
-
-  $http.get($scope.url, {}).success(function(response) {
-    $scope.keys = response;
-  }).error(function(response, status) {
-    console.log('error');
-  });
+  
+  $scope.query = function() {
+    $http.get($scope.url, {}).success(function(response) {
+      $scope.keys = response;
+    }).error(function(response, status) {
+      console.log('error');
+    });
+  };
 
   $scope.open = function(key_id){
     $scope.key_id = key_id;
@@ -316,7 +326,73 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       }
     });
   };
-}]).controller('secret', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'access_key', function ($scope, $rootScope, $http, $uibModalInstance, access_key) {
+  $scope.del = function(key_id){
+    if (false === confirm('是否删除密匙？')){
+      return;
+    }
+    $http.delete(api + 'access_keys/' + key_id, {}).success(function(response) {
+      $scope.query();
+      alert('删除成功。');
+    }).error(function(response, status) {
+      alert('删除失败。');
+      console.log('error');
+    });
+  };
+
+  $scope.query();
+}])
+.controller('add-key', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
+  $scope.username = $rootScope.$jwt.get().aud;
+  $scope.url = api + "users/" + $scope.username + '/access_keys';
+  $scope.boolFalse = false;
+  $scope.boolTrue = true;
+  $scope.number0 = 0;
+  $scope.number1 = 1;
+
+  var init = function(){
+    $scope.info = {
+      key_type: 0,
+      enabled: true,
+      desc: ''
+    };
+  };
+  init();
+
+  $scope.add = function(){
+    $http.post($scope.url, $scope.info).success(function(response) {
+      alert('添加成功。');
+      init();
+    }).error(function(response, status) {
+      alert('添加失败。');
+      console.log('error');
+    });
+  };
+}])
+.controller('key-detail', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+  $scope.key = $rootScope.$stateParams.key;
+  $scope.boolFalse = false;
+  $scope.boolTrue = true;
+  var url = api + 'access_keys/' + $scope.key;
+
+  $http.get(url, {}).success(function(response) {
+    $scope.info = response;
+  }).error(function(response, status) {
+    console.log('error');
+  });
+
+  $scope.save = function(){
+    var data = {
+      enabled: $scope.info.enabled,
+      desc: $scope.info.desc
+    };
+    $http.put(url, data).success(function(response) {
+      console.log('success');
+    }).error(function(response, status) {
+      console.log('error');
+    });
+  };
+}])
+.controller('secret', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'access_key', function ($scope, $rootScope, $http, $uibModalInstance, access_key) {
   $scope.username = $rootScope.$jwt.get().aud;
   $scope.url = api + 'access_keys/' + access_key + '/secret';
 
@@ -328,7 +404,8 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   $scope.ok = function(){
     $uibModalInstance.close();
   };
-}]).controller('session', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'caminfo', function ($scope, $rootScope, $http, $uibModalInstance, caminfo) {
+}])
+.controller('session', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'caminfo', function ($scope, $rootScope, $http, $uibModalInstance, caminfo) {
   $scope.cam = caminfo;
   $scope.sec = 10;
 

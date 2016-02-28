@@ -1,0 +1,60 @@
+<div class="container" ng-controller="add-key">
+  <div class="col-sm-12 page-header page-header-condensed">
+    <h3>
+      新建密匙
+      <button class="btn btn-default btn-sm pull-right" ui-sref="key"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;返回</button>
+    </h3>
+  </div>
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">类型</label>
+      <div class="col-sm-2">
+        <div class="radio">
+          <label>
+            <input type="radio" ng-model="info.key_type" ng-value="number0">        
+            操作员
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="radio">
+          <label>
+            <input type="radio" ng-model="info.key_type" ng-value="number1">        
+            管理员
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">状态</label>
+      <div class="col-sm-2">
+        <div class="radio">
+          <label>
+            <input type="radio" ng-model="info.enabled" ng-value="boolTrue"> 
+            启用
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="radio">
+          <label>
+            <input type="radio" ng-model="info.enabled" ng-value="boolFalse">   
+            禁用
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">描述</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="info.desc">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-primary" ng-click="add()">保存</button>
+        <button class="btn btn-default" ui-sref="key">取消</button>
+      </div>
+    </div>
+  </form>
+</div>

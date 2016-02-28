@@ -31,7 +31,7 @@ angular.module('app.filter', []).filter('online', [function() {
     if (true === enabled){
       return '启用';
     } else {
-      return '停用';
+      return '禁用';
     }
   };
 }]);
