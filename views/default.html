@@ -1,9 +1,14 @@
 <div class="container" ng-controller="default">
   <div class="row">
+    <div class="col-sm-12 page-header page-header-condensed">
+      <h3>用户概况</h3>
+    </div>
     <div class="col-sm-4">
       <div class="panel panel-primary client-card">
         <div class="panel-body">
-          <p class="text-primary"><strong>{{username}}</strong></p>
+          <p class="text-primary">
+            <a ui-sref="user"><strong>{{username}}</strong></a>
+          </p>
           <div> <strong>描述：</strong>
             <span>{{userinfo.desc}}</span>
           </div>
@@ -21,10 +26,15 @@
         </div>
       </div>
     </div>
+    <div class="col-sm-12 page-header page-header-condensed">
+      <h3>项目概况</h3>
+    </div>
     <div class="col-sm-4" ng-repeat="pro in project">
       <div class="panel panel-primary client-card">
         <div class="panel-body">
-          <p class="text-primary"><strong>{{pro.name}}</strong></p>
+          <p class="text-primary">
+            <a ui-sref="project({project: pro.name})"><strong>{{pro.name}}</strong></a>
+          </p>
           <div> <strong>项目标题：</strong>
             <span>{{pro.title}}</span>
           </div>

@@ -1,19 +1,18 @@
 <div class="container-fluid" ng-controller="camera">
   <form class="form-inline">
-    <button class="btn btn-default" ng-click="query()">
-      <i class="glyphicon glyphicon-refresh pointer" ui-sref="project.camera-detail({camera: item.uuid})"></i>
-    </button>&nbsp;&nbsp;&nbsp;&nbsp;
     <div class="form-group">
+      <label>筛选&nbsp;</label>
       <select class="form-control">
         <option value="name">名称</option>
         <option value="desc">描述</option>
       </select>
-    </div>
-    <div class="form-group">
       <input type="text" class="form-control" placeholder="Jane Doe">
     </div>
-    <button type="submit" class="btn btn-default" ng-click="query()">
-      <i class="glyphicon glyphicon-search pointer" ui-sref="project.camera-detail({camera: item.uuid})"></i>
+    <button class="btn btn-default" ng-click="query()">
+      <i class="glyphicon glyphicon-search pointer"></i>
+    </button>
+    <button class="btn btn-default pull-right" ng-click="refresh()">
+      <i class="glyphicon glyphicon-refresh pointer"></i>
     </button>
   </form>
   <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
