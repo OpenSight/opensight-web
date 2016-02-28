@@ -53,7 +53,7 @@
             <ul class="dropdown-menu">
               <li><a ui-sref="default">default</a></li>
               <li role="separator" class="divider"></li>
-              <li ng-repeat="pro in project.list">
+              <li ng-repeat="pro in project">
                 <a ui-sref="project({project: pro.name})">{{pro.name}}</a>
               </li>
             </ul>
@@ -67,7 +67,7 @@
             <li><a ui-sref="key" ui-sref-active="active" class="nav-ui-sref">access key</a></li>
           </li>
           <li>
-            <li><a href="#">注销</a></li>
+            <li><a ng-click="logout()">注销</a></li>
           </li>
         </ul>
       </div>

@@ -14,7 +14,13 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     }
   });
   $scope.url = api + "users/" + $scope.username + '/projects';
-  $scope.url = api + 'projects';
+  // $scope.url = api + 'projects';
+
+  $scope.logout = function(){
+    if (true === confirm('是否退出登录？')){
+      jwt.logout();
+    }
+  };
 
   $http.get($scope.url, {}).success(function(response) {
     $scope.project = response;
@@ -391,11 +397,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     if (undefined === $scope.id){
       return;
     }
-    $http.delete(url + '/' + $scope.id, {}).success(function(response) {
-
-    }).error(function(response, status) {
-      console.log('error');
-    });
+    $http.delete(url + '/' + $scope.id, {});
   };
   var updateTip = function(){
     tiptimer = setInterval(function(){
