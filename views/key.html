@@ -1,26 +1,35 @@
 <div class="container" ng-controller="key">
-  <table class="table table-condensed table-hover table-bordered table-striped">
+  <form class="form-inline">
+    <button class="btn btn-default" ng-click="refresh()">
+      <i class="glyphicon glyphicon-refresh pointer"></i>
+    </button>
+    <button class="btn btn-default" ng-click="refresh()">
+      <i class="glyphicon glyphicon-plus pointer"></i>
+    </button>
+  </form>
+  <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
     <thead>
       <tr>
         <th class="col-sm-2">id</th>
         <th class="col-sm-2">用户名</th>
-        <th class="col-sm-1">类型</th>
-        <th class="col-sm-1">状态</th>
-        <th class="col-sm-3">描述</th>
-        <th class="col-sm-2">创建时间</th>
-        <th class="col-sm-1">操作</th>
+        <th class="col-sm-1 text-center">类型</th>
+        <th class="col-sm-1 text-center">状态</th>
+        <th class="col-sm-2">描述</th>
+        <th class="col-sm-2 text-center">创建时间</th>
+        <th class="col-sm-2 text-center">操作</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="item in keys.list">
         <td>{{item.key_id}}</td>
         <td>{{item.username}}</td>
-        <td>{{item.key_type|key_type}}</td>
-        <td>{{item.enabled|key_enabled}}</td>
+        <td class="text-center">{{item.key_type|key_type}}</td>
+        <td class="text-center">{{item.enabled|key_enabled}}</td>
         <td>{{item.desc}}</td>
-        <td>{{item.ctime}}</td>
-        <td>
+        <td class="text-center">{{item.ctime}}</td>
+        <td class="text-center">
           <button class="btn btn-default btn-sm btn-primary" ng-click="open(item.key_id)"><i class="fa fa-key"></i>&nbsp;获取</button>
+          <button class="btn btn-default btn-sm" ng-click="del(item.key_id)"><i class="glyphicon glyphicon-trash"></i></button>
         </td>
       </tr>
     </tbody>

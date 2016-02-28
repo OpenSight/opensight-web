@@ -150,6 +150,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     var modalInstance = $uibModal.open({
       templateUrl: 'sessionModalContent.html',
       controller: 'session',
+      size: 'lg',
       resolve: {
         caminfo: function () {
           return $scope.cam;
@@ -381,7 +382,14 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       clearInterval(alivetimer);
       alivetimer = undefined;
     }
+    var count = 1440;
     alivetimer = setInterval(function(){
+      if (0 === count){
+        stop();
+        return;
+      } else {
+        count--;
+      }
       $http.post(url + '/' + info.session_id, {}).success(function(response) {
 
       }).error(function(response, status) {
