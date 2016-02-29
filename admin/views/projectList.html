@@ -689,8 +689,8 @@
                                     <div class="col-sm-8">
                                         <button class="btn btn-default" ng-click="project.camera.data_mod.submitForm(u,$index)"><i class="fa fa-check"></i>&nbsp;确定</button>
                                         <button class="btn btn-default" ng-click="project.camera.data_mod.reset(u,$index)"><i class="fa fa-remove"></i>&nbsp;取消</button>
-                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(project.camera.data_mod.data[$index],true)" ng-show="!(project.camera.data_mod.data[$index].live)"><i class="fa fa-play"></i>&nbsp;开启直播</button>
-                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(project.camera.data_mod.data[$index],false)" ng-show="(project.camera.data_mod.data[$index].live)"><i class="fa fa-stop"></i>&nbsp;停止直播</button>
+                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(project.camera.data_mod.data[$index],true)" ng-show="!(project.camera.data_mod.data[$index].live)"><i class="fa fa-play"></i>&nbsp;允许直播</button>
+                                        <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(project.camera.data_mod.data[$index],false)" ng-show="(project.camera.data_mod.data[$index].live)"><i class="fa fa-stop"></i>&nbsp;禁止直播</button>
                                     </div>
                                 </div>
                                 <!--div class="form-group">
@@ -856,12 +856,29 @@
 
 <tab heading="直播记录" active="project.data_mod.tabs[4]" select="project.session.initSession()">
     <div class="col-sm-12 input-group os-table-toolbar">
+        <div class="col-sm-5 input-group os-table-toolbar">
         <span class="input-group-addon">
-            <i class="fa fa-search"></i>
+            <i class="fa fa-calendar"></i>
         </span>
-        <input type="text" class="form-control" placeholder="Filter..." style="width:20%" ng-model="project.sessionlist.seach" />
+        <input type="text" class="form-control" style="width:60%" placeholder="Filter..." ng-model="project.sessionlist.seach" />
+        </div>
+        <div class="col-sm-5 ">
+        <span class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </span>
+            <input type="text" class="form-control" style="width:60%" placeholder="Filter..." ng-model="project.sessionlist.seach" />
+        </div>
         <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.session.refresh()">
             <i  class="fa fa-refresh"></i>
+        </span>
+        <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="下载" ng-click="project.session.down()">
+            <i  class="fa fa-download"></i>
+        </span>
+        <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="统计" ng-click="project.session.sum()">
+            <i  class="fa fa-calculator"></i>
+        </span>
+        <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="查询" ng-click="project.session.search()">
+            <i  class="fa fa-search"></i>
         </span>
     </div>
 

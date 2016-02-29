@@ -15,7 +15,7 @@ app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore',
     //$scope.user = G_GetQueryString("user");
     G_token = $cookies.get('jwt');
     G_user = $cookies.get('username');
-    if (G_token===undefined || G_user===undefined) $window.location.href = "login.html";
+    if (G_token===undefined || G_user===undefined || G_user==="") $window.location.href = "login.html";
     $scope.token = G_token;
     $scope.user = G_user;
     $scope.$on("Ctr1ModalShow",
