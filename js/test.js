@@ -81,13 +81,15 @@ $(function(){
 
   $('#preview').click(function(){
     var uri = $('#url').val();
+    var bufferTime = parseFloat($('#bufferTime').val(), 10);
     // uri = 'http://121.41.72.231/hls/NMen0dvaSCG_oS_m_ver6w.m3u8';
     var flashvars = {
       // src: 'http://www.opensight.cn/hls/camera1.m3u8',
       src: uri,
       plugin_hls: "flashlsOSMF.swf",
       // scaleMode: 'none',
-      autoPlay: true
+      autoPlay: true,
+      bufferTime: bufferTime
     };
 
     var params = {
