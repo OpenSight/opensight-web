@@ -106,3 +106,11 @@ body{
   margin-top: 5px;
   margin-bottom: 2px;
 }
+.msg{
+  position: fixed;
+  top: 45px;
+  z-index: 999999999;
+}
+.msg>p{
+  padding: 5px;
+}

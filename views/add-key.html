@@ -1,8 +1,8 @@
 <div class="container" ng-controller="add-key">
   <div class="col-sm-12 page-header page-header-condensed">
     <h3>
+      <button class="btn btn-default btn-sm" ui-sref="key"><i class="fa fa-arrow-left"></i></button>&nbsp;&nbsp;
       新建密匙
-      <button class="btn btn-default btn-sm pull-right" ui-sref="key"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;返回</button>
     </h3>
   </div>
   <form class="form-horizontal">
@@ -11,7 +11,7 @@
       <div class="col-sm-2">
         <div class="radio">
           <label>
-            <input type="radio" ng-model="info.key_type" ng-value="number0">        
+            <input type="radio" ng-model="info.key_type" ng-value="number0" disabled>        
             操作员
           </label>
         </div>
@@ -19,7 +19,7 @@
       <div class="col-sm-2">
         <div class="radio">
           <label>
-            <input type="radio" ng-model="info.key_type" ng-value="number1">        
+            <input type="radio" ng-model="info.key_type" ng-value="number1" disabled>        
             管理员
           </label>
         </div>

@@ -6,7 +6,8 @@ var app = angular.module('client', [
   'ui.router',
   'ui.bootstrap',
   'app.controller',
-  'app.filter'
+  'app.filter',
+  'app.services'
 ])
 .run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
   // It's very handy to add references to $state and $stateParams to the $rootScope
@@ -26,7 +27,7 @@ var app = angular.module('client', [
         return config;
       },
       responseError: function(rejection, response, status) {
-        $rootScope.$broadcast('responseErrorStart', rejection);
+        $rootScope.$emit('responseErrorStart', rejection);
         return $q.reject(rejection);
       }
     };

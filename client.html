@@ -70,8 +70,18 @@
             <li><a ng-click="logout()">注销</a></li>
           </li>
         </ul>
+      </div>      
+    </div>
+    <div class="col-xs-6 col-sm-4 col-sm-offset-4 col-xs-offset-3" ng-show="message.list.length > 0">
+      <div class="msg col-sm-4">
+        <p ng-repeat="it in message.list" ng-class="{true: 'bg-primary', false: 'bg-danger'}[it.succ]">
+          <i class="fa" ng-class="{true: 'fa-smile-o', false: 'fa-frown-o'}[it.succ]"></i>
+          {{it.text}}
+          <i class="glyphicon glyphicon-remove pull-right" ng-click="message.remove($index)"></i>
+        </p>
       </div>
     </div>
+    
   </header>
   <div ui-view></div>
 <script src="bower_components/angular/angular.min.js"></script>
@@ -83,6 +93,7 @@
 <script src="js/client.js"></script>
 <script src="js/client/container.js"></script>
 <script src="js/client/filter.js"></script>
+<script src="js/client/services.js"></script>
 <!-- <script src="js/client/directives.js"></script> -->
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 

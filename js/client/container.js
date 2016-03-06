@@ -1,6 +1,6 @@
 'use strict';
 var api = 'http://121.41.72.231:5001/api/ivc/v1/';
-angular.module('app.controller', []).controller('header', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
+angular.module('app.controller', []).controller('header', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
   $scope.username = $rootScope.$jwt.get().aud;
   $scope.project = {
     list: []
@@ -29,8 +29,66 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   }).error(function(response, status) {
     console.log('error');
   });
-  $scope.$on('responseErrorStart', function(rejection) {
+  $rootScope.$on('responseErrorStart', function(rejection) {
     console.log('responseErrorStart');
+  });
+
+
+  $scope.message = {
+    bshow: false,
+    list: [],
+    timer: undefined,
+    remove: function(idx){
+      $scope.message.list.splice(idx, 1);
+      if (0 === $scope.message.list.length){
+        $scope.message.hide();
+      }
+    },
+    show: function(msg){
+      $scope.message.clear();
+      $scope.message.list = [msg];
+      $scope.message.bshow = true;
+      $scope.message.autohide();
+      $scope.$apply();
+    },
+    hide: function(){
+      $scope.message.list = [];
+      $scope.message.bshow = false;
+      $scope.message.clear();
+      $scope.$apply();
+    },
+    clear: function(){
+      if (undefined === $scope.message.timer){
+        return;
+      }
+      clearInterval($scope.message.timer);
+      $scope.message.timer = undefined;
+    },
+    push: function(msg){
+      $scope.message.clear();
+      $scope.message.list.push(msg);
+      $scope.message.bshow = true;
+      $scope.message.autohide();
+      $scope.$apply();
+    },
+    autohide: function(){
+      $scope.message.timer = window.setTimeout(function(){
+        $scope.message.timer = undefined;
+        $scope.message.hide();
+      }, 5000);
+    }
+  };
+  $rootScope.$on('messageShow', function(event, data) {
+    console.log('messageShow');
+    $scope.message.show(data);
+  });
+  $rootScope.$on('messageHide', function(event) {
+    console.log('messageHide');
+    $scope.message.hide();
+  });
+  $rootScope.$on('messagePush', function(event, data) {
+    $scope.message.push(data);
+    console.log('messagePush');
   });
 }])
 .controller('project', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
@@ -60,135 +118,128 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     });
   };
 }])
-.controller('camera', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
-  var getBitmap = function(f, bits) {
-    var t = [];
-    var i = 0;
-    do {
-      t[i] = f % 2;
-      f = Math.floor(f / 2);
-      i++;
-    } while (f > 0);
-    while (i < bits) {
-      t[i] = 0;
-      i++;
-    }
-    return t;
-  };
-  var parse = function(flags){
-    var m = getBitmap(flags, 8);
-    var ab = [{
-      text: 'LD',
-      title: '流畅',
-      cls: '',
-      idx: 0
-    }, {
-      text: 'SD',
-      title: '标清',
-      cls: '',
-      idx: 1
-    }, {
-      text: 'HD',
-      title: '高清',
-      cls: '',
-      idx: 2
-    }, {
-      text: 'FHD',
-      title: '超清',
-      cls: '',
-      idx: 3
-    }];
-    var t = [];
-    for (var i = 0, l = ab.length; i < l; i++){
-      if (1 === m[ab[i].idx]){
-        t.push(ab[i]);
-      }
-    }
 
-    return {
-      live: 0 === m[5],
-      ability: t
+//camera
+.controller('camera', [
+  '$scope', '$rootScope', '$http', '$uibModal', 'flagFactory',
+  function($scope, $rootScope, $http, $uibModal, flagFactory) {
+    $scope.project = $rootScope.$stateParams.project;
+    $scope.camera = {
+      list: []
     };
-  };
 
-  $scope.project = $rootScope.$stateParams.project;
-  $scope.camera = {list:[]};
-
-  $http.get(api + "projects/" + $scope.project + '/cameras', {}).success(function(response) {
-    for (var i = 0, l = response.list.length; i < l; i++){
-      var flags = parse(response.list[i].flags);
-      response.list[i].ability = flags.ability;
-      response.list[i].live = flags.live;
-      if (0 !== response.list[i].ability.length){
-        response.list[i].quality = response.list[i].ability[0].text;
-      }
-    }
-    $scope.camera = response;
-  }).error(function(response, status) {
-    console.log('error');
-  });
-
-  $scope.enable = function(cam, enabled){
-    var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
-    if (false === confirm(tip)){
-      return false;
-    }
-    var data = {
-      enable: enabled
-    };
-    $http.post(api + "projects/" + $scope.project + '/cameras/' + cam.uuid + '/stream_toggle', data).success(function(response) {
-      console.log('success');
-      cam.live = enabled;
-    }).error(function(response, status) {
-      console.log('error');
-    });
-  };
-  $scope.select = function(cam, quality){
-    cam.quality = quality;
-  };
-  $scope.preview = function(cam, format){
-    cam.format = format;
-    $scope.cam = cam;
-    var modalInstance = $uibModal.open({
-      templateUrl: 'sessionModalContent.html',
-      controller: 'session',
-      size: 'lg',
-      resolve: {
-        caminfo: function () {
-          return $scope.cam;
+    $http.get(api + "projects/" + $scope.project + '/cameras', {}).success(function(response) {
+      for (var i = 0, l = response.list.length; i < l; i++) {
+        var bitmap = flagFactory.getBitmap(response.list[i].flags, 8);
+        var flags = flagFactory.parseCamera(bitmap);
+        response.list[i].ability = flags.ability;
+        response.list[i].live = flags.live;
+        if (0 !== response.list[i].ability.length) {
+          response.list[i].quality = response.list[i].ability[0].text;
         }
       }
-    });
-  };
-}])
-.controller('camera-detail', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
-  $scope.project = $rootScope.$stateParams.project;
-  $scope.camera = $rootScope.$stateParams.camera;
-  $scope.url = api + "projects/" + $scope.project + '/cameras/' + $scope.camera;
-
-  $http.get($scope.url, {
-  }).success(function(response) {
-    $scope.info = response;
-  }).error(function(response, status) {
-    console.log('error');
-  });
-
-  $scope.save = function(){
-    var data = {
-      flags: $scope.info.flags,
-      desc: $scope.info.desc,
-      long_desc: $scope.info.long_desc,
-      longitude: $scope.info.longitude,
-      latitude: $scope.info.latitude,
-      altitude: $scope.info.altitude
-    };
-    $http.put($scope.url, data).success(function(response) {
-      console.log('success');
+      $scope.camera = response;
     }).error(function(response, status) {
       console.log('error');
     });
-  };
-}])
+
+    $scope.enable = function(cam, enabled) {
+      var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
+      if (false === confirm(tip)) {
+        return false;
+      }
+      var data = {
+        enable: enabled
+      };
+      $http.post(api + "projects/" + $scope.project + '/cameras/' + cam.uuid + '/stream_toggle', data).success(function(response) {
+        console.log('success');
+        cam.live = enabled;
+      }).error(function(response, status) {
+        console.log('error');
+      });
+    };
+    $scope.select = function(cam, quality) {
+      cam.quality = quality;
+    };
+    $scope.preview = function(cam, format) {
+      cam.format = format;
+      $scope.cam = cam;
+      var modalInstance = $uibModal.open({
+        templateUrl: 'sessionModalContent.html',
+        controller: 'session',
+        size: 'lg',
+        resolve: {
+          caminfo: function() {
+            return $scope.cam;
+          }
+        }
+      });
+    };
+  }
+])
+.controller('camera-detail', [
+  '$scope', '$rootScope', '$http', 'flagFactory',
+  function($scope, $rootScope, $http, flagFactory) {
+    $scope.bFirst = true;
+    $scope.bLast = true;
+    var project = $rootScope.$stateParams.project;
+    $scope.camera = $rootScope.$stateParams.camera;
+    var url = api + "projects/" + project + '/cameras/' + $scope.camera;
+    var live, preview;
+
+    $http.get(url, {}).success(function(response) {
+      $scope.info = response;
+      var bitmap = flagFactory.getBitmap(response.flags, 8);
+      var flags = flagFactory.parseCamera(bitmap);
+      $scope.info.ability = flags.ability;
+      $scope.info.live = flags.live;
+      live = flags.live;
+
+      $scope.info.preview = flags.preview;
+      preview = flags.preview;
+    }).error(function(response, status) {
+      console.log('error');
+    });
+
+    $scope.save = function() {
+      var data = {
+        flags: $scope.info.flags,
+        desc: $scope.info.desc,
+        long_desc: $scope.info.long_desc,
+        longitude: $scope.info.longitude,
+        latitude: $scope.info.latitude,
+        altitude: $scope.info.altitude
+      };
+      $rootScope.$emit('messageHide');
+      $http.put(url, data).success(function(response) {
+        console.log('success');
+        $rootScope.$emit('messagePush', {succ: true, text: '修改摄像机信息成功。'});
+      }).error(function(response, status) {
+        console.log('error');
+        $rootScope.$emit('messagePush', {succ: false, text: '修改摄像机信息失败。'});
+      });
+      if (live === $scope.info.live){
+        return;
+      }
+      var tip = $scope.info.live ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
+      if (false === confirm(tip)) {
+        return;
+      }
+      var data = {
+        enable: $scope.info.live
+      };
+      var text = $scope.info.live ? '禁用' : '启用';
+      $http.post(url + '/stream_toggle', data).success(function(response) {
+        console.log('success');
+        live = $scope.info.live;
+        $rootScope.$emit('messagePush', {succ: true, text: text + '直播成功。'});
+      }).error(function(response, status) {
+        $rootScope.$emit('messagePush', {succ: false, text: text + '直播失败。'});
+        console.log('error');
+      });
+    };
+  }
+])
 .controller('log', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.project = $rootScope.$stateParams.project;
   $scope.list = [];
@@ -271,6 +322,8 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     console.log('projectChangeSuccess');
   });
 }])
+
+//user
 .controller('user-info', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.username = $rootScope.$jwt.get().aud;
 
@@ -302,6 +355,8 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     });
   };
 }])
+
+// access key
 .controller('key', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
   $scope.username = $rootScope.$jwt.get().aud;
   $scope.url = api + "users/" + $scope.username + '/access_keys';
@@ -368,6 +423,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     });
   };
 }])
+
 .controller('key-detail', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
   $scope.key = $rootScope.$stateParams.key;
   $scope.boolFalse = false;
@@ -392,6 +448,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     });
   };
 }])
+
 .controller('secret', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'access_key', function ($scope, $rootScope, $http, $uibModalInstance, access_key) {
   $scope.username = $rootScope.$jwt.get().aud;
   $scope.url = api + 'access_keys/' + access_key + '/secret';
@@ -405,6 +462,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     $uibModalInstance.close();
   };
 }])
+
 .controller('session', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'caminfo', function ($scope, $rootScope, $http, $uibModalInstance, caminfo) {
   $scope.cam = caminfo;
   $scope.sec = 10;
@@ -492,6 +550,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
         return;
       }
       $scope.sec--;
+      $scope.$apply();
     }, 1000);
   };
 
