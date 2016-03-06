@@ -7,9 +7,70 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                 $scope.trHidden = [];
                 $scope.trHidden[0] = false;
                 $scope.trHidden[1] = true;
+                $scope.customerlist.searchKeyOptionsData = [
+                    {
+                        name: "用户名",
+                        key: "username"
+                    },
+                    {
+                        name: "描述",
+                        key: "desc"
+                    },
+                    {
+                        name: "详细描述",
+                        key: "long_desc"
+                    },
+                    {
+                        name: "别名",
+                        key: "title"
+                    },
+                    {
+                        name: "手机号",
+                        key: "cellphone"
+                    },
+                    {
+                        name: "电子邮箱",
+                        key: "email"
+                    }
+                ];
+                $scope.customerlist.seachKey = "";
+                $scope.customerlist.seachValue = "";
                 $scope.customerlist.get();
                 return true;
             },
+            search: function () {//clean input,close add div
+                $scope.customer.data_add.clean_data();
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/users?filter_key="
+                        +$scope.customerlist.seachKey+"&filter_value="+$scope.customerlist.seachValue+
+                        "&start=0&limit=100", {
+                        timeout: $scope.aborter.promise,
+                        headers:  {
+                            "Authorization" : "Bearer "+$scope.authToken,
+                            "Content-Type": "application/json"
+                        }
+
+                    }).success(function (response) {
+                            $scope.customerlist.data = response;
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "获取用户列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            //tmpMsg.Token =  $scope.camera.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "customer.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
+            },
+
 
             refresh: function () {
                 angular.forEach($scope.customerlist.data.list, function (item, index, array) {

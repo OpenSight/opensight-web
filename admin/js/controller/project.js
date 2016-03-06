@@ -1,42 +1,68 @@
-app.register.controller('Project', ['$scope', '$http', '$q', '$state', function($scope, $http, $q, $state){
-    /*
-    $scope.staticData = [];
-    $scope.staticData.levelOptionsData = [
-        {
-            key: "raid0",
-            value: 0
-        },
-        {
-            key: "raid1",
-            value: 1
-        },
-        {
-            key: "raid5",
-            value: 5
-        },
-        {
-            key: "raid10",
-            value: 10
-        },
-        {
-            key: "raid6",
-            value: 6
-        }
-    ];
-*/
+app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver', 'Blob', function($scope, $http, $q, $state, FileSaver, Blob){
     $scope.project = (function () {
         return {
             show: function () {
                 $scope.destroy();
                 $scope.authToken = G_token;
                 $scope.project.data_mod.showList();
-                /*
-                $scope.project.listShown = true;
-                $scope.project.data_mod.bDetailShown = false;
-                */
+                $scope.projectlist.searchKeyOptionsData = [
+                    {
+                        name: "项目名称",
+                        key: "name"
+                    },
+                    {
+                        name: "描述",
+                        key: "desc"
+                    },
+                    {
+                        name: "详细描述",
+                        key: "long_desc"
+                    },
+                    {
+                        name: "项目标题",
+                        key: "title"
+                    },
+                    {
+                        name: "媒体服务器",
+                        key: "media_server"
+                    }
+                ];
+                $scope.projectlist.seachKey = "";
+                $scope.projectlist.seachValue = "";
                 $scope.projectlist.get();
             },
+            search: function () {//clean input,close add div
+                $scope.project.data_add.clean_data();
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects?filter_key="
+                        +$scope.projectlist.seachKey+"&filter_value="+$scope.projectlist.seachValue+
+                        "&start=0&limit=100", {
+                        timeout: $scope.aborter.promise,
+                        headers:  {
+                            "Authorization" : "Bearer "+$scope.authToken,
+                            "Content-Type": "application/json"
+                        }
 
+                    }).success(function (response) {
+                            $scope.projectlist.data = response;
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "获取项目列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            //tmpMsg.Token =  $scope.camera.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "project.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
+            },
             refresh: function () {
                 angular.forEach($scope.projectlist.data.list, function (item, index, array) {
                     if ($scope.project.data_mod.bDetailShown && $scope.project.data_mod.bDetailShown[index] !== undefined)
@@ -346,8 +372,79 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                     $scope.project.device.refresh();
                 }else{
                     $scope.destroy();
+                    $scope.project.devicelist.searchKeyOptionsData = [
+                        {
+                            name: "设备名称",
+                            key: "name"
+                        },
+                        {
+                            name: "描述",
+                            key: "desc"
+                        },
+                        {
+                            name: "详细描述",
+                            key: "long_desc"
+                        },
+                        {
+                            name: "设备uuid",
+                            key: "uuid"
+                        },
+                        {
+                            name: "设备类型",
+                            key: "type"
+                        },
+                        {
+                            name: "设备登录名",
+                            key: "login_code"
+                        },
+                        {
+                            name: "设备固件",
+                            key: "firmware_model"
+                        },
+                        {
+                            name: "设备硬件",
+                            key: "hardware_model"
+                        }
+                    ];
+                    $scope.project.devicelist.seachKey = "";
+                    $scope.project.devicelist.seachValue = "";
                     $scope.project.devicelist.get();
                 }
+            },
+            search: function () {//clean input,close add div
+                if ($scope.project.data_mod.bDetailShown !== true) return;
+                $scope.project.device.data_add.clean_data();
+                //$scope.camera.addShown = false;
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/"
+                        +$scope.project.data_mod.selectItem.name+ "/devices?filter_key="
+                        +$scope.project.devicelist.seachKey+"&filter_value="+$scope.project.devicelist.seachValue+
+                        "&start=0&limit=100", {
+                        timeout: $scope.aborter.promise,
+                        headers:  {
+                            "Authorization" : "Bearer "+$scope.authToken,
+                            "Content-Type": "application/json"
+                        }
+
+                    }).success(function (response) {
+                            $scope.project.devicelist.data = response;
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "获取设备列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            //tmpMsg.Token =  $scope.camera.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "device.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
             },
 
             refresh: function () {
@@ -653,10 +750,73 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                     $scope.project.camera.refresh();
                 }else{
                     $scope.destroy();
+                    $scope.project.cameralist.searchKeyOptionsData = [
+                        {
+                            name: "摄像头名称",
+                            key: "name"
+                        },
+                        {
+                            name: "描述",
+                            key: "desc"
+                        },
+                        {
+                            name: "详细描述",
+                            key: "long_desc"
+                        },
+                        {
+                            name: "摄像头uuid",
+                            key: "uuid"
+                        },
+                        {
+                            name: "设备uuid",
+                            key: "device_uuid"
+                        }
+                    ];
+                    $scope.project.cameralist.seachKey = "";
+                    $scope.project.cameralist.seachValue = "";
                     $scope.project.cameralist.get();
                 }
             },
+            search: function () {//clean input,close add div
+                if ($scope.project.data_mod.bDetailShown !== true) return;
+                $scope.project.camera.data_add.clean_data();
+                //$scope.camera.addShown = false;
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/"
+                        +$scope.project.data_mod.selectItem.name+ "/cameras?filter_key="
+                        +$scope.project.cameralist.seachKey+"&filter_value="+$scope.project.cameralist.seachValue+
+                        "&start=0&limit=100", {
+                        timeout: $scope.aborter.promise,
+                        headers:  {
+                            "Authorization" : "Bearer "+$scope.authToken,
+                            "Content-Type": "application/json"
+                        }
 
+                    }).success(function (response) {
+                            for (var i = 0; i < response.list.length; i++){
+                                var flags = parse(response.list[i].flags);
+                                response.list[i].ability = flags.ability;
+                                response.list[i].live = flags.live;
+                            }
+                            $scope.project.cameralist.data = response;
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "获取摄像头列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            //tmpMsg.Token =  $scope.camera.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "camera.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
+            },
             refresh: function () {
                 angular.forEach($scope.project.cameralist.data.list, function (item, index, array) {
                     if ($scope.project.camera.data_mod.bDetailShown && $scope.project.camera.data_mod.bDetailShown[index] !== undefined)
@@ -1097,14 +1257,101 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
 
         };
     })();
-
     $scope.project.session = (function () {
         return {
+            init: function () {
+                $scope.project.session.sumShown = false;
+                $scope.project.sessionlist.data = {};
+                $scope.start = {
+                    dt: new Date(),
+                    opened: false
+                };
+                $scope.end = {
+                    dt: new Date(),
+                    opened: false
+                };
+            },
+            initSum: function () {
+                $scope.project.session.sumShown = true;
+                $scope.project.session.sumData = {};
+            },
+            open: function (opts) {
+                opts.opened = true;
+            },
+            search: function () {
+                $scope.project.session.initSession();
+            },
+            down: function () {
+                if ($scope.project.data_mod.bDetailShown !== true) return;
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs_csv?start_from=" +$scope.project.sessionlist.format($scope.start.dt)+
+                        "&end_to=" +$scope.project.sessionlist.format($scope.end.dt), {
+                        timeout: $scope.aborter.promise,
+                        headers:  {
+                            "Authorization" : "Bearer "+$scope.authToken,
+                            "Content-Type": "application/json",
+                            "Accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        }
+
+                    }).success(function (response) {
+                            var blob = new Blob([response], {
+                                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                            });
+                            FileSaver.saveAs(blob,  $scope.project.sessionlist.format($scope.start.dt)+"--" +$scope.project.sessionlist.format($scope.end.dt)+ '.csv');
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "下载用户观看记录列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            tmpMsg.Callback = "session.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
+            },
+            sum: function () {
+                if ($scope.project.data_mod.bDetailShown !== true) return;
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs_sum?start_from=" +$scope.project.sessionlist.format($scope.start.dt)+
+                        "&end_to=" +$scope.project.sessionlist.format($scope.end.dt), {
+                        timeout: $scope.aborter.promise,
+                        headers:  {
+                            "Authorization" : "Bearer "+$scope.authToken,
+                            "Content-Type": "application/json"
+                        }
+
+                    }).success(function (response) {
+                            $scope.project.session.initSum();
+                            $scope.project.session.sumData = response;
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "统计用户观看记录列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            tmpMsg.Callback = "session.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
+            },
             initSession: function () {
                 if ($scope.project.sessionlist.data!==undefined && $scope.project.sessionlist.data.list!==undefined){
                     $scope.project.session.refresh();
                 }else{
                     $scope.destroy();
+                    $scope.project.session.sumShown = false;
                     $scope.project.sessionlist.get();
                 }
             },
@@ -1190,18 +1437,17 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
 
     $scope.project.sessionlist = (function () {
         return {
+            format: function (dt) {
+                var ymd,hms;
+                ymd = [dt.getFullYear(), dt.getMonth()+1, dt.getDate()].join('-');
+                hms = [dt.getHours(), dt.getMinutes(), dt.getSeconds()].join(':')
+                return ymd+"T"+hms;
+            },
             get: function () {
-                var start,end;
-                start = "2015-12-01T00:00:00";
-                end = "2055-12-01T00:00:00";
-                /*
-                start = "2015-12-01T00%3A00%3A00";
-                end = "2055-12-01T00%3A00%3A00";
-                */
                 if ($scope.project.data_mod.bDetailShown !== true) return;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs?start_from=" +start+
-                        "&end_to=" +end+ "&limit=512", {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs?start_from=" +$scope.project.sessionlist.format($scope.start.dt)+
+                        "&end_to=" +$scope.project.sessionlist.format($scope.end.dt)+ "&limit=512", {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -1213,7 +1459,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                         }).error(function (response,status) {
                             var tmpMsg = {};
                             tmpMsg.Label = "错误";
-                            tmpMsg.ErrorContent = "获取session列表失败";
+                            tmpMsg.ErrorContent = "获取用户观看记录列表失败";
                             tmpMsg.ErrorContentDetail = response;
                             tmpMsg.SingleButtonShown = true;
                             tmpMsg.MutiButtonShown = false;
@@ -1240,10 +1486,72 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state', function(
                     $scope.project.user.refresh();
                 }else{
                     $scope.destroy();
+                    $scope.project.userlist.searchKeyOptionsData = [
+                        {
+                            name: "用户名",
+                            key: "username"
+                        },
+                        {
+                            name: "描述",
+                            key: "desc"
+                        },
+                        {
+                            name: "详细描述",
+                            key: "long_desc"
+                        },
+                        {
+                            name: "别名",
+                            key: "title"
+                        },
+                        {
+                            name: "手机号",
+                            key: "cellphone"
+                        },
+                        {
+                            name: "电子邮箱",
+                            key: "email"
+                        }
+                    ];
+                    $scope.project.userlist.seachKey = "";
+                    $scope.project.userlist.seachValue = "";
                     $scope.project.userlist.get();
                 }
             },
+            search: function () {//clean input,close add div
+                if ($scope.project.data_mod.bDetailShown !== true) return;
+                $scope.project.user.data_add.clean_data();
+                //$scope.camera.addShown = false;
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/"
+                        +$scope.project.data_mod.selectItem.name+ "/users?filter_key="
+                        +$scope.project.userlist.seachKey+"&filter_value="+$scope.project.userlist.seachValue+
+                        "&start=0&limit=100", {
+                        timeout: $scope.aborter.promise,
+                        headers:  {
+                            "Authorization" : "Bearer "+$scope.authToken,
+                            "Content-Type": "application/json"
+                        }
 
+                    }).success(function (response) {
+                            $scope.project.userlist.data = response;
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "获取用户列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            //tmpMsg.Token =  $scope.camera.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "user.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
+            },
             refresh: function () {
                 angular.forEach($scope.project.userlist.data.list, function (item, index, array) {
                     if ($scope.project.user.data_mod.bDetailShown && $scope.project.user.data_mod.bDetailShown[index] !== undefined)

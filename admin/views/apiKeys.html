@@ -1,16 +1,32 @@
 <div class="container-fluid container-compact os-tab-container" ng-controller="Key">
 <div class="row row-in-tab os-row-no-padding">
+    <!--form class="form-inline os-table-toolbar">
+        <div class="form-group">
+            <select class="form-control" ng-model="keylist.seachKey" ng-options="o.value as o.key for o in keylist.searchKeyOptionsData" ng-change="">
+            </select>
+            <input type="text" class="form-control" placeholder="Filter..." ng-model="keylist.seachValue">
+        </div>
+        <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="key.search()">
+        <i  class="fa fa-search"></i>
+        </span>
+        <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加" ng-click="key.add()">
+            <i  class="fa fa-plus"></i>
+        </span>
+        <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="key.refresh()">
+            <i  class="fa fa-refresh"></i>
+        </span>
+    </form-->
     <div class="col-sm-12 input-group os-table-toolbar">
-    <span class="input-group-addon">
-        <i class="fa fa-search"></i>
-    </span>
+        <span class="input-group-addon">
+            <i class="fa fa-search"></i>
+        </span>
         <input type="text" class="form-control" placeholder="Filter..." style="width:20%" ng-model="keylist.seach" />
-    <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加" ng-click="key.add()">
-        <i  class="fa fa-plus"></i>
-    </span>
-    <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="key.refresh()">
-        <i  class="fa fa-refresh"></i>
-    </span>
+        <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加" ng-click="key.add()">
+            <i  class="fa fa-plus"></i>
+        </span>
+        <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="key.refresh()">
+            <i  class="fa fa-refresh"></i>
+        </span>
     </div>
 
     <div class="panel os-panel" ng-show="key.addShown">

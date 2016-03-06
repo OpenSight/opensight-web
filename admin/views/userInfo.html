@@ -3,8 +3,8 @@
 <div class="col-sm-12 os-table-container">
     <tr>
         <td colspan="999">
-            <tabset>
-                <tab heading="详细信息" ng-model="userinfo.data_mod.tabs[0]" select="userinfo.data_mod.initDetail()">
+            <uib-tabset>
+                <uib-tab heading="详细信息" ng-model="userinfo.data_mod.tabs[0]" select="userinfo.data_mod.initDetail()">
                     <div class="panel os-panel" >
                         <div class="panel-body">
                             <form class="form-horizontal os-form" role="form">
@@ -85,8 +85,8 @@
                             </form>
                         </div>
                     </div>   
-                    </tab>
-                    <tab heading="重置密码" ng-model="userinfo.data_mod.tabs[1]" select="userinfo.data_mod.initPasswd()">
+                    </uib-tab>
+                    <uib-tab heading="重置密码" ng-model="userinfo.data_mod.tabs[1]" select="userinfo.data_mod.initPasswd()">
                         <div class="panel os-panel" >
                         <div class="panel-body">
                             <form class="form-horizontal os-form" role="form">
@@ -118,8 +118,8 @@
                             </form>
                             </div>
                         </div>
-                    </tab>
-                </tabset>
+                    </uib-tab>
+                </uib-tabset>
         </td>
     </tr>
 </div>
