@@ -125,23 +125,59 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   function($scope, $rootScope, $http, $uibModal, flagFactory) {
     $scope.project = $rootScope.$stateParams.project;
     $scope.camera = {
+      start: 0,
+      limit: 10,
       list: []
     };
+    $scope.params = {
+      filter_key: 'name',
+      filter_value: '',
+      start: 0,
+      limit: 10
+    };
 
-    $http.get(api + "projects/" + $scope.project + '/cameras', {}).success(function(response) {
-      for (var i = 0, l = response.list.length; i < l; i++) {
-        var bitmap = flagFactory.getBitmap(response.list[i].flags, 8);
-        var flags = flagFactory.parseCamera(bitmap);
-        response.list[i].ability = flags.ability;
-        response.list[i].live = flags.live;
-        if (0 !== response.list[i].ability.length) {
-          response.list[i].quality = response.list[i].ability[0].text;
-        }
+    var getParams = function(src){
+      var dst = {
+        start: $scope.params.start,
+        limit: $scope.params.limit
+      };
+      if ('' !== $scope.params.filter_value){
+        params.filter_key = $scope.params.filter_key;
+        params.filter_value = $scope.params.filter_value;
       }
-      $scope.camera = response;
-    }).error(function(response, status) {
-      console.log('error');
-    });
+      return dst;
+    };
+    var query = function(params){
+      $http.get(api + "projects/" + $scope.project + '/cameras', {params: params}).success(function(response) {
+        for (var i = 0, l = response.list.length; i < l; i++) {
+          var bitmap = flagFactory.getBitmap(response.list[i].flags, 8);
+          var flags = flagFactory.parseCamera(bitmap);
+          response.list[i].ability = flags.ability;
+          response.list[i].live = flags.live;
+          if (0 !== response.list[i].ability.length) {
+            response.list[i].quality = response.list[i].ability[0].text;
+          }
+        }
+        $scope.camera = response;
+      }).error(function(response, status) {
+        console.log('error');
+      });
+    };
+    $scope.query = function(){
+      $scope.params.start = 0;
+      var params = getParams($scope.params);
+      query(params);
+    };
+    $scope.refresh = function(){
+      var params = getParams($scope.params);
+      query(params);
+    };
+    $scope.query();
+    $scope.page = {
+      last: 20,
+      curr: 6,
+      list: [4, 5, 6, 7, 8]
+    };
 
     $scope.enable = function(cam, enabled) {
       var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
