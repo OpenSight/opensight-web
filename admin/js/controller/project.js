@@ -5,6 +5,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                 $scope.destroy();
                 $scope.authToken = G_token;
                 $scope.project.data_mod.showList();
+                $scope.project.addShown = false;
                 $scope.projectlist.searchKeyOptionsData = [
                     {
                         name: "项目名称",
@@ -27,7 +28,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         key: "media_server"
                     }
                 ];
-                $scope.projectlist.seachKey = "";
+                $scope.projectlist.seachKey = $scope.projectlist.searchKeyOptionsData[0].key;
                 $scope.projectlist.seachValue = "";
                 $scope.projectlist.get();
             },
@@ -372,6 +373,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                     $scope.project.device.refresh();
                 }else{
                     $scope.destroy();
+                    $scope.project.device.addShown = false;
                     $scope.project.devicelist.searchKeyOptionsData = [
                         {
                             name: "设备名称",
@@ -406,7 +408,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                             key: "hardware_model"
                         }
                     ];
-                    $scope.project.devicelist.seachKey = "";
+                    $scope.project.devicelist.seachKey = $scope.project.devicelist.searchKeyOptionsData[0].key;
                     $scope.project.devicelist.seachValue = "";
                     $scope.project.devicelist.get();
                 }
@@ -750,6 +752,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                     $scope.project.camera.refresh();
                 }else{
                     $scope.destroy();
+                    $scope.project.camera.addShown = false;
                     $scope.project.cameralist.searchKeyOptionsData = [
                         {
                             name: "摄像头名称",
@@ -772,7 +775,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                             key: "device_uuid"
                         }
                     ];
-                    $scope.project.cameralist.seachKey = "";
+                    $scope.project.cameralist.seachKey = $scope.project.cameralist.searchKeyOptionsData[0].key;
                     $scope.project.cameralist.seachValue = "";
                     $scope.project.cameralist.get();
                 }
@@ -1274,6 +1277,13 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
             initSum: function () {
                 $scope.project.session.sumShown = true;
                 $scope.project.session.sumData = {};
+                $scope.project.session.sumData.total = 0;
+                $scope.project.session.sumData.per_quality = {
+                    "ld" : 0,
+                    "sd" : 0,
+                    "hd" : 0,
+                    "fhd" : 0
+                };
             },
             open: function (opts) {
                 opts.opened = true;
@@ -1328,7 +1338,18 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
 
                     }).success(function (response) {
                             $scope.project.session.initSum();
-                            $scope.project.session.sumData = response;
+                            if (response.total!==undefined)
+                                $scope.project.session.sumData.total = response.total;
+                            if (response.per_quality !== undefined){
+                                if (response.per_quality.ld !== undefined)
+                                    $scope.project.session.sumData.per_quality.ld = response.per_quality.ld;
+                                if (response.per_quality.sd !== undefined)
+                                    $scope.project.session.sumData.per_quality.sd = response.per_quality.sd;
+                                if (response.per_quality.hd !== undefined)
+                                    $scope.project.session.sumData.per_quality.hd = response.per_quality.hd;
+                                if (response.per_quality.fhd !== undefined)
+                                    $scope.project.session.sumData.per_quality.fhd = response.per_quality.fhd;
+                            }
                         }).error(function (response,status) {
                             var tmpMsg = {};
                             tmpMsg.Label = "错误";
@@ -1437,17 +1458,19 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
 
     $scope.project.sessionlist = (function () {
         return {
-            format: function (dt) {
+            format: function (dt, flag) {
                 var ymd,hms;
                 ymd = [dt.getFullYear(), dt.getMonth()+1, dt.getDate()].join('-');
-                hms = [dt.getHours(), dt.getMinutes(), dt.getSeconds()].join(':')
+                if (flag === 0)
+                    hms = "00:00:00";
+                else hms = "23:59:59";
                 return ymd+"T"+hms;
             },
             get: function () {
                 if ($scope.project.data_mod.bDetailShown !== true) return;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs?start_from=" +$scope.project.sessionlist.format($scope.start.dt)+
-                        "&end_to=" +$scope.project.sessionlist.format($scope.end.dt)+ "&limit=512", {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs?start_from=" +$scope.project.sessionlist.format($scope.start.dt, 0)+
+                        "&end_to=" +$scope.project.sessionlist.format($scope.end.dt, 1)+ "&limit=512", {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
@@ -1486,6 +1509,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                     $scope.project.user.refresh();
                 }else{
                     $scope.destroy();
+                    $scope.project.user.addShown = false;
                     $scope.project.userlist.searchKeyOptionsData = [
                         {
                             name: "用户名",
@@ -1512,7 +1536,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                             key: "email"
                         }
                     ];
-                    $scope.project.userlist.seachKey = "";
+                    $scope.project.userlist.seachKey = $scope.project.userlist.searchKeyOptionsData[0].key;
                     $scope.project.userlist.seachValue = "";
                     $scope.project.userlist.get();
                 }

@@ -7,6 +7,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                 $scope.trHidden = [];
                 $scope.trHidden[0] = false;
                 $scope.trHidden[1] = true;
+                $scope.customer.addShown = false;
                 $scope.customerlist.searchKeyOptionsData = [
                     {
                         name: "用户名",
@@ -33,7 +34,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                         key: "email"
                     }
                 ];
-                $scope.customerlist.seachKey = "";
+                $scope.customerlist.seachKey = $scope.customerlist.searchKeyOptionsData[0].key;
                 $scope.customerlist.seachValue = "";
                 $scope.customerlist.get();
                 return true;

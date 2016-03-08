@@ -39,10 +39,10 @@
                     <input type="text" class="form-control" ng-model="project.data_add.max_media_sessions" placeholder="必填项" required />
                 </div>
             </div>
-            <div class="form-group has-error">
+            <div class="form-group">
                 <label class="col-sm-2 control-label">媒体服务器</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="project.data_add.media_server" placeholder="必填项" required />
+                    <input type="text" class="form-control" ng-model="project.data_add.media_server"  />
                 </div>
             </div>
             <div class="form-group">
@@ -875,7 +875,7 @@
         <div class="form-group">
             <label>开始时间</label>
               <span class="input-group">
-                <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-ddTHH:mm:ss" ng-model="start.dt" is-open="start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="start.dt" is-open="start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="project.session.open(start)"> <i class="fa fa-calendar"></i>
                   </button>
@@ -885,7 +885,7 @@
         <div class="form-group">
             <label>结束时间</label>
               <span class="input-group">
-                <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-ddTHH:mm:ss" ng-model="end.dt" is-open="end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="end.dt" is-open="end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="project.session.open(end)"> <i class="fa fa-calendar"></i>
                   </button>
@@ -910,35 +910,47 @@
         <div class="panel-body">
             <form class="form-horizontal os-form" role="form">
                 <div class="form-group has-error">
-                    <label class="col-sm-2 control-label">总计</label>
-                    <div class="col-sm-10">
-                        <p class="form-control-static">{{project.session.sumData.total}}</p>
+                    <label class="col-sm-1 control-label">总计</label>
+                    <div class="col-sm-11">
+                        <p class="form-control-static">{{project.session.sumData.total}} 分钟</p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">LD</label>
-                    <div class="col-sm-10">
-                        <p class="form-control-static">{{project.session.sumData.per_quality.ld}}</p>
+                    <label class="col-sm-1 control-label">LD</label>
+                    <div class="col-sm-2">
+                        <p class="form-control-static">{{project.session.sumData.per_quality.ld}} 分钟</p>
+                    </div>
+                    <label class="col-sm-1 control-label">SD</label>
+                    <div class="col-sm-2">
+                        <p class="form-control-static">{{project.session.sumData.per_quality.sd}} 分钟</p>
+                    </div>
+                    <label class="col-sm-1 control-label">HD</label>
+                    <div class="col-sm-2">
+                        <p class="form-control-static">{{project.session.sumData.per_quality.hd}} 分钟</p>
+                    </div>
+                    <label class="col-sm-1 control-label">FHD</label>
+                    <div class="col-sm-2">
+                        <p class="form-control-static">{{project.session.sumData.per_quality.fhd}} 分钟</p>
                     </div>
                 </div>
-                <div class="form-group">
+                <!--div class="form-group">
                     <label class="col-sm-2 control-label">SD</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static">{{project.session.sumData.per_quality.sd}}</p>
+                        <p class="form-control-static">{{project.session.sumData.per_quality.sd}} 分钟</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">HD</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static">{{project.session.sumData.per_quality.hd}}</p>
+                        <p class="form-control-static">{{project.session.sumData.per_quality.hd}} 分钟</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">FHD</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static">{{project.session.sumData.per_quality.fhd}}</p>
+                        <p class="form-control-static">{{project.session.sumData.per_quality.fhd}} 分钟</p>
                     </div>
-                </div>
+                </div-->
             </form>
         </div>
     </div>
@@ -947,18 +959,20 @@
         <table class="table os-table">
             <thead>
             <tr>
+                <th class="col-sm-2">用户名</th>
                 <th class="col-sm-2">子用户</th>
-                <th class="col-sm-4">uuid</th>
-                <th class="col-sm-2">ip</th>
+                <th class="col-sm-2">协议</th>
+                <th class="col-sm-2">画质</th>
                 <th class="col-sm-2">起始</th>
                 <th class="col-sm-2">结束</th>
             </tr>
             </thead>
             <tbody ng-repeat="u in project.sessionlist.data.list | filter: project.sessionlist.seach">
             <tr style="cursor:pointer;">
+                <td ng-click="project.session.data.showDetail(u, $index)">{{u.username}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.subuser}}</td>
-                <td ng-click="project.session.data.showDetail(u, $index)">{{u.uuid}}</td>
-                <td ng-click="project.session.data.showDetail(u, $index)">{{u.ip}}</td>
+                <td ng-click="project.session.data.showDetail(u, $index)">{{u.stream_format}}</td>
+                <td ng-click="project.session.data.showDetail(u, $index)">{{u.stream_quality}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.start}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.end}}</td>
             </tr>
@@ -971,6 +985,12 @@
                                     <label class="col-sm-2 control-label">用户名</label>
                                     <div class="col-sm-4">
                                         <p class="form-control-static">{{project.session.data_mod.data[$index].username}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">子用户</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.session.data_mod.data[$index].subuser}}</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1016,21 +1036,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">stream_format</label>
+                                    <label class="col-sm-2 control-label">协议</label>
                                     <div class="col-sm-4">
                                         <p class="form-control-static">{{project.session.data_mod.data[$index].stream_format}}</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">stream_quality</label>
+                                    <label class="col-sm-2 control-label">画质</label>
                                     <div class="col-sm-4">
                                         <p class="form-control-static">{{project.session.data_mod.data[$index].stream_quality}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">subuser</label>
-                                    <div class="col-sm-4">
-                                        <p class="form-control-static">{{project.session.data_mod.data[$index].subuser}}</p>
                                     </div>
                                 </div>
                             </form>
@@ -1040,6 +1054,12 @@
             </tr>
             </tbody>
         </table>
+        <nav>
+            <ul class="pagination">
+                <li class="text-primary text-pointer" ng-click="prev()" ng-class="{'disabled': bFirst}"><span>上一页</span></li>
+                <li class="text-primary text-pointer" ng-click="next()" ng-class="{'disabled': bLast}"><span>下一页</span></li>
+            </ul>
+        </nav>
     </div>
 </uib-tab>
 

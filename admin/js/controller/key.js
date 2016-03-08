@@ -4,6 +4,7 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
             show: function () {
                 $scope.destroy();
                 $scope.authToken = G_token;
+                $scope.key.addShown = false;
                 $scope.keylist.get();
                 return true;
             },

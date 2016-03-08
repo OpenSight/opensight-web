@@ -4,6 +4,7 @@ app.register.controller('Access', ['$scope', '$http', '$q', function($scope, $ht
             show: function () {
                 $scope.destroy();
                 $scope.authToken = G_token;
+                $scope.access.addShown = false;
                 $scope.accesslist.get();
                 return true;
             },
