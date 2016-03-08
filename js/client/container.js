@@ -141,9 +141,9 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
         start: src.start,
         limit: src.limit
       };
-      if ('' !== $scope.params.filter_value) {
-        params.filter_key = $scope.params.filter_key;
-        params.filter_value = $scope.params.filter_value;
+      if (undefined !== src.filter_value && '' !== src.filter_value) {
+        dst.filter_key = src.filter_key;
+        dst.filter_value = src.filter_value;
       }
       return dst;
     };
