@@ -114,3 +114,11 @@ body{
 .msg>p{
   padding: 5px;
 }
+.page-bar button{
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.page-bar input{
+  display: inline-block;
+  width: 40px;
+}

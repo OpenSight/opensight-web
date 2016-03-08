@@ -126,7 +126,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     $scope.project = $rootScope.$stateParams.project;
     $scope.camera = {
       start: 0,
-      limit: 10,
+      total: 10,
       list: []
     };
     $scope.params = {
@@ -136,19 +136,22 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       limit: 10
     };
 
-    var getParams = function(src){
+    var getParams = function(src) {
       var dst = {
-        start: $scope.params.start,
-        limit: $scope.params.limit
+        start: src.start,
+        limit: src.limit
       };
-      if ('' !== $scope.params.filter_value){
+      if ('' !== $scope.params.filter_value) {
         params.filter_key = $scope.params.filter_key;
         params.filter_value = $scope.params.filter_value;
       }
       return dst;
     };
-    var query = function(params){
-      $http.get(api + "projects/" + $scope.project + '/cameras', {params: params}).success(function(response) {
+    var lastParams;
+    var query = function(params) {
+      $http.get(api + "projects/" + $scope.project + '/cameras', {
+        params: params
+      }).success(function(response) {
         for (var i = 0, l = response.list.length; i < l; i++) {
           var bitmap = flagFactory.getBitmap(response.list[i].flags, 8);
           var flags = flagFactory.parseCamera(bitmap);
@@ -159,25 +162,22 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
           }
         }
         $scope.camera = response;
+        $scope.page = page($scope.camera.start, $scope.camera.total, params.limit, 2);
       }).error(function(response, status) {
         console.log('error');
       });
+      lastParams = angular.copy(params);
     };
-    $scope.query = function(){
+    $scope.query = function() {
       $scope.params.start = 0;
       var params = getParams($scope.params);
       query(params);
     };
-    $scope.refresh = function(){
-      var params = getParams($scope.params);
+    $scope.refresh = function() {
+      var params = getParams(lastParams);
       query(params);
     };
-    $scope.query();
-    $scope.page = {
-      last: 20,
-      curr: 6,
-      list: [4, 5, 6, 7, 8]
-    };
+    
 
     $scope.enable = function(cam, enabled) {
       var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
@@ -211,6 +211,47 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
         }
       });
     };
+
+    var page = function(start, total, limit, n){
+      var p = {};
+      p.curr = Math.floor(start / limit);
+      p.last = Math.floor(total / limit);
+      var s = p.curr - n;
+      var e = p.curr + n;
+      s = s < 0 ? 0 : s;
+      e = e > p.last ? p.last : e;
+      p.list = [];
+      for (var i = s; i <= e; i++){
+        p.list.push(i);
+      }
+      return p;
+    };
+    $scope.jumpto = '';
+    $scope.go = function(p){
+      if (p === $scope.page.curr){
+        return;
+      }
+      lastParams.start = p * $scope.params.limit;
+      query(lastParams);
+    };
+    $scope.jump = function(){
+      var msg = {succ: false, text: '页码输入不正确。'}
+      var jumpto = $scope.jumpto;
+      $scope.jumpto = '';
+      if (null === jumpto.match(/^[1-9][\d]*$/)){
+        $rootScope.$emit('messagePush', msg);
+        return;
+      }
+      var p = parseInt(jumpto, 10) - 1;
+      if (p === $scope.page.curr || p > $scope.page.last){
+        $rootScope.$emit('messageShow', msg);
+        return;
+      }
+      lastParams.start = p * $scope.params.limit;
+      query(lastParams);
+    };
+
+    $scope.query();
   }
 ])
 .controller('camera-detail', [
