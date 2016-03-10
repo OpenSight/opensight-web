@@ -1056,8 +1056,8 @@
         </table>
         <nav>
             <ul class="pagination">
-                <li class="text-primary text-pointer" ng-click="prev()" ng-class="{'disabled': bFirst}"><span>上一页</span></li>
-                <li class="text-primary text-pointer" ng-click="next()" ng-class="{'disabled': bLast}"><span>下一页</span></li>
+                <li style="cursor: pointer" class="text-primary text-pointer" ng-click="project.sessionlist.prev()" ng-class="{'disabled': project.sessionlist.bFirst}"><span>上一页</span></li>
+                <li style="cursor: pointer" class="text-primary text-pointer" ng-click="project.sessionlist.next()" ng-class="{'disabled': project.sessionlist.bLast}"><span>下一页</span></li>
             </ul>
         </nav>
     </div>

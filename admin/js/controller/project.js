@@ -1263,6 +1263,9 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
     $scope.project.session = (function () {
         return {
             init: function () {
+                $scope.project.sessionlist.params = {limit: 50};
+                $scope.project.sessionlist.bFirst = true;
+                $scope.project.sessionlist.bLast = true;
                 $scope.project.session.sumShown = false;
                 $scope.project.sessionlist.data = {};
                 $scope.start = {
@@ -1468,10 +1471,19 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
             },
             get: function () {
                 if ($scope.project.data_mod.bDetailShown !== true) return;
+                $scope.project.sessionlist.params.start_from = $scope.project.sessionlist.format($scope.start.dt, 0);
+                $scope.project.sessionlist.params.end_to = $scope.project.sessionlist.format($scope.end.dt, 1);
+                $scope.project.sessionlist.params.reverse = false;
+                $scope.project.sessionlist.params.last_end_time = undefined;
+                $scope.project.sessionlist.params.last_session_id = undefined;
+                $scope.project.sessionlist.bFirst = true;
+                $scope.project.sessionlist.bLast = true;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs?start_from=" +$scope.project.sessionlist.format($scope.start.dt, 0)+
-                        "&end_to=" +$scope.project.sessionlist.format($scope.end.dt, 1)+ "&limit=512", {
+                    $http({
+                        url:"http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs",
+                        method: "GET",
                         timeout: $scope.aborter.promise,
+                        params: $scope.project.sessionlist.params,
                         headers:  {
                             "Authorization" : "Bearer "+$scope.authToken,
                             "Content-Type": "application/json"
@@ -1479,6 +1491,8 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
 
                     }).success(function (response) {
                             $scope.project.sessionlist.data = response;
+                            if ($scope.project.sessionlist.data.list.length === $scope.project.sessionlist.params.limit)
+                                $scope.project.sessionlist.bLast = false;
                         }).error(function (response,status) {
                             var tmpMsg = {};
                             tmpMsg.Label = "错误";
@@ -1494,7 +1508,90 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                                 $scope.$emit("Ctr1ModalShow", tmpMsg);
 
                         });
+            },
+            next: function(){
+                if ($scope.project.sessionlist.bLast === true) return;
+                $scope.project.sessionlist.params.reverse = false;
+                $scope.project.sessionlist.params.last_end_time = $scope.project.sessionlist.data.list[$scope.project.sessionlist.data.list.length - 1].end;
+                $scope.project.sessionlist.params.last_session_id = $scope.project.sessionlist.data.list[$scope.project.sessionlist.data.list.length - 1].uuid;
+                $scope.aborter = $q.defer(),
+                    $http({
+                        url:"http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs",
+                        method: "GET",
+                        timeout: $scope.aborter.promise,
+                        params: $scope.project.sessionlist.params,
+                        headers:  {
+                            "Authorization" : "Bearer "+$scope.authToken,
+                            "Content-Type": "application/json"
+                        }
 
+                    }).success(function (response) {
+                            $scope.project.sessionlist.data = response;
+                            if ($scope.project.sessionlist.data.list.length === $scope.project.sessionlist.params.limit)
+                                $scope.project.sessionlist.bLast = false;
+                            else $scope.project.sessionlist.bLast = true;
+                            if ($scope.project.sessionlist.data.list.length > 0)
+                                $scope.project.sessionlist.bFirst = false;
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "获取用户观看记录列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            tmpMsg.Callback = "session.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+            },
+            prev: function(){
+                if ($scope.project.sessionlist.bFirst === true) return;
+                $scope.project.sessionlist.params.reverse = true;
+                $scope.project.sessionlist.params.last_end_time = $scope.project.sessionlist.data.list[0].end;
+                $scope.project.sessionlist.params.last_session_id = $scope.project.sessionlist.data.list[0].uuid;
+                $scope.aborter = $q.defer(),
+                    $http({
+                        url:"http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs",
+                        method: "GET",
+                        timeout: $scope.aborter.promise,
+                        params: $scope.project.sessionlist.params,
+                        headers:  {
+                            "Authorization" : "Bearer "+$scope.authToken,
+                            "Content-Type": "application/json"
+                        }
+
+                    }).success(function (response) {
+                            if (response.list.length === $scope.project.sessionlist.params.limit)
+                                $scope.project.sessionlist.bFirst == false;
+                            else $scope.project.sessionlist.bFirst = true;
+                            if (response.list.length > 0){
+                                $scope.project.sessionlist.bLast = false;
+                                $scope.project.sessionlist.data.list = [];
+                            }
+
+                            for (var i=0;i<response.list.length;i++){
+                                $scope.project.sessionlist.data.list[i] = response.list[response.list.length-i-1];
+                            }
+
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "获取用户观看记录列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            tmpMsg.Callback = "session.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
             }
 
 
