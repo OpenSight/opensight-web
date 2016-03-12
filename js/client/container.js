@@ -1,6 +1,6 @@
 'use strict';
 var api = 'http://121.41.72.231:5001/api/ivc/v1/';
-angular.module('app.controller', []).controller('header', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+angular.module('app.controller', []).controller('header', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
   $scope.username = $rootScope.$jwt.get().aud;
   $scope.project = {
     list: []
@@ -49,19 +49,19 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       $scope.message.list = [msg];
       $scope.message.bshow = true;
       $scope.message.autohide();
-      $scope.$apply();
+      // $scope.$apply();
     },
     hide: function(){
       $scope.message.list = [];
       $scope.message.bshow = false;
       $scope.message.clear();
-      $scope.$apply();
+      // $scope.$apply();
     },
     clear: function(){
       if (undefined === $scope.message.timer){
         return;
       }
-      clearInterval($scope.message.timer);
+      $timeout.cancel($scope.message.timer);
       $scope.message.timer = undefined;
     },
     push: function(msg){
@@ -69,10 +69,10 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       $scope.message.list.push(msg);
       $scope.message.bshow = true;
       $scope.message.autohide();
-      $scope.$apply();
+      // $scope.$apply();
     },
     autohide: function(){
-      $scope.message.timer = window.setTimeout(function(){
+      $scope.message.timer = $timeout(function() {
         $scope.message.timer = undefined;
         $scope.message.hide();
       }, 5000);
@@ -540,7 +540,8 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   };
 }])
 
-.controller('session', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'caminfo', function ($scope, $rootScope, $http, $uibModalInstance, caminfo) {
+.controller('session', ['$scope', '$rootScope', '$http', '$uibModalInstance', '$timeout', '$interval', 'caminfo', 
+  function ($scope, $rootScope, $http, $uibModalInstance, $timeout, $interval, caminfo) {
   $scope.cam = caminfo;
   $scope.sec = 10;
 
@@ -591,11 +592,11 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   var addVideoTag = function(info){};
   var keepalive = function(info){
     if (undefined !== alivetimer){
-      clearInterval(alivetimer);
+      $timeout.cancel(alivetimer);
       alivetimer = undefined;
     }
     var count = 1440;
-    alivetimer = setInterval(function(){
+    alivetimer = $timeout(function(){
       if (0 === count){
         stop();
         return;
@@ -620,14 +621,14 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     $http.delete(url + '/' + $scope.id, {});
   };
   var updateTip = function(){
-    tiptimer = setInterval(function(){
+    tiptimer = $interval(function(){
       if (1 === $scope.sec && undefined !== tiptimer){
-        clearInterval(tiptimer);
+        $interval.cancel(tiptimer);
         tiptimer = undefined;
         return;
       }
       $scope.sec--;
-      $scope.$apply();
+      // $scope.$apply();
     }, 1000);
   };
 
