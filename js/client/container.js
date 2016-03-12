@@ -1,5 +1,5 @@
 'use strict';
-var api = 'http://121.41.72.231:5001/api/ivc/v1/';
+var api = 'http://api.opensight.cn/api/ivc/v1/';
 angular.module('app.controller', []).controller('header', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
   $scope.username = $rootScope.$jwt.get().aud;
   $scope.project = {
