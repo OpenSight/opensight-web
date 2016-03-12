@@ -1,5 +1,5 @@
 <div class="container-fluid" ng-controller="camera-detail">
-  <div class="col-sm-12 page-header page-header-condensed">
+  <!-- <div class="col-sm-12 page-header page-header-condensed">
     <h3>
       <button class="btn btn-default btn-sm" ui-sref="project.camera"><i class="fa fa-arrow-left"></i></button>&nbsp;&nbsp;
       配置摄像机&nbsp;
@@ -7,10 +7,11 @@
         <button ng-repeat="it in info.ability" class="btn btn-primary" role="group" title={{it.title}}>{{it.text}}</button>
       </div>
     </h3>
-  </div>
+  </div> -->
   <form>
     <div class="form-group">
       <label>
+        <button class="btn btn-default btn-sm" ui-sref="project.camera"><i class="fa fa-arrow-left"></i></button>&nbsp;&nbsp;
         摄像机名称
       </label>
       <input type="text" class="form-control" ng-model="info.name">
@@ -38,6 +39,9 @@
     <div class="form-group">
       <label>摄像头标志位</label>
       <div class="checkbox">
+        <div class="btn-group btn-group-xs">
+          <button ng-repeat="it in info.ability" class="btn btn-primary" role="group" title={{it.title}}>{{it.text}}</button>
+        </div>&nbsp;&nbsp;&nbsp;&nbsp;
         <label><input type="checkbox" ng-model="info.live">直播</label>&nbsp;&nbsp;&nbsp;&nbsp;
         <label><input type="checkbox" ng-model="info.preview" disabled>预览图</label>
       </div>
