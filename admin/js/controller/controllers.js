@@ -8,16 +8,19 @@ function G_GetQueryString(name)
 }
 //G_token = G_GetQueryString("token");
 //G_user = G_GetQueryString("user");
+G_user = jwt.get().aud;
+G_token = jwt.get().jwt;
 G_salt = "opensight.cn";
+
 
 app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore', function($scope, $http, $q, $window, $cookies){
     //$scope.token = G_GetQueryString("token");
     //$scope.user = G_GetQueryString("user");
-    G_token = $cookies.get('jwt');
-    G_user = $cookies.get('username');
-    if (G_token===undefined || G_user===undefined || G_user==="") $window.location.href = "login.html";
-    $scope.token = G_token;
-    $scope.user = G_user;
+    // G_token = $cookies.get('jwt');
+    // G_user = $cookies.get('username');
+    // if (G_token===undefined || G_user===undefined || G_user==="") $window.location.href = "login.html";
+    // $scope.token = G_token;
+    // $scope.user = G_user;
     $scope.$on("Ctr1ModalShow",
         function (event, errMsg) {
             $scope.errModalHandler.show(errMsg);
@@ -140,63 +143,63 @@ app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore',
         };
     })();
 
-    $scope.keepalive = (function () {
-        return {
-            check: function (errMsg) {
-                if (undefined === $cookies.get('jwt')){
-                    return -1;
-                }
-                var claim = $scope.keepalive.parse();
-                if (undefined === claim.exp){
-                    return -1;
-                }
-                var t = Math.ceil((new Date().getTime()) / 1000)
-                return (claim.exp - t);
-            },
-            update:function () {
-                if (true === $scope.keepalive.updateing){
-                    return false;
-                }
-                $scope.keepalive.updateing = true;
-                var d = new Date ();
-                d.setHours(d.getHours() + 1);
-                var e = Math.ceil(d.getTime() / 1000);
+    // $scope.keepalive = (function () {
+    //     return {
+    //         check: function (errMsg) {
+    //             if (undefined === $cookies.get('jwt')){
+    //                 return -1;
+    //             }
+    //             var claim = $scope.keepalive.parse();
+    //             if (undefined === claim.exp){
+    //                 return -1;
+    //             }
+    //             var t = Math.ceil((new Date().getTime()) / 1000)
+    //             return (claim.exp - t);
+    //         },
+    //         update:function () {
+    //             if (true === $scope.keepalive.updateing){
+    //                 return false;
+    //             }
+    //             $scope.keepalive.updateing = true;
+    //             var d = new Date ();
+    //             d.setHours(d.getHours() + 1);
+    //             var e = Math.ceil(d.getTime() / 1000);
 
-                var postData = {username: $cookies.get('username'), password: $cookies.get('password'), expired: e};
-                $scope.aborter = $q.defer(),
-                    $http.post("http://api.opensight.cn/api/ivc/v1/user_login", postData, {
-                        timeout: $scope.aborter.promise
-                    }).success(function (response) {
-                            $cookies.put('jwt',response.jwt,{'expires': 30});
-                            $cookies.put('username',postData.username,{'expires': 30});
-                            $cookies.put('password',postData.password,{'expires': 30});
-                            $scope.keepalive.updateing = false;
-                            G_token = $cookies.get('jwt');
-                        }).error(function (response,state) {
-                            $scope.keepalive.updateing = false;
-                        });
+    //             var postData = {username: $cookies.get('username'), password: $cookies.get('password'), expired: e};
+    //             $scope.aborter = $q.defer(),
+    //                 $http.post("http://api.opensight.cn/api/ivc/v1/user_login", postData, {
+    //                     timeout: $scope.aborter.promise
+    //                 }).success(function (response) {
+    //                         $cookies.put('jwt',response.jwt,{'expires': 30});
+    //                         $cookies.put('username',postData.username,{'expires': 30});
+    //                         $cookies.put('password',postData.password,{'expires': 30});
+    //                         $scope.keepalive.updateing = false;
+    //                         G_token = $cookies.get('jwt');
+    //                     }).error(function (response,state) {
+    //                         $scope.keepalive.updateing = false;
+    //                     });
 
 
-            },
-            parse:function () {
-                var list = Base64.decode($cookies.get('jwt')).match(/\{[^\{\}]*\}/g);
-                for (var i = 0, l = list.length; i < l; i++){
-                    var obj = JSON.parse(list[i]);
-                    if (undefined === obj.aud || undefined === obj.exp){
-                        continue;
-                    }
-                    return obj;
-                }
-                return {};
-            }
-        };
-    })();
+    //         },
+    //         parse:function () {
+    //             var list = Base64.decode($cookies.get('jwt')).match(/\{[^\{\}]*\}/g);
+    //             for (var i = 0, l = list.length; i < l; i++){
+    //                 var obj = JSON.parse(list[i]);
+    //                 if (undefined === obj.aud || undefined === obj.exp){
+    //                     continue;
+    //                 }
+    //                 return obj;
+    //             }
+    //             return {};
+    //         }
+    //     };
+    // })();
 
-    var interval = 10 * 60 * 1000;
-    setInterval(function(){
-        if (interval > $scope.keepalive.check()){
-            $scope.keepalive.update();
-        }
-    }, interval);
+    // var interval = 10 * 60 * 1000;
+    // setInterval(function(){
+    //     if (interval > $scope.keepalive.check()){
+    //         $scope.keepalive.update();
+    //     }
+    // }, interval);
 
 }]);

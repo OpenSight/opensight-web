@@ -1,16 +1,18 @@
-var Jwt = function(){
+var Jwt = function(urlname){
+  this.urlname = undefined === urlname ? 'url' : urlname;
   var params = this.getUrlParams();
   this.init(params.jwt, params.ui, params.url);
   
   this.keepalive();
 };
+
 Jwt.prototype = {
   init: function(jwt, ui, url){
     if (undefined !== url){
-      $.cookie('url', url, {expires: 30});
+      $.cookie(this.urlname, url, {expires: 30});
       this.url = url;
     } else {
-      url = $.cookie('url');
+      url = $.cookie(this.urlname);
       this.url = undefined === url ? 'http://121.41.72.231/login.html' : url;
     }
 
@@ -124,7 +126,7 @@ Jwt.prototype = {
     return {};
   },
   get: function(){
-    return {aud: this.aud, jwt: jwt};
+    return {aud: this.aud, jwt: this.jwt};
   },
   jump: function(url){
     url = undefined === url ? this.url : url;
@@ -150,4 +152,4 @@ Jwt.prototype = {
     this.jump();
   }
 };
-var jwt = new Jwt();
+// var jwt = new Jwt();

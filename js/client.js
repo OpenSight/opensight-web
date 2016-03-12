@@ -7,7 +7,8 @@ var app = angular.module('client', [
   'ui.bootstrap',
   'app.controller',
   'app.filter',
-  'app.services'
+  'app.services',
+  'angular-loading-bar'
 ])
 .run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
   // It's very handy to add references to $state and $stateParams to the $rootScope
