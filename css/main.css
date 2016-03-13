@@ -126,6 +126,13 @@ body{
 .hdzb .row{
   padding-top: 230px;
 }
+.smartShop{
+    color: #5bc0de;
+    background: #000 url(../img/smartShop.jpg) repeat-x 50% 50%;
+}
+.smartShop .row{
+    padding-top: 230px;
+}
 .ycjy{
   background: #e5ddd3 url(../img/ycjy.jpg) no-repeat right center;
 }
@@ -144,6 +151,12 @@ body{
 .srdz .container{
   height: 100%;
   background: url(../img/srdz.jpg) no-repeat left center;
+}
+.smartShop{
+    background-color: rgb(13, 13, 48);
+}
+.smartShop .row > div{
+    color: #fff;
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {
@@ -173,7 +186,7 @@ body{
   .yycj .row > div {
     opacity: 1;
   }
-  .zhsq .container, .xxny, .hdzb, .ycjy, .srdz .container{
+  .zhsq .container, .xxny, .hdzb, .ycjy, .srdz .smartShop .container{
     background-position: center bottom;
     background-size: auto 220px;
     padding-bottom: 220px;
@@ -188,6 +201,7 @@ body{
     background-color: transparent;
     color: #000;
   }
+
   .hdzb{
     background-color: rgb(13, 13, 48);
   }
