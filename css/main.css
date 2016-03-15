@@ -19,7 +19,7 @@ body{
 }*/
 .caption .text-muted{
   word-break:break-all; /*支持IE，chrome，FF不支持*/
-　word-wrap:break-word;/*支持IE，chrome，FF*/
+  word-wrap:break-word;/*支持IE，chrome，FF*/
 }
 .jumbotron p{
   font-size: 16px;
@@ -126,13 +126,6 @@ body{
 .hdzb .row{
   padding-top: 230px;
 }
-.smartShop{
-    color: #5bc0de;
-    background: #000 url(../img/smartShop.jpg) repeat-x 50% 50%;
-}
-.smartShop .row{
-    padding-top: 230px;
-}
 .ycjy{
   background: #e5ddd3 url(../img/ycjy.jpg) no-repeat right center;
 }
@@ -144,13 +137,23 @@ body{
   color: #1A222C;
   background: #e5ddd3;
 }
+.ycjy{
+    background-position: right bottom;
+}
 .srdz{
-  color: #d9534f;
-  background: #000;
+    color: #d9534f;
+    background: #000;
 }
 .srdz .container{
-  height: 100%;
-  background: url(../img/srdz.jpg) no-repeat left center;
+    height: 100%;
+    background: url(../img/srdz.jpg) no-repeat left center;
+}
+.smartShop{
+    color: #5bc0de;
+    background: #000 url(../img/smartShop.jpg) repeat-x 50% 50%;
+}
+.smartShop .row{
+    padding-top: 230px;
 }
 .smartShop{
     background-color: rgb(13, 13, 48);
@@ -186,7 +189,7 @@ body{
   .yycj .row > div {
     opacity: 1;
   }
-  .zhsq .container, .xxny, .hdzb, .ycjy, .srdz .smartShop .container{
+  .zhsq .container, .xxny, .hdzb, .ycjy, .smartShop, .srdz .container{
     background-position: center bottom;
     background-size: auto 220px;
     padding-bottom: 220px;
@@ -209,7 +212,5 @@ body{
     background-color: transparent;
     color: #fff;
   }
-  .ycjy{
-    background-position: right bottom;
-  }
+
 }
