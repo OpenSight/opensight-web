@@ -45,11 +45,12 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
                         $scope.key.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.post("http://api.opensight.cn/api/ivc/v1/users/" +G_user+ "/access_keys", postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     $scope.key.refresh();
                                 }).error(function (response,status) {
@@ -97,11 +98,12 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
                 $scope.key.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
                     $http.delete("http://api.opensight.cn/api/ivc/v1/access_keys/"+item.key_id, {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
                     }).success(function (response) {
                             $scope.key.refresh();
                         }).error(function (response,status) {
@@ -169,11 +171,12 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
                         //$scope.access.data_mod.updateCustomers = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.get("http://api.opensight.cn/api/ivc/v1/access_keys/"+item.key_id+"/secret", {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     var tmpMsg = {};
                                     tmpMsg.Label = "secret信息";
@@ -224,11 +227,12 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
                 //$scope.key.addShown = false;
                 $scope.aborter = $q.defer(),
                     $http.get("http://api.opensight.cn/api/ivc/v1/users/" +G_user+ "/access_keys?start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             $scope.keylist.data = response;
@@ -247,7 +251,6 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
                                 $scope.$emit("Ctr1ModalShow", tmpMsg);
 
                         });
-
             },
             getKey: function (event, newkey) {
                 $scope.authToken = newkey;
@@ -265,7 +268,7 @@ app.register.controller('Key', ['$scope', '$http', '$q', function($scope, $http,
     };
 
     $scope.$on('$destroy', $scope.destroy);
-    $scope.$on("newToken",$scope.keylist.getKey);
+//    $scope.$on("newToken",$scope.keylist.getKey);
     /*
      $scope.$on("key.show",$scope.key.show);
 

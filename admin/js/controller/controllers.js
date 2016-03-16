@@ -95,7 +95,7 @@ app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore',
 
                 $scope.gModal.logout = function () {
                     if ($scope.gModal.Callback = "logOutCallBack" && errMsg.logOutCallBack !== "")
-                        $window.location.href = errMsg.logOutCallBack;
+                        jwt.logout();
                 };
 
                 $('#myErrorModal').modal();

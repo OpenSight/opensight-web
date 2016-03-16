@@ -38,11 +38,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                     $http.get("http://api.opensight.cn/api/ivc/v1/projects?filter_key="
                         +$scope.projectlist.seachKey+"&filter_value="+$scope.projectlist.seachValue+
                         "&start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             $scope.projectlist.data = response;
@@ -108,11 +109,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         $scope.project.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.post("http://api.opensight.cn/api/ivc/v1/projects", postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     $scope.project.refresh();
                                 }).error(function (response,status) {
@@ -161,11 +163,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                 $scope.project.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
                     $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+item.name, {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
                     }).success(function (response) {
                             $scope.project.refresh();
                         }).error(function (response,status) {
@@ -242,11 +245,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
 
                         $scope.aborter = $q.defer(),
                             $http.get("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     $scope.project.data_mod.initData(response);
                                 }).error(function (response,status) {
@@ -281,11 +285,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         //$scope.project.data_mod.submitForm = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.put("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name, postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
 
                                 }).error(function (response,status) {
@@ -332,11 +337,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                 //$scope.project.addShown = false;
                 $scope.aborter = $q.defer(),
                     $http.get("http://api.opensight.cn/api/ivc/v1/projects?start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             $scope.projectlist.data = response;
@@ -422,11 +428,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         +$scope.project.data_mod.selectItem.name+ "/devices?filter_key="
                         +$scope.project.devicelist.seachKey+"&filter_value="+$scope.project.devicelist.seachValue+
                         "&start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             $scope.project.devicelist.data = response;
@@ -503,11 +510,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         $scope.project.device.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/devices", postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     $scope.project.device.refresh();
                                 }).error(function (response,status) {
@@ -556,11 +564,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                 $scope.project.device.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
                     $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/devices/"+item.uuid, {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
                     }).success(function (response) {
                             $scope.project.device.refresh();
                         }).error(function (response,status) {
@@ -618,11 +627,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
 
                         $scope.aborter = $q.defer(),
                             $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/devices/"+item.uuid, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     $scope.project.device.data_mod.initData(response,index);
                                 }).error(function (response,status) {
@@ -662,11 +672,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         //$scope.project.device.data_mod.submitForm = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.put("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/devices/"+item.uuid, postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
 
                                 }).error(function (response,status) {
@@ -714,11 +725,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                 //$scope.device.addShown = false;
                 $scope.aborter = $q.defer(),
                     $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/devices?start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             $scope.project.devicelist.data = response;
@@ -789,11 +801,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         +$scope.project.data_mod.selectItem.name+ "/cameras?filter_key="
                         +$scope.project.cameralist.seachKey+"&filter_value="+$scope.project.cameralist.seachValue+
                         "&start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             for (var i = 0; i < response.list.length; i++){
@@ -894,11 +907,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         $scope.project.camera.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/cameras", postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     $scope.project.camera.refresh();
                                 }).error(function (response,status) {
@@ -947,11 +961,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                 $scope.project.camera.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
                     $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/cameras/"+item.uuid, {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
                     }).success(function (response) {
                             $scope.project.camera.refresh();
                         }).error(function (response,status) {
@@ -1035,11 +1050,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
 
                         $scope.aborter = $q.defer(),
                             $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras/"+item.uuid, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     $scope.project.camera.data_mod.initData(response,index);
                                 }).error(function (response,status) {
@@ -1072,11 +1088,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
 
                         $scope.aborter = $q.defer(),
                             $http.post("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras/"+item.uuid+"/stream_toggle", postData,{
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     item.live = enable;
                                 }).error(function (response,status) {
@@ -1122,11 +1139,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         //$scope.project.camera.data_mod.submitForm = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.put("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras/"+item.uuid, postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
 
                                 }).error(function (response,status) {
@@ -1225,11 +1243,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                 //$scope.camera.addShown = false;
                 $scope.aborter = $q.defer(),
                     $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/cameras?start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             for (var i = 0; i < response.list.length; i++){
@@ -1301,8 +1320,6 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         "&end_to=" +$scope.project.sessionlist.format($scope.end.dt), {
                         timeout: $scope.aborter.promise,
                         headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json",
                             "Accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                         }
 
@@ -1333,11 +1350,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                 $scope.aborter = $q.defer(),
                     $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs_sum?start_from=" +$scope.project.sessionlist.format($scope.start.dt)+
                         "&end_to=" +$scope.project.sessionlist.format($scope.end.dt), {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             $scope.project.session.initSum();
@@ -1422,11 +1440,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
 
                         $scope.aborter = $q.defer(),
                             $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs/"+item.uuid, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     $scope.project.session.data_mod.initData(response,index);
                                 }).error(function (response,status) {
@@ -1483,11 +1502,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         url:"http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs",
                         method: "GET",
                         timeout: $scope.aborter.promise,
-                        params: $scope.project.sessionlist.params,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        params: $scope.project.sessionlist.params
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             $scope.project.sessionlist.data = response;
@@ -1519,11 +1539,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         url:"http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs",
                         method: "GET",
                         timeout: $scope.aborter.promise,
-                        params: $scope.project.sessionlist.params,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        params: $scope.project.sessionlist.params
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             $scope.project.sessionlist.data = response;
@@ -1558,11 +1579,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         url:"http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs",
                         method: "GET",
                         timeout: $scope.aborter.promise,
-                        params: $scope.project.sessionlist.params,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        params: $scope.project.sessionlist.params
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             if (response.list.length === $scope.project.sessionlist.params.limit)
@@ -1647,11 +1669,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         +$scope.project.data_mod.selectItem.name+ "/users?filter_key="
                         +$scope.project.userlist.seachKey+"&filter_value="+$scope.project.userlist.seachValue+
                         "&start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             $scope.project.userlist.data = response;
@@ -1705,11 +1728,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         $scope.project.user.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/users", postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     $scope.project.user.refresh();
                                 }).error(function (response,status) {
@@ -1758,11 +1782,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                 $scope.project.user.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
                     $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/users/"+item.username, {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
                     }).success(function (response) {
                             $scope.project.user.refresh();
                         }).error(function (response,status) {
@@ -1820,11 +1845,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
 
                         $scope.aborter = $q.defer(),
                             $http.get("http://api.opensight.cn/api/ivc/v1/users/"+item.username, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     $scope.project.user.data_mod.initData(response,index);
                                 }).error(function (response,status) {
@@ -1868,11 +1894,12 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                 //$scope.user.addShown = false;
                 $scope.aborter = $q.defer(),
                     $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/users?start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             $scope.project.userlist.data = response;
@@ -1907,7 +1934,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
     };
 
     $scope.$on('$destroy', $scope.destroy);
-    $scope.$on("newToken",$scope.projectlist.getKey);
+//    $scope.$on("newToken",$scope.projectlist.getKey);
  //   $scope.$on("project.show",$scope.project.show);
 
 

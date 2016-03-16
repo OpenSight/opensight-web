@@ -33,11 +33,12 @@ app.register.controller('UserInfo', ['$scope', '$http', '$q','$state', function(
                         $scope.userinfo.data_mod.tabs[0].active = true;
                         $scope.aborter = $q.defer(),
                             $http.get("http://api.opensight.cn/api/ivc/v1/users/"+G_user, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+G_token,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
                                     $scope.userinfo.data_mod.initData(response);
                                 }).error(function (response,status) {
@@ -70,11 +71,12 @@ app.register.controller('UserInfo', ['$scope', '$http', '$q','$state', function(
                        // $scope.userinfo.data_mod.modUserInfoToken = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.put("http://api.opensight.cn/api/ivc/v1/users/"+G_user, postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+G_token,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
 
                                 }).error(function (response,status) {
@@ -136,11 +138,12 @@ app.register.controller('UserInfo', ['$scope', '$http', '$q','$state', function(
                         // $scope.userinfo.data_mod.modUserInfoToken = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.put("http://api.opensight.cn/api/ivc/v1/users/"+G_user+"/password", postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+G_token,
-                                    "Content-Type": "application/json"
-                                }
+                                timeout: $scope.aborter.promise
+                                /*                       headers:  {
+                                 "Authorization" : "Bearer "+$scope.authToken,
+                                 "Content-Type": "application/json"
+                                 }
+                                 */
                             }).success(function (response) {
 
                                 }).error(function (response,status) {

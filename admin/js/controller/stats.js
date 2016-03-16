@@ -13,11 +13,12 @@ app.register.controller('Stats', ['$scope', '$http', '$q','$state','$window', fu
             get: function () {
                 $scope.aborter = $q.defer(),
                     $http.get("http://api.opensight.cn/api/ivc/v1/projects?start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             if (response!==undefined)
@@ -55,11 +56,12 @@ app.register.controller('Stats', ['$scope', '$http', '$q','$state','$window', fu
             get: function () {
                 $scope.aborter = $q.defer(),
                     $http.get("http://api.opensight.cn/api/ivc/v1/users?start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                        timeout: $scope.aborter.promise
+                        /*                       headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
                             if (response!==undefined)
