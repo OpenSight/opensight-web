@@ -561,7 +561,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       }
       keepalive(response);
       if (tiptimer) {
-        clearInterval(tiptimer);
+        $interval.cancel(tiptimer);
         tiptimer = undefined;
       }
     }).error(function(response, status) {
@@ -592,11 +592,11 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   var addVideoTag = function(info){};
   var keepalive = function(info){
     if (undefined !== alivetimer){
-      $timeout.cancel(alivetimer);
+      $interval.cancel(alivetimer);
       alivetimer = undefined;
     }
     var count = 1440;
-    alivetimer = $timeout(function(){
+    alivetimer = $interval(function(){
       if (0 === count){
         stop();
         return;
@@ -612,7 +612,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   };
   var stop = function(){
     if (undefined !== alivetimer){
-      clearInterval(alivetimer);
+      $interval.cancel(alivetimer);
       alivetimer = undefined;
     }
     if (undefined === $scope.id){
