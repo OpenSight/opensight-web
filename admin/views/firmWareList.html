@@ -1,0 +1,181 @@
+<div class="container-fluid container-compact os-tab-container" ng-controller="FirmWare">
+<div class="row row-in-tab os-row-no-padding">
+<form class="form-inline os-table-toolbar">
+    <div class="form-group">
+        <select class="form-control" ng-model="firmwarelist.seachKey" ng-options="o.key as o.name for o in firmwarelist.searchKeyOptionsData" ng-change="">
+        </select>
+        <input type="text" class="form-control" placeholder="Filter..." ng-model="firmwarelist.seachValue">
+    </div>
+        <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="firmware.search()">
+        <i  class="fa fa-search"></i>
+        </span>
+        <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加" ng-click="firmware.add()">
+            <i  class="fa fa-plus"></i>
+        </span>
+        <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="firmware.refresh()">
+            <i  class="fa fa-refresh"></i>
+        </span>
+</form>
+<div class="panel os-panel" ng-show="firmware.addShown">
+    <div class="panel-body">
+        <form class="form-horizontal os-form" role="form">
+            <div class="form-group has-error">
+                <label class="col-sm-2 control-label">设备厂家</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="firmware.data_add.vendor" placeholder="必填项" required />
+                </div>
+            </div>
+            <div class="form-group has-error">
+                <label class="col-sm-2 control-label">设备硬件</label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" ng-model="firmware.data_add.hardware_model" placeholder="必填项" required />
+                </div>
+            </div>
+            <div class="form-group has-error">
+                <label class="col-sm-2 control-label">设备固件</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="firmware.data_add.firmware_model" placeholder="必填项" required />
+                </div>
+            </div>
+            <div class="form-group has-error">
+                <label class="col-sm-2 control-label">下载地址</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="firmware.data_add.firmware_url" placeholder="必填项" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">项目名称</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="firmware.data_add.project_name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">描述</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="firmware.data_add.desc" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">详细描述</label>
+                <div class="col-sm-4">
+                    <textarea rows = "3" style="width: 100%" type="text" ng-model="firmware.data_add.long_desc"  />
+                </div>
+            </div>
+
+            <div class="form-group os-submit-group">
+                <label class="col-sm-1 control-label"></label>
+                <div class="col-sm-4">
+                    <button class="btn btn-default" ng-click="firmware.data_add.submitForm()"><i class="fa fa-check"></i>&nbsp;确定</button>
+                    <button class="btn btn-default" ng-click="firmware.data_add.close()"><i class="fa fa-remove"></i>&nbsp;取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="col-sm-12 os-table-container">
+    <table class="table os-table table-striped table-hover">
+        <thead>
+        <tr>
+            <th class="col-sm-2">设备厂家</th>
+            <th class="col-sm-3">设备硬件</th>
+            <th class="col-sm-3">设备固件</th>
+            <th class="col-sm-2">项目名称</th>
+            <th class="col-sm-2">删除</th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="u in firmwarelist.data.list | filter: firmwarelist.seach">
+
+        <tr style="cursor:pointer;">
+            <td ng-click="firmware.data.showDetail(u, $index)">{{u.vendor}}</td>
+            <td ng-click="firmware.data.showDetail(u, $index)">{{u.hardware_model}}</td>
+            <td ng-click="firmware.data.showDetail(u, $index)">{{u.firmware_model}}</td>
+            <td ng-click="firmware.data.showDetail(u, $index)">{{u.project_name}}</td>
+            <td ng-click="firmware.delete_one(u)"><i class="fa fa-trash"></i></td>
+        </tr>
+        <tr class="ng-hide" ng-show="firmware.data_mod.bDetailShown[$index]">
+            <td colspan="999">
+                <div class="panel os-panel">
+                    <div class="panel-body">
+                        <form class="form-horizontal os-form" role="form">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">固件ID</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{firmware.data_mod.data[$index].uuid}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">项目名称</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{firmware.data_mod.data[$index].project_name}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">设备厂家</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{firmware.data_mod.data[$index].vendor}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">设备硬件</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{firmware.data_mod.data[$index].hardware_model}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">设备固件</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" ng-model="firmware.data_mod.data[$index].firmware_model"  />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">下载地址</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" ng-model="firmware.data_mod.data[$index].firmware_url"  />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">描述</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" ng-model="firmware.data_mod.data[$index].desc"  />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">详细描述</label>
+                                <div class="col-sm-4">
+                                    <textarea rows = "3" style="width: 100%" type="text" ng-model="firmware.data_mod.data[$index].long_desc"  />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">生成时间</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{firmware.data_mod.data[$index].ctime}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">mtime</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{firmware.data_mod.data[$index].mtime}}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group os-submit-group">
+                                <label class="col-sm-1 control-label"></label>
+                                <div class="col-sm-4">
+                                    <button class="btn btn-default" ng-click="firmware.data_mod.submitForm(u,$index)"><i class="fa fa-check"></i>&nbsp;确定</button>
+                                    <button class="btn btn-default" ng-click="firmware.data_mod.close(u,$index)"><i class="fa fa-remove"></i>&nbsp;取消</button>
+                                    <button class="btn btn-default" ng-click="firmware.delete_one(firmware.data_mod.data[$index])"><i class="fa fa-trash"></i>&nbsp;删除</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</div>
+</div>

@@ -82,6 +82,13 @@ app
                 }
             }
         })
+        .state('home.firmWare', {
+            url: '/firmWare',
+            templateUrl: './views/firmWareList.html',
+            resolve: {
+                load: app.asyncjs("./js/controller/firmWare.js")
+            }
+        })
         .state('home.projectDetail', {
             url: '/projectsDetail'
 

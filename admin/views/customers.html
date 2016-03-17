@@ -98,8 +98,7 @@
         </tr>
         </thead>
         <tbody ng-repeat="u in customerlist.data.list | filter: customerlist.seach">
-        {{$index}}
-        <tr class="ng-hide" ng-show="trHidden[$index%2]"></tr>
+
         <tr style="cursor:pointer;">
             <td ng-click="customer.data.showDetail(u, $index)">{{u.username}}</td>
             <td ng-click="customer.data.showDetail(u, $index)">{{u.title}}</td>
