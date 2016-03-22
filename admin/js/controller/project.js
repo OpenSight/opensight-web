@@ -1620,7 +1620,6 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
         };
     })();
 
-
     $scope.project.user = (function () {
         return {
             initUsers: function () {
@@ -1895,7 +1894,8 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                 $scope.aborter = $q.defer(),
                     $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/users?start=0&limit=100", {
                         timeout: $scope.aborter.promise
-                        /*                       headers:  {
+                        /*
+                        headers:  {
                          "Authorization" : "Bearer "+$scope.authToken,
                          "Content-Type": "application/json"
                          }
@@ -1921,10 +1921,367 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         });
 
             }
-
-
         };
     })();
+
+    $scope.project.firmware = (function () {
+        return {
+            initFirmware: function () {
+                if ($scope.project.firmwarelist.data!==undefined && $scope.project.firmwarelist.data.list!==undefined){
+                    $scope.project.firmware.refresh();
+                }else{
+                    $scope.destroy();
+                    $scope.project.firmware.addShown = false;
+                    $scope.project.firmwarelist.searchKeyOptionsData = [
+/*                        {
+                            name: "项目名称",
+                            key: "project_name"
+                        },
+*/                      {
+                            name: "固件ID",
+                            key: "uuid"
+                        },
+                        {
+                            name: "详细描述",
+                            key: "long_desc"
+                        },
+                        {
+                            name: "描述",
+                            key: "desc"
+                        },
+                        {
+                            name: "设备厂家",
+                            key: "vendor"
+                        },
+                        {
+                            name: "设备硬件",
+                            key: "hardware_model"
+                        },
+                        {
+                            name: "设备固件",
+                            key: "firmware_model"
+                        }
+                    ];
+                    $scope.project.firmwarelist.seachKey = $scope.project.firmwarelist.searchKeyOptionsData[0].key;
+                    $scope.project.firmwarelist.seachValue = "";
+                    $scope.project.firmwarelist.match = {};
+                    $scope.project.firmwarelist.match.vendor = "";
+                    $scope.project.firmwarelist.match.hardware_model = "";
+                    $scope.project.firmwarelist.get();
+                }
+            },
+            search: function () {//clean input,close add div
+                if ($scope.project.data_mod.bDetailShown !== true) return;
+                $scope.project.firmware.data_add.clean_data();
+
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/"
+                        +$scope.project.data_mod.selectItem.name+ "/firmwares?filter_key="
+                        +$scope.project.firmwarelist.seachKey+"&filter_value="+$scope.project.firmwarelist.seachValue+
+                        "&start=0&limit=100", {
+                        timeout: $scope.aborter.promise
+                    }).success(function (response) {
+                            $scope.project.firmwarelist.data = response;
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "获取固件列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            //tmpMsg.Token =  $scope.camera.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "firmware.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
+            },
+            match: function () {//clean input,close add div
+                if ($scope.project.data_mod.bDetailShown !== true) return;
+                $scope.project.firmware.data_add.clean_data();
+
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/"
+                        +$scope.project.data_mod.selectItem.name+ "/match_firmware?vendor="
+                        +$scope.project.firmwarelist.match.vendor+"&hardware_model="+$scope.project.firmwarelist.match.hardware_model, {
+                        timeout: $scope.aborter.promise
+                    }).success(function (response) {
+                            $scope.project.firmwarelist.data = {};
+                            $scope.project.firmwarelist.data.list = [];
+                            $scope.project.firmwarelist.data.list.push(response);
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "match固件失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            //tmpMsg.Token =  $scope.camera.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "firmware.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
+            },
+            refresh: function () {
+                angular.forEach($scope.project.firmwarelist.data.list, function (item, index, array) {
+                    if ($scope.project.firmware.data_mod.bDetailShown && $scope.project.firmware.data_mod.bDetailShown[index] !== undefined)
+                        $scope.project.firmware.data_mod.bDetailShown[index]  = false;
+                });
+                $scope.project.firmwarelist.data = {};
+                $scope.project.firmware.initFirmware();
+            },
+
+            add: function () {
+                if ($scope.project.firmware.addShown === undefined) $scope.project.firmware.addShown = false;
+                $scope.project.firmware.addShown = !$scope.project.firmware.addShown;
+                if ($scope.project.firmware.addShown === true)
+                    $scope.project.firmware.data_add.init();
+            },
+
+            data_add: (function () {
+                return {
+                    clean_data: function () {//clean add field
+                        if ($scope.project.firmware.data_add === undefined)
+                            $scope.project.firmware.data_add = {};
+                        $scope.project.firmware.data_add.vendor = "";
+                        $scope.project.firmware.data_add.hardware_model = "";
+                        $scope.project.firmware.data_add.firmware_model = "";
+                        $scope.project.firmware.data_add.firmware_url = "";
+//                        $scope.project.firmware.data_add.project_name = "";
+                        $scope.project.firmware.data_add.desc = "";
+                        $scope.project.firmware.data_add.long_desc = "";
+                    },
+
+                    submitForm: function () {//add one firmware
+                        var postData = {
+                            vendor: $scope.project.firmware.data_add.vendor,
+                            hardware_model: $scope.project.firmware.data_add.hardware_model,
+                            firmware_model: $scope.project.firmware.data_add.firmware_model,
+                            desc: $scope.project.firmware.data_add.desc,
+                            long_desc: $scope.project.firmware.data_add.long_desc,
+//                            project_name: $scope.project.firmware.data_add.project_name,
+                            firmware_url: $scope.project.firmware.data_add.firmware_url
+                        };
+
+                        $scope.project.firmware.data_add.token = Math.random();
+                        $scope.aborter = $q.defer(),
+                            $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/firmwares", postData, {
+                                timeout: $scope.aborter.promise
+                            }).success(function (response) {
+                                    $scope.project.firmware.refresh();
+                                }).error(function (response,status) {
+                                    var tmpMsg = {};
+
+                                    tmpMsg.Label = "错误";
+                                    tmpMsg.ErrorContent = "加入固件失败";
+                                    tmpMsg.ErrorContentDetail = response;
+                                    tmpMsg.SingleButtonShown = true;
+                                    tmpMsg.MutiButtonShown = false;
+                                    tmpMsg.Token =  $scope.project.firmware.data_add.token;
+                                    //tmpMsg.Callback = "addMdCallBack";
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                        //$scope.$emit("Logout", tmpMsg);
+                                        $state.go('logOut',{info: response.info,traceback: response.traceback});
+                                    }else
+                                        $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                                });
+                    },
+
+                    close: function () {//clean input,close add div
+                        $scope.project.firmware.add();
+                    },
+
+                    init: function () {
+                        $scope.project.firmware.data_add.clean_data();
+                    },
+
+                    addMdCallBack:function (event, msg) {
+
+                    }
+                };
+            })(),
+
+            delete_one: function (item) {
+                var r=confirm("确认删除firmware "+ item.uuid +"吗？");
+                if (r===false) return;
+                $scope.project.firmware.data.delOneToken = Math.random();
+                $scope.aborter = $q.defer(),
+                    $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/firmwares/"+item.uuid, {
+                        timeout: $scope.aborter.promise
+                    }).success(function (response) {
+                            $scope.project.firmware.refresh();
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "删除固件"+ item.firmwarename +"失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            tmpMsg.Token =  $scope.project.firmware.data.delOneToken;
+                            //tmpMsg.Callback = "delMdCallBack";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+                            //$scope.project.firmware.refresh();
+                        });
+            },
+
+            delMdCallBack:function (event, msg) {
+
+            },
+
+            data: (function () {
+                return {
+                    showDetail: function (item, index) {
+                        if ($scope.project.firmware.data_mod.bDetailShown === undefined) $scope.project.firmware.data_mod.bDetailShown = [];
+                        if ($scope.project.firmware.data_mod.bDetailShown[index] === undefined) $scope.project.firmware.data_mod.bDetailShown[index] = false;
+                        $scope.project.firmware.data_mod.bDetailShown[index] = !(true === $scope.project.firmware.data_mod.bDetailShown[index]);
+
+                        if ($scope.project.firmware.data_mod.bDetailShown[index] === true) {//开
+                            $scope.project.firmware.data_mod.initDetail(item, index);
+                        } else {
+
+                        }
+                    }
+                };
+            })(),
+
+            data_mod: (function () {
+                return {
+                    initData: function(item,index) {
+                        if ($scope.project.firmware.data_mod.bDetailShown[index] === true) {
+                            if ($scope.project.firmware.data_mod.data === undefined)
+                                $scope.project.firmware.data_mod.data = [];
+                            $scope.project.firmware.data_mod.data[index] = item;
+                        }
+                    },
+
+                    initDetail: function (item,index) {
+                        if ($scope.project.firmware.data_mod.bDetailShown[index] === undefined
+                            || $scope.project.firmware.data_mod.bDetailShown[index] === false)
+                            return;
+
+                        $scope.aborter = $q.defer(),
+                            $http.get("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/firmwares/"+item.uuid, {
+                                timeout: $scope.aborter.promise
+
+                            }).success(function (response) {
+                                    $scope.project.firmware.data_mod.initData(response,index);
+                                }).error(function (response,status) {
+                                    var tmpMsg = {};
+                                    tmpMsg.Label = "错误";
+                                    tmpMsg.ErrorContent = "固件"+ item.uuid +"get失败";
+                                    tmpMsg.ErrorContentDetail = response;
+                                    tmpMsg.SingleButtonShown = true;
+                                    tmpMsg.MutiButtonShown = false;
+                                    //tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
+                                    tmpMsg.Callback = "modMdCallBack";
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                        //$scope.$emit("Logout", tmpMsg);
+                                        $state.go('logOut',{info: response.info,traceback: response.traceback});
+                                    }else
+                                        $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                                    //$scope.project.firmware.data_mod.hotRefresh(item, index);
+                                });
+                    },
+
+                    submitForm: function (item, index) {
+                        var postData =  {
+                            firmware_model: $scope.project.firmware.data_mod.data[index].firmware_model,
+                            firmware_url: $scope.project.firmware.data_mod.data[index].firmware_url,
+                            desc: $scope.project.firmware.data_mod.data[index].desc,
+                            long_desc: $scope.project.firmware.data_mod.data[index].long_desc
+                        };
+
+                        $scope.project.firmware.data_mod.updateCustomers = Math.random();
+                        $scope.aborter = $q.defer(),
+                            $http.put("http://api.opensight.cn/api/ivc/v1/firmwares/"+item.uuid, postData, {
+                                timeout: $scope.aborter.promise
+                            }).success(function (response) {
+                                    $scope.project.firmware.refresh();
+                                }).error(function (response,status) {
+                                    var tmpMsg = {};
+                                    tmpMsg.Label = "错误";
+                                    tmpMsg.ErrorContent = "固件"+ item.uuid  +"更新固件失败";
+                                    tmpMsg.ErrorContentDetail = response;
+                                    tmpMsg.SingleButtonShown = true;
+                                    tmpMsg.MutiButtonShown = false;
+                                    tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
+                                    tmpMsg.Callback = "modMdCallBack";
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                        $scope.$emit("Logout", tmpMsg);
+                                    }else
+                                        $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                                    // $scope.project.firmware.data_mod.refresh(item, index);
+                                });
+                    },
+                    close: function (item, index) {
+                        $scope.project.firmware.data_mod.initDetail(item, index);
+                    },
+
+                    destroy: function () {
+                    }
+                };
+            })()
+
+
+
+        }
+    })();
+
+    $scope.project.firmwarelist = (function () {
+        return {
+            get: function () {//clean input,close add div
+                if ($scope.project.data_mod.bDetailShown !== true) return;
+                $scope.project.firmware.data_add.clean_data();
+                //$scope.project.firmware.addShown = false;
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/firmwares?start=0&limit=100", {
+                        timeout: $scope.aborter.promise
+                        /*
+                         headers:  {
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
+
+                    }).success(function (response) {
+                            $scope.project.firmwarelist.data = response;
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "获取项目内固件列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            //tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "firmware.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
+            }
+        };
+    })();
+
 
     $scope.destroy = function () {
         if (undefined !== $scope.aborter) {

@@ -5,10 +5,12 @@ app.register.controller('FirmWare', ['$scope', '$http', '$q', function($scope, $
                 $scope.destroy();
                 $scope.firmware.addShown = false;
                 $scope.firmwarelist.searchKeyOptionsData = [
+ /*
                     {
                         name: "项目名称",
                         key: "project_name"
                     },
+*/
                     {
                         name: "固件ID",
                         key: "uuid"
@@ -97,7 +99,7 @@ app.register.controller('FirmWare', ['$scope', '$http', '$q', function($scope, $
                         $scope.firmware.data_add.hardware_model = "";
                         $scope.firmware.data_add.firmware_model = "";
                         $scope.firmware.data_add.firmware_url = "";
-                        $scope.firmware.data_add.project_name = "";
+//                        $scope.firmware.data_add.project_name = "";
                         $scope.firmware.data_add.desc = "";
                         $scope.firmware.data_add.long_desc = "";
                     },
@@ -109,7 +111,7 @@ app.register.controller('FirmWare', ['$scope', '$http', '$q', function($scope, $
                             firmware_model: $scope.firmware.data_add.firmware_model,
                             desc: $scope.firmware.data_add.desc,
                             long_desc: $scope.firmware.data_add.long_desc,
-                            project_name: $scope.firmware.data_add.project_name,
+//                           project_name: $scope.firmware.data_add.project_name,
                             firmware_url: $scope.firmware.data_add.firmware_url
                         };
 
