@@ -34,4 +34,24 @@ angular.module('app.filter', []).filter('online', [function() {
       return '禁用';
     }
   };
+}])
+
+.filter('user_type', [function() {
+  return function(type) {
+    if (1 === type){
+      return '管理员';
+    } else {
+      return '操作员';
+    }
+  };
+}])
+
+.filter('user_flags', [function() {
+  return function(flags) {
+    if (1 === flags){
+      return '在线';
+    } else {
+      return '离线';
+    }
+  };
 }]);

@@ -1,0 +1,54 @@
+<div class="container-fluid" ng-controller="user">
+  <form class="form-inline">
+    <div class="form-group">
+      <label>筛选&nbsp;</label>
+      <select class="form-control" ng-model="params.filter_key">
+        <option value="username">名称</option>
+        <option value="desc">描述</option>
+        <option value="long_desc">详细描述</option>
+      </select>
+      <input type="text" class="form-control" placeholder="查询条件" ng-model="params.filter_value">
+    </div>
+    <button class="btn btn-default" ng-click="query()">
+      <i class="glyphicon glyphicon-search pointer"></i>
+    </button>
+    <button class="btn btn-default pull-right" ng-click="refresh()">
+      <i class="glyphicon glyphicon-refresh pointer"></i>
+    </button>
+  </form>
+  <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
+    <thead>
+      <tr>
+        <th class="col-sm-2">用户名</th>
+        <th class="col-sm-2">职位</th>
+        <th class="col-sm-1 text-center">类型</th>
+        <th class="col-sm-1 text-center">状态</th>
+        <th class="col-sm-2 text-center">手机</th>
+        <th class="col-sm-2 text-center">邮箱</th>
+        <th class="col-sm-2">描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in users.list">
+        <td>{{item.username}}</td>
+        <td>{{item.title}}</td>
+        <td class="text-center">{{item.flags|user_flags}}</td>
+        <td class="text-center">{{item.user_type|user_type}}</td>
+        <td class="text-center">{{item.cellphone}}</td>
+        <td class="text-center">{{item.email}}</td>
+        <td class="text-center">{{item.desc}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="page-bar">
+    <button class="btn btn-sm" ng-class="{true:'btn-primary',false:'btn-default'}[0 === page.curr]" ng-show="1 < page.list[0]" ng-click="go(0)">1</button>
+    <span ng-show="page.list[0] > 2">..</span>
+    <button class="btn btn-sm" ng-repeat="it in page.list" ng-class="{true:'btn-primary',false:'btn-default'}[it === page.curr]" ng-click="go(it)">{{it + 1}}</button>
+    <span ng-show="page.list[page.list.length -1] < page.last - 2">..</span>
+    <button class="btn btn-sm" ng-class="{true:'btn-primary',false:'btn-default'}[page.last === page.curr]" ng-show="page.list[page.list.length -1] < page.last - 1" ng-click="go(page.last)">{{page.last + 1}}</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <label>跳转到：<input type="text"  class="form-control input-sm" ng-model="jumpto">
+    </label>
+    <button class="btn btn-default btn-sm" ng-click="jump()">Go</button>
+  </p>
+</div>
