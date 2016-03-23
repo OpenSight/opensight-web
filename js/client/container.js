@@ -669,7 +669,6 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     };
     var lastParams;
     var query = function(params) {
-      debugger;
       $http.get(api + "projects/" + pro + '/users', {
         params: params
       }).success(function(response) {
