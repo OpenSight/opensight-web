@@ -36,6 +36,19 @@ angular.module('app.filter', []).filter('online', [function() {
   };
 }])
 
+.filter('stream_quality', [function() {
+  return function(quality) {
+    var em = {
+      ld:  '流畅',
+      sd: '标清',
+      hd: '高清',
+      fhd: '超清'
+    };
+    quality = quality.toLowerCase();
+    return em[quality] ? em[quality] : '';
+  };
+}])
+
 .filter('user_type', [function() {
   return function(type) {
     if (1 === type){
