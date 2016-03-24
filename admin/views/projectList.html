@@ -960,21 +960,25 @@
             <thead>
             <tr>
                 <th class="col-sm-2">用户名</th>
-                <th class="col-sm-2">子用户</th>
-                <th class="col-sm-2">协议</th>
-                <th class="col-sm-2">画质</th>
+                <th class="col-sm-1">子用户</th>
+                <th class="col-sm-2">摄像头名称</th>
+                <th class="col-sm-1">协议</th>
+                <th class="col-sm-1">画质</th>
                 <th class="col-sm-2">起始</th>
                 <th class="col-sm-2">结束</th>
+                <th class="col-sm-1">时长</th>
             </tr>
             </thead>
             <tbody ng-repeat="u in project.sessionlist.data.list | filter: project.sessionlist.seach">
             <tr style="cursor:pointer;">
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.username}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.subuser}}</td>
+                <td ng-click="project.session.data.showDetail(u, $index)">{{u.camera_name}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.stream_format}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.stream_quality}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.start}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.end}}</td>
+                <td ng-click="project.session.data.showDetail(u, $index)">{{u.duration}}</td>
             </tr>
             <tr class="ng-hide" ng-show="project.session.data_mod.bDetailShown[$index]">
                 <td colspan="999">
@@ -1012,6 +1016,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">摄像头名称</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.session.data_mod.data[$index].camera_name}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label">起始</label>
                                     <div class="col-sm-4">
                                         <p class="form-control-static">{{project.session.data_mod.data[$index].start}}</p>
@@ -1021,6 +1031,12 @@
                                     <label class="col-sm-2 control-label">结束</label>
                                     <div class="col-sm-4">
                                         <p class="form-control-static">{{project.session.data_mod.data[$index].end}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">时长</label>
+                                    <div class="col-sm-4">
+                                        <p class="form-control-static">{{project.session.data_mod.data[$index].duration}}</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
