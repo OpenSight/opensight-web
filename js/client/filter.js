@@ -34,4 +34,37 @@ angular.module('app.filter', []).filter('online', [function() {
       return '禁用';
     }
   };
+}])
+
+.filter('stream_quality', [function() {
+  return function(quality) {
+    var em = {
+      ld:  '流畅',
+      sd: '标清',
+      hd: '高清',
+      fhd: '超清'
+    };
+    quality = quality.toLowerCase();
+    return em[quality] ? em[quality] : '';
+  };
+}])
+
+.filter('user_type', [function() {
+  return function(type) {
+    if (1 === type){
+      return '管理员';
+    } else {
+      return '操作员';
+    }
+  };
+}])
+
+.filter('user_flags', [function() {
+  return function(flags) {
+    if (1 === flags){
+      return '在线';
+    } else {
+      return '离线';
+    }
+  };
 }]);

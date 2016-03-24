@@ -93,5 +93,9 @@ var app = angular.module('client', [
     .state('project.log', {
       url: '/log',
       templateUrl: 'views/log.html'
+    })
+    .state('project.user', {
+      url: '/user',
+      templateUrl: 'views/user.html'
     });
 }]);

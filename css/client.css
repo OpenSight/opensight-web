@@ -1,124 +1,142 @@
-body{
-  font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'Hiragino Sans GB', 'Hiragino Sans GB W3', 'Microsoft YaHei UI', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
   padding-top: 60px;
 }
-.navbar-brand{
-  padding-bottom: 5px;
+.navbar-brand {
   padding-top: 5px;
+  padding-bottom: 5px;
 }
-.nav-dropdown-toggle{
-  margin-left: 20px;
-  display: inline-block;
-  cursor: pointer;
+.nav-dropdown-toggle {
   line-height: 20px;
   position: relative;
+  display: inline-block;
+  margin-left: 20px;
   padding: 10px 15px;
+  cursor: pointer;
+  text-decoration: none;
   color: #25a8e1;
-  text-decoration: none;
 }
-
-.nav-dropdown>.nav-ui-sref:focus,.nav-dropdown>.nav-ui-sref:hover
-.nav-dropdown-toggle:focus, .nav-dropdown-toggle:hover, 
-.nav-ui-sref.active, .nav-dropdown.active>.nav-ui-sref{
+.nav-dropdown > .nav-ui-sref:focus, .nav-dropdown > .nav-ui-sref:hover
+.nav-dropdown-toggle:focus, .nav-dropdown-toggle:hover, .nav-ui-sref.active, .nav-dropdown.active > .nav-ui-sref {
   text-decoration: none;
   background-color: #eee;
 }
-.navbar-default .navbar-nav>li>.nav-ui-sref.active, .navbar-default .navbar-nav>li>.nav-ui-sref.active{
+.navbar-default .navbar-nav > li > .nav-ui-sref.active, .navbar-default .navbar-nav > li > .nav-ui-sref.active {
   background-color: #eee;
 }
-.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
   background-color: #eee;
 }
-.text-pointer,.text-pointer span{
+.text-pointer, .text-pointer span {
   cursor: pointer;
 }
-@media (min-width: 768px){
+@media (min-width:768px) {
   .nav-dropdown-toggle {
     padding-top: 15px;
     padding-bottom: 15px;
   }
 }
-.client-card{
-  background-color: #F4F5F7;
+.client-card {
   border-radius: 0;
+  background-color: #f4f5f7;
   box-shadow: 3px 3px 8px #ddd;
 }
-.pointer{
+.pointer {
   cursor: pointer;
 }
-.pagination-condensed{
+.pagination-condensed {
   margin-top: 0;
   margin-bottom: 0;
 }
-.pagination-condensed>li>a,.pagination-condensed>li>span{
+.pagination-condensed > li > a, .pagination-condensed > li > span {
   padding: 2px 5px;
 }
-.client-icon:hover{
+.client-icon:hover {
   color: #25a8e1;
 }
+
 /*video page*/
-.live{
+.live {
   position: relative;
 }
-.img-container{
+.img-container {
   visibility: hidden;
 }
-.img-container img{
+.img-container img {
   width: 100%;
 }
-.player-container{
+.player-container {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
   width: 100%;
+  height: 100%;
   background: #000 url(../img/play-logo.png) no-repeat center;
 }
-.play-tip{
+.play-tip {
   padding: 5px;
-  color: #FFF;
+  color: #fff;
 }
-.form-inline{
+.form-inline {
   margin-bottom: 10px;
 }
-
-.table-vertical-middle>tbody>tr>td,
-.table-vertical-middle>tbody>tr>th,
-.table-vertical-middle>tfoot>tr>td,
-.table-vertical-middle>tfoot>tr>th,
-.table-vertical-middle>thead>tr>td, 
-.table-vertical-middle>thead>tr>th{
+.table-vertical-middle > tbody > tr > td, .table-vertical-middle > tbody > tr > th, .table-vertical-middle > tfoot > tr > td, .table-vertical-middle > tfoot > tr > th, .table-vertical-middle > thead > tr > td, .table-vertical-middle > thead > tr > th {
   vertical-align: middle;
 }
-.table-vertical-middle>thead>tr>td,
-.table-vertical-middle>thead>tr>th {
+.table-vertical-middle > thead > tr > td, .table-vertical-middle > thead > tr > th {
   padding-top: 8px;
   padding-bottom: 8px;
 }
-.pagination{
+.pagination {
   margin-top: 0;
 }
-.page-header-condensed{
+.page-header-condensed {
   margin-top: 10px;
   margin-bottom: 5px;
 }
-.page-header-condensed h3{
+.page-header-condensed h3 {
   margin-top: 5px;
   margin-bottom: 2px;
 }
-.msg{
+.msg {
   position: fixed;
-  top: 45px;
   z-index: 999999999;
+  top: 45px;
 }
-.msg>p{
+.msg > p {
   padding: 5px;
 }
-.page-bar button{
-  margin-left: 5px;
+.page-bar button {
   margin-right: 5px;
+  margin-left: 5px;
 }
-.page-bar input{
+.page-bar input {
   display: inline-block;
   width: 40px;
+}
+.ptz {
+  display: block;
+  overflow: visible;
+  margin: 0 auto;
+}
+.ptz-item .ptz-sector {
+  transition: all .1s linear;
+  fill: rgba(255, 255, 255, .8);
+  stroke: #ddd;
+}
+.ptz-item:hover .ptz-sector {
+  fill: #333;
+}
+.ptz-menu-trigger {
+  pointer-events: auto;
+  fill: deepPink;
+}
+.ptz-menu-trigger:hover {
+  cursor: pointer;
+}
+.ptz-item use {
+  fill: #333;
+}
+.ptz-item:hover use {
+  fill: #fff;
 }
