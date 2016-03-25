@@ -1316,8 +1316,8 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
             down: function () {
                 if ($scope.project.data_mod.bDetailShown !== true) return;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs_csv?start_from=" +$scope.project.sessionlist.format($scope.start.dt)+
-                        "&end_to=" +$scope.project.sessionlist.format($scope.end.dt), {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs_csv?start_from=" +$scope.project.sessionlist.format($scope.start.dt, 0)+
+                        "&end_to=" +$scope.project.sessionlist.format($scope.end.dt, 1), {
                         timeout: $scope.aborter.promise,
                         headers:  {
                             "Accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -1327,7 +1327,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                             var blob = new Blob([response], {
                                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                             });
-                            FileSaver.saveAs(blob,  $scope.project.sessionlist.format($scope.start.dt)+"--" +$scope.project.sessionlist.format($scope.end.dt)+ '.csv');
+                            FileSaver.saveAs(blob,  $scope.project.sessionlist.format($scope.start.dt, 0)+"--" +$scope.project.sessionlist.format($scope.end.dt, 1)+ '.csv');
                         }).error(function (response,status) {
                             var tmpMsg = {};
                             tmpMsg.Label = "错误";
@@ -1348,8 +1348,8 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
             sum: function () {
                 if ($scope.project.data_mod.bDetailShown !== true) return;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs_sum?start_from=" +$scope.project.sessionlist.format($scope.start.dt)+
-                        "&end_to=" +$scope.project.sessionlist.format($scope.end.dt), {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs_sum?start_from=" +$scope.project.sessionlist.format($scope.start.dt, 0)+
+                        "&end_to=" +$scope.project.sessionlist.format($scope.end.dt, 1), {
                         timeout: $scope.aborter.promise
                         /*                       headers:  {
                          "Authorization" : "Bearer "+$scope.authToken,
