@@ -382,7 +382,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     });
   };
   var format = function(dt){
-    return [dt.getFullYear(), dt.getMonth(), dt.getDate()].join('-');
+    return [dt.getFullYear(), dt.getMonth() + 1, dt.getDate()].join('-');
   };
 }])
 .controller('default', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
