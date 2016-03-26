@@ -30,7 +30,7 @@ var HlsVideo = function(opts){
   } else {
     this.html5 = true;
   }
-  this.api = 'http://api.opensight.cn/api/ivc/v1/';
+  this.api = 'http://api.opensight.cn/api/ivc/v1/projects/';
   this.project = opts.project;
   this.uuid = opts.uuid;
 
