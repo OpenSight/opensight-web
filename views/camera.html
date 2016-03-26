@@ -85,7 +85,7 @@
           <div class="col-sm-9">
             <div class="live">
               <div class="img-container">
-                <img id="img" src="img/video.jpg" alt="">
+                <img id="img" src="../img/video.jpg" alt="">
               </div>
               <div class="player-container">
                 <div id="videoPlayer">
@@ -97,7 +97,7 @@
             </div>
           </div>
           <div class="col-sm-3">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-100 -100 700 700" class="ptz">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" class="ptz">
               <g>
                 <symbol class="icon icon-" id="ptz-icon-1" viewBox="0 0 89 89">
                   <!--Replace the contents of this symbol with the content of your icon-->            
@@ -116,48 +116,51 @@
 
               </g>
               <g data-svg-origin="250 250" transform="matrix(0.38734,-0.92193,0.92193,0.38734,-77.3193578290572,383.64893561257276)">
-                <a class="ptz-item" xlink:title=" " transform="matrix(1,0,0,1,0,0)" data-svg-origin="250 250" style="">
+                <a class="ptz-item" xlink:title="上" transform="matrix(1,0,0,1,0,0)" data-svg-origin="250 250" ng-mousedown="ptzStart('up')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
                   <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
                   <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
                 </a>
-                <a class="ptz-item" xlink:title=" " transform="matrix(0.7071,-0.7071,0.7071,0.7071,-103.55339059327378,249.99999999999997)" data-svg-origin="250 250" style="">
+                <a class="ptz-item" xlink:title="右上" transform="matrix(0.7071,-0.7071,0.7071,0.7071,-103.55339059327378,249.99999999999997)" data-svg-origin="250 250" ng-mousedown="ptzStart('upright')"  ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
                   <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
                   <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
                 </a>
-                <a class="ptz-item" xlink:title=" " transform="matrix(0,-1,1,0,0,500)" data-svg-origin="250 250" style="">
+                <a class="ptz-item" xlink:title="右" transform="matrix(0,-1,1,0,0,500)" data-svg-origin="250 250" ng-mousedown="ptzStart('right')"  ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
                   <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
                   <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
                 </a>
-                <a class="ptz-item" xlink:title=" " transform="matrix(-0.7071,-0.7071,0.7071,-0.7071,249.99999999999997,603.5533905932738)" data-svg-origin="250 250" style="">
+                <a class="ptz-item" xlink:title="右下" transform="matrix(-0.7071,-0.7071,0.7071,-0.7071,249.99999999999997,603.5533905932738)" data-svg-origin="250 250" ng-mousedown="ptzStart('downright')"  ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
                   <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
                   <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
                 </a>
-                <a class="ptz-item" xlink:title=" " transform="matrix(-1,0,0,-1,500,500)" data-svg-origin="250 250" style="">
+                <a class="ptz-item" xlink:title="下" transform="matrix(-1,0,0,-1,500,500)" data-svg-origin="250 250" ng-mousedown="ptzStart('down')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
                   <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
                   <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
                 </a>
-                <a class="ptz-item" xlink:title=" " transform="matrix(-0.7071,0.7071,-0.7071,-0.7071,603.5533905932738,250.00000000000006)" data-svg-origin="250 250" style="">
+                <a class="ptz-item" xlink:title="左下" transform="matrix(-0.7071,0.7071,-0.7071,-0.7071,603.5533905932738,250.00000000000006)" data-svg-origin="250 250" ng-mousedown="ptzStart('downleft')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
                   <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
                   <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
                 </a>
-                <a class="ptz-item" xlink:title=" " transform="matrix(0,1,-1,0,500.00000000000006,0)" data-svg-origin="250 250" style="">
+                <a class="ptz-item" xlink:title="左" transform="matrix(0,1,-1,0,500.00000000000006,0)" data-svg-origin="250 250" ng-mousedown="ptzStart('left')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
                   <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
                   <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
                 </a>
-                <a class="ptz-item" xlink:title=" " transform="matrix(0.7071,0.7071,-0.7071,0.7071,250.00000000000009,-103.55339059327378)" data-svg-origin="250 250" style="">
+                <a class="ptz-item" xlink:title="左上" transform="matrix(0.7071,0.7071,-0.7071,0.7071,250.00000000000009,-103.55339059327378)" data-svg-origin="250 250" ng-mousedown="ptzStart('upleft')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
                   <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
                   <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
                 </a>
-                <a class="ptz-item" xlink:title="放大" transform="matrix(0.382683,0.923880,-0.923880,0.382683,305,120)" data-svg-origin="250 250" style="">
+                <a class="ptz-item" xlink:title="放大" transform="matrix(0.382683,0.923880,-0.923880,0.382683,305,120)" data-svg-origin="250 250" ng-mousedown="ptzStart('zoomin')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
                   <path fill="none" stroke="#111" stroke-width="1" class="ptz-sector" d="M100,0 L100,200 A100,100 180 0 1 100,0 Z"></path>
                   <use xlink:href="#ptz-icon-2" width="40" height="40" x="30" y="80"></use>
                 </a>
-                <a class="ptz-item" xlink:title="缩小" transform="matrix(0.382683,0.923880,-0.923880,0.382683,305,120)" data-svg-origin="250 250" style="">
+                <a class="ptz-item" xlink:title="缩小" transform="matrix(0.382683,0.923880,-0.923880,0.382683,305,120)" data-svg-origin="250 250" ng-mousedown="ptzStart('zoomout')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
                   <path fill="none" stroke="#111" stroke-width="1" class="ptz-sector" d="M100,0 L100,200 A100,100 180 0 0 100,0 Z"></path>
                   <use xlink:href="#ptz-icon-3" width="40" height="40" x="130" y="80"></use>
                 </a>
               </g>
             </svg>
+            <div style="margin-top:20px">
+              <input ng-model="speed" type="text" slider options="options" />
+            </div>
           </div>
         </div>
       </div>
@@ -166,5 +169,5 @@
       <button class="btn btn-primary" type="button" ng-click="ok()">关闭</button>
     </div>
   </script>
-  <script src="js/swfobject.min.js"></script>
+  <script src="../js/swfobject.min.js"></script>
 </div>

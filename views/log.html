@@ -20,7 +20,15 @@
         </span>
       </span>
     </div>
-    <button type="submit" class="btn btn-default" ng-click="query()">查询</button>
+    <button class="btn btn-default" ng-click="query()">
+      <i class="glyphicon glyphicon-search pointer"></i>
+    </button>
+    <button class="btn btn-default pull-right" ng-click="download()">
+      <i  class="fa fa-download"></i>
+    </button>
+    <button class="btn btn-default pull-right" ng-click="stats()">
+      <i  class="glyphicon glyphicon-stats"></i>
+    </button>
   </form>
   <table class="table table-condensed table-hover table-bordered table-striped">
     <thead>

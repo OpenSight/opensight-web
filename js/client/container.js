@@ -382,7 +382,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     });
   };
   var format = function(dt){
-    return [dt.getFullYear(), dt.getMonth(), dt.getDate()].join('-');
+    return [dt.getFullYear(), dt.getMonth() + 1, dt.getDate()].join('-');
   };
 }])
 .controller('default', ['$scope', '$rootScope', '$http',function ($scope, $rootScope, $http) {
@@ -572,7 +572,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     var flashvars = {
       // src: 'http://www.opensight.cn/hls/camera1.m3u8',
       src: info.url,
-      plugin_hls: "flashlsOSMF.swf",
+      plugin_hls: "../flashlsOSMF.swf",
       // scaleMode: 'none',
       autoPlay: true
     };
@@ -587,7 +587,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       name: "videoPlayer"
     };
 
-    swfobject.embedSWF("GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
+    swfobject.embedSWF("../GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
   };
   var addVideoTag = function(info){};
   var keepalive = function(info){
@@ -630,6 +630,41 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       $scope.sec--;
       // $scope.$apply();
     }, 1000);
+  };
+
+  $scope.speed = 50;
+  $scope.options = {       
+    from: 0,
+    to: 100,
+    step: 10,
+    dimension: '',
+    scale: [{val:0, label:'慢'}, {val:100, label:'快'}]        
+  };
+  var moving = false;
+  $scope.ptzmouseout = function(){
+    if (false === moving){
+      return
+    }
+    $scope.ptzStop('stop');
+  };
+  $scope.ptzStart = function(op){
+    if (true === moving){
+      return;
+    }
+    ptz(op);
+    moving = true;
+  };
+  $scope.ptzStop = function(){
+    // alert(op);
+    ptz('stop');
+    moving = false;
+  };
+  var ptz = function(op){
+    var url = api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/ptz/op';
+    $http.post(url, {op: op, value: parseInt($scope.speed, 10)}).success(function(response) {
+    }).error(function(response, status) {
+      console.log('error');
+    });
   };
 
   create();

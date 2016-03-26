@@ -30,7 +30,7 @@ var HlsVideo = function(opts){
   } else {
     this.html5 = true;
   }
-  this.api = 'http://121.41.72.231:5001/api/ivc/v1/projects/';
+  this.api = 'http://api.opensight.cn/api/ivc/v1/projects/';
   this.project = opts.project;
   this.uuid = opts.uuid;
 
@@ -49,7 +49,7 @@ HlsVideo.prototype = {
     var flashvars = {
       // src: 'http://www.opensight.cn/hls/camera1.m3u8',
       src: info.url,
-      plugin_hls: "flashlsOSMF.swf",
+      plugin_hls: swfpath + "flashlsOSMF.swf",
       // scaleMode: 'none',
       autoPlay: true
     };
@@ -64,7 +64,7 @@ HlsVideo.prototype = {
       name: "videoPlayer"
     };
 
-    swfobject.embedSWF("GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
+    swfobject.embedSWF(swfpath + "GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
   },
   addVideoTag: function(info){
     var id = 'videoPlayer';
