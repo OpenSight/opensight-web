@@ -572,7 +572,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     var flashvars = {
       // src: 'http://www.opensight.cn/hls/camera1.m3u8',
       src: info.url,
-      plugin_hls: "flashlsOSMF.swf",
+      plugin_hls: "../flashlsOSMF.swf",
       // scaleMode: 'none',
       autoPlay: true
     };
@@ -587,7 +587,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       name: "videoPlayer"
     };
 
-    swfobject.embedSWF("GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
+    swfobject.embedSWF("../GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
   };
   var addVideoTag = function(info){};
   var keepalive = function(info){

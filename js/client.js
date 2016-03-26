@@ -48,54 +48,54 @@ var app = angular.module('client', [
   $stateProvider
     .state("default", {
       url: "/default",
-      templateUrl: 'views/default.html'
+      templateUrl: '../views/default.html'
     })
     .state('user', {
       url: '/user',
-      templateUrl: 'views/user-menu.html'
+      templateUrl: '../views/user-menu.html'
     })
     .state('user.info', {
       url: '/info',
-      templateUrl: 'views/user-info.html'
+      templateUrl: '../views/user-info.html'
     })
     .state('user.passwd', {
       url: '/passwd',
-      templateUrl: 'views/user-passwd.html'
+      templateUrl: '../views/user-passwd.html'
     })
     .state('key', {
       url: '/key',
-      templateUrl: 'views/key.html'
+      templateUrl: '../views/key.html'
     })
     .state('add-key', {
       url: '/add-key',
-      templateUrl: 'views/add-key.html'
+      templateUrl: '../views/add-key.html'
     })
     .state('key-detail', {
       url: '/key/:key',
-      templateUrl: 'views/key-detail.html'
+      templateUrl: '../views/key-detail.html'
     })
     .state('project', {
       url: '/project/:project',
-      templateUrl: 'views/menu.html'
+      templateUrl: '../views/menu.html'
     })
     .state('project.project', {
       url: '/project',
-      templateUrl: 'views/project.html'
+      templateUrl: '../views/project.html'
     })
     .state('project.camera', {
       url: '/camera',
-      templateUrl: 'views/camera.html'
+      templateUrl: '../views/camera.html'
     })
     .state('project.camera-detail', {
       url: '/camera/:camera',
-      templateUrl: 'views/camera-detail.html'
+      templateUrl: '../views/camera-detail.html'
     })
     .state('project.log', {
       url: '/log',
-      templateUrl: 'views/log.html'
+      templateUrl: '../views/log.html'
     })
     .state('project.user', {
       url: '/user',
-      templateUrl: 'views/user.html'
+      templateUrl: '../views/user.html'
     });
 }]);
