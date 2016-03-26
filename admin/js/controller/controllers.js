@@ -20,7 +20,7 @@ app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore',
     // G_user = $cookies.get('username');
     // if (G_token===undefined || G_user===undefined || G_user==="") $window.location.href = "login.html";
     // $scope.token = G_token;
-    // $scope.user = G_user;
+    $scope.user = G_user;
     $scope.$on("Ctr1ModalShow",
         function (event, errMsg) {
             $scope.errModalHandler.show(errMsg);

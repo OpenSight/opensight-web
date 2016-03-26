@@ -412,6 +412,10 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         {
                             name: "设备硬件",
                             key: "hardware_model"
+                        },
+                        {
+                            name: "设备厂家",
+                            key: "vendor"
                         }
                     ];
                     $scope.project.devicelist.seachKey = $scope.project.devicelist.searchKeyOptionsData[0].key;
@@ -484,6 +488,8 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         $scope.project.device.data_add.login_passwd = "";
                         $scope.project.device.data_add.firmware_model = "";
                         $scope.project.device.data_add.hardware_model = "";
+                        $scope.project.device.data_add.media_channel_num = 0;
+                        $scope.project.device.data_add.vendor = "";
                         $scope.project.device.data_add.desc = "";
                         $scope.project.device.data_add.long_desc = "";
                         $scope.project.device.data_add.longitude = 0;
@@ -502,6 +508,8 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                             long_desc: $scope.project.device.data_add.long_desc,
                             firmware_model: $scope.project.device.data_add.firmware_model,
                             hardware_model: $scope.project.device.data_add.hardware_model,
+                            vendor: $scope.project.device.data_add.vendor,
+                            media_channel_num: $scope.project.device.data_add.media_channel_num,
                             longitude: $scope.project.device.data_add.longitude,
                             latitude: $scope.project.device.data_add.latitude,
                             altitude: $scope.project.device.data_add.altitude
@@ -663,6 +671,8 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                             long_desc: $scope.project.device.data_mod.data[index].long_desc,
                             firmware_model: $scope.project.device.data_mod.data[index].firmware_model,
                             hardware_model: $scope.project.device.data_mod.data[index].hardware_model,
+                            vendor: $scope.project.device.data_mod.data[index].vendor,
+                            media_channel_num: $scope.project.device.data_mod.data[index].media_channel_num,
                             longitude: $scope.project.device.data_mod.data[index].longitude,
                             login_passwd: $scope.project.device.data_mod.data[index].login_passwd,
                             latitude: $scope.project.device.data_mod.data[index].latitude,
