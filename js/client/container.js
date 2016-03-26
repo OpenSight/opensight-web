@@ -632,6 +632,41 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     }, 1000);
   };
 
+  $scope.speed = 50;
+  $scope.options = {       
+    from: 0,
+    to: 100,
+    step: 10,
+    dimension: '',
+    scale: [{val:0, label:'慢'}, {val:100, label:'快'}]        
+  };
+  var moving = false;
+  $scope.ptzmouseout = function(){
+    if (false === moving){
+      return
+    }
+    $scope.ptzStop('stop');
+  };
+  $scope.ptzStart = function(op){
+    if (true === moving){
+      return;
+    }
+    ptz(op);
+    moving = true;
+  };
+  $scope.ptzStop = function(){
+    // alert(op);
+    ptz('stop');
+    moving = false;
+  };
+  var ptz = function(op){
+    var url = api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/ptz/op';
+    $http.post(url, {op: op, value: parseInt($scope.speed, 10)}).success(function(response) {
+    }).error(function(response, status) {
+      console.log('error');
+    });
+  };
+
   create();
   updateTip();
   $scope.ok = function(){

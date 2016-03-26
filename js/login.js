@@ -1,6 +1,6 @@
 var Login = function(){
   this.url = 'http://121.41.72.231/client.html';
-  this.api = 'http://121.41.72.231:5001/api/ivc/v1/';
+  this.api = 'http://api.opensight.cn/api/ivc/v1/';
   this.timeInterval = 0;
 
   var params = this.getUrlParams();
@@ -41,6 +41,7 @@ Login.prototype = {
       error: function() {
         /* Act on the event */
         _this.logining = false;
+        alert('用户名或密码错误。');
       }
     });
     return false;
