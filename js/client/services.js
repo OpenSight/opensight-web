@@ -30,6 +30,7 @@ angular.module('app.services', []).factory('flagFactory', function() {
         }
       }
       return {
+        ptz: 1 === bitmap[6],
         live: 0 === bitmap[5],
         preview: 1 === bitmap[4],
         ability: t
