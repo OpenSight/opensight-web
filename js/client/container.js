@@ -272,6 +272,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       $scope.info.live = flags.live;
       live = flags.live;
 
+      $scope.info.ptz = flags.ptz;
       $scope.info.preview = flags.preview;
       preview = flags.preview;
     }).error(function(response, status) {
