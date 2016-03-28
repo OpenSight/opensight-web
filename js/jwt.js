@@ -18,7 +18,7 @@ Jwt.prototype = {
       this.url = url;
     } else {
       url = $.cookie(this.cookie.url);
-      this.url = undefined === url ? '../login.html' : url;
+      this.url = undefined === url ? 'http://121.41.72.231/login.html' : url;
     }
 
     if (undefined !== jwt){
