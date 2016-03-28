@@ -721,6 +721,7 @@
                                         <button class="btn btn-default" ng-click="project.camera.data_mod.reset(u,$index)"><i class="fa fa-remove"></i>&nbsp;取消</button>
                                         <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(project.camera.data_mod.data[$index],true)" ng-show="!(project.camera.data_mod.data[$index].live)"><i class="fa fa-play"></i>&nbsp;允许直播</button>
                                         <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(project.camera.data_mod.data[$index],false)" ng-show="(project.camera.data_mod.data[$index].live)"><i class="fa fa-stop"></i>&nbsp;禁止直播</button>
+                                        <button class="btn btn-default" ng-click="project.camera.data_mod.reboot(u,$index)"><i class="fa fa-power-off"></i>&nbsp;重启</button>
                                     </div>
                                 </div>
                                 <!--div class="form-group">
