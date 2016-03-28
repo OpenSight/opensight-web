@@ -1,5 +1,10 @@
-var Jwt = function(urlname){
-  this.urlname = undefined === urlname ? 'url' : urlname;
+var Jwt = function(cookie){
+  this.cookie = $.extend({
+    url: 'url',
+    jwt: 'jwt',
+    pwd: 'pwd'
+  }, cookie);
+  
   var params = this.getUrlParams();
   this.init(params.jwt, params.ui, params.url);
   
@@ -9,18 +14,18 @@ var Jwt = function(urlname){
 Jwt.prototype = {
   init: function(jwt, ui, url){
     if (undefined !== url){
-      $.cookie(this.urlname, url, {expires: 30});
+      $.cookie(this.cookie.url, url, {expires: 30});
       this.url = url;
     } else {
-      url = $.cookie(this.urlname);
-      this.url = undefined === url ? 'http://121.41.72.231/login.html' : url;
+      url = $.cookie(this.cookie.url);
+      this.url = undefined === url ? '../login.html' : url;
     }
 
     if (undefined !== jwt){
-      $.cookie('jwt', jwt);
+      $.cookie(this.cookie.jwt, jwt);
       this.jwt = jwt;
     } else {
-      this.jwt = $.cookie('jwt');
+      this.jwt = $.cookie(this.cookie.jwt);
     }
     if (0 >= this.check()){
       this.jump();
@@ -36,13 +41,13 @@ Jwt.prototype = {
     if (undefined !== ui){
       ui = JSON.parse(Base64.decode(ui));
       if (undefined !== ui.password){
-        $.cookie('pwd', ui.password);
+        $.cookie(this.cookie.pwd, ui.password);
         this.pwd = ui.password;
       } else {
-        this.pwd = $.cookie('pwd');
+        this.pwd = $.cookie(this.cookie.pwd);
       }
     } else {
-      this.pwd = $.cookie('pwd');
+      this.pwd = $.cookie(this.cookie.pwd);
     }
   },
   getUrlParams: function(){
@@ -105,7 +110,7 @@ Jwt.prototype = {
       type: 'POST',
       success: function(json){
         _this.jwt = json.jwt;
-        $.cookie('jwt', json.jwt);
+        $.cookie(_this.cookie.jwt, json.jwt);
         _this.updateing = false;
       }, 
       error: function() {
@@ -148,7 +153,7 @@ Jwt.prototype = {
     }, interval);
   },
   logout: function(){
-    $.removeCookie('jwt');
+    $.removeCookie(this.cookie.jwt);
     this.jump();
   }
 };

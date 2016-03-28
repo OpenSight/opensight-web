@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>直播</title>
+  <title>视频广场</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -12,7 +12,6 @@
 
   <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/square.css">
-  <!-- <link rel="stylesheet" href="css/video.css"> -->
 </head>
 <body>
   <!--[if lt IE 8]>
@@ -40,9 +39,9 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li>
+          <!-- <li>
             <a href="square.html">视频广场</a>
-          </li>
+          </li> -->
           <li>
             <a href="#">更多</a>
           </li>
@@ -52,37 +51,43 @@
   </header>  
 
   <div class="container squera-container">
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="thumbnail" id="videoPlayerWrapper">
-          <div class="live">
-            <div class="img-container"><img id="img" src="../img/video.jpg" alt=""></div>
-            <div class="player-container">
-              <div id="videoPlayer">
-                <p class="play-tip pull-right">
-                  <span class="text-highlight" id="playTipSec">10</span>
-                  秒之后直播开始
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-12">
-        <h3><span class="text-highlight">名称：</span><span id="name"></span></h3>
-        <p><span class="text-highlight">描述：</span><span id="desc"></span></p>
-        <p><span class="text-highlight">详细信息：</span><span id="long_desc"></span></p>
-      </div>
+    <div class="row" id="container">
     </div>
+    <div class="row loading hidden" id="loading">
+      <span></span>
+    </div>
+    <div class="row" id="lastpage"></div>
   </div>
+
+  <!-- <footer class="bs-docs-footer" role="contentinfo">
+    <div class="container squera-container">
+      <ul class="bs-docs-footer-links text-muted list-inline">
+        <li>
+          <a href="about.html#about">关于我们</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="#">法律条款</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="swagger-ui/dist/">API</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="about.html#conc">联系我们</a>
+        </li>
+      </ul>
+      <p>© 2015 源景工作室 版权所有. ICP证：浙ICP备15041027号</p>
+    </div>
+  </footer> -->
 
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="../js/swfobject.min.js"></script>
-<script>
-  var swfpath = '../';
-</script>
-<script src="../js/video.js"></script>
+<!-- <script src="bower_components/matchHeight/jquery.matchHeight-min.js"></script> -->
+<script src="../bower_components/juicer/juicer-min.js"></script>
+<!-- <script src="js/content.js"></script> -->
+<script src="../js/square.js"></script>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
 <script>
@@ -96,5 +101,21 @@
 
 </script>
 -->
+<script type="text/html" id="tmpl">
+  {@each list as item}
+    <div class="col-md-3 col-sm-4 col-xs-6">
+      <div class="thumbnail">
+        <a href="${item.uuid, item.is_online|getLink}"><img src="${item.preview}" alt="${item.name}"></a>
+        <div class="caption">
+          <p class="text-name">
+            <a href="${item.uuid, item.is_online|getLink}">${item.name}</a>
+            <span class="${item.is_online|getCls} pull-right">${item.is_online|renderStatus}</span>
+          </p>
+          <p class="text-muted text-desc">${item.desc}</p>
+        </div>
+      </div>
+    </div>
+  {@/each}
+</script>
 </body>
 </html>
