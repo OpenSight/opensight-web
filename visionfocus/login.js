@@ -36,7 +36,7 @@ Login.prototype = {
           $.cookie('password', p, {expires: 30});
         }
         var ui = Base64.encodeURI(JSON.stringify(data));
-        window.location.replace(_this.url + '?jwt=' + json.jwt + '&ui=' + ui);
+        window.location.replace(_this.url + '?jwt=' + json.jwt + '&ui=' + ui + '&url=' + window.location.href);
       }, 
       error: function() {
         /* Act on the event */
