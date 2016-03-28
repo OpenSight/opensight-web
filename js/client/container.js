@@ -272,6 +272,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       $scope.info.live = flags.live;
       live = flags.live;
 
+      $scope.info.ptz = flags.ptz;
       $scope.info.preview = flags.preview;
       preview = flags.preview;
     }).error(function(response, status) {
@@ -637,8 +638,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     from: 0,
     to: 100,
     step: 10,
-    dimension: '',
-    scale: [{val:0, label:'慢'}, {val:100, label:'快'}]        
+    dimension: ''        
   };
   var moving = false;
   $scope.ptzmouseout = function(){
@@ -666,6 +666,49 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       console.log('error');
     });
   };
+
+  (function(){
+    var list = {};
+    $scope.selected = 'preset';
+    $scope.ptzchange = function(){
+      $scope.token = undefined;
+      if ('patrol' === $scope.selected){
+        return;
+      } else if (undefined !== list[$scope.selected]){
+        $scope.ptzlist = list[$scope.selected];
+        return;
+      }
+      var url = api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/ptz/' + $scope.selected;
+      $http.get(url, {}).success(function(response) {
+        list[$scope.selected] = response;
+        $scope.ptzlist = list[$scope.selected];
+      }).error(function(response, status) {
+        console.log('error');
+      });
+    };
+
+    $scope.cruise = function(op){
+      var url = api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/ptz/' + $scope.selected;
+      if ('patrol' === $scope.selected){
+        url += '/op';
+      } else {
+        url += '/' + $scope.token + '/op';
+      }
+      var params = {op: op};
+      if ('preset' === $scope.selected){
+        params = {};
+      }
+      $http.post(url, params).success(function(response) {
+      }).error(function(response, status) {
+        console.log('error');
+      });
+    };
+
+    if (true === $scope.cam.ability.ptz){
+      $scope.ptzchange();
+    }
+  })();
+  
 
   create();
   updateTip();
