@@ -93,6 +93,13 @@ app
             url: '/projectsDetail'
 
         })
+        .state('home.session', {
+            url: '/session',
+            templateUrl: './views/session.html',
+            resolve: {
+                load: app.asyncjs("./js/controller/session.js")
+            }
+        })
         .state('userInfo', {
             url: '/user',
             templateUrl: './views/userInfo.html',

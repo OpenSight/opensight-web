@@ -978,12 +978,12 @@
             <thead>
             <tr>
                 <th class="col-sm-2">用户名</th>
-                <th class="col-sm-1">子用户</th>
+                <th class="col-sm-2">子用户</th>
                 <th class="col-sm-2">摄像头名称</th>
                 <th class="col-sm-1">协议</th>
                 <th class="col-sm-1">画质</th>
-                <th class="col-sm-2">起始</th>
-                <th class="col-sm-2">结束</th>
+                <th class="col-sm-3">起始</th>
+                <!--th class="col-sm-2">结束</th-->
                 <th class="col-sm-1">时长</th>
             </tr>
             </thead>
@@ -995,7 +995,7 @@
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.stream_format}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.stream_quality}}</td>
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.start}}</td>
-                <td ng-click="project.session.data.showDetail(u, $index)">{{u.end}}</td>
+                <!--td ng-click="project.session.data.showDetail(u, $index)">{{u.end}}</td-->
                 <td ng-click="project.session.data.showDetail(u, $index)">{{u.duration}}</td>
             </tr>
             <tr class="ng-hide" ng-show="project.session.data_mod.bDetailShown[$index]">
