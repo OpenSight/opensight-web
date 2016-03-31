@@ -1380,6 +1380,10 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
             },
             sum: function () {
                 if ($scope.project.data_mod.bDetailShown !== true) return;
+                if ($scope.project.session.sumShown === true)  {
+                    $scope.project.session.sumShown = false;
+                    return;
+                }
                 $scope.aborter = $q.defer(),
                     $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/session_logs_sum?start_from=" +$scope.project.sessionlist.format($scope.start.dt, 0)+
                         "&end_to=" +$scope.project.sessionlist.format($scope.end.dt, 1), {
