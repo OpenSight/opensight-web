@@ -157,6 +157,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
           var flags = flagFactory.parseCamera(bitmap);
           response.list[i].ability = flags.ability;
           response.list[i].live = flags.live;
+          response.list[i].ptz = flags.ptz;
           if (0 !== response.list[i].ability.length) {
             response.list[i].quality = response.list[i].ability[0].text;
           }

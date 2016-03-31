@@ -6,9 +6,6 @@ var Login = function(){
   var params = this.getUrlParams();
   if (undefined !== params.page){
     this.url = params.page;
-    if (-1 !== params.page.indexOf('/admin/')){
-      $('title').html('IVC-MANAGER');
-    }
   }
 };
 Login.prototype = {
@@ -39,7 +36,7 @@ Login.prototype = {
           $.cookie('password', p, {expires: 30});
         }
         var ui = Base64.encodeURI(JSON.stringify(data));
-        window.location.replace(_this.url + '?jwt=' + json.jwt + '&ui=' + ui);
+        window.location.replace(_this.url + '?jwt=' + json.jwt + '&ui=' + ui + '&url=' + window.location.href);
       }, 
       error: function() {
         /* Act on the event */
@@ -92,11 +89,9 @@ $(function(){
   var login = new Login();
   var userinfo = login.get();
   if (null !== userinfo){
-    setTimeout(function(){
-      $('#username').val(userinfo.username);
-      $('#password').val(userinfo.password);
-      $('#remember').prop('checked', true);
-    }, 100);
+    $('#username').val(userinfo.username);
+    $('#password').val(userinfo.password);
+    $('#remember').prop('checked', true);
   }
 
   $('#form').submit(function(event) {

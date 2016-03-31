@@ -5,7 +5,11 @@
 <script src="../bower_components/jquery.cookie/jquery.cookie.js"></script>
 <script src="../js/jwt.js"></script>
 <script>
-  var jwt = new Jwt('weizhong');
+  var jwt = new Jwt({
+    url: 'urlinfo',
+    jwt: 'jwtinfo',
+    pwd: 'pwdinfo'
+  });
 </script>
 
 <head>
