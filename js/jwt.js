@@ -6,21 +6,13 @@ var Jwt = function(opts){
     login: 'http://121.41.72.231/login.html'
   }, opts);
   var params = this.getUrlParams();
-  this.init(params.jwt, params.ui, params.url);
+  this.init(params.jwt, params.ui);
   
   this.keepalive();
 };
 
 Jwt.prototype = {
-  init: function(jwt, ui, url){
-    // if (undefined !== url){
-    //   $.cookie(this.opts.url, url, {expires: 30});
-    //   this.url = url;
-    // } else {
-    //   url = $.cookie(this.opts.url);
-    //   this.url = undefined === url ? this.opts.login : url;
-    // }
-
+  init: function(jwt, ui){
     if (undefined !== jwt){
       $.cookie(this.opts.jwt, jwt);
       this.jwt = jwt;
