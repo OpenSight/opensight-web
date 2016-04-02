@@ -11,6 +11,7 @@ var app = angular.module('client', [
   'angular-loading-bar',
   'angularAwesomeSlider'
 ])
+
 .run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
   // It's very handy to add references to $state and $stateParams to the $rootScope
   // so that you can access them from any scope within your applications.For example,
@@ -20,12 +21,85 @@ var app = angular.module('client', [
   $rootScope.$stateParams = $stateParams;
   $rootScope.$jwt = jwt;
 }])
+
+.config([
+  '$stateProvider', '$urlRouterProvider', '$sceDelegateProvider',
+  function($stateProvider, $urlRouterProvider, $sceDelegateProvider) {
+    /////////////////////////////
+    // Redirects and Otherwise //
+    /////////////////////////////
+    // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
+    $urlRouterProvider
+      .when('/project/:name', '/project/:name/project')
+      .when('/user', '/user/info')
+      .otherwise('/default');
+
+    $sceDelegateProvider.resourceUrlWhitelist(['**']);
+    $stateProvider
+      .state("default", {
+        url: "/default",
+        templateUrl: path + 'views/default.html'
+      })
+      .state('user', {
+        url: '/user',
+        templateUrl: path + 'views/user-menu.html'
+      })
+      .state('user.info', {
+        url: '/info',
+        templateUrl: path + 'views/user-info.html'
+      })
+      .state('user.passwd', {
+        url: '/passwd',
+        templateUrl: path + 'views/user-passwd.html'
+      })
+      .state('key', {
+        url: '/key',
+        templateUrl: path + 'views/key.html'
+      })
+      .state('add-key', {
+        url: '/add-key',
+        templateUrl: path + 'views/add-key.html'
+      })
+      .state('key-detail', {
+        url: '/key/:key',
+        templateUrl: path + 'views/key-detail.html'
+      })
+      .state('project', {
+        url: '/project/:project',
+        templateUrl: path + 'views/menu.html'
+      })
+      .state('project.project', {
+        url: '/project',
+        templateUrl: path + 'views/project.html'
+      })
+      .state('project.camera', {
+        url: '/camera',
+        templateUrl: path + 'views/camera.html'
+      })
+      .state('project.camera-detail', {
+        url: '/camera/:camera',
+        templateUrl: path + 'views/camera-detail.html'
+      })
+      .state('project.log', {
+        url: '/log',
+        templateUrl: path + 'views/log.html'
+      })
+      .state('project.user', {
+        url: '/user',
+        templateUrl: path + 'views/user.html'
+      });
+  }
+])
+
 .config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push(function($q, $rootScope) {
     return {
       request: function(config) {
-        config.headers.Authorization  = "Bearer " + jwt.jwt;
-        config.headers['Content-Type']  = 'application/json';
+        if (-1 === config.url.indexOf('http://api.opensight.cn/')){
+          return config;
+        }
+        config.headers.Authorization = "Bearer " + jwt.jwt;
+        config.headers['Content-Type'] = 'application/json';
         return config;
       },
       responseError: function(rejection, response, status) {
@@ -34,69 +108,4 @@ var app = angular.module('client', [
       }
     };
   });
-}])
-.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-  /////////////////////////////
-  // Redirects and Otherwise //
-  /////////////////////////////
-  // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
-  $urlRouterProvider
-    // .when('/c?id', '/contacts/:id')
-    .when('/project/:name', '/project/:name/project')
-    .when('/user', '/user/info')
-    .otherwise('/default');
-  // Use $stateProvider to configure your states.
-  $stateProvider
-    .state("default", {
-      url: "/default",
-      templateUrl: '../views/default.html'
-    })
-    .state('user', {
-      url: '/user',
-      templateUrl: '../views/user-menu.html'
-    })
-    .state('user.info', {
-      url: '/info',
-      templateUrl: '../views/user-info.html'
-    })
-    .state('user.passwd', {
-      url: '/passwd',
-      templateUrl: '../views/user-passwd.html'
-    })
-    .state('key', {
-      url: '/key',
-      templateUrl: '../views/key.html'
-    })
-    .state('add-key', {
-      url: '/add-key',
-      templateUrl: '../views/add-key.html'
-    })
-    .state('key-detail', {
-      url: '/key/:key',
-      templateUrl: '../views/key-detail.html'
-    })
-    .state('project', {
-      url: '/project/:project',
-      templateUrl: '../views/menu.html'
-    })
-    .state('project.project', {
-      url: '/project',
-      templateUrl: '../views/project.html'
-    })
-    .state('project.camera', {
-      url: '/camera',
-      templateUrl: '../views/camera.html'
-    })
-    .state('project.camera-detail', {
-      url: '/camera/:camera',
-      templateUrl: '../views/camera-detail.html'
-    })
-    .state('project.log', {
-      url: '/log',
-      templateUrl: '../views/log.html'
-    })
-    .state('project.user', {
-      url: '/user',
-      templateUrl: '../views/user.html'
-    });
 }]);

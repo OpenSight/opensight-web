@@ -1,10 +1,10 @@
-var Jwt = function(cookie){
-  this.cookie = $.extend({
+var Jwt = function(opts){
+  this.opts = $.extend({
     url: 'url',
     jwt: 'jwt',
-    pwd: 'pwd'
-  }, cookie);
-  
+    pwd: 'pwd',
+    login: 'http://121.41.72.231/login.html'
+  }, opts);
   var params = this.getUrlParams();
   this.init(params.jwt, params.ui, params.url);
   
@@ -14,18 +14,18 @@ var Jwt = function(cookie){
 Jwt.prototype = {
   init: function(jwt, ui, url){
     if (undefined !== url){
-      $.cookie(this.cookie.url, url, {expires: 30});
+      $.cookie(this.opts.url, url, {expires: 30});
       this.url = url;
     } else {
-      url = $.cookie(this.cookie.url);
-      this.url = undefined === url ? 'http://121.41.72.231/login.html' : url;
+      url = $.cookie(this.opts.url);
+      this.url = undefined === url ? this.opts.login : url;
     }
 
     if (undefined !== jwt){
-      $.cookie(this.cookie.jwt, jwt);
+      $.cookie(this.opts.jwt, jwt);
       this.jwt = jwt;
     } else {
-      this.jwt = $.cookie(this.cookie.jwt);
+      this.jwt = $.cookie(this.opts.jwt);
     }
     if (0 >= this.check()){
       this.jump();
@@ -41,13 +41,13 @@ Jwt.prototype = {
     if (undefined !== ui){
       ui = JSON.parse(Base64.decode(ui));
       if (undefined !== ui.password){
-        $.cookie(this.cookie.pwd, ui.password);
+        $.cookie(this.opts.pwd, ui.password);
         this.pwd = ui.password;
       } else {
-        this.pwd = $.cookie(this.cookie.pwd);
+        this.pwd = $.cookie(this.opts.pwd);
       }
     } else {
-      this.pwd = $.cookie(this.cookie.pwd);
+      this.pwd = $.cookie(this.opts.pwd);
     }
   },
   getUrlParams: function(){
@@ -110,7 +110,7 @@ Jwt.prototype = {
       type: 'POST',
       success: function(json){
         _this.jwt = json.jwt;
-        $.cookie(_this.cookie.jwt, json.jwt);
+        $.cookie(_this.opts.jwt, json.jwt);
         _this.updateing = false;
       }, 
       error: function() {
@@ -153,7 +153,7 @@ Jwt.prototype = {
     }, interval);
   },
   logout: function(){
-    $.removeCookie(this.cookie.jwt);
+    $.removeCookie(this.opts.jwt);
     this.jump();
   }
 };
