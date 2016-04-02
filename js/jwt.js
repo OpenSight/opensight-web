@@ -13,13 +13,13 @@ var Jwt = function(opts){
 
 Jwt.prototype = {
   init: function(jwt, ui, url){
-    if (undefined !== url){
-      $.cookie(this.opts.url, url, {expires: 30});
-      this.url = url;
-    } else {
-      url = $.cookie(this.opts.url);
-      this.url = undefined === url ? this.opts.login : url;
-    }
+    // if (undefined !== url){
+    //   $.cookie(this.opts.url, url, {expires: 30});
+    //   this.url = url;
+    // } else {
+    //   url = $.cookie(this.opts.url);
+    //   this.url = undefined === url ? this.opts.login : url;
+    // }
 
     if (undefined !== jwt){
       $.cookie(this.opts.jwt, jwt);
@@ -134,7 +134,7 @@ Jwt.prototype = {
     return {aud: this.aud, jwt: this.jwt};
   },
   jump: function(url){
-    url = undefined === url ? this.url : url;
+    url = undefined === url ? this.opts.login : url;
     var href = window.location.href;
     var idx = href.indexOf('?');
     var page = href;
