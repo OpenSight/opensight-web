@@ -729,7 +729,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       list: []
     };
     $scope.params = {
-      filter_key: 'name',
+      filter_key: 'username',
       filter_value: '',
       start: 0,
       limit: 10
@@ -809,4 +809,91 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
 
     $scope.query();
   }
-]);
+])
+
+.controller('session-status', [
+  '$scope', '$rootScope', '$http',
+  function($scope, $rootScope, $http) {
+    var pro = $rootScope.$stateParams.project;
+    $scope.sessions = {
+      start: 0,
+      total: 10,
+      list: []
+    };
+    $scope.params = {
+      start: 0,
+      limit: 10
+    };
+
+    var getParams = function(src) {
+      var dst = {
+        start: src.start,
+        limit: src.limit
+      };
+      return dst;
+    };
+    var lastParams;
+    var query = function(params) {
+      $http.get(api + "projects/" + pro + '/sessions', {
+        params: params
+      }).success(function(response) {
+        $scope.sessions = response;
+        $scope.page = page($scope.sessions.start, $scope.sessions.total, params.limit, 2);
+      }).error(function(response, status) {
+        console.log('error');
+      });
+      lastParams = angular.copy(params);
+    };
+    $scope.query = function() {
+      $scope.params.start = 0;
+      var params = getParams($scope.params);
+      query(params);
+    };
+    $scope.refresh = function() {
+      var params = getParams(lastParams);
+      query(params);
+    };
+
+    var page = function(start, total, limit, n){
+      var p = {};
+      p.curr = Math.floor(start / limit);
+      p.last = Math.floor(total / limit);
+      var s = p.curr - n;
+      var e = p.curr + n;
+      s = s < 0 ? 0 : s;
+      e = e > p.last ? p.last : e;
+      p.list = [];
+      for (var i = s; i <= e; i++){
+        p.list.push(i);
+      }
+      return p;
+    };
+    $scope.jumpto = '';
+    $scope.go = function(p){
+      if (p === $scope.page.curr){
+        return;
+      }
+      lastParams.start = p * $scope.params.limit;
+      query(lastParams);
+    };
+    $scope.jump = function(){
+      var msg = {succ: false, text: '页码输入不正确。'}
+      var jumpto = $scope.jumpto;
+      $scope.jumpto = '';
+      if (null === jumpto.match(/^[1-9][\d]*$/)){
+        $rootScope.$emit('messagePush', msg);
+        return;
+      }
+      var p = parseInt(jumpto, 10) - 1;
+      if (p === $scope.page.curr || p > $scope.page.last){
+        $rootScope.$emit('messageShow', msg);
+        return;
+      }
+      lastParams.start = p * $scope.params.limit;
+      query(lastParams);
+    };
+
+    $scope.query();
+  }
+])
+;

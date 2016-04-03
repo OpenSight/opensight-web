@@ -1,0 +1,45 @@
+<div class="container-fluid" ng-controller="session-status">
+  <form class="form-inline">
+    <!-- <button class="btn btn-default" ng-click="query()">
+      <i class="glyphicon glyphicon-search pointer"></i>
+    </button> -->
+    <button class="btn btn-default" ng-click="refresh()">
+      <i class="glyphicon glyphicon-refresh pointer"></i>
+    </button>
+  </form>
+  <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
+    <thead>
+      <tr>
+        <th class="col-sm-2">摄像机</th>
+        <th class="col-sm-2">用户</th>
+        <th class="col-sm-2">子用户</th>
+        <th class="col-sm-1 text-center">协议</th>
+        <th class="col-sm-1 text-center">清晰度</th>
+        <th class="col-sm-2 text-center">开始时间</th>
+        <th class="col-sm-2 text-center">ip</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in sessions.list">
+        <td>{{item.camera_name}}</td>
+        <td>{{item.username}}</td>
+        <td>{{item.subuser}}</td>
+        <td class="text-center">{{item.stream_format}}</td>
+        <td class="text-center">{{item.stream_quality|stream_quality}}</td>
+        <td class="text-center">{{item.start}}</td>
+        <td class="text-center">{{item.ip}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="page-bar">
+    <button class="btn btn-sm" ng-class="{true:'btn-primary',false:'btn-default'}[0 === page.curr]" ng-show="1 < page.list[0]" ng-click="go(0)">1</button>
+    <span ng-show="page.list[0] > 2">..</span>
+    <button class="btn btn-sm" ng-repeat="it in page.list" ng-class="{true:'btn-primary',false:'btn-default'}[it === page.curr]" ng-click="go(it)">{{it + 1}}</button>
+    <span ng-show="page.list[page.list.length -1] < page.last - 2">..</span>
+    <button class="btn btn-sm" ng-class="{true:'btn-primary',false:'btn-default'}[page.last === page.curr]" ng-show="page.list[page.list.length -1] < page.last - 1" ng-click="go(page.last)">{{page.last + 1}}</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <label>跳转到：<input type="text"  class="form-control input-sm" ng-model="jumpto">
+    </label>
+    <button class="btn btn-default btn-sm" ng-click="jump()">Go</button>
+  </p>
+</div>

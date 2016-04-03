@@ -84,6 +84,10 @@ var app = angular.module('client', [
         url: '/log',
         templateUrl: path + 'views/log.html'
       })
+      .state('project.session-status', {
+        url: '/session-status',
+        templateUrl: path + 'views/session-status.html'
+      })
       .state('project.user', {
         url: '/user',
         templateUrl: path + 'views/user.html'
