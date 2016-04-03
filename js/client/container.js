@@ -236,7 +236,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       query(lastParams);
     };
     $scope.jump = function(){
-      var msg = {succ: false, text: '页码输入不正确。'}
+      var msg = {succ: false, text: '页码输入不正确。'};
       var jumpto = $scope.jumpto;
       $scope.jumpto = '';
       if (null === jumpto.match(/^[1-9][\d]*$/)){
@@ -250,6 +250,16 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       }
       lastParams.start = p * $scope.params.limit;
       query(lastParams);
+    };
+    $scope.restart = function(camera_id){
+      if (false === confirm('确定重启摄像机？')){
+        return;
+      }
+      $http.post(api + "projects/" + $scope.project + '/cameras/' + camera_id + '/reboot', {}).success(function(response) {
+        $rootScope.$emit('messageShow', {succ: true, text: '重启成功。'});
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', {succ: false, text: '重启失败。'});
+      });
     };
 
     $scope.query();

@@ -20,11 +20,11 @@
     <thead>
       <tr>
         <th class="col-sm-2">摄像机名称</th>
-        <th class="col-sm-3">描述</th>
+        <th class="col-sm-2">描述</th>
         <th class="col-sm-1 text-center">在线状态</th>
         <th class="col-sm-2 text-center">允许直播</th>
         <th class="col-sm-3 text-center">预览</th>
-        <th class="col-sm-1 text-center">操作</th>
+        <th class="col-sm-2 text-center">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -57,8 +57,11 @@
           </div> -->
         </td>
         <td class="text-center">
-          <button class="btn btn-default btn-sm" ui-sref="project.camera-detail({camera: item.uuid})">
+          <button class="btn btn-default btn-sm" ui-sref="project.camera-detail({camera: item.uuid})" title="详细">
             <i class="glyphicon glyphicon-cog pointer"></i>
+          </button>&nbsp;
+          <button class="btn btn-default btn-sm" ng-click="restart(item.uuid)" title="重启">
+            <i class="glyphicon glyphicon-repeat pointer"></i>
           </button>
         </td>
       </tr>
