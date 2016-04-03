@@ -173,9 +173,7 @@
               </select>
             </p>
             <p ng-hide="'patrol' === selected">
-              <select class="form-control" ng-model="token">
-                <option ng-repeat="it in ptzlist" value="{{it.token}}">{{it.name}}</option>
-              </select>
+              <select class="form-control" ng-model="token" ng-options="it.token as it.name for it in ptzlist"></select>
             </p>
             <p>
               <button class="btn btn-default" ng-click="cruise('start')">启动</button>

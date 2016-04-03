@@ -671,18 +671,27 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   (function(){
     var list = {};
     $scope.selected = 'preset';
+
+    var init = function(list){
+      $scope.ptzlist = list;
+      if (0 !== $scope.ptzlist.length){
+        $scope.token = $scope.ptzlist[0].token;
+      } else {
+        $scope.token = undefined;
+      }
+    };
     $scope.ptzchange = function(){
       $scope.token = undefined;
       if ('patrol' === $scope.selected){
         return;
       } else if (undefined !== list[$scope.selected]){
-        $scope.ptzlist = list[$scope.selected];
+        init(list[$scope.selected]);
         return;
       }
       var url = api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/ptz/' + $scope.selected;
       $http.get(url, {}).success(function(response) {
         list[$scope.selected] = response;
-        $scope.ptzlist = list[$scope.selected];
+        init(response);
       }).error(function(response, status) {
         console.log('error');
       });
@@ -704,8 +713,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
         console.log('error');
       });
     };
-
-    if (true === $scope.cam.ability.ptz){
+    if (true === $scope.cam.ptz){
       $scope.ptzchange();
     }
   })();
