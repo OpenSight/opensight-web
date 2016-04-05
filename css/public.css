@@ -156,3 +156,17 @@ a.thumbnail.active{
 .navbar-toggle .icon-bar{
   background-color: #25a8e1;
 }
+
+.btn:focus{
+  outline: none;
+}
+.btn-default:focus{
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.btn-primary:focus{
+  color: #fff;
+  border-color: #1d9ad0;
+  background-color: #25a8e1;
+}
