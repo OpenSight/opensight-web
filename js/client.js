@@ -91,7 +91,12 @@ var app = angular.module('client', [
       .state('project.user', {
         url: '/user',
         templateUrl: path + 'views/user.html'
-      });
+      })
+      .state('project.bill', {
+        url: '/bill',
+        templateUrl: path + 'views/bill.html'
+      })
+    ;
   }
 ])
 

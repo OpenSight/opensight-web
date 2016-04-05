@@ -1,0 +1,92 @@
+<div class="container-fluid" ng-controller="bill">
+  <div class="row">
+    <div class="col-sm-12 page-header page-header-condensed">
+      <h3>账户概况</h3>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-primary client-card">
+        <div class="panel-body">
+          <p class="text-primary">
+            <a ui-sref="user"><strong>{{username}}</strong></a>
+          </p>
+          <div> <strong>余额：</strong>
+            <span class="text-primary">{{accout.balance|currency:"￥"}}</span>
+          </div>
+          <div> <strong>创建时间：</strong>
+            <span>{{accout.ctime}}</span>
+          </div>
+          <div>
+            <strong>上次更新时间：</strong>
+            <span>{{accout.utime}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 page-header page-header-condensed">
+      <h3>账户明细</h3>
+    </div>
+  </div>
+  <form class="form-inline">
+    <div class="form-group">
+      <label>开始时间</label>
+      <span class="input-group">
+        <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="start.dt" is-open="start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />      
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open(start)"> <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </span>
+    </div>
+    <div class="form-group">
+      <label>结束时间</label>
+      <span class="input-group">
+        <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="end.dt" is-open="end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />      
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open(end)"> <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </span>
+    </div>
+    <button class="btn btn-default" ng-click="query()">
+      <i class="glyphicon glyphicon-search pointer"></i>
+    </button>
+    <button class="btn btn-default pull-right" ng-click="refresh()">
+      <i class="glyphicon glyphicon-refresh pointer"></i>
+    </button>
+  </form>
+  <table class="table table-condensed table-hover table-bordered table-striped">
+    <thead>
+      <tr>
+        <th class="col-sm-2">用户</th>
+        <th class="col-sm-1 text-center">类别</th>
+        <th class="col-sm-1 text-center">金额(元)</th>
+        <th class="col-sm-1 text-center">余额(元)</th>
+        <th class="col-sm-2 text-center">起始</th>
+        <th class="col-sm-2 text-center">结束</th>
+        <th class="col-sm-3">备注</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in bills.list">
+        <td>{{item.username}}</td>
+        <td class="text-center">{{item.bill_type}}</td>
+        <td class="text-center">{{item.amount|currency:"￥"}}</td>
+        <td class="text-center">{{item.cur_balance|currency:"￥"}}</td>
+        <td class="text-center">{{item.start_from}}</td>
+        <td class="text-center">{{item.end_to}}</td>
+        <td>{{item.comment}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="page-bar">
+    <button class="btn btn-sm" ng-class="{true:'btn-primary',false:'btn-default'}[0 === page.curr]" ng-show="1 < page.list[0]" ng-click="go(0)">1</button>
+    <span ng-show="page.list[0] > 2">..</span>
+    <button class="btn btn-sm" ng-repeat="it in page.list" ng-class="{true:'btn-primary',false:'btn-default'}[it === page.curr]" ng-click="go(it)">{{it + 1}}</button>
+    <span ng-show="page.list[page.list.length -1] < page.last - 2">..</span>
+    <button class="btn btn-sm" ng-class="{true:'btn-primary',false:'btn-default'}[page.last === page.curr]" ng-show="page.list[page.list.length -1] < page.last - 1" ng-click="go(page.last)">{{page.last + 1}}</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <label>跳转到：<input type="text"  class="form-control input-sm" ng-model="jumpto">
+    </label>
+    <button class="btn btn-default btn-sm" ng-click="jump()">Go</button>
+  </p>
+</div>
