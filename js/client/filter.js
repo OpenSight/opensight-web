@@ -59,12 +59,23 @@ angular.module('app.filter', []).filter('online', [function() {
   };
 }])
 
-.filter('user_flags', [function() {
-  return function(flags) {
-    if (1 === flags){
-      return '在线';
+.filter('bill_type', [function() {
+  return function(type) {
+    if (0 === flags){
+      return '充值';
     } else {
-      return '离线';
+      return '消费';
     }
   };
-}]);
+}])
+
+.filter('only_date', [function() {
+  return function(date_string) {
+    var m = date_string.match(/[\d]{4}-[\d]{1,2}-[\d]{1,2}/);
+    if (0 !== m.length){
+      return m[0];
+    }
+    return '';
+  };
+}])
+;

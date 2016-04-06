@@ -485,6 +485,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
 
   $scope.query();
 }])
+
 .controller('add-key', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
   $scope.username = $rootScope.$jwt.get().aud;
   $scope.url = api + "users/" + $scope.username + '/access_keys';
@@ -916,17 +917,24 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
 ])
 
 .controller('bill', [
-  '$scope', '$rootScope', '$http',
-  function($scope, $rootScope, $http) {
+  '$scope', '$rootScope', '$http', 'dateFactory',
+  function($scope, $rootScope, $http, dateFactory) {
     var pro = $rootScope.$stateParams.project;
-    $scope.sessions = {
+    $scope.start = {
+      dt: new Date(),
+      opened: false
+    };
+    $scope.end = {
+      dt: new Date(),
+      opened: false
+    };
+    $scope.open = function(opts){
+      opts.opened = true;
+    };
+    $scope.bills = {
       start: 0,
       total: 10,
       list: []
-    };
-    $scope.params = {
-      start: 0,
-      limit: 10
     };
 
     var getParams = function(src) {
@@ -936,29 +944,33 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       };
       return dst;
     };
-    var lastParams;
+    var params, lastParams;
     var query = function(params) {
-      $http.get(api + "projects/" + pro + '/sessions', {
+      $http.get(api + "projects/" + pro + '/bills', {
         params: params
       }).success(function(response) {
-        $scope.sessions = response;
-        $scope.page = page($scope.sessions.start, $scope.sessions.total, params.limit, 2);
+        $scope.bills = response;
+        $scope.page = page($scope.bills.start, $scope.bills.total, params.limit, 2);
       }).error(function(response, status) {
         console.log('error');
       });
       lastParams = angular.copy(params);
     };
     $scope.query = function() {
-      $scope.params.start = 0;
-      var params = getParams($scope.params);
-      query(params);
+      $scope.params = {
+        start_from: dateFactory.getStart($scope.start.dt),
+        end_to: dateFactory.getEnd($scope.end.dt),
+        start: 0,
+        limit: 10
+      };
+      query($scope.params);
     };
     $scope.refresh = function() {
       var params = getParams(lastParams);
       query(params);
     };
 
-    var page = function(start, total, limit, n){
+    var page = function(start, total, limit, n) {
       var p = {};
       p.curr = Math.floor(start / limit);
       p.last = Math.floor(total / limit);
@@ -967,35 +979,46 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       s = s < 0 ? 0 : s;
       e = e > p.last ? p.last : e;
       p.list = [];
-      for (var i = s; i <= e; i++){
+      for (var i = s; i <= e; i++) {
         p.list.push(i);
       }
       return p;
     };
     $scope.jumpto = '';
-    $scope.go = function(p){
-      if (p === $scope.page.curr){
+    $scope.go = function(p) {
+      if (p === $scope.page.curr) {
         return;
       }
-      lastParams.start = p * $scope.params.limit;
+      lastParams.start = p * lastParams.limit;
       query(lastParams);
     };
-    $scope.jump = function(){
-      var msg = {succ: false, text: '页码输入不正确。'}
+    $scope.jump = function() {
+      var msg = {
+        succ: false,
+        text: '页码输入不正确。'
+      }
       var jumpto = $scope.jumpto;
       $scope.jumpto = '';
-      if (null === jumpto.match(/^[1-9][\d]*$/)){
+      if (null === jumpto.match(/^[1-9][\d]*$/)) {
         $rootScope.$emit('messagePush', msg);
         return;
       }
       var p = parseInt(jumpto, 10) - 1;
-      if (p === $scope.page.curr || p > $scope.page.last){
+      if (p === $scope.page.curr || p > $scope.page.last) {
         $rootScope.$emit('messageShow', msg);
         return;
       }
       lastParams.start = p * $scope.params.limit;
       query(lastParams);
     };
+
+    (function(){
+      $http.get(api + "projects/" + pro + '/account', {}).success(function(response) {
+        $scope.account = response;
+      }).error(function(response, status) {
+        console.log('error');
+      });
+    })();
 
     $scope.query();
   }
