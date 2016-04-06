@@ -69,13 +69,4 @@ angular.module('app.filter', []).filter('online', [function() {
   };
 }])
 
-.filter('only_date', [function() {
-  return function(date_string) {
-    var m = date_string.match(/[\d]{4}-[\d]{1,2}-[\d]{1,2}/);
-    if (0 !== m.length){
-      return m[0];
-    }
-    return '';
-  };
-}])
 ;

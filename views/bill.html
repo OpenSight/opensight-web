@@ -7,14 +7,14 @@
       <div class="panel panel-primary client-card">
         <div class="panel-body">
           <div> <strong>余额：</strong>
-            <span class="text-primary">{{account.balance|currency:"￥"}}</span>
+            <span class="text-primary">{{account.balance|currency:"￥"}} 元</span>
           </div>
           <div> <strong>创建时间：</strong>
-            <span>{{account.ctime}}</span>
+            <span>{{account.ctime|date: "yyyy-MM-dd"}}</span>
           </div>
           <div>
             <strong>上次更新时间：</strong>
-            <span>{{account.utime}}</span>
+            <span>{{account.utime|date: "yyyy-MM-dd"}}</span>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@
         <td>{{item.bill_id}}</td>
         <td class="text-center">{{item.bill_type|bill_type}}</td>
         <td class="text-center">{{item.amount|currency:"￥"}}</td>
-        <td class="text-center">{{item.start_from|only_date}}</td>
+        <td class="text-center">{{item.start_from|date: "yyyy-MM-dd"}}</td>
         <td>{{item.comment}}</td>
         <td class="text-center">{{item.cur_balance|currency:"￥"}}</td>
         <td class="text-center">{{item.end_to|date: "yyyy-MM-dd"}}</td>
