@@ -6,18 +6,15 @@
     <div class="col-sm-4">
       <div class="panel panel-primary client-card">
         <div class="panel-body">
-          <p class="text-primary">
-            <a ui-sref="user"><strong>{{username}}</strong></a>
-          </p>
           <div> <strong>余额：</strong>
-            <span class="text-primary">{{accout.balance|currency:"￥"}}</span>
+            <span class="text-primary">{{account.balance|currency:"￥"}} 元</span>
           </div>
           <div> <strong>创建时间：</strong>
-            <span>{{accout.ctime}}</span>
+            <span>{{account.ctime|date: "yyyy-MM-dd"}}</span>
           </div>
           <div>
             <strong>上次更新时间：</strong>
-            <span>{{accout.utime}}</span>
+            <span>{{account.utime|date: "yyyy-MM-dd"}}</span>
           </div>
         </div>
       </div>
@@ -57,24 +54,26 @@
   <table class="table table-condensed table-hover table-bordered table-striped">
     <thead>
       <tr>
-        <th class="col-sm-2">用户</th>
-        <th class="col-sm-1 text-center">类别</th>
+        <th class="col-sm-2">账单编号</th>
+        <th class="col-sm-1 text-center">类型</th>
         <th class="col-sm-1 text-center">金额(元)</th>
+        <th class="col-sm-1 text-center">创建日期</th>
+        <th class="col-sm-2">备注</th>
         <th class="col-sm-1 text-center">余额(元)</th>
-        <th class="col-sm-2 text-center">起始</th>
-        <th class="col-sm-2 text-center">结束</th>
-        <th class="col-sm-3">备注</th>
+        <th class="col-sm-1 text-center">计费周期</th>
+        <th class="col-sm-2">操作用户</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="item in bills.list">
-        <td>{{item.username}}</td>
-        <td class="text-center">{{item.bill_type}}</td>
+        <td>{{item.bill_id}}</td>
+        <td class="text-center">{{item.bill_type|bill_type}}</td>
         <td class="text-center">{{item.amount|currency:"￥"}}</td>
-        <td class="text-center">{{item.cur_balance|currency:"￥"}}</td>
-        <td class="text-center">{{item.start_from}}</td>
-        <td class="text-center">{{item.end_to}}</td>
+        <td class="text-center">{{item.start_from|date: "yyyy-MM-dd"}}</td>
         <td>{{item.comment}}</td>
+        <td class="text-center">{{item.cur_balance|currency:"￥"}}</td>
+        <td class="text-center">{{item.end_to|date: "yyyy-MM-dd"}}</td>
+        <td>{{item.username}}</td>
       </tr>
     </tbody>
   </table>

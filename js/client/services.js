@@ -37,4 +37,28 @@ angular.module('app.services', []).factory('flagFactory', function() {
       };
     }
   };
-});
+})
+.factory('dateFactory', function() {
+  var padding = function(n){
+    if (10 > n) {
+      return '0' + n;
+    }
+    return n.toString();
+  };
+  var getDate = function(dt){
+    return [
+      dt.getFullYear(), 
+      padding(dt.getMonth() + 1), 
+      padding(dt.getDate())
+    ].join('-');
+  };
+  return {
+    getStart: function(dt) {
+      return getDate(dt) + 'T00:00:00';
+    },
+    getEnd: function(dt) {
+      return getDate(dt) + 'T23:59:59';
+    }
+  };
+})
+;

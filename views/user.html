@@ -23,7 +23,6 @@
         <th class="col-sm-2">用户名</th>
         <th class="col-sm-2">职位</th>
         <th class="col-sm-1 text-center">类型</th>
-        <th class="col-sm-1 text-center">状态</th>
         <th class="col-sm-2 text-center">手机</th>
         <th class="col-sm-2 text-center">邮箱</th>
         <th class="col-sm-2">描述</th>
@@ -33,7 +32,6 @@
       <tr ng-repeat="item in users.list">
         <td>{{item.username}}</td>
         <td>{{item.title}}</td>
-        <td class="text-center">{{item.flags|user_flags}}</td>
         <td class="text-center">{{item.user_type|user_type}}</td>
         <td class="text-center">{{item.cellphone}}</td>
         <td class="text-center">{{item.email}}</td>
