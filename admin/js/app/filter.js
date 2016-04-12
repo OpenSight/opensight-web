@@ -34,4 +34,15 @@ app.filter('online', [function() {
       return '停用';
     }
   };
-}]);
+}])
+
+.filter('bill_type', [function() {
+  return function(type) {
+    if (0 === type){
+      return '充值';
+    } else {
+      return '消费';
+    }
+  };
+}])
+;

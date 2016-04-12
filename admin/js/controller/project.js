@@ -1,4 +1,4 @@
-app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver', 'Blob', function($scope, $http, $q, $state, FileSaver, Blob){
+app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver', 'Blob', 'dateFactory', function($scope, $http, $q, $state, FileSaver, Blob, dateFactory){
     $scope.project = (function () {
         return {
             show: function () {
@@ -1970,11 +1970,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                     $scope.destroy();
                     $scope.project.firmware.addShown = false;
                     $scope.project.firmwarelist.searchKeyOptionsData = [
-/*                        {
-                            name: "项目名称",
-                            key: "project_name"
-                        },
-*/                      {
+                        {
                             name: "固件ID",
                             key: "uuid"
                         },
@@ -2319,6 +2315,174 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
         };
     })();
 
+  (function() {
+    $scope.project.bill = {
+      addShown: false,
+      start: {
+        dt: new Date(),
+        opened: false
+      },
+      end: {
+        dt: new Date(),
+        opened: false
+      },
+      detail: [],
+      init: function() {
+        $scope.destroy();
+        $scope.project.bill.initAddData();
+        $scope.project.bill.query();
+      },
+      open: function(obj){
+        obj.opened = true;
+      },
+      initAddData: function(){
+        return $scope.project.bill.data_add = {
+          bill_type: 0,
+          amount: 100,
+          invoiced: false,
+          start: {
+            dt: new Date(),
+            opened: false
+          },
+          end: {
+            dt: new Date(),
+            opened: false
+          },
+          comment: ''
+        };
+      },
+      get: function(params){
+        $http.get("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/bills', {
+          params: params
+          // timeout: $scope.aborter.promise
+        }).success(function(response) {
+          $scope.project.bill.data = response;
+          $scope.project.bill.detail = [];
+          // $scope.page = page($scope.bills.start, $scope.bills.total, params.limit, 2);
+        }).error(function(response, status) {
+          var tmpMsg = {};
+          tmpMsg.Label = "错误";
+          tmpMsg.ErrorContent = "获取账单失败";
+          tmpMsg.ErrorContentDetail = response;
+          tmpMsg.SingleButtonShown = true;
+          tmpMsg.MutiButtonShown = false;
+          //tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
+          // tmpMsg.Callback = "firmware.show";
+          if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+            //$scope.$emit("Logout", tmpMsg);
+            $state.go('logOut', {
+              info: response.info,
+              traceback: response.traceback
+            });
+          } else
+            $scope.$emit("Ctr1ModalShow", tmpMsg);
+        });
+        $scope.project.bill.lastParams = angular.copy(params);
+      },
+      query: function(){
+        $scope.params = {
+          start_from: dateFactory.getStart($scope.project.bill.start.dt),
+          end_to: dateFactory.getEnd($scope.project.bill.end.dt),
+          start: 0,
+          limit: 10
+        };
+        $scope.project.bill.get($scope.params);
+      },
+      refresh: function(){
+        $scope.project.bill.get($scope.project.bill.lastParams);
+      },
+      showAdd: function() {
+        $scope.project.bill.addShown = !$scope.project.bill.addShown;
+      },
+      add: function(){
+        $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/bills', {
+          bill_type: $scope.project.bill.data_add.bill_type,
+          amount: $scope.project.bill.data_add.amount,
+          invoiced: $scope.project.bill.data_add.invoiced,
+          start_from: dateFactory.getStart($scope.project.bill.data_add.start.dt),
+          end_to: dateFactory.getEnd($scope.project.bill.data_add.end.dt),
+          comment: $scope.project.bill.data_add.comment
+        }).success(function(response) {
+          $scope.project.bill.showAdd();
+          $scope.project.bill.refresh();
+        }).error(function(response, status) {
+          var tmpMsg = {};
+          tmpMsg.Label = "错误";
+          tmpMsg.ErrorContent = "添加账单失败。";
+          tmpMsg.ErrorContentDetail = response;
+          tmpMsg.SingleButtonShown = true;
+          tmpMsg.MutiButtonShown = false;
+          //tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
+          // tmpMsg.Callback = "firmware.show";
+          if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+            //$scope.$emit("Logout", tmpMsg);
+            $state.go('logOut', {
+              info: response.info,
+              traceback: response.traceback
+            });
+          } else
+            $scope.$emit("Ctr1ModalShow", tmpMsg);
+        });
+      },
+      showDetail: function(item, index){
+        if (undefined === $scope.project.bill.detail[index]){
+          $scope.project.bill.detail[index] = angular.copy(item);
+        }
+        $scope.project.bill.detail[index].shown = true !== $scope.project.bill.detail[index].shown;
+      },
+      modify: function(index){
+        $http.put("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/bills/' + $scope.project.bill.detail[index].bill_id, {
+          invoiced: $scope.project.bill.detail[index].invoiced,
+          comment: $scope.project.bill.detail[index].comment
+        }).success(function(response) {
+          $scope.project.bill.refresh();
+          // $scope.page = page($scope.bills.start, $scope.bills.total, params.limit, 2);
+        }).error(function(response, status) {
+          var tmpMsg = {};
+          tmpMsg.Label = "错误";
+          tmpMsg.ErrorContent = "修改账单失败。";
+          tmpMsg.ErrorContentDetail = response;
+          tmpMsg.SingleButtonShown = true;
+          tmpMsg.MutiButtonShown = false;
+          //tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
+          // tmpMsg.Callback = "firmware.show";
+          if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+            //$scope.$emit("Logout", tmpMsg);
+            $state.go('logOut', {
+              info: response.info,
+              traceback: response.traceback
+            });
+          } else
+            $scope.$emit("Ctr1ModalShow", tmpMsg);
+        });
+      },
+      remove: function(bill, index){
+        if (false === confirm('确认删除账单：' + bill + ' 吗？')){
+          return;
+        }
+        $http.delete("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/bills/' + bill, {}).success(function(response) {
+          $scope.project.bill.refresh();
+        }).error(function(response, status) {
+          var tmpMsg = {};
+          tmpMsg.Label = "错误";
+          tmpMsg.ErrorContent = "删除账单失败。";
+          tmpMsg.ErrorContentDetail = response;
+          tmpMsg.SingleButtonShown = true;
+          tmpMsg.MutiButtonShown = false;
+          //tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
+          // tmpMsg.Callback = "firmware.show";
+          if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+            //$scope.$emit("Logout", tmpMsg);
+            $state.go('logOut', {
+              info: response.info,
+              traceback: response.traceback
+            });
+          } else
+            $scope.$emit("Ctr1ModalShow", tmpMsg);
+        });
+      }
+    };
+  })();
 
     $scope.destroy = function () {
         if (undefined !== $scope.aborter) {

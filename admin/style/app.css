@@ -308,6 +308,9 @@ body{
   padding: 3px 6px;
   height: 28px;
 }
+.os-form textarea.form-control{
+  height: auto;
+}
 .os-form .btn{
   padding: 3px 12px;
 }
@@ -456,4 +459,7 @@ body{
     height: auto;
     margin-bottom: 15px;
     padding: 7px 9px;
+}
+.radio-inline{
+  min-width: 80px;
 }
