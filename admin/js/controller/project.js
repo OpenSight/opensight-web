@@ -2352,6 +2352,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
         };
       },
       get: function(params){
+        $scope.project.bill.getAccount();
         $http.get("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/bills', {
           params: params
           // timeout: $scope.aborter.promise
@@ -2388,6 +2389,29 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
         };
         $scope.project.bill.get($scope.params);
       },
+      getAccount: function(){
+        $http.get("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/account', {}).success(function(response) {
+          $scope.project.bill.account = response;
+          // $scope.page = page($scope.bills.start, $scope.bills.total, params.limit, 2);
+        }).error(function(response, status) {
+          var tmpMsg = {};
+          tmpMsg.Label = "错误";
+          tmpMsg.ErrorContent = "获取账户信息失败";
+          tmpMsg.ErrorContentDetail = response;
+          tmpMsg.SingleButtonShown = true;
+          tmpMsg.MutiButtonShown = false;
+          //tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
+          // tmpMsg.Callback = "firmware.show";
+          if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+            //$scope.$emit("Logout", tmpMsg);
+            $state.go('logOut', {
+              info: response.info,
+              traceback: response.traceback
+            });
+          } else
+            $scope.$emit("Ctr1ModalShow", tmpMsg);
+        });
+      },
       refresh: function(){
         $scope.project.bill.get($scope.project.bill.lastParams);
       },
@@ -2395,14 +2419,21 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
         $scope.project.bill.addShown = !$scope.project.bill.addShown;
       },
       add: function(){
-        $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/bills', {
+        var bill = {
           bill_type: $scope.project.bill.data_add.bill_type,
-          amount: $scope.project.bill.data_add.amount,
           invoiced: $scope.project.bill.data_add.invoiced,
           start_from: dateFactory.getStart($scope.project.bill.data_add.start.dt),
           end_to: dateFactory.getEnd($scope.project.bill.data_add.end.dt),
           comment: $scope.project.bill.data_add.comment
-        }).success(function(response) {
+        };
+        if (0 === $scope.project.bill.data_add.bill_type){
+          bill.income = $scope.project.bill.data_add.amount;
+          bill.expense = 0;
+        } else {
+          bill.income = 0;
+          bill.expense = $scope.project.bill.data_add.amount;
+        }
+        $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/bills', bill).success(function(response) {
           $scope.project.bill.showAdd();
           $scope.project.bill.refresh();
         }).error(function(response, status) {

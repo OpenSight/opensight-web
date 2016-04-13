@@ -1289,6 +1289,26 @@
 </uib-tab>
 
 <uib-tab heading="账单" active="project.data_mod.tabs[6]" select="project.bill.init()">
+  <div class="row">
+    <div class="col-sm-12 page-header page-header-condensed">
+      <h6>账户概况</h6>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-primary client-card">
+        <div class="panel-body">
+          <div> <strong>余额：</strong>
+            <span class="text-primary">{{project.bill.account.balance|currency:"￥"}} 元</span>
+          </div>
+          <div> <strong>上次更新时间：</strong>
+            <span>{{project.bill.account.utime|date: "yyyy-MM-dd"}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-sm-12 page-header page-header-condensed">
+      <h3>账户明细</h3>
+    </div> -->
+  </div>
   <form class="form-inline os-table-toolbar">
     <div class="form-group">
       <label>开始时间</label>
@@ -1335,7 +1355,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">金额</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" ng-model="project.bill.data_add.amount"  />        
+            <input type="text" class="form-control" ng-model="project.bill.data_add.amount" />        
           </div>
         </div>
         <div class="form-group">
@@ -1350,7 +1370,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">备注</label>
           <div class="col-sm-4">
-            <textarea class="form-control" rows="3" ng-model="project.bill.data_add.comment"  />        
+            <textarea class="form-control" rows="6" ng-model="project.bill.data_add.comment"  />        
           </div>
         </div>
         <div class="form-group">
@@ -1396,23 +1416,23 @@
     <table class="table os-table">
       <thead>
         <tr>
-          <th class="col-sm-2">账单编号</th>
+          <th class="col-sm-1">账单编号</th>
+          <th class="col-sm-1 text-center">创建日期</th>
           <th class="col-sm-1 text-center">类型</th>
-          <th class="col-sm-1 text-center">金额(元)</th>
-          <th class="col-sm-1 text-center">日期</th>
+          <th class="col-sm-1 text-center">收入(元)</th>
+          <th class="col-sm-1 text-center">支出(元)</th>
           <th class="col-sm-1 text-center">余额(元)</th>
-          <th class="col-sm-2">操作用户</th>
           <th class="col-sm-1 text-center">操作</th>
         </tr>
       </thead>
       <tbody ng-repeat="item in project.bill.data.list">
         <tr style="cursor:pointer;">
           <td ng-click="project.bill.showDetail(item, $index)">{{item.bill_id}}</td>
-          <td class="text-center" ng-click="project.bill.showDetail(item, $index)">{{item.bill_type|bill_type}}</td>
-          <td class="text-center" ng-click="project.bill.showDetail(item, $index)">{{item.amount|currency:"￥"}}</td>
           <td class="text-center" ng-click="project.bill.showDetail(item, $index)">{{item.start_from|date: "yyyy-MM-dd"}}</td>
+          <td class="text-center" ng-click="project.bill.showDetail(item, $index)">{{item.bill_type|bill_type}}</td>
+          <td class="text-center" ng-click="project.bill.showDetail(item, $index)">{{item.income|currency:"￥"}}</td>
+          <td class="text-center" ng-click="project.bill.showDetail(item, $index)">{{item.expense|currency:"￥"}}</td>
           <td class="text-center" ng-click="project.bill.showDetail(item, $index)">{{item.cur_balance|currency:"￥"}}</td>
-          <td ng-click="project.bill.showDetail(item, $index)">{{item.username}}</td>
           <td class="text-center" ng-click="project.bill.remove(item.bill_id, $index)"> <i class="fa fa-trash"></i>
           </td>
         </tr>
@@ -1445,13 +1465,19 @@
                   <div class="form-group">
                     <label class="col-sm-2 control-label">备注</label>
                     <div class="col-sm-4">
-                      <textarea class="form-control" rows="3" ng-model="project.bill.detail[$index].comment"  />                  
+                      <textarea class="form-control" rows="6" ng-model="project.bill.detail[$index].comment"  />                  
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-2 control-label">金额(元)</label>
+                    <label class="col-sm-2 control-label">收入(元)</label>
                     <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].amount|currency:"￥"}}</p>
+                      <p class="form-control-static">{{project.bill.detail[$index].income|currency:"￥"}}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">支出(元)</label>
+                    <div class="col-sm-4">
+                      <p class="form-control-static">{{project.bill.detail[$index].expense|currency:"￥"}}</p>
                     </div>
                   </div>
                   <div class="form-group">
