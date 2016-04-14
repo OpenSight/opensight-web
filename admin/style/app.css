@@ -308,6 +308,9 @@ body{
   padding: 3px 6px;
   height: 28px;
 }
+.os-form textarea.form-control{
+  height: auto;
+}
 .os-form .btn{
   padding: 3px 12px;
 }
@@ -456,4 +459,20 @@ body{
     height: auto;
     margin-bottom: 15px;
     padding: 7px 9px;
+}
+.radio-inline{
+  min-width: 80px;
+}
+.page-header-condensed {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.page-header-condensed h3 {
+  margin-top: 5px;
+  margin-bottom: 2px;
+}
+.client-card {
+  border-radius: 0;
+  background-color: #f4f5f7;
+  box-shadow: 3px 3px 8px #ddd;
 }

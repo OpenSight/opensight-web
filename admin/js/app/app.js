@@ -1,11 +1,11 @@
-var app = angular.module('app', ['ui.router', 'oc.lazyLoad','angular-loading-bar', 'ngAnimate','ui.bootstrap','ngCookies','ngFileSaver']);
+var app = angular.module('app', ['ui.router', 'app.services', 'app.filter', 'oc.lazyLoad','angular-loading-bar', 'ngAnimate','ui.bootstrap','ngCookies','ngFileSaver']);
 
 app
 .config(function($controllerProvider, $compileProvider, $filterProvider, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $provide) {
     app.register = {
         controller: $controllerProvider.register,
         directive: $compileProvider.directive,
-        filter: $filterProvider.register,
+        // filter: $filterProvider.register,
         factory: $provide.factory,
         service: $provide.service
     };

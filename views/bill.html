@@ -9,9 +9,6 @@
           <div> <strong>余额：</strong>
             <span class="text-primary">{{account.balance|currency:"￥"}} 元</span>
           </div>
-          <div> <strong>创建时间：</strong>
-            <span>{{account.ctime|date: "yyyy-MM-dd"}}</span>
-          </div>
           <div>
             <strong>上次更新时间：</strong>
             <span>{{account.utime|date: "yyyy-MM-dd"}}</span>
@@ -54,26 +51,22 @@
   <table class="table table-condensed table-hover table-bordered table-striped">
     <thead>
       <tr>
-        <th class="col-sm-2">账单编号</th>
-        <th class="col-sm-1 text-center">类型</th>
-        <th class="col-sm-1 text-center">金额(元)</th>
+        <th class="col-sm-1">账单编号</th>
         <th class="col-sm-1 text-center">创建日期</th>
-        <th class="col-sm-2">备注</th>
+        <th class="col-sm-1 text-center">类型</th>
+        <th class="col-sm-1 text-center">收入(元)</th>
+        <th class="col-sm-1 text-center">支出(元)</th>
         <th class="col-sm-1 text-center">余额(元)</th>
-        <th class="col-sm-1 text-center">计费周期</th>
-        <th class="col-sm-2">操作用户</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="item in bills.list">
         <td>{{item.bill_id}}</td>
-        <td class="text-center">{{item.bill_type|bill_type}}</td>
-        <td class="text-center">{{item.amount|currency:"￥"}}</td>
         <td class="text-center">{{item.start_from|date: "yyyy-MM-dd"}}</td>
-        <td>{{item.comment}}</td>
+        <td class="text-center">{{item.bill_type|bill_type}}</td>
+        <td class="text-center">{{item.income|currency:"￥"}}</td>
+        <td class="text-center">{{item.expense|currency:"￥"}}</td>
         <td class="text-center">{{item.cur_balance|currency:"￥"}}</td>
-        <td class="text-center">{{item.end_to|date: "yyyy-MM-dd"}}</td>
-        <td>{{item.username}}</td>
       </tr>
     </tbody>
   </table>
