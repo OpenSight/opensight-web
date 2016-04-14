@@ -917,9 +917,34 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
 ])
 
 .controller('bill', [
-  '$scope', '$rootScope', '$http', 'dateFactory',
-  function($scope, $rootScope, $http, dateFactory) {
+  '$scope', '$rootScope', '$http', 'dateFactory', 'pageFactory',
+  function($scope, $rootScope, $http, dateFactory, pageFactory) {
     var pro = $rootScope.$stateParams.project;
+    $scope.page = pageFactory.init();
+    $scope.pageChanged = function(){
+      lastParams.start = ($scope.page.curr - 1) * $scope.page.limit;
+      query(lastParams);
+    };
+    $scope.jump = function() {
+      var msg = {
+        succ: false,
+        text: '页码输入不正确。'
+      }
+      var jumpto = $scope.jumpto;
+      $scope.jumpto = '';
+      if (null === jumpto.match(/^[1-9][\d]*$/)) {
+        $rootScope.$emit('messagePush', msg);
+        return;
+      }
+      var p = parseInt(jumpto, 10);
+      if (p === $scope.page.curr || p > $scope.page.last) {
+        $rootScope.$emit('messageShow', msg);
+        return;
+      }
+      $scope.page.curr = p;
+      $scope.pageChanged();
+    };
+
     $scope.start = {
       dt: new Date(),
       opened: false
@@ -950,7 +975,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
         params: params
       }).success(function(response) {
         $scope.bills = response;
-        $scope.page = page($scope.bills.start, $scope.bills.total, params.limit, 2);
+        pageFactory.set(response);
       }).error(function(response, status) {
         console.log('error');
       });
@@ -968,48 +993,6 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     $scope.refresh = function() {
       var params = getParams(lastParams);
       query(params);
-    };
-
-    var page = function(start, total, limit, n) {
-      var p = {};
-      p.curr = Math.floor(start / limit);
-      p.last = Math.floor(total / limit);
-      var s = p.curr - n;
-      var e = p.curr + n;
-      s = s < 0 ? 0 : s;
-      e = e > p.last ? p.last : e;
-      p.list = [];
-      for (var i = s; i <= e; i++) {
-        p.list.push(i);
-      }
-      return p;
-    };
-    $scope.jumpto = '';
-    $scope.go = function(p) {
-      if (p === $scope.page.curr) {
-        return;
-      }
-      lastParams.start = p * lastParams.limit;
-      query(lastParams);
-    };
-    $scope.jump = function() {
-      var msg = {
-        succ: false,
-        text: '页码输入不正确。'
-      }
-      var jumpto = $scope.jumpto;
-      $scope.jumpto = '';
-      if (null === jumpto.match(/^[1-9][\d]*$/)) {
-        $rootScope.$emit('messagePush', msg);
-        return;
-      }
-      var p = parseInt(jumpto, 10) - 1;
-      if (p === $scope.page.curr || p > $scope.page.last) {
-        $rootScope.$emit('messageShow', msg);
-        return;
-      }
-      lastParams.start = p * $scope.params.limit;
-      query(lastParams);
     };
 
     (function(){

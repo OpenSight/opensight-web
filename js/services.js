@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('app.services', []).factory('flagFactory', function() {
+angular.module('app.services', [])
+.factory('flagFactory', function() {
   return {
     getBitmap: function(f, bits) {
       var t = [];
@@ -58,6 +59,32 @@ angular.module('app.services', []).factory('flagFactory', function() {
     },
     getEnd: function(dt) {
       return getDate(dt) + 'T23:59:59';
+    }
+  };
+})
+
+.factory('pageFactory', function() {
+  var page = {
+    curr: 1,
+    total: 0,
+    limit: 10,
+    max: 5,
+    prev: '上一页',
+    next: '下一页'
+  };
+  return {
+    init: function() {
+      page.curr = 1;
+      page.total = 0;
+      return page;
+    },
+    get: function(){
+      return page;
+    },
+    set: function(list) {
+      page.curr = Math.ceil((list.start + 1)/ page.limit);
+      page.total = list.total;
+      return page;
     }
   };
 })
