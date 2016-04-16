@@ -85,6 +85,21 @@ angular.module('app.services', [])
       page.curr = Math.ceil((list.start + 1)/ page.limit);
       page.total = list.total;
       return page;
+    },
+    getStart: function(){
+      return (page.curr - 1) * page.limit;
+    },
+    jump: function(jumpto){
+      if (null === jumpto.match(/^[1-9][\d]*$/)) {
+        return false;
+      }
+      var p = parseInt(jumpto, 10);
+      var last = Math.ceil(page.total / page.limit);
+      if (p === page.curr || p > last) {
+        return false;
+      }
+      page.curr = p;
+      return true;
     }
   };
 })

@@ -121,9 +121,26 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
 
 //camera
 .controller('camera', [
-  '$scope', '$rootScope', '$http', '$uibModal', 'flagFactory',
-  function($scope, $rootScope, $http, $uibModal, flagFactory) {
+  '$scope', '$rootScope', '$http', '$uibModal', 'flagFactory', 'pageFactory',
+  function($scope, $rootScope, $http, $uibModal, flagFactory, pageFactory) {
     $scope.project = $rootScope.$stateParams.project;
+    $scope.page = pageFactory.init();
+    $scope.pageChanged = function(){
+      lastParams.start = pageFactory.getStart();
+      query(lastParams);
+    };
+    $scope.jump = function() {
+      if (true === pageFactory.jump($scope.jumpto)){
+        $scope.pageChanged();
+      } else {
+        $rootScope.$emit('messageShow', {
+          succ: false,
+          text: '页码输入不正确。'
+        });
+      } 
+      $scope.jumpto = '';
+    };
+
     $scope.camera = {
       start: 0,
       total: 10,
@@ -163,7 +180,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
           }
         }
         $scope.camera = response;
-        $scope.page = page($scope.camera.start, $scope.camera.total, params.limit, 2);
+        pageFactory.set(response);
       }).error(function(response, status) {
         console.log('error');
       });
@@ -213,44 +230,6 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       });
     };
 
-    var page = function(start, total, limit, n){
-      var p = {};
-      p.curr = Math.floor(start / limit);
-      p.last = Math.floor(total / limit);
-      var s = p.curr - n;
-      var e = p.curr + n;
-      s = s < 0 ? 0 : s;
-      e = e > p.last ? p.last : e;
-      p.list = [];
-      for (var i = s; i <= e; i++){
-        p.list.push(i);
-      }
-      return p;
-    };
-    $scope.jumpto = '';
-    $scope.go = function(p){
-      if (p === $scope.page.curr){
-        return;
-      }
-      lastParams.start = p * $scope.params.limit;
-      query(lastParams);
-    };
-    $scope.jump = function(){
-      var msg = {succ: false, text: '页码输入不正确。'};
-      var jumpto = $scope.jumpto;
-      $scope.jumpto = '';
-      if (null === jumpto.match(/^[1-9][\d]*$/)){
-        $rootScope.$emit('messagePush', msg);
-        return;
-      }
-      var p = parseInt(jumpto, 10) - 1;
-      if (p === $scope.page.curr || p > $scope.page.last){
-        $rootScope.$emit('messageShow', msg);
-        return;
-      }
-      lastParams.start = p * $scope.params.limit;
-      query(lastParams);
-    };
     $scope.restart = function(camera_id){
       if (false === confirm('确定重启摄像机？')){
         return;
@@ -446,45 +425,77 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
 }])
 
 // access key
-.controller('key', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
-  $scope.username = $rootScope.$jwt.get().aud;
-  $scope.url = api + "users/" + $scope.username + '/access_keys';
-  
-  $scope.query = function() {
-    $http.get($scope.url, {}).success(function(response) {
-      $scope.keys = response;
-    }).error(function(response, status) {
-      console.log('error');
-    });
-  };
+.controller('key', [
+  '$scope', '$rootScope', '$http', '$uibModal', 'pageFactory',
+  function($scope, $rootScope, $http, $uibModal, pageFactory) {
+    $scope.username = $rootScope.$jwt.get().aud;
+    $scope.url = api + "users/" + $scope.username + '/access_keys';
 
-  $scope.open = function(key_id){
-    $scope.key_id = key_id;
-    var modalInstance = $uibModal.open({
-      templateUrl: 'secretModalContent.html',
-      controller: 'secret',
-      resolve: {
-        access_key: function () {
-          return $scope.key_id;
-        }
+    $scope.page = pageFactory.init();
+    $scope.pageChanged = function() {
+      lastParams.start = pageFactory.getStart();
+      query(lastParams);
+    };
+    $scope.jump = function() {
+      if (true === pageFactory.jump($scope.jumpto)) {
+        $scope.pageChanged();
+      } else {
+        $rootScope.$emit('messageShow', {
+          succ: false,
+          text: '页码输入不正确。'
+        });
       }
-    });
-  };
-  $scope.del = function(key_id){
-    if (false === confirm('是否删除密匙？')){
-      return;
-    }
-    $http.delete(api + 'access_keys/' + key_id, {}).success(function(response) {
-      $scope.query();
-      alert('删除成功。');
-    }).error(function(response, status) {
-      alert('删除失败。');
-      console.log('error');
-    });
-  };
+      $scope.jumpto = '';
+    };
+    var lastParams;
+    var query = function(params){
+      $http.get($scope.url, params).success(function(response) {
+        $scope.keys = response;
+        pageFactory.set(response);
+      }).error(function(response, status) {
+        console.log('error');
+      });
+      lastParams = angular.copy(params);
+    };
 
-  $scope.query();
-}])
+    $scope.query = function() {
+      query({
+        start: 0,
+        limit: $scope.page.limit
+      });
+    };
+    $scope.refresh = function(){
+      query(lastParams);
+    }; 
+
+    $scope.open = function(key_id) {
+      $scope.key_id = key_id;
+      var modalInstance = $uibModal.open({
+        templateUrl: 'secretModalContent.html',
+        controller: 'secret',
+        resolve: {
+          access_key: function() {
+            return $scope.key_id;
+          }
+        }
+      });
+    };
+    $scope.del = function(key_id) {
+      if (false === confirm('是否删除密匙？')) {
+        return;
+      }
+      $http.delete(api + 'access_keys/' + key_id, {}).success(function(response) {
+        $scope.query();
+        alert('删除成功。');
+      }).error(function(response, status) {
+        alert('删除失败。');
+        console.log('error');
+      });
+    };
+
+    $scope.query();
+  }
+])
 
 .controller('add-key', ['$scope', '$rootScope', '$http', '$uibModal', function ($scope, $rootScope, $http, $uibModal) {
   $scope.username = $rootScope.$jwt.get().aud;
@@ -739,9 +750,27 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
 }])
 
 .controller('user', [
-  '$scope', '$rootScope', '$http',
-  function($scope, $rootScope, $http) {
+  '$scope', '$rootScope', '$http', 'pageFactory',
+  function($scope, $rootScope, $http, pageFactory) {
     var pro = $rootScope.$stateParams.project;
+
+    $scope.page = pageFactory.init();
+    $scope.pageChanged = function(){
+      lastParams.start = pageFactory.getStart();
+      query(lastParams);
+    };
+    $scope.jump = function() {
+      if (true === pageFactory.jump($scope.jumpto)){
+        $scope.pageChanged();
+      } else {
+        $rootScope.$emit('messageShow', {
+          succ: false,
+          text: '页码输入不正确。'
+        });
+      } 
+      $scope.jumpto = '';
+    };
+
     $scope.users = {
       start: 0,
       total: 10,
@@ -771,7 +800,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
         params: params
       }).success(function(response) {
         $scope.users = response;
-        $scope.page = page($scope.users.start, $scope.users.total, params.limit, 2);
+        pageFactory.set(response);
       }).error(function(response, status) {
         console.log('error');
       });
@@ -787,53 +816,32 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       query(params);
     };
 
-    var page = function(start, total, limit, n){
-      var p = {};
-      p.curr = Math.floor(start / limit);
-      p.last = Math.floor(total / limit);
-      var s = p.curr - n;
-      var e = p.curr + n;
-      s = s < 0 ? 0 : s;
-      e = e > p.last ? p.last : e;
-      p.list = [];
-      for (var i = s; i <= e; i++){
-        p.list.push(i);
-      }
-      return p;
-    };
-    $scope.jumpto = '';
-    $scope.go = function(p){
-      if (p === $scope.page.curr){
-        return;
-      }
-      lastParams.start = p * $scope.params.limit;
-      query(lastParams);
-    };
-    $scope.jump = function(){
-      var msg = {succ: false, text: '页码输入不正确。'}
-      var jumpto = $scope.jumpto;
-      $scope.jumpto = '';
-      if (null === jumpto.match(/^[1-9][\d]*$/)){
-        $rootScope.$emit('messagePush', msg);
-        return;
-      }
-      var p = parseInt(jumpto, 10) - 1;
-      if (p === $scope.page.curr || p > $scope.page.last){
-        $rootScope.$emit('messageShow', msg);
-        return;
-      }
-      lastParams.start = p * $scope.params.limit;
-      query(lastParams);
-    };
-
     $scope.query();
   }
 ])
 
 .controller('session-status', [
-  '$scope', '$rootScope', '$http',
-  function($scope, $rootScope, $http) {
+  '$scope', '$rootScope', '$http', 'pageFactory',
+  function($scope, $rootScope, $http, pageFactory) {
     var pro = $rootScope.$stateParams.project;
+
+    $scope.page = pageFactory.init();
+    $scope.pageChanged = function(){
+      lastParams.start = pageFactory.getStart();
+      query(lastParams);
+    };
+    $scope.jump = function() {
+      if (true === pageFactory.jump($scope.jumpto)){
+        $scope.pageChanged();
+      } else {
+        $rootScope.$emit('messageShow', {
+          succ: false,
+          text: '页码输入不正确。'
+        });
+      } 
+      $scope.jumpto = '';
+    };
+
     $scope.sessions = {
       start: 0,
       total: 10,
@@ -857,7 +865,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
         params: params
       }).success(function(response) {
         $scope.sessions = response;
-        $scope.page = page($scope.sessions.start, $scope.sessions.total, params.limit, 2);
+        pageFactory.set(response);
       }).error(function(response, status) {
         console.log('error');
       });
@@ -873,45 +881,6 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
       query(params);
     };
 
-    var page = function(start, total, limit, n){
-      var p = {};
-      p.curr = Math.floor(start / limit);
-      p.last = Math.floor(total / limit);
-      var s = p.curr - n;
-      var e = p.curr + n;
-      s = s < 0 ? 0 : s;
-      e = e > p.last ? p.last : e;
-      p.list = [];
-      for (var i = s; i <= e; i++){
-        p.list.push(i);
-      }
-      return p;
-    };
-    $scope.jumpto = '';
-    $scope.go = function(p){
-      if (p === $scope.page.curr){
-        return;
-      }
-      lastParams.start = p * $scope.params.limit;
-      query(lastParams);
-    };
-    $scope.jump = function(){
-      var msg = {succ: false, text: '页码输入不正确。'}
-      var jumpto = $scope.jumpto;
-      $scope.jumpto = '';
-      if (null === jumpto.match(/^[1-9][\d]*$/)){
-        $rootScope.$emit('messagePush', msg);
-        return;
-      }
-      var p = parseInt(jumpto, 10) - 1;
-      if (p === $scope.page.curr || p > $scope.page.last){
-        $rootScope.$emit('messageShow', msg);
-        return;
-      }
-      lastParams.start = p * $scope.params.limit;
-      query(lastParams);
-    };
-
     $scope.query();
   }
 ])
@@ -920,29 +889,22 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
   '$scope', '$rootScope', '$http', 'dateFactory', 'pageFactory',
   function($scope, $rootScope, $http, dateFactory, pageFactory) {
     var pro = $rootScope.$stateParams.project;
+    
     $scope.page = pageFactory.init();
     $scope.pageChanged = function(){
-      lastParams.start = ($scope.page.curr - 1) * $scope.page.limit;
+      lastParams.start = pageFactory.getStart();
       query(lastParams);
     };
     $scope.jump = function() {
-      var msg = {
-        succ: false,
-        text: '页码输入不正确。'
-      }
-      var jumpto = $scope.jumpto;
+      if (true === pageFactory.jump($scope.jumpto)){
+        $scope.pageChanged();
+      } else {
+        $rootScope.$emit('messageShow', {
+          succ: false,
+          text: '页码输入不正确。'
+        });
+      } 
       $scope.jumpto = '';
-      if (null === jumpto.match(/^[1-9][\d]*$/)) {
-        $rootScope.$emit('messagePush', msg);
-        return;
-      }
-      var p = parseInt(jumpto, 10);
-      if (p === $scope.page.curr || p > $scope.page.last) {
-        $rootScope.$emit('messageShow', msg);
-        return;
-      }
-      $scope.page.curr = p;
-      $scope.pageChanged();
     };
 
     $scope.start = {
@@ -986,7 +948,7 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
         start_from: dateFactory.getStart($scope.start.dt),
         end_to: dateFactory.getEnd($scope.end.dt),
         start: 0,
-        limit: 10
+        limit: $scope.page.limit
       };
       query($scope.params);
     };
