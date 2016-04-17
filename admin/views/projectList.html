@@ -345,137 +345,141 @@
                         <div class="panel os-panel">
                           <div class="panel-body">
                             <form class="form-horizontal os-form" role="form">
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">设备名称</label>
-                                <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.device.data_mod.data[$index].name}}</p>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">设备名称</label>
+                                  <div class="col-sm-8">
+                                    <p class="form-control-static">{{project.device.data_mod.data[$index].name}}</p>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">设备类型</label>
+                                  <div class="col-sm-8">
+                                    <p class="form-control-static">{{project.device.data_mod.data[$index].type}}</p>
+                                    <!--input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].type" required /--> </div>
+                                </div>
+                                <div class="form-group hidden">
+                                  <label class="col-sm-4 control-label">flags</label>
+                                  <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].flags"  />                                
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">在线状态</label>
+                                  <div class="col-sm-8">
+                                    <p class="form-control-static">{{project.device.data_mod.data[$index].is_online|online}}</p>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">设备固件</label>
+                                  <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].firmware_model"  />                                
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">设备硬件</label>
+                                  <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].hardware_model"  />                                
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">设备厂家</label>
+                                  <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].vendor" />                                
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">通道数上限</label>
+                                  <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].media_channel_num" />                                
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">描述</label>
+                                  <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].desc"  />                                
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">详细描述</label>
+                                  <div class="col-sm-8">
+                                    <textarea rows="6" style="width: 100%" type="text" ng-model="project.device.data_mod.data[$index].long_desc"  />                                
+                                  </div>
                                 </div>
                               </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">项目名称</label>
-                                <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.device.data_mod.data[$index].project_name}}</p>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">项目名称</label>
+                                  <div class="col-sm-8">
+                                    <p class="form-control-static">{{project.device.data_mod.data[$index].project_name}}</p>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">uuid</label>
+                                  <div class="col-sm-8">
+                                    <p class="form-control-static">{{project.device.data_mod.data[$index].uuid}}</p>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">设备登录名</label>
+                                  <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].login_code"  />                                
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">设备登陆密码</label>
+                                  <div class="col-sm-8">
+                                    <input type="password" class="form-control" ng-model="project.device.data_mod.data[$index].login_passwd"  />                                
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">经度</label>
+                                  <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].longitude"  />                                
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">纬度</label>
+                                  <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].latitude"  />                                
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">海拔</label>
+                                  <div class="col-sm-8">
+                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].altitude"  />                                
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">生成时间</label>
+                                  <div class="col-sm-8">
+                                    <p class="form-control-static">{{project.device.data_mod.data[$index].ctime}}</p>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">更新时间</label>
+                                  <div class="col-sm-8">
+                                    <p class="form-control-static">{{project.device.data_mod.data[$index].utime}}</p>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-4 control-label">最后心跳时间</label>
+                                  <div class="col-sm-8">
+                                    <p class="form-control-static">{{project.device.data_mod.data[$index].ltime}}</p>
+                                  </div>
                                 </div>
                               </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">uuid</label>
-                                <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.device.data_mod.data[$index].uuid}}</p>
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">设备类型</label>
-                                <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.device.data_mod.data[$index].type}}</p>
-                                  <!--input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].type" required /--> </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">flags</label>
-                                <div class="col-sm-4">
-                                  <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].flags"  />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">在线状态</label>
-                                <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.device.data_mod.data[$index].is_online}}</p>
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">设备登录名</label>
-                                <div class="col-sm-4">
-                                  <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].login_code"  />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">设备登陆密码</label>
-                                <div class="col-sm-4">
-                                  <input type="password" class="form-control" ng-model="project.device.data_mod.data[$index].login_passwd"  />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">设备固件</label>
-                                <div class="col-sm-4">
-                                  <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].firmware_model"  />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">设备硬件</label>
-                                <div class="col-sm-4">
-                                  <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].hardware_model"  />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">设备厂家</label>
-                                <div class="col-sm-4">
-                                  <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].vendor" />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">通道数上限</label>
-                                <div class="col-sm-4">
-                                  <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].media_channel_num" />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">描述</label>
-                                <div class="col-sm-4">
-                                  <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].desc"  />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">详细描述</label>
-                                <div class="col-sm-4">
-                                  <textarea rows="6" style="width: 100%" type="text" ng-model="project.device.data_mod.data[$index].long_desc"  />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">经度</label>
-                                <div class="col-sm-4">
-                                  <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].longitude"  />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">纬度</label>
-                                <div class="col-sm-4">
-                                  <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].latitude"  />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">海拔</label>
-                                <div class="col-sm-4">
-                                  <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].altitude"  />
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">生成时间</label>
-                                <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.device.data_mod.data[$index].ctime}}</p>
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">更新时间</label>
-                                <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.device.data_mod.data[$index].utime}}</p>
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">最后心跳时间</label>
-                                <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.device.data_mod.data[$index].ltime}}</p>
-                                </div>
-                              </div>
-                              <div class="form-group os-submit-group">
-                                <label class="col-sm-1 control-label"></label>
-                                <div class="col-sm-4">
-                                  <button class="btn btn-default" ng-click="project.device.data_mod.submitForm(u,$index)">
-                                    <i class="fa fa-check"></i>
-                                    &nbsp;确定
-                                  </button>
-                                  <button class="btn btn-default" ng-click="project.device.data_mod.reset(u,$index)">
-                                    <i class="fa fa-remove"></i>
-                                    &nbsp;取消
-                                  </button>
+                              <div class="col-sm-12">
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label"></label>
+                                  <div class="col-sm-8">
+                                    <button class="btn btn-default" ng-click="project.device.data_mod.submitForm(u,$index)"> <i class="fa fa-check"></i>
+                                      &nbsp;确定
+                                    </button>
+                                    <button class="btn btn-default" ng-click="project.device.data_mod.reset(u,$index)"> <i class="fa fa-remove"></i>
+                                      &nbsp;取消
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </form>
