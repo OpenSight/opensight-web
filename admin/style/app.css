@@ -348,6 +348,9 @@ body{
 .os-table>tbody+tbody{
   border: 0 none;
 }
+.os-table tbody:nth-child(even) tr{
+  background-color: #fff;
+}
 .os-multi-select-container .multiSelect > button{
   min-height: 20px !important; 
 }
