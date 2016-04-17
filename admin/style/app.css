@@ -348,7 +348,7 @@ body{
 .os-table>tbody+tbody{
   border: 0 none;
 }
-.os-table tbody:nth-child(even) tr{
+.os-table tbody:nth-child(odd) tr{
   background-color: #fff;
 }
 .os-multi-select-container .multiSelect > button{
