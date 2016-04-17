@@ -14,7 +14,10 @@
     </div>
     <div class="form-group">
       <label>媒体服务器</label>
-      <p class="form-control-static">{{info.media_server}}</p>
+      <p class="form-control-static">
+        <em class="ng-hide" ng-show="'' === info.media_server">空</em>
+        {{info.media_server}}
+      </p>
       <!-- <input type="text" class="form-control" ng-model="info.media_server"> -->
     </div>
     <div class="radio">

@@ -1441,96 +1441,95 @@
             <div class="panel os-panel">
               <div class="panel-body">
                 <form class="form-horizontal os-form" role="form">
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">账单编号</label>
-                    <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].bill_id}}</p>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">账单编号</label>
+                      <div class="col-sm-8">
+                        <p class="form-control-static">{{project.bill.detail[$index].bill_id}}</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">类型</label>
+                      <div class="col-sm-8">
+                        <p class="form-control-static">{{project.bill.detail[$index].bill_type|bill_type}}</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">已经开票</label>
+                      <div class="col-sm-8">
+                        <label class="radio-inline">
+                          <input type="radio" ng-model="project.bill.detail[$index].invoiced" ng-value="true">是</label>
+                        <label class="radio-inline">
+                          <input type="radio" ng-model="project.bill.detail[$index].invoiced" ng-value="false">否</label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">备注</label>
+                      <div class="col-sm-8">
+                        <textarea class="form-control" rows="6" ng-model="project.bill.detail[$index].comment"  />                
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">余额(元)</label>
+                      <div class="col-sm-8">
+                        <p class="form-control-static">{{project.bill.detail[$index].cur_balance|currency:"￥"}}</p>
+                      </div>
+                    </div>
+                    <div class="form-group os-submit-group">
+                      <div class="col-sm-offset-4 col-sm-8">
+                        <button class="btn btn-default" ng-click="project.bill.modify($index)"> <i class="fa fa-check"></i>
+                          &nbsp;确定
+                        </button>
+                        <button class="btn btn-default" ng-click="project.bill.showDetail(item, $index)"> <i class="fa fa-remove"></i>
+                          &nbsp;取消
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">类型</label>
-                    <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].bill_type|bill_type}}</p>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">收入(元)</label>
+                      <div class="col-sm-8">
+                        <p class="form-control-static">{{project.bill.detail[$index].income|currency:"￥"}}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">已经开票</label>
-                    <div class="col-sm-4">
-                      <label class="radio-inline">
-                        <input type="radio" ng-model="project.bill.detail[$index].invoiced" ng-value="true">是</label>
-                      <label class="radio-inline">
-                        <input type="radio" ng-model="project.bill.detail[$index].invoiced" ng-value="false">否</label>
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">支出(元)</label>
+                      <div class="col-sm-8">
+                        <p class="form-control-static">{{project.bill.detail[$index].expense|currency:"￥"}}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">备注</label>
-                    <div class="col-sm-4">
-                      <textarea class="form-control" rows="6" ng-model="project.bill.detail[$index].comment"  />                  
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">操作用户</label>
+                      <div class="col-sm-8">
+                        <p class="form-control-static">{{project.bill.detail[$index].username}}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">收入(元)</label>
-                    <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].income|currency:"￥"}}</p>
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">记费起始时间</label>
+                      <div class="col-sm-8">
+                        <p class="form-control-static">
+                          {{project.bill.detail[$index].start_from|date: "yyyy-MM-dd"}}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">支出(元)</label>
-                    <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].expense|currency:"￥"}}</p>
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">记费结束时间</label>
+                      <div class="col-sm-8">
+                        <p class="form-control-static">{{project.bill.detail[$index].end_to|date: "yyyy-MM-dd"}}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">余额(元)</label>
-                    <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].cur_balance|currency:"￥"}}</p>
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">生成时间</label>
+                      <div class="col-sm-8">
+                        <p class="form-control-static">{{project.bill.detail[$index].ctime}}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">操作用户</label>
-                    <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].username}}</p>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">操作用户</label>
-                    <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].username}}</p>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">记费起始时间</label>
-                    <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].start_from|date: "yyyy-MM-dd"}}</p>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">记费结束时间</label>
-                    <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].end_to|date: "yyyy-MM-dd"}}</p>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">生成时间</label>
-                    <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].ctime}}</p>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">最新修改时间</label>
-                    <div class="col-sm-4">
-                      <p class="form-control-static">{{project.bill.detail[$index].utime}}</p>
-                    </div>
-                  </div>
-                  <div class="form-group os-submit-group">
-                    <div class="col-sm-offset-2 col-sm-4">
-                      <button class="btn btn-default" ng-click="project.bill.modify($index)"> <i class="fa fa-check"></i>
-                        &nbsp;确定
-                      </button>
-                      <button class="btn btn-default" ng-click="project.bill.showDetail(item, $index)">
-                        <i class="fa fa-remove"></i>
-                        &nbsp;取消
-                      </button>
+                    <div class="form-group">
+                      <label class="col-sm-4 control-label">最新修改时间</label>
+                      <div class="col-sm-8">
+                        <p class="form-control-static">{{project.bill.detail[$index].utime}}</p>
+                      </div>
                     </div>
                   </div>
                 </form>

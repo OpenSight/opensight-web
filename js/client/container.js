@@ -252,19 +252,19 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     var project = $rootScope.$stateParams.project;
     $scope.camera = $rootScope.$stateParams.camera;
     var url = api + "projects/" + project + '/cameras/' + $scope.camera;
-    var live, preview;
+    var live_ability, preview_ability;
 
     $http.get(url, {}).success(function(response) {
       $scope.info = response;
       var bitmap = flagFactory.getBitmap(response.flags, 8);
       var flags = flagFactory.parseCamera(bitmap);
       $scope.info.ability = flags.ability;
-      $scope.info.live = flags.live;
-      live = flags.live;
+      $scope.info.live_ability = flags.live;
+      live_ability = flags.live;
 
-      $scope.info.ptz = flags.ptz;
-      $scope.info.preview = flags.preview;
-      preview = flags.preview;
+      $scope.info.ptz_ability = flags.ptz;
+      $scope.info.preview_ability = flags.preview;
+      preview_ability = flags.preview;
     }).error(function(response, status) {
       console.log('error');
     });
@@ -286,20 +286,20 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
         console.log('error');
         $rootScope.$emit('messagePush', {succ: false, text: '修改摄像机信息失败。'});
       });
-      if (live === $scope.info.live){
+      if (live_ability === $scope.info.live_ability){
         return;
       }
-      var tip = $scope.info.live ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
+      var tip = $scope.info.live_ability ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
       if (false === confirm(tip)) {
         return;
       }
       var data = {
-        enable: $scope.info.live
+        enable: $scope.info.live_ability
       };
-      var text = $scope.info.live ? '禁用' : '启用';
+      var text = $scope.info.live_ability ? '禁用' : '启用';
       $http.post(url + '/stream_toggle', data).success(function(response) {
         console.log('success');
-        live = $scope.info.live;
+        live_ability = $scope.info.live_ability;
         $rootScope.$emit('messagePush', {succ: true, text: text + '直播成功。'});
       }).error(function(response, status) {
         $rootScope.$emit('messagePush', {succ: false, text: text + '直播失败。'});
