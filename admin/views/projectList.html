@@ -210,108 +210,113 @@
               <div class="panel os-panel" ng-show="project.device.addShown">
                 <div class="panel-body">
                   <form class="form-horizontal os-form" role="form">
-                    <div class="form-group has-error">
-                      <label class="col-sm-2 control-label">设备名称</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.name" placeholder="必填项" required />
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">设备名称</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" ng-model="project.device.data_add.name" placeholder="必填项" required />                    
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">设备类型</label>
+                        <p class="col-sm-8">
+                          <label class="radio-inline">
+                            <input type="radio" ng-model="project.device.data_add.type" value="ivt">IVT</label>
+                          <label class="radio-inline">
+                            <input type="radio" ng-model="project.device.data_add.type" value="camera">摄像机</label>
+                        </p>
+                      </div>
+                      <div class="form-group hidden">
+                        <label class="col-sm-4 control-label">设备标志位</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" ng-model="project.device.data_add.flags" placeholder="必填项" required />                      
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">设备登陆名</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" ng-model="project.device.data_add.login_code" />                      
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">设备登陆密码</label>
+                        <div class="col-sm-8">
+                          <input type="password" class="form-control" ng-model="project.device.data_add.login_passwd" placeholder="必填项" required />                      
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">设备厂家</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" ng-model="project.device.data_add.vendor" placeholder="必填项" required />                      
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">通道数上限</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" ng-model="project.device.data_add.media_channel_num" placeholder="必填项" required />                      
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">描述</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" ng-model="project.device.data_add.desc" />                      
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">详细描述</label>
+                        <div class="col-sm-8">
+                          <textarea rows="6" style="width: 100%" type="text" ng-model="project.device.data_add.long_desc"  />                      
+                        </div>
                       </div>
                     </div>
-                    <div class="form-group has-error">
-                      <label class="col-sm-2 control-label">设备类型</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.type" placeholder="必填项" required />
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">设备固件</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" ng-model="project.device.data_add.firmware_model" />                      
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">设备硬件</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" ng-model="project.device.data_add.hardware_model" />                      
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">经度</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" ng-model="project.device.data_add.longitude" />                      
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">纬度</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" ng-model="project.device.data_add.latitude" />                      
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">海拔</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" ng-model="project.device.data_add.altitude" />                      
+                        </div>
                       </div>
                     </div>
-                    <div class="form-group has-error">
-                      <label class="col-sm-2 control-label">设备标志位</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.flags" placeholder="必填项" required />
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-8">
+                          <button class="btn btn-default" ng-click="project.device.data_add.submitForm()"> <i class="fa fa-check"></i>
+                            &nbsp;确定
+                          </button>
+                          <button class="btn btn-default" ng-click="project.device.data_add.close()"> <i class="fa fa-remove"></i>
+                            &nbsp;取消
+                          </button>
+                        </div>
                       </div>
                     </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">设备登陆名</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.login_code" />
-                      </div>
-                    </div>
-                    <div class="form-group has-error">
-                      <label class="col-sm-2 control-label">设备登陆密码</label>
-                      <div class="col-sm-4">
-                        <input type="password" class="form-control" ng-model="project.device.data_add.login_passwd" placeholder="必填项" required />
-                      </div>
-                    </div>
-                    <div class="form-group has-error">
-                      <label class="col-sm-2 control-label">设备厂家</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.vendor" placeholder="必填项" required />
-                      </div>
-                    </div>
-                    <div class="form-group has-error">
-                      <label class="col-sm-2 control-label">通道数上限</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.media_channel_num" placeholder="必填项" required />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">设备固件</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.firmware_model" />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">设备硬件</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.hardware_model" />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">描述</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.desc" />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">详细描述</label>
-                      <div class="col-sm-4">
-                        <textarea rows="6" style="width: 100%" type="text" ng-model="project.device.data_add.long_desc"  />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">经度</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.longitude" />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">纬度</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.latitude" />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">海拔</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.device.data_add.altitude" />
-                      </div>
-                    </div>
-                    <div class="form-group os-submit-group">
-                      <label class="col-sm-1 control-label"></label>
-                      <div class="col-sm-4">
-                        <button class="btn btn-default" ng-click="project.device.data_add.submitForm()">
-                          <i class="fa fa-check"></i>
-                          &nbsp;确定
-                        </button>
-                        <button class="btn btn-default" ng-click="project.device.data_add.close()">
-                          <i class="fa fa-remove"></i>
-                          &nbsp;取消
-                        </button>
-                      </div>
-                    </div>
-
                   </form>
                 </div>
               </div>
-
               <div class="col-sm-12 os-table-container">
                 <table class="table os-table table-striped table-hover">
                   <thead>
