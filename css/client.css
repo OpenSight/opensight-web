@@ -87,8 +87,21 @@ body {
   padding-top: 8px;
   padding-bottom: 8px;
 }
+.pagination-container{
+  margin-bottom: 20px;
+}
 .pagination {
   margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+.pagination-jump{
+  vertical-align: middle;
+  margin-bottom: 0;
+}
+.pagination-jump input{
+  display: inline-block;
+  width: 40px;
 }
 .page-header-condensed {
   margin-top: 10px;

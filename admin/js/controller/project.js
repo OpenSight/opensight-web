@@ -482,10 +482,10 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
                         if ($scope.project.device.data_add === undefined)
                             $scope.project.device.data_add = {};
                         $scope.project.device.data_add.name = "";
-                        $scope.project.device.data_add.type = "";
+                        $scope.project.device.data_add.type = "camera";
                         $scope.project.device.data_add.flags = 0;
-                        $scope.project.device.data_add.login_code = "";
-                        $scope.project.device.data_add.login_passwd = "";
+                        $scope.project.device.data_add.login_code = "admin";
+                        $scope.project.device.data_add.login_passwd = "123456";
                         $scope.project.device.data_add.firmware_model = "";
                         $scope.project.device.data_add.hardware_model = "";
                         $scope.project.device.data_add.media_channel_num = 0;
@@ -2435,6 +2435,7 @@ app.register.controller('Project', ['$scope', '$http', '$q', '$state','FileSaver
         }
         $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/bills', bill).success(function(response) {
           $scope.project.bill.showAdd();
+          $scope.project.bill.initAddData();
           $scope.project.bill.refresh();
         }).error(function(response, status) {
           var tmpMsg = {};
