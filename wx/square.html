@@ -1,87 +1,119 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!doctype html>
+<html class="no-js" lang="">
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>
-    (function(){
-      "use strict";
-      var s = window.location.search;
-      if ('' === s || '?' === s){
-        s = 'name=camera1&id=camera1'
-        window.location.href = window.location.href + '?' + s;
-        return;
-      }
-      if ('?' === s[0]){
-        s = s.substring(1);
-      }
-      var a = s.split(/[&=]/g);
-      var t = '';
-      for (var i = 0, l = a.length; i < l - 1; i = i +2){
-        if ('name' === a[i]){
-          t = a[i + 1];
-          break;
-        }
-      }
-      document.write('<title>' + t + '</title>');
-    })();
-  </script>
-  <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/index.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>视频广场</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/square.css">
 </head>
 <body>
-  <div class="panel panel-default panel-video">
-    <div class="panel-body">
-      <div class="live">
-        <img src="img/demo.jpg" alt="">  
-        <video id="player" class="video" controls preload autoplay width="100%" height="100%">
-          <source src="http://121.41.72.231/hls/camera1.m3u8" type="application/x-mpegURL">  
-          <source src="http://www.w3school.com.cn/i/movie.ogg" type="video/ogg" />  
-          <p>
-            To view this video please enable JavaScript, and consider upgrading to a web browser that
-            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-          </p>
-        </video>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default panel-video-desc">
-    <div class="panel-body container-fluid">
-      <ul id="myTab" class="nav nav-tabs nav-pills row tabs-video">
-        <li class="active col-xs-6 col-sm-6 col-md-6 col-lg-6 col-video">
-          <a href="#home" data-toggle="tab" class="text-center">统计信息</a>
-        </li>
-        <li class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-video">
-          <a href="#ios" data-toggle="tab" class="text-center">简介</a>
-        </li>
-      </ul>
-      <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade in active tab-pane-video" id="home">
-          <p id="status" class="text-danger">正在连接摄像机，请稍候...</p>
-          <p id="resolution" class="hidden">
-            <span class="text-primary">分辨率：</span>
-            <span id="width"></span>
-            x
-            <span id="height"></span>
-          </p>
-        </div>
-        <div class="tab-pane fade tab-pane-video" id="ios">
-          <p>
-            <span class="text-primary">名称：</span>
-            <span>办公区</span>
-          </p>
-          <p>
-            <span class="text-primary">描述：</span>
-            <span>二楼办公区监视画面</span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
-<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="js/index.js"></script>
-</html>
+<!--[if lt IE 8]>
+<p class="browserupgrade">
+    You are using an <strong>outdated</strong>
+    browser. Please
+    <a href="http://browsehappy.com/">upgrade your browser</a>
+    to improve your experience.
+</p>
+<![endif]-->
 
+<!-- Add your site or application content here -->
+<header  class="navbar navbar-default navbar-fixed-top" role="navigation" id="header">
+    <div class="container squera-container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://www.opensight.cn/">
+                <img alt="Open Sight" src="../img/logo.png">
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- <li>
+                  <a href="square.html">视频广场</a>
+                </li> -->
+                <li>
+                    <a href="#">更多</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<div class="container squera-container">
+    <div class="row" id="container">
+    </div>
+    <div class="row loading hidden" id="loading">
+        <span></span>
+    </div>
+    <div class="row" id="lastpage"></div>
+</div>
+
+<footer class="bs-docs-footer" role="contentinfo">
+    <div class="container squera-container">
+        <ul class="bs-docs-footer-links text-muted list-inline">
+            <li>
+                <a href="about.html#about">关于我们</a>
+            </li>
+            <li>·</li>
+            <li>
+                <a href="#">法律条款</a>
+            </li>
+            <li>·</li>
+            <li>
+                <a href="swagger-ui/dist/">API</a>
+            </li>
+            <li>·</li>
+            <li>
+                <a href="about.html#conc">联系我们</a>
+            </li>
+        </ul>
+        <p>© 2015 源景工作室 版权所有. ICP证：浙ICP备15041027号</p>
+    </div>
+</footer>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="../bower_components/juicer/juicer-min.js"></script>
+<!-- <script src="js/content.js"></script> -->
+<script src="../js/square.js"></script>
+
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-71601701-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+-->
+<script type="text/html" id="tmpl">
+    {@each list as item}
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="thumbnail">
+            <a href="${item.uuid, item.is_online|getLink}"><img src="${item.preview}" alt="${item.name}"></a>
+            <div class="caption">
+                <p class="text-name">
+                    <a href="${item.uuid, item.is_online|getLink}">${item.name}</a>
+                    <span class="${item.is_online|getCls} pull-right">${item.is_online|renderStatus}</span>
+                </p>
+                <p class="text-muted text-desc">${item.desc}</p>
+            </div>
+        </div>
+    </div>
+    {@/each}
+</script>
+</body>
+</html>
