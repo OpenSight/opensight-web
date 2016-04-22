@@ -1,0 +1,112 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>直播</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/square.css">
+
+</head>
+<body>
+  <!--[if lt IE 8]>
+  <p class="browserupgrade">
+    You are using an <strong>outdated</strong>
+    browser. Please
+    <a href="http://browsehappy.com/">upgrade your browser</a>
+    to improve your experience.
+  </p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <header  class="navbar navbar-default navbar-fixed-top" role="navigation" id="header">
+    <div class="container squera-container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://www.opensight.cn/">
+          <img alt="Open Sight" src="../img/logo.png">
+        </a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="square.html">视频广场</a>
+          </li>
+          <li>
+            <a href="#">更多</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>  
+
+  <div class="container squera-container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="thumbnail" id="videoPlayerWrapper">
+          <div class="live">
+            <div class="img-container"><img id="img" src="../img/video.jpg" alt=""></div>
+            <div class="player-container">
+              <div id="videoPlayer">
+                <p class="play-tip pull-right">
+                  <span class="text-highlight" id="playTipSec">10</span>
+                  秒之后直播开始
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <h3><span class="text-highlight">名称：</span><span id="name"></span></h3>
+        <p><span class="text-highlight">描述：</span><span id="desc"></span></p>
+        <p><span class="text-highlight">详细信息：</span><span id="long_desc"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bs-docs-footer" role="contentinfo">
+    <div class="container squera-container">
+      <ul class="bs-docs-footer-links text-muted list-inline">
+        <li>
+          <a href="about.html#about">关于我们</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="#">法律条款</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="swagger-ui/dist/">API</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="about.html#conc">联系我们</a>
+        </li>
+      </ul>
+      <p>© 2015 源景工作室 版权所有. ICP证：浙ICP备15041027号</p>
+    </div>
+  </footer>
+
+  <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="../js/swfobject.min.js"></script>
+<script>
+  var swfpath = '';
+</script>
+<script src="../js/video.js"></script>
+
+</body>
+</html>
