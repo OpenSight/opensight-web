@@ -449,7 +449,9 @@ angular.module('app.controller', []).controller('header', ['$scope', '$rootScope
     };
     var lastParams;
     var query = function(params){
-      $http.get($scope.url, params).success(function(response) {
+      $http.get($scope.url, {
+        params: params
+      }).success(function(response) {
         $scope.keys = response;
         pageFactory.set(response);
       }).error(function(response, status) {

@@ -195,8 +195,8 @@
             <uib-tab heading="device" active="project.data_mod.tabs[1]"select="project.device.initDevices()">
               <form class="form-inline os-table-toolbar">
                 <div class="form-group">
-                  <select class="form-control" ng-model="project.devicelist.seachKey" ng-options="o.key as o.name for o in project.devicelist.searchKeyOptionsData" ng-change=""></select>
-                  <input type="text" class="form-control" placeholder="Filter..." ng-model="project.devicelist.seachValue"></div>
+                  <select class="form-control" ng-model="project.device.seachKey" ng-options="o.key as o.name for o in project.device.searchKeyOptionsData" ng-change=""></select>
+                  <input type="text" class="form-control" placeholder="Filter..." ng-model="project.device.seachValue"></div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.device.search()">
                   <i  class="fa fa-search"></i>
                 </span>
@@ -326,21 +326,22 @@
                       <th class="col-sm-2">设备类型</th>
                       <th class="col-sm-1">在线状态</th>
                       <th class="col-sm-2">设备固件</th>
-                      <th class="col-sm-1">删除</th>
+                      <th class="col-sm-1">操作</th>
                     </tr>
                   </thead>
-                  <tbody ng-repeat="u in project.devicelist.data.list | filter: project.devicelist.seach">
+                  <tbody ng-repeat="u in project.device.data.list | filter: project.device.seach">
                     <tr style="cursor:pointer;">
-                      <td ng-click="project.device.data.showDetail(u, $index)">{{u.name}}</td>
-                      <td ng-click="project.device.data.showDetail(u, $index)">{{u.uuid}}</td>
-                      <td ng-click="project.device.data.showDetail(u, $index)">{{u.type}}</td>
-                      <td ng-click="project.device.data.showDetail(u, $index)">{{u.is_online}}</td>
-                      <td ng-click="project.device.data.showDetail(u, $index)">{{u.firmware_model}}</td>
-                      <td ng-click="project.device.delete_one(u)" style="cursor:pointer;">
-                        <i class="fa fa-trash"></i>
+                      <td ng-click="project.device.showDetail(u, $index)">{{u.name}}</td>
+                      <td ng-click="project.device.showDetail(u, $index)">{{u.uuid}}</td>
+                      <td ng-click="project.device.showDetail(u, $index)">{{u.type}}</td>
+                      <td ng-click="project.device.showDetail(u, $index)">{{u.is_online}}</td>
+                      <td ng-click="project.device.showDetail(u, $index)">{{u.firmware_model}}</td>
+                      <td>
+                        <i class="fa fa-cloud-upload" ng-click="project.device.upgrade(u)" style="cursor:pointer;" title="升级"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="fa fa-trash" ng-click="project.device.delete_one(u)" style="cursor:pointer;" title="删除"></i>
                       </td>
                     </tr>
-                    <tr class="ng-hide" ng-show="project.device.data_mod.bDetailShown[$index]">
+                    <tr class="ng-hide" ng-show="u.bDetailShown">
                       <td colspan="999">
                         <div class="panel os-panel">
                           <div class="panel-body">
@@ -349,61 +350,61 @@
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">设备名称</label>
                                   <div class="col-sm-8">
-                                    <p class="form-control-static">{{project.device.data_mod.data[$index].name}}</p>
+                                    <p class="form-control-static">{{project.device.detail[$index].name}}</p>
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">设备类型</label>
                                   <div class="col-sm-8">
-                                    <p class="form-control-static">{{project.device.data_mod.data[$index].type}}</p>
-                                    <!--input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].type" required /--> </div>
+                                    <p class="form-control-static">{{project.device.detail[$index].type}}</p>
+                                    <!--input type="text" class="form-control" ng-model="project.device.detail[$index].type" required /--> </div>
                                 </div>
                                 <div class="form-group hidden">
                                   <label class="col-sm-4 control-label">flags</label>
                                   <div class="col-sm-8">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].flags"  />                                
+                                    <input type="text" class="form-control" ng-model="project.device.detail[$index].flags"  />                                
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">在线状态</label>
                                   <div class="col-sm-8">
-                                    <p class="form-control-static">{{project.device.data_mod.data[$index].is_online|online}}</p>
+                                    <p class="form-control-static">{{project.device.detail[$index].is_online|online}}</p>
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">设备固件</label>
                                   <div class="col-sm-8">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].firmware_model"  />                                
+                                    <input type="text" class="form-control" ng-model="project.device.detail[$index].firmware_model"  />                                
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">设备硬件</label>
                                   <div class="col-sm-8">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].hardware_model"  />                                
+                                    <input type="text" class="form-control" ng-model="project.device.detail[$index].hardware_model"  />                                
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">设备厂家</label>
                                   <div class="col-sm-8">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].vendor" />                                
+                                    <input type="text" class="form-control" ng-model="project.device.detail[$index].vendor" />                                
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">通道数上限</label>
                                   <div class="col-sm-8">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].media_channel_num" />                                
+                                    <input type="text" class="form-control" ng-model="project.device.detail[$index].media_channel_num" />                                
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">描述</label>
                                   <div class="col-sm-8">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].desc"  />                                
+                                    <input type="text" class="form-control" ng-model="project.device.detail[$index].desc"  />                                
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">详细描述</label>
                                   <div class="col-sm-8">
-                                    <textarea rows="6" style="width: 100%" type="text" ng-model="project.device.data_mod.data[$index].long_desc"  />                                
+                                    <textarea rows="6" style="width: 100%" type="text" ng-model="project.device.detail[$index].long_desc"  />                                
                                   </div>
                                 </div>
                               </div>
@@ -411,61 +412,61 @@
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">项目名称</label>
                                   <div class="col-sm-8">
-                                    <p class="form-control-static">{{project.device.data_mod.data[$index].project_name}}</p>
+                                    <p class="form-control-static">{{project.device.detail[$index].project_name}}</p>
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">uuid</label>
                                   <div class="col-sm-8">
-                                    <p class="form-control-static">{{project.device.data_mod.data[$index].uuid}}</p>
+                                    <p class="form-control-static">{{project.device.detail[$index].uuid}}</p>
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">设备登录名</label>
                                   <div class="col-sm-8">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].login_code"  />                                
+                                    <input type="text" class="form-control" ng-model="project.device.detail[$index].login_code"  />                                
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">设备登陆密码</label>
                                   <div class="col-sm-8">
-                                    <input type="password" class="form-control" ng-model="project.device.data_mod.data[$index].login_passwd"  />                                
+                                    <input type="password" class="form-control" ng-model="project.device.detail[$index].login_passwd"  />                                
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">经度</label>
                                   <div class="col-sm-8">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].longitude"  />                                
+                                    <input type="text" class="form-control" ng-model="project.device.detail[$index].longitude"  />                                
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">纬度</label>
                                   <div class="col-sm-8">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].latitude"  />                                
+                                    <input type="text" class="form-control" ng-model="project.device.detail[$index].latitude"  />                                
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">海拔</label>
                                   <div class="col-sm-8">
-                                    <input type="text" class="form-control" ng-model="project.device.data_mod.data[$index].altitude"  />                                
+                                    <input type="text" class="form-control" ng-model="project.device.detail[$index].altitude"  />                                
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">生成时间</label>
                                   <div class="col-sm-8">
-                                    <p class="form-control-static">{{project.device.data_mod.data[$index].ctime}}</p>
+                                    <p class="form-control-static">{{project.device.detail[$index].ctime}}</p>
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">更新时间</label>
                                   <div class="col-sm-8">
-                                    <p class="form-control-static">{{project.device.data_mod.data[$index].utime}}</p>
+                                    <p class="form-control-static">{{project.device.detail[$index].utime}}</p>
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-sm-4 control-label">最后心跳时间</label>
                                   <div class="col-sm-8">
-                                    <p class="form-control-static">{{project.device.data_mod.data[$index].ltime}}</p>
+                                    <p class="form-control-static">{{project.device.detail[$index].ltime}}</p>
                                   </div>
                                 </div>
                               </div>
@@ -473,10 +474,10 @@
                                 <div class="form-group">
                                   <label class="col-sm-2 control-label"></label>
                                   <div class="col-sm-8">
-                                    <button class="btn btn-default" ng-click="project.device.data_mod.submitForm(u,$index)"> <i class="fa fa-check"></i>
+                                    <button class="btn btn-default" ng-click="project.device.modify(u,$index)"> <i class="fa fa-check"></i>
                                       &nbsp;确定
                                     </button>
-                                    <button class="btn btn-default" ng-click="project.device.data_mod.reset(u,$index)"> <i class="fa fa-remove"></i>
+                                    <button class="btn btn-default" ng-click="project.device.showDetail(u,$index)"> <i class="fa fa-remove"></i>
                                       &nbsp;取消
                                     </button>
                                   </div>
@@ -489,6 +490,24 @@
                     </tr>
                   </tbody>
                 </table>
+                <div class="pagination-container">
+                  <uib-pagination 
+                    total-items="page.total" 
+                    ng-model="page.curr" 
+                    max-size="page.max" 
+                    items-per-page="page.limit" 
+                    previous-text ="&laquo;" 
+                    next-text="&raquo;"
+                    ng-change="pageChanged()" 
+                    boundary-link-numbers="true"
+                    class="pagination-sm">
+                  </uib-pagination>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <label class="pagination-jump">
+                    <span>跳转到：</span>
+                    <input type="text"  class="form-control input-sm" ng-model="jumpto"></label>
+                  <button class="btn btn-default btn-sm" ng-click="jump()">Go</button>
+                </div>
               </div>
             </uib-tab>
 

@@ -485,3 +485,22 @@ body{
   background-color: #f4f5f7;
   box-shadow: 3px 3px 8px #ddd;
 }
+
+.pagination {
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+.pagination-jump{
+  vertical-align: middle;
+  margin-bottom: 0;
+}
+.pagination-jump input{
+  display: inline-block;
+  width: 40px;
+}
+.os-table-container .pagination-container{
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
