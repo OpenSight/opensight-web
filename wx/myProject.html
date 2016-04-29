@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/Swiper/3.3.1/css/swiper.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -30,6 +31,18 @@
             </div>
         </div>
     </div>
+    <!DOCTYPE html>
+<html>
+<head>
+    ...
+    <link rel="stylesheet" href="path/to/swiper.min.css">
+</head>
+<body>
+    ...
+    <script src="path/to/jquery.js"></script>
+    <script src="path/to/swiper.jquery.min.js"></script>
+</body>
+</html>
 </div-->
 <div class="panel-body">
     <div class="form-horizontal os-form" role="form">
@@ -38,6 +51,22 @@
             <div class="col-sm-4">
                 <input type="text" id="now_url" class="form-control" />
             </div>
+        </div>
+        <div class="swiper-container form-group">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">Slide 1</div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+            </div>
+            <!-- 如果需要分页器 >
+            <div class="swiper-pagination"></div-->
+
+            <!-- 如果需要导航按钮 -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+
+            <!-- 如果需要滚动条 >
+            <div class="swiper-scrollbar"></div-->
         </div>
     </div>
 </div>
@@ -48,6 +77,7 @@
 <script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
 <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
+<script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
 <script src="js/project.js"></script>
 </html>
 
