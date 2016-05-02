@@ -585,34 +585,48 @@ app.register.controller('Project', [
         var r=confirm("确认删除device "+ item.name +"吗？");
         if (r===false) return;
         $scope.project.device.data.delOneToken = Math.random();
-        $scope.aborter = $q.defer(),
-          $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/devices/"+item.uuid, {
-            timeout: $scope.aborter.promise
-            /*                       headers:  {
-             "Authorization" : "Bearer "+$scope.authToken,
-             "Content-Type": "application/json"
-             }
-             */
-          }).success(function (response) {
-              $scope.project.device.refresh();
-            }).error(function (response,status) {
-              var tmpMsg = {};
-              tmpMsg.Label = "错误";
-              tmpMsg.ErrorContent = "删除device"+ item.name +"失败";
-              tmpMsg.ErrorContentDetail = response;
-              tmpMsg.SingleButtonShown = true;
-              tmpMsg.MutiButtonShown = false;
-              tmpMsg.Token =  $scope.project.device.data.delOneToken;
-              //tmpMsg.Callback = "delMdCallBack";
-              if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
-                //$scope.$emit("Logout", tmpMsg);
-                $state.go('logOut',{info: response.info,traceback: response.traceback});
-              }else
-                $scope.$emit("Ctr1ModalShow", tmpMsg);
-              //$scope.project.device.refresh();
-            });
+        $scope.aborter = $q.defer();
+        $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/devices/"+item.uuid, {
+          timeout: $scope.aborter.promise
+        }).success(function (response) {
+          $scope.project.device.refresh();
+        }).error(function (response,status) {
+          var tmpMsg = {};
+          tmpMsg.Label = "错误";
+          tmpMsg.ErrorContent = "删除device: "+ item.name +" 失败";
+          tmpMsg.ErrorContentDetail = response;
+          tmpMsg.SingleButtonShown = true;
+          tmpMsg.MutiButtonShown = false;
+          tmpMsg.Token =  $scope.project.device.data.delOneToken;
+          if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+            //$scope.$emit("Logout", tmpMsg);
+            $state.go('logOut',{info: response.info,traceback: response.traceback});
+          }else
+            $scope.$emit("Ctr1ModalShow", tmpMsg);
+        });
       },
-
+      upgrade: function(item){
+        if (false === confirm('升级成功后设备会重启，是否继续？')){
+          return;
+        }
+        $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/devices/" + item.uuid + '/firmware', {}).success(function (response) {
+          $scope.project.device.refresh();
+        }).error(function (response,status) {
+          var tmpMsg = {};
+          tmpMsg.Label = "错误";
+          tmpMsg.ErrorContent = "升级device: "+ item.name +" 失败";
+          tmpMsg.ErrorContentDetail = response;
+          tmpMsg.SingleButtonShown = true;
+          tmpMsg.MutiButtonShown = false;
+          // tmpMsg.Token =  $scope.project.device.data.delOneToken;
+          if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+            //$scope.$emit("Logout", tmpMsg);
+            $state.go('logOut',{info: response.info,traceback: response.traceback});
+          } else {
+            $scope.$emit("Ctr1ModalShow", tmpMsg);
+          }
+        });
+      },
       delMdCallBack:function (event, msg) {
 
       },
