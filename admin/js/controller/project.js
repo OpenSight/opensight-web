@@ -374,71 +374,50 @@ app.register.controller('Project', [
     };
   })();
 
-  $scope.project.device = (function () {
-    return {
+  (function () {
+    var device = {
       initDevices: function () {
-        if ($scope.project.device.data!==undefined && $scope.project.device.data.list!==undefined){
-          $scope.project.device.refresh();
-        } else {
-          $scope.destroy();
-          $scope.project.device.addShown = false;
-          $scope.project.device.detail = [];
-          $scope.project.device.searchKeyOptionsData = [
-            {
-              name: "设备名称",
-              key: "name"
-            },
-            {
-              name: "描述",
-              key: "desc"
-            },
-            {
-              name: "详细描述",
-              key: "long_desc"
-            },
-            {
-              name: "设备uuid",
-              key: "uuid"
-            },
-            {
-              name: "设备类型",
-              key: "type"
-            },
-            {
-              name: "设备登录名",
-              key: "login_code"
-            },
-            {
-              name: "设备固件",
-              key: "firmware_model"
-            },
-            {
-              name: "设备硬件",
-              key: "hardware_model"
-            },
-            {
-              name: "设备厂家",
-              key: "vendor"
-            }
-          ];
-          $scope.project.device.seachKey = $scope.project.device.searchKeyOptionsData[0].key;
-          $scope.project.device.seachValue = "";
-          $scope.page = pageFactory.init();
-          $scope.pageChanged = function() {
-            $scope.lastParams.start = pageFactory.getStart();
-            $scope.project.device.query($scope.lastParams);
-          };
-          $scope.jump = function() {
-            if (true === pageFactory.jump($scope.jumpto)) {
-              $scope.pageChanged();
-            } else {
-              alert('页码输入不正确。')
-            }
-            $scope.jumpto = '';
-          };
+        $scope.destroy();
+        device.addShown = false;
+        device.detail = [];
+        device.searchKeyOptionsData = [{
+          name: "设备名称",
+          key: "name"
+        }, {
+          name: "描述",
+          key: "desc"
+        }, {
+          name: "详细描述",
+          key: "long_desc"
+        }, {
+          name: "设备uuid",
+          key: "uuid"
+        }, {
+          name: "设备类型",
+          key: "type"
+        }, {
+          name: "设备登录名",
+          key: "login_code"
+        }, {
+          name: "设备固件",
+          key: "firmware_model"
+        }, {
+          name: "设备硬件",
+          key: "hardware_model"
+        }, {
+          name: "设备厂家",
+          key: "vendor"
+        }];
+        device.seachKey = device.searchKeyOptionsData[0].key;
+        device.seachValue = "";
+        device.page = pageFactory.init({
+          query: device.query,
+          jumperror: function(){
+            alert('页码输入不正确。');
+          }
+        });
 
-          $scope.project.device.search();
-        }
+        device.search();
       },
       query: function(params){
         $scope.aborter = $q.defer();
@@ -446,8 +425,9 @@ app.register.controller('Project', [
           params: params,
           timeout: $scope.aborter.promise
         }).success(function (response) {
-          $scope.project.device.data = response;
-          pageFactory.set(response);
+          device.data = response;
+          device.detail = [];
+          pageFactory.set(response, params);
         }).error(function (response,status) {
           var tmpMsg = {
             Label: '错误',
@@ -463,74 +443,73 @@ app.register.controller('Project', [
             $scope.$emit("Ctr1ModalShow", tmpMsg);
           }
         });
-        $scope.lastParams = angular.copy(params);
       },
       search: function () {//clean input,close add div
         if ($scope.project.data_mod.bDetailShown !== true) return;
-        $scope.project.device.data_add.clean_data();
+        device.data_add.clean_data();
         var params = {
-          filter_key: $scope.project.device.seachKey,
-          filter_value: $scope.project.device.seachValue,
+          filter_key: device.seachKey,
+          filter_value: device.seachValue,
           start: 0,
           limit: 10
         };
-        $scope.project.device.query(params);
+        device.query(params);
       },
       refresh: function () {
-        angular.forEach($scope.project.device.data.list, function (item, index, array) {
-          if ($scope.project.device.data_mod.bDetailShown && $scope.project.device.data_mod.bDetailShown[index] !== undefined)
-            $scope.project.device.data_mod.bDetailShown[index]  = false;
+        angular.forEach(device.data.list, function (item, index, array) {
+          if (device.data_mod.bDetailShown && device.data_mod.bDetailShown[index] !== undefined)
+            device.data_mod.bDetailShown[index]  = false;
         });
-        $scope.project.device.data = {};
-        $scope.project.device.initDevices();
+        device.data = {};
+        device.initDevices();
       },
       add: function () {
-        if ($scope.project.device.addShown === undefined) $scope.project.device.addShown = false;
-        $scope.project.device.addShown = !$scope.project.device.addShown;
-        if ($scope.project.device.addShown === true)
-          $scope.project.device.data_add.init();
+        if (device.addShown === undefined) device.addShown = false;
+        device.addShown = !device.addShown;
+        if (device.addShown === true)
+          device.data_add.init();
       },
 
       data_add: (function () {
         return {
           clean_data: function () {//clean add field
-            if ($scope.project.device.data_add === undefined)
-              $scope.project.device.data_add = {};
-            $scope.project.device.data_add.name = "";
-            $scope.project.device.data_add.type = "camera";
-            $scope.project.device.data_add.flags = 0;
-            $scope.project.device.data_add.login_code = "admin";
-            $scope.project.device.data_add.login_passwd = "123456";
-            $scope.project.device.data_add.firmware_model = "";
-            $scope.project.device.data_add.hardware_model = "";
-            $scope.project.device.data_add.media_channel_num = 0;
-            $scope.project.device.data_add.vendor = "";
-            $scope.project.device.data_add.desc = "";
-            $scope.project.device.data_add.long_desc = "";
-            $scope.project.device.data_add.longitude = 0;
-            $scope.project.device.data_add.latitude = 0;
-            $scope.project.device.data_add.altitude = 0;
+            if (device.data_add === undefined)
+              device.data_add = {};
+            device.data_add.name = "";
+            device.data_add.type = "camera";
+            device.data_add.flags = 0;
+            device.data_add.login_code = "admin";
+            device.data_add.login_passwd = "123456";
+            device.data_add.firmware_model = "";
+            device.data_add.hardware_model = "";
+            device.data_add.media_channel_num = 0;
+            device.data_add.vendor = "";
+            device.data_add.desc = "";
+            device.data_add.long_desc = "";
+            device.data_add.longitude = 0;
+            device.data_add.latitude = 0;
+            device.data_add.altitude = 0;
           },
 
           submitForm: function () {//add one device
             var postData = {
-              name: $scope.project.device.data_add.name,
-              type: $scope.project.device.data_add.type,
-              flags: $scope.project.device.data_add.flags,
-              login_code: $scope.project.device.data_add.login_code,
-              login_passwd: $scope.project.device.data_add.login_passwd,
-              desc: $scope.project.device.data_add.desc,
-              long_desc: $scope.project.device.data_add.long_desc,
-              firmware_model: $scope.project.device.data_add.firmware_model,
-              hardware_model: $scope.project.device.data_add.hardware_model,
-              vendor: $scope.project.device.data_add.vendor,
-              media_channel_num: $scope.project.device.data_add.media_channel_num,
-              longitude: $scope.project.device.data_add.longitude,
-              latitude: $scope.project.device.data_add.latitude,
-              altitude: $scope.project.device.data_add.altitude
+              name: device.data_add.name,
+              type: device.data_add.type,
+              flags: device.data_add.flags,
+              login_code: device.data_add.login_code,
+              login_passwd: device.data_add.login_passwd,
+              desc: device.data_add.desc,
+              long_desc: device.data_add.long_desc,
+              firmware_model: device.data_add.firmware_model,
+              hardware_model: device.data_add.hardware_model,
+              vendor: device.data_add.vendor,
+              media_channel_num: device.data_add.media_channel_num,
+              longitude: device.data_add.longitude,
+              latitude: device.data_add.latitude,
+              altitude: device.data_add.altitude
             };
 
-            $scope.project.device.data_add.token = Math.random();
+            device.data_add.token = Math.random();
             $scope.aborter = $q.defer(),
               $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/devices", postData, {
                 timeout: $scope.aborter.promise
@@ -540,7 +519,7 @@ app.register.controller('Project', [
                  }
                  */
               }).success(function (response) {
-                  $scope.project.device.refresh();
+                  device.refresh();
                 }).error(function (response,status) {
                   //response.ErrorContent = "添加device失败";
                   //$scope.$emit("errorEmit",response);
@@ -553,7 +532,7 @@ app.register.controller('Project', [
                   tmpMsg.ErrorContentDetail = response;
                   tmpMsg.SingleButtonShown = true;
                   tmpMsg.MutiButtonShown = false;
-                  tmpMsg.Token =  $scope.project.device.data_add.token;
+                  tmpMsg.Token =  device.data_add.token;
                   //tmpMsg.Callback = "addMdCallBack";
                   if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                     //$scope.$emit("Logout", tmpMsg);
@@ -561,18 +540,18 @@ app.register.controller('Project', [
                   }else
                     $scope.$emit("Ctr1ModalShow", tmpMsg);
 
-                  // $scope.project.device.refresh();
+                  // device.refresh();
                 });
           },
 
           close: function () {//clean input,close add div
-            //$scope.project.device.data_add.clean_data();
-            //$scope.project.device.addShown = false;
-            $scope.project.device.add();
+            //device.data_add.clean_data();
+            //device.addShown = false;
+            device.add();
           },
 
           init: function () {
-            $scope.project.device.data_add.clean_data();
+            device.data_add.clean_data();
           },
 
           addMdCallBack:function (event, msg) {
@@ -584,12 +563,12 @@ app.register.controller('Project', [
       delete_one: function (item) {
         var r=confirm("确认删除device "+ item.name +"吗？");
         if (r===false) return;
-        $scope.project.device.data.delOneToken = Math.random();
+        device.data.delOneToken = Math.random();
         $scope.aborter = $q.defer();
         $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/devices/"+item.uuid, {
           timeout: $scope.aborter.promise
         }).success(function (response) {
-          $scope.project.device.refresh();
+          device.refresh();
         }).error(function (response,status) {
           var tmpMsg = {};
           tmpMsg.Label = "错误";
@@ -597,7 +576,7 @@ app.register.controller('Project', [
           tmpMsg.ErrorContentDetail = response;
           tmpMsg.SingleButtonShown = true;
           tmpMsg.MutiButtonShown = false;
-          tmpMsg.Token =  $scope.project.device.data.delOneToken;
+          tmpMsg.Token =  device.data.delOneToken;
           if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
             //$scope.$emit("Logout", tmpMsg);
             $state.go('logOut',{info: response.info,traceback: response.traceback});
@@ -610,7 +589,8 @@ app.register.controller('Project', [
           return;
         }
         $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/devices/" + item.uuid + '/firmware', {}).success(function (response) {
-          $scope.project.device.refresh();
+          alert("升级device: "+ item.name +" 成功。");
+          device.refresh();
         }).error(function (response,status) {
           var tmpMsg = {};
           tmpMsg.Label = "错误";
@@ -618,7 +598,7 @@ app.register.controller('Project', [
           tmpMsg.ErrorContentDetail = response;
           tmpMsg.SingleButtonShown = true;
           tmpMsg.MutiButtonShown = false;
-          // tmpMsg.Token =  $scope.project.device.data.delOneToken;
+          // tmpMsg.Token =  device.data.delOneToken;
           if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
             //$scope.$emit("Logout", tmpMsg);
             $state.go('logOut',{info: response.info,traceback: response.traceback});
@@ -630,39 +610,38 @@ app.register.controller('Project', [
       delMdCallBack:function (event, msg) {
 
       },
-
       showDetail: function (item, index) {
         if (true === item.bDetailShown){
           item.bDetailShown = false;
         } else {
           item.bDetailShown = true;
-          $scope.project.device.detail[index] = angular.copy(item);
+          device.detail[index] = angular.copy(item);
         }
       },
       modify: function (item,index) {
         var data =  {
-          flags: $scope.project.device.detail[index].flags,
-          login_code: $scope.project.device.detail[index].login_code,
-          login_passwd: $scope.project.device.detail[index].login_passwd,
-          desc: $scope.project.device.detail[index].desc,
-          long_desc: $scope.project.device.detail[index].long_desc,
-          firmware_model: $scope.project.device.detail[index].firmware_model,
-          hardware_model: $scope.project.device.detail[index].hardware_model,
-          vendor: $scope.project.device.detail[index].vendor,
-          media_channel_num: $scope.project.device.detail[index].media_channel_num,
-          longitude: $scope.project.device.detail[index].longitude,
-          login_passwd: $scope.project.device.detail[index].login_passwd,
-          latitude: $scope.project.device.detail[index].latitude,
-          altitude: $scope.project.device.detail[index].altitude
+          flags: device.detail[index].flags,
+          login_code: device.detail[index].login_code,
+          login_passwd: device.detail[index].login_passwd,
+          desc: device.detail[index].desc,
+          long_desc: device.detail[index].long_desc,
+          firmware_model: device.detail[index].firmware_model,
+          hardware_model: device.detail[index].hardware_model,
+          vendor: device.detail[index].vendor,
+          media_channel_num: device.detail[index].media_channel_num,
+          longitude: device.detail[index].longitude,
+          login_passwd: device.detail[index].login_passwd,
+          latitude: device.detail[index].latitude,
+          altitude: device.detail[index].altitude
         };
 
-        //$scope.project.device.data_mod.submitForm = Math.random();
+        //device.data_mod.submitForm = Math.random();
         $scope.aborter = $q.defer();
         $http.put("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/devices/"+item.uuid, data, {
           timeout: $scope.aborter.promise
         }).success(function (response) {
-          $scope.project.device.data.list[index] = angular.copy($scope.project.device.detail[index], $scope.project.device.data.list[index]);
-          $scope.project.device.showDetail(item, index);
+          device.data.list[index] = angular.copy(device.detail[index], device.data.list[index]);
+          device.showDetail(item, index);
         }).error(function (response,status) {
           var tmpMsg = {};
           tmpMsg.Label = "错误";
@@ -670,7 +649,7 @@ app.register.controller('Project', [
           tmpMsg.ErrorContentDetail = response;
           tmpMsg.SingleButtonShown = true;
           tmpMsg.MutiButtonShown = false;
-          tmpMsg.Token =  $scope.project.device.data_mod.submitForm;
+          tmpMsg.Token =  device.data_mod.submitForm;
           //tmpMsg.Callback = "odCallBack";
           if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
             //$scope.$emit("Logout", tmpMsg);
@@ -679,7 +658,8 @@ app.register.controller('Project', [
             $scope.$emit("Ctr1ModalShow", tmpMsg);
         });
       }
-    }
+    };
+    $scope.project.device = device;
   })();
 
   $scope.project.camera = (function () {
@@ -2429,6 +2409,85 @@ app.register.controller('Project', [
     });
     }
   };
+  })();
+
+  (function () {
+    var api = 'http://api.opensight.cn/api/ivc/v1/projects/';
+    var session = {
+      init: function () {
+        $scope.destroy();
+        session.detail = [];
+        session.page = pageFactory.init({
+          query: session.query,
+          jumperror: function(){
+            alert('页码输入不正确。');
+          }
+        });
+        session.search();
+      },
+      query: function(params){
+        $scope.aborter = $q.defer();
+        $http.get(api + $scope.project.data_mod.selectItem.name+ "/sessions", {
+          params: params,
+          timeout: $scope.aborter.promise
+        }).success(function (response) {
+          session.data = response;
+          pageFactory.set(response, params);
+        }).error(function (response,status) {
+          var tmpMsg = {
+            Label: '错误',
+            ErrorContent: '获取会话列表失败',
+            ErrorContentDetail: response,
+            SingleButtonShown: true,
+            MutiButtonShown: false
+          };
+          if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+            $state.go('logOut',{info: response.info,traceback: response.traceback});
+          } else{
+            $scope.$emit("Ctr1ModalShow", tmpMsg);
+          }
+        });
+      },
+      search: function () {
+        var params = {
+          start: 0,
+          limit: session.page.limit
+        };
+        session.query(params);
+      },
+      remove: function (item, index) {
+        if (false === confirm("是否停止当前会话吗？")){
+          return;
+        }
+        $scope.aborter = $q.defer();
+        $http.delete(api + $scope.project.data_mod.selectItem.name + '/cameras/' + item.camera_uuid+ '/sessions/' + item.uuid, {
+          timeout: $scope.aborter.promise
+        }).success(function (response) {
+          session.page.pageChanged();
+        }).error(function (response,status) {
+          var tmpMsg = {};
+          tmpMsg.Label = "错误";
+          tmpMsg.ErrorContent = "删除会话失败";
+          tmpMsg.ErrorContentDetail = response;
+          tmpMsg.SingleButtonShown = true;
+          tmpMsg.MutiButtonShown = false;
+          if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+            //$scope.$emit("Logout", tmpMsg);
+            $state.go('logOut',{info: response.info,traceback: response.traceback});
+          }else
+            $scope.$emit("Ctr1ModalShow", tmpMsg);
+        });
+      },
+      showDetail: function (item, index) {
+        if (true === item.bDetailShown){
+          item.bDetailShown = false;
+        } else {
+          item.bDetailShown = true;
+          session.detail[index] = angular.copy(item);
+        }
+      }
+    };
+    $scope.project.session = session;
   })();
 
   $scope.destroy = function () {

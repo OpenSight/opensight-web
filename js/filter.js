@@ -38,6 +38,9 @@ angular.module('app.filter', []).filter('online', [function() {
 
 .filter('stream_quality', [function() {
   return function(quality) {
+    if (undefined === quality){
+      return '';
+    }
     var em = {
       ld:  '流畅',
       sd: '标清',

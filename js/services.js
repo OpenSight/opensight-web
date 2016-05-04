@@ -64,42 +64,55 @@ angular.module('app.services', [])
 })
 
 .factory('pageFactory', function() {
-  var page = {
+  var page, lastParams;
+  var defaults = {
     curr: 1,
     total: 0,
     limit: 10,
     max: 5,
     prev: '上一页',
-    next: '下一页'
+    next: '下一页',
+    query: function(){},
+    jumpto: '',
+    jump: function(){
+      var jumpto = page.jumpto;
+      page.jumpto = '';
+      if (null === jumpto.match(/^[1-9][\d]*$/)) {
+        page.jumperror();
+        return true;
+      }
+      var p = parseInt(jumpto, 10);
+      var last = Math.ceil(page.total / page.limit);
+      if (p === page.curr || p > last) {
+        page.jumperror();
+        return true;
+      }
+      page.curr = p;
+      page.pageChanged();
+      return true;
+    },
+    jumperror: function(){},
+    pageChanged: function(){
+      lastParams.start = (page.curr - 1) * page.limit;
+      page.query(lastParams);
+    }
   };
+  var pageChanged = function(){};
   return {
-    init: function() {
-      page.curr = 1;
-      page.total = 0;
+    init: function(opt) {
+      page = angular.extend({}, defaults, opt);
+      lastParams = undefined;
       return page;
     },
     get: function(){
       return page;
     },
-    set: function(list) {
+    set: function(list, params) {
       page.curr = Math.ceil((list.start + 1)/ page.limit);
       page.total = list.total;
+
+      lastParams = angular.copy(params);
       return page;
-    },
-    getStart: function(){
-      return (page.curr - 1) * page.limit;
-    },
-    jump: function(jumpto){
-      if (null === jumpto.match(/^[1-9][\d]*$/)) {
-        return false;
-      }
-      var p = parseInt(jumpto, 10);
-      var last = Math.ceil(page.total / page.limit);
-      if (p === page.curr || p > last) {
-        return false;
-      }
-      page.curr = p;
-      return true;
     }
   };
 })
