@@ -53,7 +53,7 @@ function getJwt(token, page){
 }
 
 function checkUrl(){
-    var Token = getUrlParam("access_token");
+    var Token = getUrlParam("code");
     var goTo = getUrlParam("state");
     var page;
     if (Token == null || Token == ""){
