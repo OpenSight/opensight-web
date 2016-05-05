@@ -1,0 +1,102 @@
+<div class="container-fluid container-compact os-tab-container" ng-controller="WeChat">
+  <div class="row row-in-tab os-row-no-padding">
+    <form class="form-inline os-table-toolbar">
+      <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="刷新" ng-click="page.pageChanged()">
+        <i  class="fa fa-refresh"></i>
+      </span>
+    </form>
+  </div>
+
+  <div class="col-sm-12 os-table-container">
+    <table class="table os-table table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="col-sm-2">微信呢称</th>
+          <th class="col-sm-2">用户名</th>
+          <th class="col-sm-2">绑定时间</th>
+          <th class="col-sm-2">过期时间</th>
+          <th class="col-sm-1">删除</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="item in data.list">
+        <tr style="cursor:pointer;">
+          <td ng-click="showDetail(item, $index)">{{item.wechat_nickname}}</td>
+          <td ng-click="showDetail(item, $index)">{{item.username}}</td>
+          <td ng-click="showDetail(item, $index)">{{item.ctime}}</td>
+          <td ng-click="showDetail(item, $index)">{{item.expired_date}}</td>
+          <td ng-click="remove(item)">
+            <i class="fa fa-trash"></i>
+          </td>
+        </tr>
+        <tr class="ng-hide" ng-show="item.bDetailShown">
+          <td colspan="999">
+            <div class="panel os-panel">
+              <div class="panel-body">
+                <form class="form-horizontal os-form" role="form">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">微信呢称</label>
+                    <div class="col-sm-4">
+                      <p class="form-control-static">{{detail[$index].wechat_nickname}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">微信用户ID</label>
+                    <div class="col-sm-4">
+                      <p class="form-control-static">{{detail[$index].open_id}}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">用户名</label>
+                    <div class="col-sm-4">
+                      <p class="form-control-static">{{detail[$index].username}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">绑定ID</label>
+                    <div class="col-sm-4">
+                      <p class="form-control-static">{{detail[$index].binding_id}}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">绑定时间</label>
+                    <div class="col-sm-4">
+                      <p class="form-control-static">{{detail[$index].ctime}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">上次登录时间</label>
+                    <div class="col-sm-4">
+                      <p class="form-control-static">{{detail[$index].ltime}}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">过期时间</label>
+                    <div class="col-sm-4">
+                      <p class="form-control-static">{{detail[$index].expired_date}}</p>
+                    </div>
+                    <label class="col-sm-2 control-label">剩余过期时间</label>
+                    <div class="col-sm-4">
+                      <p class="form-control-static">{{detail[$index].expired}}</p>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination-container">
+      <uib-pagination 
+        total-items="page.total" 
+        ng-model="page.curr" 
+        max-size="page.max" 
+        items-per-page="page.limit" 
+        previous-text ="&laquo;" 
+        next-text="&raquo;"
+        ng-change="page.pageChanged()" 
+        boundary-link-numbers="true"
+        class="pagination-sm">
+      </uib-pagination>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <label class="pagination-jump">
+        <span>跳转到：</span>
+        <input type="text"  class="form-control input-sm" ng-model="page.jumpto"></label>
+      <button class="btn btn-default btn-sm" ng-click="page.jump()">Go</button>
+    </div>
+  </div>
+</div>
