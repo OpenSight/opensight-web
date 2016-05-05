@@ -32,6 +32,8 @@ function getUrlParam(name) {
 }
 
 function getJwt(token, page){
+    var d = new Date ();
+    d.setHours(d.getHours() + 1);
     var e = Math.ceil(d.getTime() / 1000);
     var data = {code: token, expired: e};
 
