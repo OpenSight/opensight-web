@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" ng-app="projectApp" >
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta charset="UTF-8">
@@ -8,7 +8,7 @@
   <link href="//cdn.bootcss.com/Swiper/3.3.1/css/swiper.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body ng-controller="MyProject" class="storlever">
 <!--div class="panel-body">
     <div class="form-horizontal os-form" role="form">
         <div class="form-group">
@@ -47,9 +47,15 @@
 <div class="panel-body">
     <div class="form-horizontal os-form" role="form">
         <div class="form-group">
-            <label class="col-sm-2 control-label">当前url</label>
+            <label class="col-sm-2 control-label">binding_id</label>
             <div class="col-sm-4">
-                <input type="text" id="now_url" class="form-control" />
+                <input type="text" class="form-control" ng-model="binding_id"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">jwt</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" ng-model="jwt"/>
             </div>
         </div>
         <div class="swiper-container form-group">
@@ -78,6 +84,7 @@
 <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
 <script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
-<script src="js/project.js"></script>
+<script src="js/controller/myProject.js"></script>
+<script src="js/app/app.js"></script>
 </html>
 

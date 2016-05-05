@@ -1,10 +1,4 @@
 
-function reset1(){
-    $("#now_url").val(
-        window.location.href);
-};
-
-reset1();
 
 $(document).ready(function () {
     var mySwiper = new Swiper ('.swiper-container', {
