@@ -3,7 +3,7 @@
     <!-- <button class="btn btn-default" ng-click="query()">
       <i class="glyphicon glyphicon-search pointer"></i>
     </button> -->
-    <button class="btn btn-default" ng-click="refresh()">
+    <button class="btn btn-default" ng-click="page.pageChanged()()">
       <i class="glyphicon glyphicon-refresh pointer"></i>
     </button>
   </form>
@@ -37,15 +37,15 @@
       ng-model="page.curr" 
       max-size="page.max" 
       items-per-page="page.limit" 
-      previous-text ="&laquo;" 
-      next-text="&raquo;"
-      ng-change="pageChanged()" 
-      boundary-link-numbers="true"
-      class="pagination-sm"></uib-pagination>
+      previous-text="&laquo;" next-text="&raquo;" 
+      ng-change="page.pageChanged()" 
+      boundary-link-numbers="true" class="pagination-sm">
+    </uib-pagination>
     &nbsp;&nbsp;&nbsp;&nbsp;
     <label class="pagination-jump">
       <span>跳转到：</span>
-      <input type="text"  class="form-control input-sm" ng-model="jumpto"></label>
-    <button class="btn btn-default btn-sm" ng-click="jump()">Go</button>
+      <input type="text" class="form-control input-sm" ng-model="page.jumpto">
+    </label>
+    <button class="btn btn-default btn-sm" ng-click="page.jump()">Go</button>
   </div>
 </div>
