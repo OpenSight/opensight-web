@@ -1,87 +1,112 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!doctype html>
+<html class="no-js" lang="">
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>
-    (function(){
-      "use strict";
-      var s = window.location.search;
-      if ('' === s || '?' === s){
-        s = 'name=camera1&id=camera1'
-        window.location.href = window.location.href + '?' + s;
-        return;
-      }
-      if ('?' === s[0]){
-        s = s.substring(1);
-      }
-      var a = s.split(/[&=]/g);
-      var t = '';
-      for (var i = 0, l = a.length; i < l - 1; i = i +2){
-        if ('name' === a[i]){
-          t = a[i + 1];
-          break;
-        }
-      }
-      document.write('<title>' + t + '</title>');
-    })();
-  </script>
-  <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/index.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>个人信息</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.0/style/weui.min.css">
 </head>
 <body>
-  <div class="panel panel-default panel-video">
-    <div class="panel-body">
-      <div class="live">
-        <img src="img/demo.jpg" alt="">  
-        <video id="player" class="video" controls preload autoplay width="100%" height="100%">
-          <source src="http://121.41.72.231/hls/camera1.m3u8" type="application/x-mpegURL">  
-          <source src="http://www.w3school.com.cn/i/movie.ogg" type="video/ogg" />  
-          <p>
-            To view this video please enable JavaScript, and consider upgrading to a web browser that
-            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-          </p>
-        </video>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default panel-video-desc">
-    <div class="panel-body container-fluid">
-      <ul id="myTab" class="nav nav-tabs nav-pills row tabs-video">
-        <li class="active col-xs-6 col-sm-6 col-md-6 col-lg-6 col-video">
-          <a href="#home" data-toggle="tab" class="text-center">统计信息</a>
-        </li>
-        <li class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-video">
-          <a href="#ios" data-toggle="tab" class="text-center">简介</a>
-        </li>
-      </ul>
-      <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade in active tab-pane-video" id="home">
-          <p id="status" class="text-danger">正在连接摄像机，请稍候...</p>
-          <p id="resolution" class="hidden">
-            <span class="text-primary">分辨率：</span>
-            <span id="width"></span>
-            x
-            <span id="height"></span>
-          </p>
-        </div>
-        <div class="tab-pane fade tab-pane-video" id="ios">
-          <p>
-            <span class="text-primary">名称：</span>
-            <span>办公区</span>
-          </p>
-          <p>
-            <span class="text-primary">描述：</span>
-            <span>二楼办公区监视画面</span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
-<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="js/index.js"></script>
-</html>
+<div class="container-fluid container-compact os-tab-container" ng-controller="UserInfo">
+    <div class="row row-in-tab os-row-no-padding">
+        <div class="col-sm-12 os-table-container">
+            <div class="weui_cells_title">详细信息</div>
+            <div class="weui_cells">
+                <div class="weui_cell weui_cell_select weui_select_before">
+                    <div class="weui_cell_hd">
+                        <select class="weui_select" name="select2">
+                            <option value="1">+86</option>
+                            <option value="2">+80</option>
+                            <option value="3">+84</option>
+                            <option value="4">+87</option>
+                        </select>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入号码"/>
+                    </div>
+                </div>
+            </div>
+            <div class="weui_cells_title">选择</div>
+            <div class="weui_cells">
+                <div class="weui_cell weui_cell_select">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select class="weui_select" name="select1">
+                            <option selected="" value="1">微信号</option>
+                            <option value="2">QQ号</option>
+                            <option value="3">Email</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="weui_cell weui_cell_select weui_select_after">
+                    <div class="weui_cell_hd">
+                        <label  class="weui_label">国家/地区</label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select class="weui_select" name="select2">
+                            <option value="1">中国</option>
+                            <option value="2">美国</option>
+                            <option value="3">英国</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="weui_cells_title">开关</div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell weui_cell_switch">
+                    <div class="weui_cell_hd weui_cell_primary">标题文字</div>
+                    <div class="weui_cell_ft">
+                        <input class="weui_switch" type="checkbox"/>
+                    </div>
+                </div>
+            </div>
 
+
+
+
+            <div class="weui_cells_title">修改密码</div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label" style="width: 4em">旧密码</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input"  placeholder="请输入旧密码"/>
+                    </div>
+                </div>
+                <div class="weui_cell weui_vcode">
+                    <div class="weui_cell_hd"><label class="weui_label" style="width: 4em">新密码</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" type="number" placeholder="请输入新密码"/>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label" style="width: 4em">重复新密码</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" type="number" placeholder="请重复新密码"/>
+                    </div>
+                </div>
+                <div class="weui_btn_area">
+                    <a class="weui_btn weui_btn_primary" href="javascript:" >确定</a>
+                </div>
+            </div>
+
+            <div class="weui_cells_title">解除绑定</div>
+            <div class="weui_btn_area">
+                <a class="weui_btn weui_btn_warn" href="javascript:">确认解绑</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
+<!--script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script-->
+<script src="js/controller/myInfo.js"></script>
+<script src="js/app/myInfoApp.js"></script>
+</body>
+</html>
