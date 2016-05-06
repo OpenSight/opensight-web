@@ -1,5 +1,9 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html lang="zh-CN" ng-app="app">
+<script src="js/jwt.js"></script>
+<script>
+    var jwt = new Jwt('3');
+</script>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -10,7 +14,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.0/style/weui.min.css">
 </head>
-<body>
+<body ng-controller="MyInfo">
 <div class="container-fluid container-compact os-tab-container" ng-controller="UserInfo">
     <div class="row row-in-tab os-row-no-padding">
         <div class="col-sm-12 os-table-container">
@@ -82,9 +86,9 @@
                     </div>
                 </div>
                 <div class="weui_cell">
-                    <div class="weui_cell_hd"><label class="weui_label" style="width: 4em">重复新密码</label></div>
+                    <div class="weui_cell_hd"><label class="weui_label" style="width: 4em">确认密码</label></div>
                     <div class="weui_cell_bd weui_cell_primary">
-                        <input class="weui_input" type="number" placeholder="请重复新密码"/>
+                        <input class="weui_input" type="number" placeholder="请确认密码"/>
                     </div>
                 </div>
                 <div class="weui_btn_area">
@@ -94,7 +98,7 @@
 
             <div class="weui_cells_title">解除绑定</div>
             <div class="weui_btn_area">
-                <a class="weui_btn weui_btn_warn" href="javascript:">确认解绑</a>
+                <a class="weui_btn weui_btn_warn" ng-click="unbind();">确认解绑</a>
             </div>
         </div>
     </div>

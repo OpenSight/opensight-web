@@ -32,6 +32,28 @@ var Login = function(){
 };
 
 Login.prototype = {
+    bindLogin:  function(bid){
+        var d = new Date ();
+        d.setHours(d.getHours() + 1);
+        var e = Math.ceil(d.getTime() / 1000);
+        var _this = this;
+        var data = {binding_id: bid, expired: e};
+
+        $.ajax({
+            url: _this.api + 'binding_login',
+            data: data,
+            type: 'POST',
+            success: function(json){
+                $.cookie('jwt', json.jwt, {expires: 30});
+                window.location.href = _this.url+".html";
+                //var ui = Base64.encodeURI(JSON.stringify(data));
+                //window.location.href(_this.url + '?jwt=' + json.jwt + '&ui=' + ui);
+            },
+            error: function() {
+                alert("binding_login error!");
+            }
+        });
+    },
   login: function(u, p){
     if (undefined === u || "" === u){
       return false;
@@ -48,15 +70,17 @@ Login.prototype = {
     d.setHours(d.getHours() + 1);
     var e = Math.ceil(d.getTime() / 1000);
     var data = {username: u, password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(p, "opensight.cn", 100000)), expired: e, code: this.code};
-
+    var _this = this;
     $.ajax({
       url: this.api + 'bindings',
       data: data,
       type: 'POST',
       success: function(json){
           $.cookie('binding_id', json.binding_id, {expires: 30});
+          _this.bindLogin(json.binding_id);
+          /*
           $.ajax({
-              url: api + 'binding_login',
+              url: this.api + 'binding_login',
               data: {binding_id: json.binding_id, expired: e},
               type: 'POST',
               success: function(json2){
@@ -69,6 +93,7 @@ Login.prototype = {
                   alert("binding_login error!");
               }
           });
+          */
           //Login.bindLogin();
         //window.location.replace(_this.url + '?jwt=' + json.jwt + '&ui=' + ui);
       }, 
@@ -77,27 +102,6 @@ Login.prototype = {
       }
     });
     return false;
-  },
-  bindLogin:  function(){
-      var d = new Date ();
-      d.setHours(d.getHours() + 1);
-      var e = Math.ceil(d.getTime() / 1000);
-      var data = {binding_id: this.binding_id, expired: e};
-
-      $.ajax({
-           url: api + 'binding_login',
-           data: data,
-           type: 'POST',
-           success: function(json){
-                $.cookie('jwt', json.jwt, {expires: 30});
-                window.location.href = this.url+".html";
-           //var ui = Base64.encodeURI(JSON.stringify(data));
-           //window.location.href(_this.url + '?jwt=' + json.jwt + '&ui=' + ui);
-           },
-           error: function() {
-                alert("binding_login error!");
-           }
-      });
   },
   get: function(){
     var u = $.cookie('username');

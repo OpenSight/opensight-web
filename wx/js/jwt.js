@@ -1,21 +1,20 @@
+var state = "1";
+var api = "http://api.opensight.cn/api/ivc/v1/wechat/";
 var Jwt = function(urlname){
-  this.urlname = undefined === urlname ? 'url' : urlname;
-  var params = this.getUrlParams();
+  state = urlname;
+  var params;
   this.init(params.jwt, params.ui, params.url);
   
   this.keepalive();
 };
 
+var bindUrl =  "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+    "bind.html&response_type=code&scope=snsapi_userinfo&state=" + state +
+    "#wechat_redirect";
+
 Jwt.prototype = {
   init: function(jwt, ui, url){
-    if (undefined !== url){
-      $.cookie(this.urlname, url, {expires: 30});
-      this.url = url;
-    } else {
-      url = $.cookie(this.urlname);
-      this.url = undefined === url ? 'http://121.41.72.231/login.html' : url;
-    }
-
     if (undefined !== jwt){
       $.cookie('jwt', jwt);
       this.jwt = jwt;
@@ -32,48 +31,8 @@ Jwt.prototype = {
     } else {
       this.jump();
     }
+  },
 
-    if (undefined !== ui){
-      ui = JSON.parse(Base64.decode(ui));
-      if (undefined !== ui.password){
-        $.cookie('pwd', ui.password);
-        this.pwd = ui.password;
-      } else {
-        this.pwd = $.cookie('pwd');
-      }
-    } else {
-      this.pwd = $.cookie('pwd');
-    }
-  },
-  getUrlParams: function(){
-    var href = window.location.href;
-    var start = href.indexOf('?') + 1;
-    if (0 === start){
-      return {};
-    }
-    var stop = href.indexOf('#');
-    if (-1 === stop){
-      stop = href.length;
-    }
-    var seach = href.substring(start, stop);
-    var url = window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash;
-    window.history.replaceState({} , '', url);
-    return this.parseStr(seach, '&');
-  },
-  parseStr: function(str, sp){
-    var arr = str.split(sp);
-    var data = {};
-    var idx = 0;
-    for (var i = 0, l = arr.length; i < l; i++){
-      var tmp = arr[i].split('=');
-      if (2 > tmp.length){
-        continue;
-      }
-      data[tmp[0]] = tmp[1];
-      idx++;
-    }
-    return data;
-  },
   check: function(jwt){
     if (undefined === this.jwt){
       return -1;
@@ -85,6 +44,7 @@ Jwt.prototype = {
     var t = Math.ceil((new Date().getTime()) / 1000)
     return (claim.exp - t);
   },
+
   update: function(){
     if (undefined === this.pwd){
       this.jump();
@@ -97,22 +57,21 @@ Jwt.prototype = {
     d.setHours(d.getHours() + 1);
     var e = Math.ceil(d.getTime() / 1000);
 
-    var data = {username: this.aud, password: this.pwd, expired: e};
     var _this = this;
-    $.ajax({
-      url: 'http://121.41.72.231:5001/api/ivc/v1/plaintext_login',
-      data: data,
-      type: 'POST',
-      success: function(json){
-        _this.jwt = json.jwt;
-        $.cookie('jwt', json.jwt);
-        _this.updateing = false;
-      }, 
-      error: function() {
-        /* Act on the event */
-        _this.updateing = false;
-      }
-    });
+      $.ajax({
+          url: this.api + 'binding_login',
+          data: {binding_id: $.cookie('binding_id'), expired: e},
+          type: 'POST',
+          success: function(json){
+              _this.jwt = json.jwt;
+              $.cookie('jwt', json.jwt);
+              _this.updateing = false;
+          },
+          error: function() {
+              _this.updateing = false;
+          }
+      });
+
   },
   parse: function(){
     var list = Base64.decode(this.jwt).match(/\{[^\{\}]*\}/g);
@@ -125,18 +84,9 @@ Jwt.prototype = {
     }
     return {};
   },
-  get: function(){
-    return {aud: this.aud, jwt: this.jwt};
-  },
-  jump: function(url){
-    url = undefined === url ? this.url : url;
-    var href = window.location.href;
-    var idx = href.indexOf('?');
-    var page = href;
-    if (-1 !== idx){
-      page = href.substring(0, idx);
-    }
-    window.location.replace(url + '?page=' + page);
+
+  jump: function(){
+    window.location.replace(bindUrl);
   },
   keepalive: function(){
     var _this = this;
@@ -152,4 +102,5 @@ Jwt.prototype = {
     this.jump();
   }
 };
-// var jwt = new Jwt();
+
+
