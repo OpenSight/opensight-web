@@ -1,411 +1,414 @@
 'use strict';
 var api = 'http://api.opensight.cn/api/ivc/v1/';
 angular.module('app.controller', [])
-  .controller('header', [
-    '$scope', '$rootScope', '$http', '$timeout',
-    function($scope, $rootScope, $http, $timeout) {
-      $scope.username = $rootScope.$jwt.get().aud;
-      $scope.project = {
-        list: []
-      };
-      $scope.selected = 'default';
-      $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
-        if ('default' === toState.name) {
-          $scope.selected = 'default';
-        } else if (undefined !== toParams.project) {
-          $scope.selected = toParams.project;
-        }
-      });
-      $scope.url = api + "users/" + $scope.username + '/projects';
-      // $scope.url = api + 'projects';
 
-      $scope.logout = function() {
-        if (true === confirm('是否退出登录？')) {
-          jwt.logout();
-        }
-      };
-
-      $http.get($scope.url, {}).success(function(response) {
-        $scope.project = response;
-        $rootScope.project = response;
-        $rootScope.$broadcast('projectChangeSuccess', response);
-      }).error(function(response, status) {
-        console.log('error');
-      });
-      $rootScope.$on('responseErrorStart', function(rejection) {
-        console.log('responseErrorStart');
-      });
-
-
-      $scope.message = {
-        bshow: false,
-        list: [],
-        timer: undefined,
-        remove: function(idx) {
-          $scope.message.list.splice(idx, 1);
-          if (0 === $scope.message.list.length) {
-            $scope.message.hide();
-          }
-        },
-        show: function(msg) {
-          $scope.message.clear();
-          $scope.message.list = [msg];
-          $scope.message.bshow = true;
-          $scope.message.autohide();
-          // $scope.$apply();
-        },
-        hide: function() {
-          $scope.message.list = [];
-          $scope.message.bshow = false;
-          $scope.message.clear();
-          // $scope.$apply();
-        },
-        clear: function() {
-          if (undefined === $scope.message.timer) {
-            return;
-          }
-          $timeout.cancel($scope.message.timer);
-          $scope.message.timer = undefined;
-        },
-        push: function(msg) {
-          $scope.message.clear();
-          $scope.message.list.push(msg);
-          $scope.message.bshow = true;
-          $scope.message.autohide();
-          // $scope.$apply();
-        },
-        autohide: function() {
-          $scope.message.timer = $timeout(function() {
-            $scope.message.timer = undefined;
-            $scope.message.hide();
-          }, 5000);
-        }
-      };
-      $rootScope.$on('messageShow', function(event, data) {
-        console.log('messageShow');
-        $scope.message.show(data);
-      });
-      $rootScope.$on('messageHide', function(event) {
-        console.log('messageHide');
-        $scope.message.hide();
-      });
-      $rootScope.$on('messagePush', function(event, data) {
-        $scope.message.push(data);
-        console.log('messagePush');
-      });
-    }
-  ])
-  .controller('project', [
-    '$scope', '$rootScope', '$http',
-    function($scope, $rootScope, $http) {
-      $scope.project = $rootScope.$stateParams.project;
-      $scope.boolFalse = false;
-      $scope.boolTrue = true;
-
-      $http.get(api + "projects/" + $scope.project, {}).success(function(response) {
-        $scope.info = response;
-      }).error(function(response, status) {
-        console.log('error');
-      });
-
-      $scope.save = function() {
-        var data = {
-          title: $scope.info.title,
-          media_server: $scope.info.media_server,
-          is_public: $scope.info.is_public,
-          desc: $scope.info.desc,
-          long_desc: $scope.info.long_desc,
-        };
-        $http.put(api + "projects/" + $scope.project, data).success(function(response) {
-          console.log('success');
-        }).error(function(response, status) {
-          console.log('error');
-        });
-      };
-    }
-  ])
-
-//camera
-.controller('camera', [
-    '$scope', '$rootScope', '$http', '$uibModal', 'flagFactory', 'pageFactory',
-    function($scope, $rootScope, $http, $uibModal, flagFactory, pageFactory) {
-      $scope.project = $rootScope.$stateParams.project;
-
-      $scope.camera = {
-        start: 0,
-        total: 10,
-        list: []
-      };
-      $scope.params = {
-        filter_key: 'name',
-        filter_value: ''
-      };
-      var query = function(params) {
-        $http.get(api + "projects/" + $scope.project + '/cameras', {
-          params: params
-        }).success(function(response) {
-          for (var i = 0, l = response.list.length; i < l; i++) {
-            var bitmap = flagFactory.getBitmap(response.list[i].flags, 8);
-            var flags = flagFactory.parseCamera(bitmap);
-            response.list[i].ability = flags.ability;
-            response.list[i].live = flags.live;
-            response.list[i].ptz = flags.ptz;
-            if (0 !== response.list[i].ability.length) {
-              response.list[i].quality = response.list[i].ability[0].text;
-            }
-          }
-          $scope.camera = response;
-          pageFactory.set(response, params);
-        }).error(function(response, status) {
-          console.log('error');
-        });
-      };
-      $scope.page = pageFactory.init({
-        query: query,
-        jumperror: function() {
-          alert('页码输入不正确。');
-        }
-      });
-      $scope.query = function() {
-        var params = {
-          start: 0,
-          limit: $scope.page.limit
-        };
-        if (undefined !== $scope.params.filter_value && '' !== $scope.params.filter_value) {
-          params.filter_key = $scope.params.filter_key;
-          params.filter_value = $scope.params.filter_value;
-        }
-        query(params);
-      };
-
-      $scope.enable = function(cam, enabled) {
-        var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
-        if (false === confirm(tip)) {
-          return false;
-        }
-        var data = {
-          enable: enabled
-        };
-        $http.post(api + "projects/" + $scope.project + '/cameras/' + cam.uuid + '/stream_toggle', data).success(function(response) {
-          console.log('success');
-          cam.live = enabled;
-        }).error(function(response, status) {
-          console.log('error');
-        });
-      };
-      $scope.select = function(cam, quality) {
-        cam.quality = quality;
-      };
-      $scope.preview = function(cam, format) {
-        cam.format = format;
-        $scope.cam = cam;
-        var modalInstance = $uibModal.open({
-          templateUrl: 'sessionModalContent.html',
-          controller: 'session',
-          size: 'lg',
-          resolve: {
-            caminfo: function() {
-              return $scope.cam;
-            }
-          }
-        });
-      };
-
-      $scope.restart = function(camera_id) {
-        if (false === confirm('确定重启摄像机？')) {
-          return;
-        }
-        $http.post(api + "projects/" + $scope.project + '/cameras/' + camera_id + '/reboot', {}).success(function(response) {
-          $rootScope.$emit('messageShow', { succ: true, text: '重启成功。' });
-        }).error(function(response, status) {
-          $rootScope.$emit('messageShow', { succ: false, text: '重启失败。' });
-        });
-      };
-
-      $scope.query();
-    }
-  ])
-  .controller('camera-detail', [
-    '$scope', '$rootScope', '$http', 'flagFactory',
-    function($scope, $rootScope, $http, flagFactory) {
-      $scope.bFirst = true;
-      $scope.bLast = true;
-      var project = $rootScope.$stateParams.project;
-      $scope.camera = $rootScope.$stateParams.camera;
-      var url = api + "projects/" + project + '/cameras/' + $scope.camera;
-      var live_ability, preview_ability;
-
-      $http.get(url, {}).success(function(response) {
-        $scope.info = response;
-        var bitmap = flagFactory.getBitmap(response.flags, 8);
-        var flags = flagFactory.parseCamera(bitmap);
-        $scope.info.ability = flags.ability;
-        $scope.info.live_ability = flags.live;
-        live_ability = flags.live;
-
-        $scope.info.ptz_ability = flags.ptz;
-        $scope.info.preview_ability = flags.preview;
-        preview_ability = flags.preview;
-      }).error(function(response, status) {
-        console.log('error');
-      });
-
-      $scope.save = function() {
-        var data = {
-          flags: $scope.info.flags,
-          desc: $scope.info.desc,
-          long_desc: $scope.info.long_desc,
-          longitude: $scope.info.longitude,
-          latitude: $scope.info.latitude,
-          altitude: $scope.info.altitude
-        };
-        $rootScope.$emit('messageHide');
-        $http.put(url, data).success(function(response) {
-          console.log('success');
-          $rootScope.$emit('messagePush', { succ: true, text: '修改摄像机信息成功。' });
-        }).error(function(response, status) {
-          console.log('error');
-          $rootScope.$emit('messagePush', { succ: false, text: '修改摄像机信息失败。' });
-        });
-        if (live_ability === $scope.info.live_ability) {
-          return;
-        }
-        var tip = $scope.info.live_ability ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
-        if (false === confirm(tip)) {
-          return;
-        }
-        var data = {
-          enable: $scope.info.live_ability
-        };
-        var text = $scope.info.live_ability ? '禁用' : '启用';
-        $http.post(url + '/stream_toggle', data).success(function(response) {
-          console.log('success');
-          live_ability = $scope.info.live_ability;
-          $rootScope.$emit('messagePush', { succ: true, text: text + '直播成功。' });
-        }).error(function(response, status) {
-          $rootScope.$emit('messagePush', { succ: false, text: text + '直播失败。' });
-          console.log('error');
-        });
-      };
-    }
-  ])
-  .controller('log', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
-    $scope.project = $rootScope.$stateParams.project;
-    $scope.list = [];
-    $scope.start = {
-      dt: new Date(),
-      opened: false
-    };
-    $scope.end = {
-      dt: new Date(),
-      opened: false
-    };
-    $scope.params = { limit: 100 };
-    $scope.bFirst = true;
-    $scope.bLast = true;
-    $scope.open = function(opts) {
-      opts.opened = true;
-    };
-    $scope.query = function(opts) {
-      $scope.params.start_from = format($scope.start.dt) + 'T00:00:00';
-      $scope.params.end_to = format($scope.end.dt) + 'T23:59:59';
-      $scope.params.reverse = false;
-      $scope.params.last_end_time = undefined;
-      $scope.params.last_session_id = undefined;
-      $scope.bFirst = true;
-
-      get($scope.params, function() {
-        $scope.bLast = true;
-      });
-      $scope.bLast = false;
-    };
-
-    $scope.next = function() {
-      $scope.params.reverse = false;
-      $scope.params.last_end_time = $scope.list[$scope.list.length - 1].end;;
-      $scope.params.last_session_id = $scope.list[$scope.list.length - 1].uuid;
-      get($scope.params, function() {
-        $scope.bLast = true;
-      });
-      $scope.bFirst = false;
-    };
-    $scope.prev = function() {
-      $scope.params.reverse = true;
-      $scope.params.last_end_time = $scope.list[0].end;;
-      $scope.params.last_session_id = $scope.list[0].uuid;
-      get($scope.params, function() {
-        $scope.bFirst = true;
-      });
-      $scope.bLast = false;
-    };
-
-    var get = function(params, fn) {
-      $http({
-        url: api + "projects/" + $scope.project + '/session_logs',
-        method: "GET",
-        params: params
-      }).success(function(response) {
-        $scope.list = response.list;
-        if (response.list.length !== params.limit) {
-          fn();
-        }
-      }).error(function(response, status) {
-        console.log('error');
-      });
-    };
-    var format = function(dt) {
-      return [dt.getFullYear(), dt.getMonth() + 1, dt.getDate()].join('-');
-    };
-  }])
-  .controller('default', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+.controller('header', [
+  '$scope', '$rootScope', '$http', '$timeout',
+  function($scope, $rootScope, $http, $timeout) {
     $scope.username = $rootScope.$jwt.get().aud;
-    $scope.project = $rootScope.project;
+    $scope.project = {
+      list: []
+    };
+    $scope.selected = 'default';
+    $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
+      if ('default' === toState.name) {
+        $scope.selected = 'default';
+      } else if (undefined !== toParams.project) {
+        $scope.selected = toParams.project;
+      }
+    });
+    $scope.url = api + "users/" + $scope.username + '/projects';
+    // $scope.url = api + 'projects';
 
-    $http.get(api + "users/" + $scope.username, {}).success(function(response) {
-      $scope.userinfo = response;
+    $scope.logout = function() {
+      if (true === confirm('是否退出登录？')) {
+        jwt.logout();
+      }
+    };
+
+    $http.get($scope.url, {}).success(function(response) {
+      $scope.project = response;
+      $rootScope.project = response;
+      $rootScope.$broadcast('projectChangeSuccess', response);
     }).error(function(response, status) {
       console.log('error');
     });
-    $scope.$on('projectChangeSuccess', function(event, data) {
-      $scope.project = data;
-      console.log('projectChangeSuccess');
+    $rootScope.$on('responseErrorStart', function(rejection) {
+      console.log('responseErrorStart');
     });
-  }])
 
-//user
-.controller('user-info', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
-    $scope.username = $rootScope.$jwt.get().aud;
 
-    $http.get(api + "users/" + $scope.username, {}).success(function(response) {
+    $scope.message = {
+      bshow: false,
+      list: [],
+      timer: undefined,
+      remove: function(idx) {
+        $scope.message.list.splice(idx, 1);
+        if (0 === $scope.message.list.length) {
+          $scope.message.hide();
+        }
+      },
+      show: function(msg) {
+        $scope.message.clear();
+        $scope.message.list = [msg];
+        $scope.message.bshow = true;
+        $scope.message.autohide();
+        // $scope.$apply();
+      },
+      hide: function() {
+        $scope.message.list = [];
+        $scope.message.bshow = false;
+        $scope.message.clear();
+        // $scope.$apply();
+      },
+      clear: function() {
+        if (undefined === $scope.message.timer) {
+          return;
+        }
+        $timeout.cancel($scope.message.timer);
+        $scope.message.timer = undefined;
+      },
+      push: function(msg) {
+        $scope.message.clear();
+        $scope.message.list.push(msg);
+        $scope.message.bshow = true;
+        $scope.message.autohide();
+        // $scope.$apply();
+      },
+      autohide: function() {
+        $scope.message.timer = $timeout(function() {
+          $scope.message.timer = undefined;
+          $scope.message.hide();
+        }, 5000);
+      }
+    };
+    $rootScope.$on('messageShow', function(event, data) {
+      console.log('messageShow');
+      $scope.message.show(data);
+    });
+    $rootScope.$on('messageHide', function(event) {
+      console.log('messageHide');
+      $scope.message.hide();
+    });
+    $rootScope.$on('messagePush', function(event, data) {
+      $scope.message.push(data);
+      console.log('messagePush');
+    });
+  }
+])
+
+.controller('project', [
+  '$scope', '$rootScope', '$http',
+  function($scope, $rootScope, $http) {
+    $scope.project = $rootScope.$stateParams.project;
+    $scope.boolFalse = false;
+    $scope.boolTrue = true;
+
+    $http.get(api + "projects/" + $scope.project, {}).success(function(response) {
       $scope.info = response;
     }).error(function(response, status) {
       console.log('error');
     });
-  }])
-  .controller('user-passwd', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
-    $scope.username = $rootScope.$jwt.get().aud;
-    $scope.old_password = '';
-    $scope.new_password = '';
-    $scope.repeat_password = '';
 
     $scope.save = function() {
-      if ($scope.new_password !== $scope.repeat_password) {
-        alert('确认密码输入不一致');
-        return false;
-      }
       var data = {
-        old_password: $scope.old_password,
-        new_password: $scope.new_password
-      }
-      $http.put(api + "users/" + $scope.username + '/password', data).success(function(response) {
+        title: $scope.info.title,
+        media_server: $scope.info.media_server,
+        is_public: $scope.info.is_public,
+        desc: $scope.info.desc,
+        long_desc: $scope.info.long_desc,
+      };
+      $http.put(api + "projects/" + $scope.project, data).success(function(response) {
         console.log('success');
       }).error(function(response, status) {
         console.log('error');
       });
     };
-  }])
+  }
+])
 
-// access key
+.controller('camera', [
+  '$scope', '$rootScope', '$http', '$uibModal', 'flagFactory', 'pageFactory',
+  function($scope, $rootScope, $http, $uibModal, flagFactory, pageFactory) {
+    $scope.project = $rootScope.$stateParams.project;
+
+    $scope.camera = {
+      start: 0,
+      total: 10,
+      list: []
+    };
+    $scope.params = {
+      filter_key: 'name',
+      filter_value: ''
+    };
+    var query = function(params) {
+      $http.get(api + "projects/" + $scope.project + '/cameras', {
+        params: params
+      }).success(function(response) {
+        for (var i = 0, l = response.list.length; i < l; i++) {
+          var bitmap = flagFactory.getBitmap(response.list[i].flags, 8);
+          var flags = flagFactory.parseCamera(bitmap);
+          response.list[i].ability = flags.ability;
+          response.list[i].live = flags.live;
+          response.list[i].ptz = flags.ptz;
+          if (0 !== response.list[i].ability.length) {
+            response.list[i].quality = response.list[i].ability[0].text;
+          }
+        }
+        $scope.camera = response;
+        pageFactory.set(response, params);
+      }).error(function(response, status) {
+        console.log('error');
+      });
+    };
+    $scope.page = pageFactory.init({
+      query: query,
+      jumperror: function() {
+        alert('页码输入不正确。');
+      }
+    });
+    $scope.query = function() {
+      var params = {
+        start: 0,
+        limit: $scope.page.limit
+      };
+      if (undefined !== $scope.params.filter_value && '' !== $scope.params.filter_value) {
+        params.filter_key = $scope.params.filter_key;
+        params.filter_value = $scope.params.filter_value;
+      }
+      query(params);
+    };
+
+    $scope.enable = function(cam, enabled) {
+      var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
+      if (false === confirm(tip)) {
+        return false;
+      }
+      var data = {
+        enable: enabled
+      };
+      $http.post(api + "projects/" + $scope.project + '/cameras/' + cam.uuid + '/stream_toggle', data).success(function(response) {
+        console.log('success');
+        cam.live = enabled;
+      }).error(function(response, status) {
+        console.log('error');
+      });
+    };
+    $scope.select = function(cam, quality) {
+      cam.quality = quality;
+    };
+    $scope.preview = function(cam, format) {
+      cam.format = format;
+      $scope.cam = cam;
+      var modalInstance = $uibModal.open({
+        templateUrl: 'sessionModalContent.html',
+        controller: 'session',
+        size: 'lg',
+        resolve: {
+          caminfo: function() {
+            return $scope.cam;
+          }
+        }
+      });
+    };
+
+    $scope.restart = function(camera_id) {
+      if (false === confirm('确定重启摄像机？')) {
+        return;
+      }
+      $http.post(api + "projects/" + $scope.project + '/cameras/' + camera_id + '/reboot', {}).success(function(response) {
+        $rootScope.$emit('messageShow', { succ: true, text: '重启成功。' });
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: false, text: '重启失败。' });
+      });
+    };
+
+    $scope.query();
+  }
+])
+
+.controller('camera-detail', [
+  '$scope', '$rootScope', '$http', 'flagFactory',
+  function($scope, $rootScope, $http, flagFactory) {
+    $scope.bFirst = true;
+    $scope.bLast = true;
+    var project = $rootScope.$stateParams.project;
+    $scope.camera = $rootScope.$stateParams.camera;
+    var url = api + "projects/" + project + '/cameras/' + $scope.camera;
+    var live_ability, preview_ability;
+
+    $http.get(url, {}).success(function(response) {
+      $scope.info = response;
+      var bitmap = flagFactory.getBitmap(response.flags, 8);
+      var flags = flagFactory.parseCamera(bitmap);
+      $scope.info.ability = flags.ability;
+      $scope.info.live_ability = flags.live;
+      live_ability = flags.live;
+
+      $scope.info.ptz_ability = flags.ptz;
+      $scope.info.preview_ability = flags.preview;
+      preview_ability = flags.preview;
+    }).error(function(response, status) {
+      console.log('error');
+    });
+
+    $scope.save = function() {
+      var data = {
+        flags: $scope.info.flags,
+        desc: $scope.info.desc,
+        long_desc: $scope.info.long_desc,
+        longitude: $scope.info.longitude,
+        latitude: $scope.info.latitude,
+        altitude: $scope.info.altitude
+      };
+      $rootScope.$emit('messageHide');
+      $http.put(url, data).success(function(response) {
+        console.log('success');
+        $rootScope.$emit('messagePush', { succ: true, text: '修改摄像机信息成功。' });
+      }).error(function(response, status) {
+        console.log('error');
+        $rootScope.$emit('messagePush', { succ: false, text: '修改摄像机信息失败。' });
+      });
+      if (live_ability === $scope.info.live_ability) {
+        return;
+      }
+      var tip = $scope.info.live_ability ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
+      if (false === confirm(tip)) {
+        return;
+      }
+      var data = {
+        enable: $scope.info.live_ability
+      };
+      var text = $scope.info.live_ability ? '禁用' : '启用';
+      $http.post(url + '/stream_toggle', data).success(function(response) {
+        console.log('success');
+        live_ability = $scope.info.live_ability;
+        $rootScope.$emit('messagePush', { succ: true, text: text + '直播成功。' });
+      }).error(function(response, status) {
+        $rootScope.$emit('messagePush', { succ: false, text: text + '直播失败。' });
+        console.log('error');
+      });
+    };
+  }
+])
+
+.controller('log', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+  $scope.project = $rootScope.$stateParams.project;
+  $scope.list = [];
+  $scope.start = {
+    dt: new Date(),
+    opened: false
+  };
+  $scope.end = {
+    dt: new Date(),
+    opened: false
+  };
+  $scope.params = { limit: 100 };
+  $scope.bFirst = true;
+  $scope.bLast = true;
+  $scope.open = function(opts) {
+    opts.opened = true;
+  };
+  $scope.query = function(opts) {
+    $scope.params.start_from = format($scope.start.dt) + 'T00:00:00';
+    $scope.params.end_to = format($scope.end.dt) + 'T23:59:59';
+    $scope.params.reverse = false;
+    $scope.params.last_end_time = undefined;
+    $scope.params.last_session_id = undefined;
+    $scope.bFirst = true;
+
+    get($scope.params, function() {
+      $scope.bLast = true;
+    });
+    $scope.bLast = false;
+  };
+
+  $scope.next = function() {
+    $scope.params.reverse = false;
+    $scope.params.last_end_time = $scope.list[$scope.list.length - 1].end;;
+    $scope.params.last_session_id = $scope.list[$scope.list.length - 1].uuid;
+    get($scope.params, function() {
+      $scope.bLast = true;
+    });
+    $scope.bFirst = false;
+  };
+  $scope.prev = function() {
+    $scope.params.reverse = true;
+    $scope.params.last_end_time = $scope.list[0].end;;
+    $scope.params.last_session_id = $scope.list[0].uuid;
+    get($scope.params, function() {
+      $scope.bFirst = true;
+    });
+    $scope.bLast = false;
+  };
+
+  var get = function(params, fn) {
+    $http({
+      url: api + "projects/" + $scope.project + '/session_logs',
+      method: "GET",
+      params: params
+    }).success(function(response) {
+      $scope.list = response.list;
+      if (response.list.length !== params.limit) {
+        fn();
+      }
+    }).error(function(response, status) {
+      console.log('error');
+    });
+  };
+  var format = function(dt) {
+    return [dt.getFullYear(), dt.getMonth() + 1, dt.getDate()].join('-');
+  };
+}])
+
+.controller('default', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+  $scope.username = $rootScope.$jwt.get().aud;
+  $scope.project = $rootScope.project;
+
+  $http.get(api + "users/" + $scope.username, {}).success(function(response) {
+    $scope.userinfo = response;
+  }).error(function(response, status) {
+    console.log('error');
+  });
+  $scope.$on('projectChangeSuccess', function(event, data) {
+    $scope.project = data;
+    console.log('projectChangeSuccess');
+  });
+}])
+
+.controller('user-info', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+  $scope.username = $rootScope.$jwt.get().aud;
+
+  $http.get(api + "users/" + $scope.username, {}).success(function(response) {
+    $scope.info = response;
+  }).error(function(response, status) {
+    console.log('error');
+  });
+}])
+
+.controller('user-passwd', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+  $scope.username = $rootScope.$jwt.get().aud;
+  $scope.old_password = '';
+  $scope.new_password = '';
+  $scope.repeat_password = '';
+
+  $scope.save = function() {
+    if ($scope.new_password !== $scope.repeat_password) {
+      alert('确认密码输入不一致');
+      return false;
+    }
+    var data = {
+      old_password: $scope.old_password,
+      new_password: $scope.new_password
+    }
+    $http.put(api + "users/" + $scope.username + '/password', data).success(function(response) {
+      console.log('success');
+    }).error(function(response, status) {
+      console.log('error');
+    });
+  };
+}])
+
 .controller('key', [
   '$scope', '$rootScope', '$http', '$uibModal', 'pageFactory',
   function($scope, $rootScope, $http, $uibModal, pageFactory) {
