@@ -1,0 +1,87 @@
+<div class="container-fluid" ng-controller="camera-detail">
+  <form>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>
+          <button class="btn btn-default btn-sm" ui-sref="project.camera"> <i class="fa fa-arrow-left"></i>
+          </button>
+          &nbsp;&nbsp;摄像机名称
+        </label>
+        <input type="text" class="form-control" ng-model="info.name">
+      </div>
+      <div class="form-group">
+        <label>状态</label>
+        <p class="form-control-static">{{info.is_online|online}}</p>
+      </div>
+      <div class="form-group">
+        <label>摄像头标志位</label>
+        <div class="checkbox">
+          <div class="btn-group btn-group-xs">
+            <button ng-repeat="it in info.ability" class="btn btn-primary" role="group" title={{it.title}}>{{it.text}}</button>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <label>
+            <input type="checkbox" ng-model="info.live_ability">直播</label>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <label>
+            <input type="checkbox" ng-model="info.preview_ability" disabled>预览图</label>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <label>
+            <input type="checkbox" ng-model="info.ptz_ability" disabled>云台</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>简述</label>
+        <input type="text" class="form-control" ng-model="info.desc"></div>
+      <div class="form-group">
+        <label>详细描述</label>
+        <textarea class="form-control" rows="6" ng-model="info.long_desc"></textarea>
+      </div>
+      <div class="form-group">
+        <label>经度</label>
+        <input type="text" class="form-control" ng-model="info.longitude"></div>
+      <div class="form-group">
+        <label>纬度</label>
+        <input type="text" class="form-control" ng-model="info.latitude"></div>
+      <div class="form-group">
+        <label>海拔</label>
+        <input type="text" class="form-control" ng-model="info.altitude"></div>
+      <p>
+        <button type="submit" class="btn btn-primary" ng-click="save()">保存</button>
+        <button type="submit" class="btn btn-default" ui-sref="project.camera">取消</button>
+      </p>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group">
+        <p class="form-control-static">
+          <img ng-src="{{info.preview}}" alt="预览图">
+        </p>
+      </div>
+      <div class="form-group">
+        <label>所属项目</label>
+        <p class="form-control-static">{{info.project_name}}</p>
+      </div>
+      <div class="form-group">
+        <label>id</label>
+        <p class="form-control-static">{{info.uuid}}</p>
+      </div>
+      <div class="form-group">
+        <label>设备id</label>
+        <p class="form-control-static">{{info.device_uuid}}</p>
+      </div>
+      <div class="form-group">
+        <label>通道索引</label>
+        <p class="form-control-static">{{info.channel_index}}</p>
+      </div>
+      <div class="form-group">
+        <label>创建时间</label>
+        <p class="form-control-static">{{info.ctime}}</p>
+      </div>
+      <div class="form-group">
+        <label>更新时间</label>
+        <p class="form-control-static">{{info.utime}}</p>
+      </div>
+    </div>
+  </form>
+</div>

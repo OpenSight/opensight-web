@@ -1,0 +1,61 @@
+<div class="container-fluid" ng-controller="log">
+  <form class="form-inline">
+    <div class="form-group">
+      <label>开始时间</label>
+      <span class="input-group">
+        <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="start.dt" is-open="start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />      
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open(start)"> <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </span>
+    </div>
+    <div class="form-group">
+      <label>结束时间</label>
+      <span class="input-group">
+        <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="end.dt" is-open="end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />      
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open(end)"> <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </span>
+    </div>
+    <button class="btn btn-default" ng-click="query()">
+      <i class="glyphicon glyphicon-search pointer"></i>
+    </button>
+    <button class="btn btn-default pull-right" ng-click="download()">
+      <i  class="fa fa-download"></i>
+    </button>
+    <button class="btn btn-default pull-right" ng-click="stats()">
+      <i  class="glyphicon glyphicon-stats"></i>
+    </button>
+  </form>
+  <table class="table table-condensed table-hover table-bordered table-striped">
+    <thead>
+      <tr>
+        <th class="col-sm-2">用户名</th>
+        <th class="col-sm-2">子用户</th>
+        <th class="col-sm-1 text-center">协议</th>
+        <th class="col-sm-1 text-center">画质</th>
+        <th class="col-sm-2">起始</th>
+        <th class="col-sm-2">结束</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in list">
+        <td>{{item.username}}</td>
+        <td>{{item.subuser}}</td>
+        <td class="text-center">{{item.stream_format}}</td>
+        <td class="text-center">{{item.stream_quality|stream_quality}}</td>
+        <td>{{item.start}}</td>
+        <td>{{item.end}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <nav>
+    <ul class="pagination">
+      <li class="text-primary text-pointer" ng-click="prev()" ng-class="{'disabled': bFirst}"><span>上一页</span></li>
+      <li class="text-primary text-pointer" ng-click="next()" ng-class="{'disabled': bLast}"><span>下一页</span></li>
+    </ul>
+  </nav>
+</div>

@@ -10,6 +10,5 @@
   },
   "_source": "git://github.com/PaulGuo/Juicer.git",
   "_target": "~0.4.0",
-  "_originalSource": "juicer",
-  "_direct": true
+  "_originalSource": "juicer"
 }

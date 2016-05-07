@@ -1,0 +1,52 @@
+<div class="container-fluid" ng-controller="project">
+  <form>
+    <div class="form-group">
+      <label>项目名称</label>
+      <p class="form-control-static">{{project}}</p>
+    </div>
+    <div class="form-group">
+      <label>项目标题</label>
+      <input type="text" class="form-control" ng-model="info.title">
+    </div>
+    <div class="form-group">
+      <label>流并发数</label>
+      <p class="form-control-static">{{info.max_media_sessions}}</p>
+    </div>
+    <div class="form-group">
+      <label>媒体服务器</label>
+      <p class="form-control-static">
+        <em class="ng-hide" ng-show="'' === info.media_server">空</em>
+        {{info.media_server}}
+      </p>
+      <!-- <input type="text" class="form-control" ng-model="info.media_server"> -->
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" ng-model="info.is_public" ng-value="boolFalse">&nbsp;私有
+      </label>
+      &nbsp;&nbsp;
+      <label>
+        <input type="radio" ng-model="info.is_public" ng-value="boolTrue">&nbsp;公开
+      </label>
+    </div>
+    <div class="form-group">
+      <label>简述</label>
+      <input type="text" class="form-control" ng-model="info.desc">
+    </div>
+    <div class="form-group">
+      <label>详细描述</label>
+      <textarea class="form-control" rows="6" ng-model="info.long_desc"></textarea>
+    </div> 
+    <div class="form-group">
+      <label>创建时间</label>
+      <p class="form-control-static">{{info.ctime}}</p>
+    </div>
+    <div class="form-group">
+      <label>更新时间</label>
+      <p class="form-control-static">{{info.utime}}</p>
+    </div>
+    <p>
+      <button type="submit" class="btn btn-primary" ng-click="save()">保存</button>
+    </p>
+  </form>
+</div>

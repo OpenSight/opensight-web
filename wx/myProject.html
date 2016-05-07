@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="projectApp" >
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/Swiper/3.3.1/css/swiper.min.css" rel="stylesheet">
+</head>
+
+<body ng-controller="MyProject" class="storlever">
+<!--div class="panel-body">
+    <div class="form-horizontal os-form" role="form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">code</label>
+            <div class="col-sm-4">
+                <input type="text" id="code" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">state</label>
+            <div class="col-sm-4">
+                <input type="text" id="state" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group os-submit-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-4">
+                <button class="btn btn-default" onclick="go()">&nbsp;确定</button>
+                <button class="btn btn-default" onclick="reset()">&nbsp;取消</button>
+            </div>
+        </div>
+    </div>
+    <!DOCTYPE html>
+<html>
+<head>
+    ...
+    <link rel="stylesheet" href="path/to/swiper.min.css">
+</head>
+<body>
+    ...
+    <script src="path/to/jquery.js"></script>
+    <script src="path/to/swiper.jquery.min.js"></script>
+</body>
+</html>
+</div-->
+<div class="panel-body">
+    <div class="form-horizontal os-form" role="form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">binding_id</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" ng-model="binding_id"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">jwt</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" ng-model="jwt"/>
+            </div>
+        </div>
+        <div class="swiper-container form-group">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">Slide 1</div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+            </div>
+            <!-- 如果需要分页器 >
+            <div class="swiper-pagination"></div-->
+
+            <!-- 如果需要导航按钮 -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+
+            <!-- 如果需要滚动条 >
+            <div class="swiper-scrollbar"></div-->
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
+<script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
+<script src="js/controller/myProject.js"></script>
+<script src="js/app/app.js"></script>
+</html>
+

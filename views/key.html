@@ -1,0 +1,68 @@
+<div class="container" ng-controller="key">
+  <form class="form-inline">
+    <button class="btn btn-default" ng-click="page.pageChanged()">
+      <i class="glyphicon glyphicon-refresh pointer"></i>
+    </button>
+    <button class="btn btn-default" ui-sref="add-key">
+      <i class="glyphicon glyphicon-plus pointer"></i>
+    </button>
+  </form>
+  <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
+    <thead>
+      <tr>
+        <th class="col-sm-2">id</th>
+        <th class="col-sm-2">用户名</th>
+        <th class="col-sm-1 text-center">类型</th>
+        <th class="col-sm-1 text-center">状态</th>
+        <th class="col-sm-2">描述</th>
+        <th class="col-sm-2 text-center">创建时间</th>
+        <th class="col-sm-2 text-center">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in keys.list">
+        <td>{{item.key_id}}</td>
+        <td>{{item.username}}</td>
+        <td class="text-center">{{item.key_type|key_type}}</td>
+        <td class="text-center">{{item.enabled|key_enabled}}</td>
+        <td>{{item.desc}}</td>
+        <td class="text-center">{{item.ctime}}</td>
+        <td class="text-center">
+          <button class="btn btn-default btn-sm btn-primary" ng-click="open(item.key_id)"><i class="fa fa-key"></i>&nbsp;获取</button>
+          <button class="btn btn-default btn-sm" ui-sref="key-detail({key: item.key_id})">
+            <i class="glyphicon glyphicon-cog pointer"></i>
+          </button>
+          <button class="btn btn-default btn-sm" ng-click="del(item.key_id)"><i class="glyphicon glyphicon-trash"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination-container">
+    <uib-pagination 
+      total-items="page.total" 
+      ng-model="page.curr" 
+      max-size="page.max" 
+      items-per-page="page.limit" 
+      previous-text="&laquo;" next-text="&raquo;" 
+      ng-change="page.pageChanged()" 
+      boundary-link-numbers="true" class="pagination-sm">
+    </uib-pagination>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <label class="pagination-jump">
+      <span>跳转到：</span>
+      <input type="text" class="form-control input-sm" ng-model="page.jumpto">
+    </label>
+    <button class="btn btn-default btn-sm" ng-click="page.jump()">Go</button>
+  </div>
+  <script type="text/ng-template" id="secretModalContent.html">
+    <div class="modal-header">
+      <h3 class="modal-title">secret信息</h3>
+    </div>
+    <div class="modal-body">
+      {{secret}}
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">关闭</button>
+    </div>
+  </script>
+</div>

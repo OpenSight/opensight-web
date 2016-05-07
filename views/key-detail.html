@@ -1,0 +1,65 @@
+<div class="container" ng-controller="key-detail">
+  <div class="col-sm-12 page-header page-header-condensed">
+    <h3>
+      <button class="btn btn-default btn-sm" ui-sref="key"><i class="fa fa-arrow-left"></i></button>&nbsp;&nbsp;
+      修改密匙
+    </h3>
+  </div>
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">id</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{info.key_id}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">用户</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{info.username}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">类型</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{info.key_type|key_type}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">状态</label>
+      <div class="col-sm-2">
+        <div class="radio">
+          <label>
+            <input type="radio" ng-model="info.enabled" ng-value="boolTrue"> 
+            启用
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="radio">
+          <label>
+            <input type="radio" ng-model="info.enabled" ng-value="boolFalse">   
+            禁用
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">描述</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="info.desc">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">创建时间</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{info.ctime}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-primary" ng-click="save()">保存</button>
+        <button class="btn btn-default" ui-sref="key">取消</button>
+      </div>
+    </div>
+  </form>
+</div>
