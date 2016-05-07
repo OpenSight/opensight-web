@@ -1,0 +1,54 @@
+<div class="container" ng-controller="default">
+  <div class="row">
+    <div class="col-sm-12 page-header page-header-condensed">
+      <h3>用户概况</h3>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-primary client-card">
+        <div class="panel-body">
+          <p class="text-primary">
+            <a ui-sref="user"><strong>{{username}}</strong></a>
+          </p>
+          <div> <strong>描述：</strong>
+            <span>{{userinfo.desc}}</span>
+          </div>
+          <div> <strong>手机：</strong>
+            <span>{{userinfo.cellphone}}</span>
+          </div>
+          <div>
+            <strong>邮箱：</strong>
+            <a href="mailto:#">{{userinfo.email}}</a>
+          </div>
+          <div>
+            <strong>上次登录时间：</strong>
+            <span>{{userinfo.ltime}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 page-header page-header-condensed">
+      <h3>项目概况</h3>
+    </div>
+    <div class="col-sm-4" ng-repeat="pro in project">
+      <div class="panel panel-primary client-card">
+        <div class="panel-body">
+          <p class="text-primary">
+            <a ui-sref="project({project: pro.name})"><strong>{{pro.name}}</strong></a>
+          </p>
+          <div> <strong>项目标题：</strong>
+            <span>{{pro.title}}</span>
+          </div>
+          <div> <strong>描述：</strong>
+            <span>{{pro.desc}}</span>
+          </div>
+          <div> <strong>流并发数：</strong>
+            <span>{{pro.max_media_sessions}}</span>
+          </div>
+          <div> <strong>项目属性：</strong>
+            <span>{{pro.is_public|publicattribute}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,32 +2,76 @@ body{
   font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
   /*padding-top: 70px;*/
 }
+.navbar-toggle .icon-bar {
+  background-color: #25A8E1;
+}
 .navbar-brand{
   padding-bottom: 0;
   padding-top: 0;
 }
 .thumbnail{
   border: 0 none;
+  height: 275px;
+}
+/*.caption h4{
+  font-weight: bold;
+  text-align: center;
+}*/
+.caption .text-muted{
+  word-break:break-all; /*支持IE，chrome，FF不支持*/
+  word-wrap:break-word;/*支持IE，chrome，FF*/
 }
 .jumbotron p{
-  font-size: 14px;
+  font-size: 16px;
+}
+.btn-highlight, .btn-highlight:active{
+  background-color: #25A8E1;
+  border-color: #0C6A92;
+  color: #FFF;
+}
+/*.btn-highlight.active.focus, .btn-highlight.active:focus,
+.btn-highlight.focus, .btn-highlight:active.focus,
+.btn-highlight:active:focus, .btn-highlight:focus {
+  outline: invert none medium;
+}*/
+.btn-highlight.focus, .btn-highlight:focus, .btn-highlight:hover {
+    color: #FFF;
+}
+.text-highlight{
+  color: #25A8E1;
 }
 .navbar a{
   color: #606060;
 }
-
-.slogan{
-  padding-top: 0;
-  padding-bottom: 0;
-  color: #606060;
-  height: 605px;
-  background: url(../img/slogan.png) no-repeat center center;
+.navbar{
+  margin-bottom: 0px;
 }
-.slogan-context{
+.cpys{
+  margin-bottom: 50px;
+}
+.page-header{
+  /*margin-top: 20px;*/
+  margin-bottom: 10px;
+  padding-bottom: 0;
+}
+.slogan-jumbotron{
+  padding: 0;
+  margin-bottom: 0;
+  background: #000;
+}
+.slogan{
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  color: #fff;
+  height: 460px;
+  background: #000 url(../img/slogan.png) right center no-repeat;
+}
+.slogan-text{
   margin-top: 150px;
 }
-.slogan a{
-  color: #606060;
+.slogan a,.slogan p{
+  color: #9B9FAD;
 }
 .bs-docs-footer {
   padding-top: 40px;
@@ -44,39 +88,129 @@ body{
   height: 460px;
   margin-bottom: 0;
 }
+.yycj .row > div{
+  background: #000;
+  opacity: 0.7;
+  border-radius: 4px;
+  color:  #fff;
+}
+.yycj .row{
+  padding-top: 150px;
+}
 .zhsq{
   color: #f0ad4e;
   /*color: #298c4c;*/
-  background: #000 url(../img/zhsq.png) no-repeat 30% 50%;
+  background: #19191B;
+}
+.zhsq .row{
+  padding-top: 50px;
 }
 .zhsq .container{
-  padding-top: 150px;
+  background: #19191B url(../img/zhsq.jpg) no-repeat right center;
+  height: 100%;
+}
+.zhsq .row > div{
+  background: #19191B;
 }
 .xxny{
-  color: #123;
-  background: #999 url(../img/xxny.png) no-repeat 50% 50%;
+  color: #3c763d;
+  background: url(../img/xxny.jpg) repeat-x 50% 50%;
 }
-.xxny .container{
-  padding-top: 0;
+.xxny .row{
+  padding-top: 250px;
 }
 .hdzb{
   color: #5bc0de;
-  background: #000 url(../img/hdzb.png) no-repeat 50% 50%;
+  background: #000 url(../img/hdzb.jpg) repeat-x 50% 50%;
 }
-.hdzb .container{
-  padding-top: 320px;
+.hdzb .row{
+  padding-top: 230px;
 }
 .ycjy{
-  color: #eee;
-  background: #804f17 url(../img/ycjy.png) no-repeat 50% 50%;
+  background: #e5ddd3 url(../img/ycjy.jpg) no-repeat right center;
 }
-.ycjy .container{
-  padding-top: 0;
+.ycjy .row{
+  padding-top: 10px;
+}
+.ycjy .row > div{
+  color: #d9534f;
+  color: #1A222C;
+  background: #e5ddd3;
+}
+.ycjy{
+    background-position: right bottom;
 }
 .srdz{
-  color: #d9534f;
-  background: #000 url(../img/srdz.png) no-repeat 200px 50%;
+    color: #d9534f;
+    background: #000;
 }
 .srdz .container{
-  padding-top: 150px;
+    height: 100%;
+    background: url(../img/srdz.jpg) no-repeat left center;
+}
+.smartShop{
+    color: #5bc0de;
+    background: #000 url(../img/smartShop.jpg) repeat-x 50% 50%;
+}
+.smartShop .row{
+    padding-top: 230px;
+}
+.smartShop{
+    background-color: rgb(13, 13, 48);
+}
+.smartShop .row > div{
+    color: #fff;
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .slogan{
+    /*background-position: 400px center;*/
+  }
+}
+
+@media (max-width: 768px){
+  h2{
+    font-size: 24px;
+  }
+  .slogan{
+    padding-top: 10px;
+    background-position: center center;
+    background-size: auto 220px;
+  }
+  .slogan-text{
+    margin-top: 0;
+  }
+  .slogan-user{
+    padding-top: 250px;
+  }
+  .yycj{
+    height: auto;
+  }
+  .yycj .row > div {
+    opacity: 1;
+  }
+  .zhsq .container, .xxny, .hdzb, .ycjy, .smartShop, .srdz .container{
+    background-position: center bottom;
+    background-size: auto 220px;
+    padding-bottom: 220px;
+  }
+  .yycj .row {
+    padding-top: 10px;
+  }
+  .xxny{
+    background-color: rgb(192, 206, 206);
+  }
+  .xxny .row > div{
+    background-color: transparent;
+    color: #000;
+  }
+
+  .hdzb{
+    background-color: rgb(13, 13, 48);
+  }
+  .hdzb .row > div{
+    background-color: transparent;
+    color: #fff;
+  }
+
 }

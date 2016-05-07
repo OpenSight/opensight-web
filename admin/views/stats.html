@@ -1,0 +1,37 @@
+<div class="container-fluid container-compact os-tab-container statCan" ng-controller="Stats">
+    <div class="panel os-panel">
+        <div class="panel-body">
+            <H4>系统状态</H4>
+            <form class="form-horizontal os-form" role="form">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">用户</label>
+                    <div class="col-sm-7">
+                        <p class="form-control-static">{{state.userCount}} 名</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">项目</label>
+                    <div class="col-sm-7">
+                        <p class="form-control-static">{{state.projectCount}} 个</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">共有</label>
+                    <div class="col-sm-7">
+                        <p class="form-control-static">{{state.sessionCount}} 个直播进行中</p>
+                    </div>
+                </div>
+                <!--div class="form-group">
+                    <label class="col-sm-1 control-label">camera</label>
+                    <div class="col-sm-7">
+                        <p class="form-control-static">{{state.cameraCount}} ，{{state.cameraOnline}} 直播中，{{state.cameraOffline}}掉线</p>
+                    </div>
+
+                </div-->
+
+
+            </form>
+        </div>
+    </div>
+
+</div>

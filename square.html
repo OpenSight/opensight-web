@@ -1,0 +1,121 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>视频广场</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/square.css">
+</head>
+<body>
+  <!--[if lt IE 8]>
+  <p class="browserupgrade">
+    You are using an <strong>outdated</strong>
+    browser. Please
+    <a href="http://browsehappy.com/">upgrade your browser</a>
+    to improve your experience.
+  </p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <header  class="navbar navbar-default navbar-fixed-top" role="navigation" id="header">
+    <div class="container squera-container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://www.opensight.cn/">
+          <img alt="Open Sight" src="img/logo.png">
+        </a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <!-- <li>
+            <a href="square.html">视频广场</a>
+          </li> -->
+          <li>
+            <a href="#">更多</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>  
+
+  <div class="container squera-container">
+    <div class="row" id="container">
+    </div>
+    <div class="row loading hidden" id="loading">
+      <span></span>
+    </div>
+    <div class="row" id="lastpage"></div>
+  </div>
+
+  <footer class="bs-docs-footer" role="contentinfo">
+    <div class="container squera-container">
+      <ul class="bs-docs-footer-links text-muted list-inline">
+        <li>
+          <a href="about.html#about">关于我们</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="#">法律条款</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="swagger-ui/dist/">API</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="about.html#conc">联系我们</a>
+        </li>
+      </ul>
+      <p>© 2015 杭州趣观科技有限公司 版权所有. ICP证：浙ICP备15041027号</p>
+    </div>
+  </footer>
+
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- <script src="bower_components/matchHeight/jquery.matchHeight-min.js"></script> -->
+<script src="bower_components/juicer/juicer-min.js"></script>
+<!-- <script src="js/content.js"></script> -->
+<script src="js/square.js"></script>
+
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-71601701-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+-->
+<script type="text/html" id="tmpl">
+  {@each list as item}
+    <div class="col-md-3 col-sm-4 col-xs-6">
+      <div class="thumbnail">
+        <a href="${item.uuid, item.is_online|getLink}"><img src="${item.preview}" alt="${item.name}"></a>
+        <div class="caption">
+          <p class="text-name">
+            <a href="${item.uuid, item.is_online|getLink}">${item.name}</a>
+            <span class="${item.is_online|getCls} pull-right">${item.is_online|renderStatus}</span>
+          </p>
+          <p class="text-muted text-desc">${item.desc}</p>
+        </div>
+      </div>
+    </div>
+  {@/each}
+</script>
+</body>
+</html>

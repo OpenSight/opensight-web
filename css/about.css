@@ -1,0 +1,55 @@
+body{
+  font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+  /*padding-top: 70px;*/
+}
+.navbar-toggle .icon-bar {
+  background-color: #25A8E1;
+}
+.navbar-brand{
+  padding-bottom: 0;
+  padding-top: 0;
+}
+.bs-docs-footer {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-top: 100px;
+  color: #767676;
+  text-align: center;
+  border-top: 1px solid #e5e5e5;
+}
+h1,
+a,
+a:hover,
+.about-catalog h3,
+.about-catalog h4{
+  color: #25A8E1;
+}
+h3{
+  color: #5Ac3F0;
+}
+h4{
+  color: #0C6A92;
+}
+p{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+a,
+a:hover{
+  color: #25A8E1;
+}
+
+.section{
+  margin-top: 50px;
+  padding-left: 20px;
+  padding-right: 20px
+}
+.about-context{
+  background-color: #eee;
+  padding-bottom: 50px;
+}
+.about-catalog{
+  margin-top: 80px;
+  border-left: 1px solid #777;
+}
+

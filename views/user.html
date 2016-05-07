@@ -1,0 +1,59 @@
+<div class="container-fluid" ng-controller="user">
+  <form class="form-inline">
+    <div class="form-group">
+      <label>筛选&nbsp;</label>
+      <select class="form-control" ng-model="params.filter_key">
+        <option value="username">用户名</option>
+        <option value="title">职位</option>
+        <option value="desc">描述</option>
+        <option value="long_desc">详细描述</option>
+      </select>
+      <input type="text" class="form-control" placeholder="查询条件" ng-model="params.filter_value">
+    </div>
+    <button class="btn btn-default" ng-click="query()">
+      <i class="glyphicon glyphicon-search pointer"></i>
+    </button>
+    <button class="btn btn-default pull-right" ng-click="page.pageChanged()">
+      <i class="glyphicon glyphicon-refresh pointer"></i>
+    </button>
+  </form>
+  <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
+    <thead>
+      <tr>
+        <th class="col-sm-2">用户名</th>
+        <th class="col-sm-2">职位</th>
+        <th class="col-sm-1 text-center">类型</th>
+        <th class="col-sm-2 text-center">手机</th>
+        <th class="col-sm-2 text-center">邮箱</th>
+        <th class="col-sm-2">描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in users.list">
+        <td>{{item.username}}</td>
+        <td>{{item.title}}</td>
+        <td class="text-center">{{item.user_type|user_type}}</td>
+        <td class="text-center">{{item.cellphone}}</td>
+        <td class="text-center">{{item.email}}</td>
+        <td class="text-center">{{item.desc}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination-container">
+    <uib-pagination 
+      total-items="page.total" 
+      ng-model="page.curr" 
+      max-size="page.max" 
+      items-per-page="page.limit" 
+      previous-text="&laquo;" next-text="&raquo;" 
+      ng-change="page.pageChanged()" 
+      boundary-link-numbers="true" class="pagination-sm">
+    </uib-pagination>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <label class="pagination-jump">
+      <span>跳转到：</span>
+      <input type="text" class="form-control input-sm" ng-model="page.jumpto">
+    </label>
+    <button class="btn btn-default btn-sm" ng-click="page.jump()">Go</button>
+  </div>
+</div>
