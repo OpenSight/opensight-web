@@ -44,15 +44,20 @@ function getJwt(token, page, state){
         success: function(json){
             $.cookie('jwt', json.jwt, {expires: 30});
             $.cookie('binding_id', json.binding_id, {expires: 30});
-            window.location.href = defaultUrl+page+".html";
+            window.location.replace(defaultUrl+page+".html");
+            // window.location.href = defaultUrl+page+".html";
             //var ui = Base64.encodeURI(JSON.stringify(data));
             //window.location.href(_this.url + '?jwt=' + json.jwt + '&ui=' + ui);
         },
         error: function() {
-            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+            window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?" +
                 "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
                 "bind.html&response_type=code&scope=snsapi_userinfo&state=" + state +
-                "#wechat_redirect";
+                "#wechat_redirect");
+            // window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+            //     "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+            //     "bind.html&response_type=code&scope=snsapi_userinfo&state=" + state +
+            //     "#wechat_redirect";
         }
     });
 }
