@@ -1304,8 +1304,6 @@
                 <div class="col-sm-4">
                   <p class="form-control-static">{{project.firmware.data_mod.data[$index].uuid}}</p>
                 </div>
-              </div>
-              <div class="form-group">
                 <label class="col-sm-2 control-label">项目名称</label>
                 <div class="col-sm-4">
                   <p class="form-control-static">{{project.firmware.data_mod.data[$index].project_name}}</p>
@@ -1316,8 +1314,6 @@
                 <div class="col-sm-4">
                   <p class="form-control-static">{{project.firmware.data_mod.data[$index].vendor}}</p>
                 </div>
-              </div>
-              <div class="form-group">
                 <label class="col-sm-2 control-label">设备硬件</label>
                 <div class="col-sm-4">
                   <p class="form-control-static">{{project.firmware.data_mod.data[$index].hardware_model}}</p>
@@ -1328,11 +1324,9 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" ng-model="project.firmware.data_mod.data[$index].firmware_model"  />
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">下载地址</label>
+                <label class="col-sm-2 control-label">生成时间</label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" ng-model="project.firmware.data_mod.data[$index].firmware_url"  />
+                  <p class="form-control-static">{{project.firmware.data_mod.data[$index].ctime}}</p>
                 </div>
               </div>
               <div class="form-group">
@@ -1340,27 +1334,26 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" ng-model="project.firmware.data_mod.data[$index].desc"  />
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">详细描述</label>
-                <div class="col-sm-4">
-                  <textarea rows="6" style="width: 100%" type="text" ng-model="project.firmware.data_mod.data[$index].long_desc"  />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">生成时间</label>
-                <div class="col-sm-4">
-                  <p class="form-control-static">{{project.firmware.data_mod.data[$index].ctime}}</p>
-                </div>
-              </div>
-              <div class="form-group">
                 <label class="col-sm-2 control-label">最新修改时间</label>
                 <div class="col-sm-4">
                   <p class="form-control-static">{{project.firmware.data_mod.data[$index].mtime}}</p>
                 </div>
               </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">下载地址</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" ng-model="project.firmware.data_mod.data[$index].firmware_url"  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">详细描述</label>
+                <div class="col-sm-10">
+                  <textarea rows="6" style="width: 100%" type="text" ng-model="project.firmware.data_mod.data[$index].long_desc"  />
+                </div>
+              </div>
+              
               <div class="form-group os-submit-group">
-                <label class="col-sm-1 control-label"></label>
+                <label class="col-sm-2 control-label"></label>
                 <div class="col-sm-4">
                   <button class="btn btn-default" ng-click="project.firmware.data_mod.submitForm(u,$index)">
                     <i class="fa fa-check"></i>
