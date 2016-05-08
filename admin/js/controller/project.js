@@ -893,6 +893,27 @@ app.register.controller('Project', [
               $scope.$emit("Ctr1ModalShow", tmpMsg);
             //$scope.project.camera.refresh();
           });
+        },
+        reboot: function(item, index) {
+          $scope.aborter = $q.defer();
+          $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras/" + item.uuid + "/reboot", {
+            timeout: $scope.aborter.promise
+          }).success(function(response) {
+
+          }).error(function(response, status) {
+            var tmpMsg = {};
+            tmpMsg.Label = "错误";
+            tmpMsg.ErrorContent = "camera  " + item.name + "  重启失败";
+            tmpMsg.ErrorContentDetail = response;
+            tmpMsg.SingleButtonShown = true;
+            tmpMsg.MutiButtonShown = false;
+            tmpMsg.Callback = "modMdCallBack";
+            if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+              $state.go('logOut', { info: response.info, traceback: response.traceback });
+            } else {
+              $scope.$emit("Ctr1ModalShow", tmpMsg);
+            }
+          });
         }
       }
       $scope.project.camera = camera;
