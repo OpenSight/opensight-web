@@ -1,7 +1,7 @@
 app.register.controller('Project', [
   '$scope', '$http', '$q', '$state', 'FileSaver', 'Blob', 'dateFactory', 'pageFactory', 'flagFactory',
   function($scope, $http, $q, $state, FileSaver, Blob, dateFactory, pageFactory, flagFactory) {
-    $scope.showDetail = function(obj, item, index){
+    $scope.showDetail = function(obj, item, index) {
       if (true === item.bDetailShown) {
         item.bDetailShown = false;
       } else {
@@ -325,9 +325,6 @@ app.register.controller('Project', [
             destroy: function() {}
           };
         })()
-
-
-
       }
     })();
 
@@ -686,10 +683,11 @@ app.register.controller('Project', [
           camera.seachValue = "";
           camera.page = pageFactory.init({
             query: camera.query,
-            jumperror: function(){
+            jumperror: function() {
               alert('页码输入不正确。');
             }
           });
+          camera.initAddData();
           camera.search();
         },
         query: function(params) {
@@ -705,11 +703,11 @@ app.register.controller('Project', [
               response.list[i].live = flags.live;
               response.list[i].ptz = flags.ptz;
               response.list[i].pic = flags.preview;
-              response.list[i].qualityMap = flagFactory.quality(bitmap);
+              response.list[i].qualityList = flagFactory.quality(bitmap);
               if (0 !== response.list[i].ability.length) {
                 response.list[i].quality = response.list[i].ability[0].text;
               }
-              if ('' !== response.list[i].preview){
+              if ('' !== response.list[i].preview) {
                 response.list[i].preview = response.list[i].preview + '?_=' + (new Date().getTime());
               }
             }
@@ -743,357 +741,159 @@ app.register.controller('Project', [
           }
           camera.query(params);
         },
-        add: function() {
-          if ($scope.project.camera.addShown === undefined) $scope.project.camera.addShown = false;
-          $scope.project.camera.addShown = !$scope.project.camera.addShown;
-          if ($scope.project.camera.addShown === true)
-            $scope.project.camera.data_add.init();
-        },
-        data_add: (function() {
-          return {
-            clean_data: function() { //clean add field
-              if ($scope.project.camera.data_add === undefined)
-                $scope.project.camera.data_add = {};
-
-              $scope.project.camera.data_add.stearmOptions = [{
-                text: 'LD',
-                title: '流畅',
-                on: false
-              }, {
-                text: 'SD',
-                title: '标清',
-                on: false
-              }, {
-                text: 'HD',
-                title: '高清',
-                on: false
-              }, {
-                text: 'FHD',
-                title: '超清',
-                on: false
-              }];
-              $scope.project.camera.data_add.pic = false;
-              $scope.project.camera.data_add.name = "";
-              $scope.project.camera.data_add.channel_index = 0;
-              $scope.project.camera.data_add.device_uuid = "";
-              $scope.project.camera.data_add.desc = "";
-              $scope.project.camera.data_add.long_desc = "";
-              $scope.project.camera.data_add.longitude = 0;
-              $scope.project.camera.data_add.latitude = 0;
-              $scope.project.camera.data_add.altitude = 0;
-            },
-
-            submitForm: function() { //add one camera
-              var allFlags = 0;
-              for (var i = 0; i < $scope.project.camera.data_add.stearmOptions.length; i++) {
-                if ($scope.project.camera.data_add.stearmOptions[i].on === true)
-                  allFlags += (1 << i);
-              }
-              if ($scope.project.camera.data_add.pic === true)
-                allFlags += (1 << 4);
-              var postData = {
-                name: $scope.project.camera.data_add.name,
-                device_uuid: $scope.project.camera.data_add.device_uuid,
-                flags: allFlags,
-                channel_index: $scope.project.camera.data_add.channel_index,
-                desc: $scope.project.camera.data_add.desc,
-                long_desc: $scope.project.camera.data_add.long_desc,
-                longitude: $scope.project.camera.data_add.longitude,
-                latitude: $scope.project.camera.data_add.latitude,
-                altitude: $scope.project.camera.data_add.altitude
-              };
-
-              $scope.project.camera.data_add.token = Math.random();
-              $scope.aborter = $q.defer(),
-                $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras", postData, {
-                  timeout: $scope.aborter.promise
-                    /*                       headers:  {
-                     "Authorization" : "Bearer "+$scope.authToken,
-                     "Content-Type": "application/json"
-                     }
-                     */
-                }).success(function(response) {
-                  $scope.project.camera.refresh();
-                }).error(function(response, status) {
-                  //response.ErrorContent = "添加camera失败";
-                  //$scope.$emit("errorEmit",response);
-                  //bendichuliweimiao
-
-                  var tmpMsg = {};
-
-                  tmpMsg.Label = "错误";
-                  tmpMsg.ErrorContent = "添加camera失败";
-                  tmpMsg.ErrorContentDetail = response;
-                  tmpMsg.SingleButtonShown = true;
-                  tmpMsg.MutiButtonShown = false;
-                  tmpMsg.Token = $scope.project.camera.data_add.token;
-                  //tmpMsg.Callback = "addMdCallBack";
-                  if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
-                    //$scope.$emit("Logout", tmpMsg);
-                    $state.go('logOut', { info: response.info, traceback: response.traceback });
-                  } else
-                    $scope.$emit("Ctr1ModalShow", tmpMsg);
-
-                  // $scope.project.camera.refresh();
-                });
-            },
-
-            close: function() { //clean input,close add div
-              //$scope.project.camera.data_add.clean_data();
-              //$scope.project.camera.addShown = false;
-              $scope.project.camera.add();
-            },
-
-            init: function() {
-              $scope.project.camera.data_add.clean_data();
-            },
-
-            addMdCallBack: function(event, msg) {
-
-            }
+        modify: function(index) {
+          var it = camera.detail[index];
+          var flag = flagFactory.encodeCamera(it.qualityList, it.pic, !it.live, it.ptz);
+          var params = {
+            flags: flag,
+            desc: it.desc,
+            long_desc: it.long_desc,
+            longitude: it.longitude,
+            login_passwd: it.login_passwd,
+            latitude: it.latitude,
+            altitude: it.altitude
           };
-        })(),
-        delete_one: function(item) {
+          $scope.aborter = $q.defer();
+          $http.put("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras/" + it.uuid, params, {
+            timeout: $scope.aborter.promise
+          }).success(function(response) {
+            camera.page.pageChanged();
+          }).error(function(response, status) {
+            var tmpMsg = {};
+            tmpMsg.Label = "错误";
+            tmpMsg.ErrorContent = "camera " + $scope.project.data_mod.selectItem.name + " 更新失败";
+            tmpMsg.ErrorContentDetail = response;
+            tmpMsg.SingleButtonShown = true;
+            tmpMsg.MutiButtonShown = false;
+            //tmpMsg.Callback = "odCallBack";
+            if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+              //$scope.$emit("Logout", tmpMsg);
+              $state.go('logOut', { info: response.info, traceback: response.traceback });
+            } else
+              $scope.$emit("Ctr1ModalShow", tmpMsg);
+          });
+        },
+        showAdd: function() {
+          camera.addShown = !camera.addShown;
+        },
+        initAddData: function() {
+          camera.data_add = {
+            name: '',
+            channel_index: 0,
+            device_uuid: '',
+            desc: '',
+            long_desc: '',
+            longitude: 0,
+            latitude: 0,
+            altitude: 0
+          };
+          var bitmap = flagFactory.getBitmap(17, 8);
+          var flags = flagFactory.parseCamera(bitmap);
+          camera.data_add.ability = flags.ability;
+          camera.data_add.live = flags.live;
+          camera.data_add.ptz = flags.ptz;
+          camera.data_add.pic = flags.preview;
+          camera.data_add.qualityList = flagFactory.quality(bitmap);
+        },
+        add: function() {
+          var flag = flagFactory.encodeCamera(camera.data_add.qualityList, camera.data_add.pic, !camera.data_add.live, camera.data_add.ptz);
+          var params = {
+            name: camera.data_add.name,
+            device_uuid: camera.data_add.device_uuid,
+            flags: flag,
+            channel_index: camera.data_add.channel_index,
+            desc: camera.data_add.desc,
+            long_desc: camera.data_add.long_desc,
+            longitude: camera.data_add.longitude,
+            latitude: camera.data_add.latitude,
+            altitude: camera.data_add.altitude
+          };
+
+          $scope.project.camera.data_add.token = Math.random();
+          $scope.aborter = $q.defer();
+          $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras", params, {
+            timeout: $scope.aborter.promise
+          }).success(function(response) {
+            camera.initAddData();
+            camera.showAdd();
+            camera.page.pageChanged();
+          }).error(function(response, status) {
+            var tmpMsg = {};
+
+            tmpMsg.Label = "错误";
+            tmpMsg.ErrorContent = "添加camera失败";
+            tmpMsg.ErrorContentDetail = response;
+            tmpMsg.SingleButtonShown = true;
+            tmpMsg.MutiButtonShown = false;
+            tmpMsg.Token = camera.data_add.token;
+            //tmpMsg.Callback = "addMdCallBack";
+            if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+              //$scope.$emit("Logout", tmpMsg);
+              $state.go('logOut', { info: response.info, traceback: response.traceback });
+            } else {
+              $scope.$emit("Ctr1ModalShow", tmpMsg);
+            }
+          });
+        },
+        play_switch: function(item, index, enable) {
+          var tip = enable ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
+          if (false === confirm(tip)) {
+            return false;
+          }
+
+          $scope.aborter = $q.defer();
+          $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras/" + item.uuid + "/stream_toggle", {
+            enable: enable
+          }, {
+            timeout: $scope.aborter.promise
+          }).success(function(response) {
+            item.live = enable;
+            if (undefined !== camera.detail[index]) {
+              camera.detail[index].live = enable;
+            }
+          }).error(function(response, status) {
+            var tmpMsg = {};
+            tmpMsg.Label = "错误";
+            tmpMsg.ErrorContent = "camera" + item.name + "直播控制失败";
+            tmpMsg.ErrorContentDetail = response;
+            tmpMsg.SingleButtonShown = true;
+            tmpMsg.MutiButtonShown = false;
+            //tmpMsg.Token =  $scope.project.camera.data_mod.addHotSpToken;
+            tmpMsg.Callback = "modMdCallBack";
+            if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+              //$scope.$emit("Logout", tmpMsg);
+              $state.go('logOut', { info: response.info, traceback: response.traceback });
+            } else {
+              $scope.$emit("Ctr1ModalShow", tmpMsg);
+            }
+          });
+        },
+        remove: function(item) {
           var r = confirm("确认删除camera " + item.name + "吗？");
           if (r === false) return;
           $scope.project.camera.data.delOneToken = Math.random();
-          $scope.aborter = $q.defer(),
-            $http.delete("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras/" + item.uuid, {
-              timeout: $scope.aborter.promise
-                /*                       headers:  {
-                 "Authorization" : "Bearer "+$scope.authToken,
-                 "Content-Type": "application/json"
-                 }
-                 */
-            }).success(function(response) {
-              $scope.project.camera.refresh();
-            }).error(function(response, status) {
-              var tmpMsg = {};
-              tmpMsg.Label = "错误";
-              tmpMsg.ErrorContent = "删除camera" + item.name + "失败";
-              tmpMsg.ErrorContentDetail = response;
-              tmpMsg.SingleButtonShown = true;
-              tmpMsg.MutiButtonShown = false;
-              tmpMsg.Token = $scope.project.camera.data.delOneToken;
-              //tmpMsg.Callback = "delMdCallBack";
-              if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
-                //$scope.$emit("Logout", tmpMsg);
-                $state.go('logOut', { info: response.info, traceback: response.traceback });
-              } else
-                $scope.$emit("Ctr1ModalShow", tmpMsg);
-              //$scope.project.camera.refresh();
-            });
-        },
-        delMdCallBack: function(event, msg) {
-
-        },
-        data: (function() {
-          return {
-            showDetail: function(item, index) {
-              if ($scope.project.camera.data_mod.bDetailShown === undefined) $scope.project.camera.data_mod.bDetailShown = [];
-              if ($scope.project.camera.data_mod.bDetailShown[index] === undefined) $scope.project.camera.data_mod.bDetailShown[index] = false;
-              $scope.project.camera.data_mod.bDetailShown[index] = !(true === $scope.project.camera.data_mod.bDetailShown[index]);
-
-              if ($scope.project.camera.data_mod.bDetailShown[index] === true) { //开
-                $scope.project.camera.data_mod.initDetail(item, index);
-              } else {
-
-              }
-            }
-          };
-        })(),
-
-        data_mod: (function() {
-          return {
-            initData: function(item, index) {
-              if ($scope.project.camera.data_mod.bDetailShown[index] === true) {
-                if ($scope.project.camera.data_mod.data === undefined)
-                  $scope.project.camera.data_mod.data = [];
-                $scope.project.camera.data_mod.data[index] = item;
-
-                if ((item.flags & 0x20) === 0)
-                  $scope.project.camera.data_mod.data[index].live = true;
-                else $scope.project.camera.data_mod.data[index].live = false;
-
-                if ((item.flags & 0x10) === 0)
-                  $scope.project.camera.data_mod.data[index].pic = false;
-                else $scope.project.camera.data_mod.data[index].pic = true;
-
-                $scope.project.camera.data_mod.data[index].stearmOptions = [{
-                  text: 'LD',
-                  title: '流畅',
-                  on: !((item.flags & 0x01) === 0)
-                }, {
-                  text: 'SD',
-                  title: '标清',
-                  on: !((item.flags & 0x02) === 0)
-                }, {
-                  text: 'HD',
-                  title: '高清',
-                  on: !((item.flags & 0x04) === 0)
-                }, {
-                  text: 'FHD',
-                  title: '超清',
-                  on: !((item.flags & 0x08) === 0)
-                }];
-              }
-            },
-
-            initDetail: function(item, index) {
-              if ($scope.project.camera.data_mod.bDetailShown[index] === undefined || $scope.project.camera.data_mod.bDetailShown[index] === false)
-                return;
-
-              $scope.aborter = $q.defer(),
-                $http.get("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras/" + item.uuid, {
-                  timeout: $scope.aborter.promise
-                    /*                       headers:  {
-                     "Authorization" : "Bearer "+$scope.authToken,
-                     "Content-Type": "application/json"
-                     }
-                     */
-                }).success(function(response) {
-                  $scope.project.camera.data_mod.initData(response, index);
-                }).error(function(response, status) {
-                  var tmpMsg = {};
-                  tmpMsg.Label = "错误";
-                  tmpMsg.ErrorContent = "camera" + item.name + "get失败";
-                  tmpMsg.ErrorContentDetail = response;
-                  tmpMsg.SingleButtonShown = true;
-                  tmpMsg.MutiButtonShown = false;
-                  //tmpMsg.Token =  $scope.project.camera.data_mod.addHotSpToken;
-                  tmpMsg.Callback = "modMdCallBack";
-                  if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
-                    //$scope.$emit("Logout", tmpMsg);
-                    $state.go('logOut', { info: response.info, traceback: response.traceback });
-                  } else
-                    $scope.$emit("Ctr1ModalShow", tmpMsg);
-
-                  //$scope.project.camera.data_mod.hotRefresh(item, index);
-                });
-            },
-
-            play_switch: function(item, enable) {
-              var tip = enable ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
-              if (false === confirm(tip)) {
-                return false;
-              }
-              var postData = {
-                enable: enable
-              };
-
-              $scope.aborter = $q.defer(),
-                $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras/" + item.uuid + "/stream_toggle", postData, {
-                  timeout: $scope.aborter.promise
-                    /*                       headers:  {
-                     "Authorization" : "Bearer "+$scope.authToken,
-                     "Content-Type": "application/json"
-                     }
-                     */
-                }).success(function(response) {
-                  item.live = enable;
-                }).error(function(response, status) {
-                  var tmpMsg = {};
-                  tmpMsg.Label = "错误";
-                  tmpMsg.ErrorContent = "camera" + item.name + "直播控制失败";
-                  tmpMsg.ErrorContentDetail = response;
-                  tmpMsg.SingleButtonShown = true;
-                  tmpMsg.MutiButtonShown = false;
-                  //tmpMsg.Token =  $scope.project.camera.data_mod.addHotSpToken;
-                  tmpMsg.Callback = "modMdCallBack";
-                  if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
-                    //$scope.$emit("Logout", tmpMsg);
-                    $state.go('logOut', { info: response.info, traceback: response.traceback });
-                  } else
-                    $scope.$emit("Ctr1ModalShow", tmpMsg);
-
-                  //$scope.project.camera.data_mod.hotRefresh(item, index);
-                });
-            },
-
-            reboot: function(item, index) {
-              $scope.aborter = $q.defer(),
-                $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras/" + item.uuid + "/reboot", {
-                  timeout: $scope.aborter.promise
-                }).success(function(response) {
-
-                }).error(function(response, status) {
-                  var tmpMsg = {};
-                  tmpMsg.Label = "错误";
-                  tmpMsg.ErrorContent = "camera  " + item.name + "  重启失败";
-                  tmpMsg.ErrorContentDetail = response;
-                  tmpMsg.SingleButtonShown = true;
-                  tmpMsg.MutiButtonShown = false;
-                  tmpMsg.Callback = "modMdCallBack";
-                  if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
-
-                    $state.go('logOut', { info: response.info, traceback: response.traceback });
-                  } else
-                    $scope.$emit("Ctr1ModalShow", tmpMsg);
-
-                });
-            },
-
-            submitForm: function(item, index) {
-              var allFlags = 0;
-              for (var i = 0; i < $scope.project.camera.data_mod.data[index].stearmOptions.length; i++) {
-                if ($scope.project.camera.data_mod.data[index].stearmOptions[i].on === true)
-                  allFlags += (1 << i);
-              }
-              if ($scope.project.camera.data_mod.data[index].pic === true)
-                allFlags += (1 << 4);
-
-
-              var postData = {
-                flags: allFlags,
-                desc: $scope.project.camera.data_mod.data[index].desc,
-                long_desc: $scope.project.camera.data_mod.data[index].long_desc,
-                longitude: $scope.project.camera.data_mod.data[index].longitude,
-                login_passwd: $scope.project.camera.data_mod.data[index].login_passwd,
-                latitude: $scope.project.camera.data_mod.data[index].latitude,
-                altitude: $scope.project.camera.data_mod.data[index].altitude
-              };
-
-              //$scope.project.camera.data_mod.submitForm = Math.random();
-              $scope.aborter = $q.defer(),
-                $http.put("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras/" + item.uuid, postData, {
-                  timeout: $scope.aborter.promise
-                    /*                       headers:  {
-                     "Authorization" : "Bearer "+$scope.authToken,
-                     "Content-Type": "application/json"
-                     }
-                     */
-                }).success(function(response) {
-
-                }).error(function(response, status) {
-                  var tmpMsg = {};
-                  tmpMsg.Label = "错误";
-                  tmpMsg.ErrorContent = "camera " + $scope.project.data_mod.selectItem.name + " 更新失败";
-                  tmpMsg.ErrorContentDetail = response;
-                  tmpMsg.SingleButtonShown = true;
-                  tmpMsg.MutiButtonShown = false;
-                  tmpMsg.Token = $scope.project.camera.data_mod.submitForm;
-                  //tmpMsg.Callback = "odCallBack";
-                  if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
-                    //$scope.$emit("Logout", tmpMsg);
-                    $state.go('logOut', { info: response.info, traceback: response.traceback });
-                  } else
-                    $scope.$emit("Ctr1ModalShow", tmpMsg);
-
-                });
-            },
-            reset: function(item, index) {
-              $scope.project.camera.data_mod.initDetail(item, index);
-            },
-
-            /*
-             modMdCallBack:function (event, msg) {
-
-
-             },
-             */
-            destroy: function() {}
-          };
-        })()
+          $scope.aborter = $q.defer();
+          $http.delete("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras/" + item.uuid, {
+            timeout: $scope.aborter.promise
+          }).success(function(response) {
+            camera.page.pageChanged();
+          }).error(function(response, status) {
+            var tmpMsg = {};
+            tmpMsg.Label = "错误";
+            tmpMsg.ErrorContent = "删除camera" + item.name + "失败";
+            tmpMsg.ErrorContentDetail = response;
+            tmpMsg.SingleButtonShown = true;
+            tmpMsg.MutiButtonShown = false;
+            tmpMsg.Token = $scope.project.camera.data.delOneToken;
+            //tmpMsg.Callback = "delMdCallBack";
+            if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+              //$scope.$emit("Logout", tmpMsg);
+              $state.go('logOut', { info: response.info, traceback: response.traceback });
+            } else
+              $scope.$emit("Ctr1ModalShow", tmpMsg);
+            //$scope.project.camera.refresh();
+          });
+        }
       }
       $scope.project.camera = camera;
     })();

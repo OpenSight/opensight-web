@@ -501,7 +501,7 @@
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.camera.search()">
                   <i  class="fa fa-search"></i>
                 </span>
-                <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加摄像机" ng-click="project.camera.add()">
+                <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加摄像机" ng-click="project.camera.showAdd()">
                   <i  class="fa fa-plus"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.camera.page.pageChanged()">
@@ -511,30 +511,29 @@
               <div class="panel os-panel" ng-show="project.camera.addShown">
                 <div class="panel-body">
                   <form class="form-horizontal os-form" role="form">
-                    <div class="form-group has-error">
+                    <div class="form-group">
                       <label class="col-sm-2 control-label">摄像机名称</label>
                       <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.camera.data_add.name" placeholder="必填项" required />
+                        <input type="text" class="form-control" ng-model="project.camera.data_add.name" placeholder="必填项" ng-required />
                       </div>
-                    </div>
-                    <div class="form-group has-error">
                       <label class="col-sm-2 control-label">所属设备id</label>
                       <div class="col-sm-4">
                         <input type="text" class="form-control" ng-model="project.camera.data_add.device_uuid" placeholder="必填项" required />
                       </div>
                     </div>
-                    <div class="form-group has-error">
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">直播</label>
+                      <div class="col-sm-4">
+                        <div class="btn-group btn-group-xs">
+                          <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.data_add.live]" title="支持预览图" ng-click="project.camera.data_add.live=!project.camera.data_add.live">支持</button>
+                          <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.data_add.live]" title="不支持预览图" ng-click="project.camera.data_add.live=!project.camera.data_add.live">不支持</button>
+                        </div>
+                      </div>
                       <label class="col-sm-2 control-label">所属设备通道</label>
                       <div class="col-sm-4">
                         <input type="text" class="form-control" ng-model="project.camera.data_add.channel_index" placeholder="必填项" required />
                       </div>
                     </div>
-                    <!--div class="form-group has-error">
-                    <label class="col-sm-2 control-label">flags</label>
-                    <div class="col-sm-4">
-                      <input type="text" class="form-control" ng-model="project.camera.data_add.flags" placeholder="必填项" required />
-                    </div>
-                  </div-->
                     <div class="form-group">
                       <label class="col-sm-2 control-label">预览图</label>
                       <div class="col-sm-4">
@@ -543,13 +542,34 @@
                           <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.data_add.pic]" title="不支持预览图" ng-click="project.camera.data_add.pic=!project.camera.data_add.pic">不支持</button>
                         </div>
                       </div>
+                      <label class="col-sm-2 control-label">经度</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" ng-model="project.camera.data_add.longitude" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">云台控制</label>
+                      <div class="col-sm-4">
+                        <div class="btn-group btn-group-xs">
+                          <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.data_add.ptz]" title="支持预览图" ng-click="project.camera.data_add.ptz=!project.camera.data_add.ptz">支持</button>
+                          <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.data_add.ptz]" title="不支持预览图" ng-click="project.camera.data_add.ptz=!project.camera.data_add.ptz">不支持</button>
+                        </div>
+                      </div>
+                      <label class="col-sm-2 control-label">纬度</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" ng-model="project.camera.data_add.latitude" />
+                      </div>
                     </div>
                     <div class="form-group">
                       <label class="col-sm-2 control-label">支持流类型</label>
-                      <div class="col-sm-8">
+                      <div class="col-sm-4">
                         <div class="btn-group btn-group-xs">
-                          <button ng-repeat="it in project.camera.data_add.stearmOptions" class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[it.on]" ng-click="it.on = !it.on" role="group" title={{it.title}}>{{it.text}}</button>
+                          <button ng-repeat="it in project.camera.data_add.qualityList" class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[it.enabled]" ng-click="it.enabled = !it.enabled" role="group" title={{it.title}}>{{it.text}}</button>
                         </div>
+                      </div>
+                      <label class="col-sm-2 control-label">海拔</label>
+                      <div class="col-sm-4">
+                        <input type="text" class="form-control" ng-model="project.camera.data_add.altitude" />
                       </div>
                     </div>
                     <div class="form-group">
@@ -560,35 +580,17 @@
                     </div>
                     <div class="form-group">
                       <label class="col-sm-2 control-label">详细描述</label>
-                      <div class="col-sm-4">
+                      <div class="col-sm-10">
                         <textarea rows="6" style="width: 100%" type="text" ng-model="project.camera.data_add.long_desc" />
                       </div>
                     </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">经度</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.camera.data_add.longitude" />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">纬度</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.camera.data_add.latitude" />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">海拔</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" ng-model="project.camera.data_add.altitude" />
-                      </div>
-                    </div>
                     <div class="form-group os-submit-group">
-                      <label class="col-sm-1 control-label"></label>
+                      <label class="col-sm-2 control-label"></label>
                       <div class="col-sm-4">
-                        <button class="btn btn-default" ng-click="project.camera.data_add.submitForm()">
+                        <button type="submit" class="btn btn-default" ng-click="project.camera.add()">
                           <i class="fa fa-check"></i> &nbsp;确定
                         </button>
-                        <button class="btn btn-default" ng-click="project.camera.data_add.close()">
+                        <button class="btn btn-default" ng-click="project.camera.showAdd()">
                           <i class="fa fa-remove"></i> &nbsp;取消
                         </button>
                       </div>
@@ -614,8 +616,8 @@
                       <td ng-click="showDetail(project.camera, u, $index)" style="cursor:pointer;">{{u.is_online|online}}</td>
                       <td>
                         <div class="btn-group btn-group-xs">
-                          <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[u.live]" title="允许直播" ng-click="project.camera.data_mod.play_switch(u, true)">允许</button>
-                          <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[u.live]" title="禁止直播" ng-click="project.camera.data_mod.play_switch(u, false)">禁止</button>
+                          <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[u.live]" title="允许直播" ng-click="project.camera.play_switch(u, $index, true)">允许</button>
+                          <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[u.live]" title="禁止直播" ng-click="project.camera.play_switch(u, $index, false)">禁止</button>
                         </div>
                       </td>
                       <td ng-click="showDetail(project.camera, u, $index)" style="cursor:pointer;">
@@ -624,7 +626,7 @@
                         </div>
                       </td>
                       <td style="cursor:pointer;" ng-click="showDetail(project.camera, u, $index)">{{u.desc}}</td>
-                      <td ng-click="project.camera.delete_one(u)" style="cursor:pointer;">
+                      <td ng-click="project.camera.remove(u)" style="cursor:pointer;">
                         <i class="fa fa-trash"></i>
                       </td>
                     </tr>
@@ -667,25 +669,17 @@
                                 </div>
                               </div>
                               <div class="form-group">
-                                <label class="col-sm-2 control-label">支持流类型</label>
+                                <label class="col-sm-2 control-label">云台控制</label>
                                 <div class="col-sm-4">
                                   <div class="btn-group btn-group-xs">
-                                    <button ng-repeat="it in project.camera.detail[$index].qualityMap" class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[it.enabled]" ng-click="it.enabled = !it.enabled" role="group" title={{it.title}}>{{it.text}}</button>
+                                    <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.detail[$index].ptz]" ng-click="project.camera.detail[$index].ptz=!project.camera.detail[$index].ptz">支持</button>
+                                    <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.detail[$index].ptz]" ng-click="project.camera.detail[$index].ptz=!project.camera.detail[$index].ptz">不支持</button>
                                   </div>
                                 </div>
                                 <div class="col-sm-4 col-sm-offset-1">
                                   <p class="form-control-static">
                                     <img style="position: absolute; width: 100%;" ng-src="{{project.camera.detail[$index].preview}}" alt="预览图">
                                   </p>
-                                </div>
-                              </div>
-                              <div class="form-group">
-                                <label class="col-sm-2 control-label">云台</label>
-                                <div class="col-sm-4">
-                                  <div class="btn-group btn-group-xs">
-                                    <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.detail[$index].ptz]" ng-click="project.camera.detail[$index].ptz=!project.camera.detail[$index].ptz">支持</button>
-                                    <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.detail[$index].ptz]" ng-click="project.camera.detail[$index].ptz=!project.camera.detail[$index].ptz">不支持</button>
-                                  </div>
                                 </div>
                               </div>
                               <div class="form-group">
@@ -697,24 +691,19 @@
                                 </div>
                               </div>
                               <div class="form-group">
+                                <label class="col-sm-2 control-label">支持流类型</label>
+                                <div class="col-sm-4">
+                                  <div class="btn-group btn-group-xs">
+                                    <button ng-repeat="it in project.camera.detail[$index].qualityList" class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[it.enabled]" ng-click="it.enabled = !it.enabled" role="group" title={{it.title}}>{{it.text}}</button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-group">
                                 <label class="col-sm-2 control-label">在线状态</label>
                                 <div class="col-sm-4">
                                   <p class="form-control-static">{{project.camera.detail[$index].is_online|online}}</p>
                                 </div>
                               </div>
-                              <!-- <div class="form-group">
-                                <div class="col-sm-4">
-                                  <p class="form-control-static">
-                                    <img ng-src="{{info.preview}}" alt="预览图">
-                                  </p>
-                                </div>
-                              </div> -->
-                              <!-- <div class="form-group">
-                                <label class="col-sm-2 control-label">flags</label>
-                                <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.camera.detail[$index].flags}}</p>
-                                </div>
-                              </div> -->
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">描述</label>
                                 <div class="col-sm-4">
@@ -758,16 +747,16 @@
                               <div class="form-group os-submit-group">
                                 <label class="col-sm-2 control-label"></label>
                                 <div class="col-sm-8">
-                                  <button class="btn btn-default" ng-click="project.camera.data_mod.submitForm(u,$index)">
+                                  <button class="btn btn-default" ng-click="project.camera.modify($index)">
                                     <i class="fa fa-check"></i> &nbsp;确定
                                   </button>
-                                  <button class="btn btn-default" ng-click="project.camera.data_mod.reset(u,$index)">
+                                  <button class="btn btn-default" ng-click="showDetail(project.camera, u, $index)">
                                     <i class="fa fa-remove"></i> &nbsp;取消
                                   </button>
-                                  <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(project.camera.detail[$index],true)" ng-show="!(project.camera.detail[$index].live)">
+                                  <button class="btn btn-default" ng-click="project.camera.play_switch(u, $index, true)" ng-show="!(project.camera.detail[$index].live)">
                                     <i class="fa fa-play"></i> &nbsp;允许直播
                                   </button>
-                                  <button class="btn btn-default" ng-click="project.camera.data_mod.play_switch(project.camera.detail[$index],false)" ng-show="(project.camera.detail[$index].live)">
+                                  <button class="btn btn-default" ng-click="project.camera.play_switch(u, $index, false)" ng-show="(project.camera.detail[$index].live)">
                                     <i class="fa fa-stop"></i> &nbsp;禁止直播
                                   </button>
                                   <button class="btn btn-default" ng-click="project.camera.data_mod.reboot(u,$index)">

@@ -45,6 +45,22 @@ angular.module('app.services', [])
         t.push(item);
       }
       return t;
+    },
+    encodeCamera: function(quality){
+      var f = 0;
+      for(var i = 0, l = quality.length; i < l; i++){
+        if (true !== quality[i].enabled){
+          continue;
+        }
+        f += Math.pow(2, quality[i].idx);
+      }
+      for (var j = 1, l = arguments.length; j < l; j++){
+        if (true !== arguments[j]){
+          continue;
+        }
+        f += Math.pow(2, i + j - 1);
+      }
+      return f;
     }
   };
 })
