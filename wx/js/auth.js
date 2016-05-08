@@ -22,7 +22,7 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd5bc8eb5c47795d6&red
 reset1();
 reset2();
     */
-var defaultUrl = "www.opensight.cn/wx/";
+var defaultUrl = "http://www.opensight.cn/wx/";
 var api = "http://api.opensight.cn/api/ivc/v1/wechat/";
 
 function getUrlParam(name) {
@@ -31,7 +31,7 @@ function getUrlParam(name) {
     if (r != null) return unescape(r[2]); return null; //返回参数值
 }
 
-function getJwt(token, page){
+function getJwt(token, page, state){
     var d = new Date ();
     d.setHours(d.getHours() + 1);
     var e = Math.ceil(d.getTime() / 1000);
@@ -44,12 +44,20 @@ function getJwt(token, page){
         success: function(json){
             $.cookie('jwt', json.jwt, {expires: 30});
             $.cookie('binding_id', json.binding_id, {expires: 30});
-            window.location.href = defaultUrl+page+".html";
+            window.location.replace(defaultUrl+page+".html");
+            // window.location.href = defaultUrl+page+".html";
             //var ui = Base64.encodeURI(JSON.stringify(data));
-            //window.location.replace(_this.url + '?jwt=' + json.jwt + '&ui=' + ui);
+            //window.location.href(_this.url + '?jwt=' + json.jwt + '&ui=' + ui);
         },
         error: function() {
-            window.location.replace = defaultUrl+"bind.html?page="+page;
+            window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?" +
+                "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+                "bind.html&response_type=code&scope=snsapi_userinfo&state=" + state +
+                "#wechat_redirect");
+            // window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+            //     "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+            //     "bind.html&response_type=code&scope=snsapi_userinfo&state=" + state +
+            //     "#wechat_redirect";
         }
     });
 }
@@ -78,10 +86,11 @@ function checkUrl(){
                 break;
             default:
                 alert("unkown state:"+goTo);
-                return;
+                page = "myProject";
+                break;
         }
 
-        getJwt(Token, page);
+        getJwt(Token, page, goTo);
     }
 };
 

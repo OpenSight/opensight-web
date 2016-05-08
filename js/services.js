@@ -2,6 +2,12 @@
 
 angular.module('app.services', [])
 .factory('flagFactory', function() {
+  var camera_ab = [
+    {text: 'LD', title: '流畅', cls: '', idx: 0}, 
+    {text: 'SD', title: '标清', cls: '', idx: 1}, 
+    {text: 'HD', title: '高清', cls: '', idx: 2}, 
+    {text: 'FHD', title: '超清', cls: '', idx: 3}
+  ];
   return {
     getBitmap: function(f, bits) {
       var t = [];
@@ -18,16 +24,10 @@ angular.module('app.services', [])
       return t;
     },
     parseCamera: function(bitmap) {
-      var ab = [
-        {text: 'LD', title: '流畅', cls: '', idx: 0}, 
-        {text: 'SD', title: '标清', cls: '', idx: 1}, 
-        {text: 'HD', title: '高清', cls: '', idx: 2}, 
-        {text: 'FHD', title: '超清', cls: '', idx: 3}
-      ];
       var t = [];
-      for (var i = 0, l = ab.length; i < l; i++) {
-        if (1 === bitmap[ab[i].idx]) {
-          t.push(ab[i]);
+      for (var i = 0, l = camera_ab.length; i < l; i++) {
+        if (1 === bitmap[camera_ab[i].idx]) {
+          t.push(camera_ab[i]);
         }
       }
       return {
@@ -36,6 +36,31 @@ angular.module('app.services', [])
         preview: 1 === bitmap[4],
         ability: t
       };
+    },
+    quality: function(bitmap){
+      var t = [];
+      for (var i = 0, l = camera_ab.length; i < l; i++) {
+        var item = angular.copy(camera_ab[i]);
+        item.enabled = (1 === bitmap[camera_ab[i].idx]);
+        t.push(item);
+      }
+      return t;
+    },
+    encodeCamera: function(quality){
+      var f = 0;
+      for(var i = 0, l = quality.length; i < l; i++){
+        if (true !== quality[i].enabled){
+          continue;
+        }
+        f += Math.pow(2, quality[i].idx);
+      }
+      for (var j = 1, l = arguments.length; j < l; j++){
+        if (true !== arguments[j]){
+          continue;
+        }
+        f += Math.pow(2, i + j - 1);
+      }
+      return f;
     }
   };
 })

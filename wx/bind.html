@@ -10,24 +10,16 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <!-- Place favicon.ico in the root directory -->
 
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
-  <!--[if lt IE 8]>
-  <p class="browserupgrade">
-    You are using an <strong>outdated</strong>
-    browser. Please
-    <a href="http://browsehappy.com/">upgrade your browser</a>
-    to improve your experience.
-  </p>
-  <![endif]-->
 
   <!-- Add your site or application content here -->
   <div class="container-fluid login-background">
     <div class="login-container">
-      <form action="http://121.41.72.231:5001/api/ivc/v1/plaintext_login" method="POST" class="container-fluid" id="form">
+      <form action="" method="POST" class="container-fluid" id="form">
         <h4 class="login-header">
           <span class="glyphicon glyphicon-user"></span>
           用户绑定
@@ -45,27 +37,10 @@
     </div>
   </div>
 
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
-<script src="bower_components/js-base64/base64.js"></script>
-<!-- <script src="http://cdn.bootcss.com/jquery.matchHeight/0.5.2/jquery.matchHeight-min.js"></script> -->
-<!-- <script src="bower_components/matchHeight/jquery.matchHeight-min.js"></script> -->
-<!-- <script src="bower_components/juicer/juicer-min.js"></script> -->
-<!-- <script src="js/content.js"></script> -->
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="js/bind.js"></script>
-
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-71601701-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
--->
+<script src="js/sjcl.js"></script>
 </body>
 </html>
