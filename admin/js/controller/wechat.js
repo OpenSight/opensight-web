@@ -39,6 +39,7 @@ app.register.controller('WeChat', ['$scope', '$http', '$q', 'pageFactory', funct
     query(params);
   })();
 
+  $scope.detail = [];
   $scope.showDetail = function(item, index) {
     if (true === item.bDetailShown) {
       item.bDetailShown = false;
