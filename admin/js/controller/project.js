@@ -474,12 +474,12 @@ app.register.controller('Project', [
               device.data_add.name = "";
               device.data_add.type = "camera";
               device.data_add.flags = 0;
-              device.data_add.login_code = "admin";
+              device.data_add.login_code = "";
               device.data_add.login_passwd = "123456";
               device.data_add.firmware_model = "";
               device.data_add.hardware_model = "";
-              device.data_add.media_channel_num = 0;
-              device.data_add.vendor = "";
+              device.data_add.media_channel_num = 1;
+              device.data_add.vendor = "open sight";
               device.data_add.desc = "";
               device.data_add.long_desc = "";
               device.data_add.longitude = 0;
@@ -515,7 +515,10 @@ app.register.controller('Project', [
                      }
                      */
                 }).success(function(response) {
-                  device.refresh();
+                  // device.refresh();
+                  device.data_add.clean_data();
+                  device.addShown = !device.addShown;
+                  device.page.pageChanged();
                 }).error(function(response, status) {
                   //response.ErrorContent = "添加device失败";
                   //$scope.$emit("errorEmit",response);
@@ -564,7 +567,8 @@ app.register.controller('Project', [
           $http.delete("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/devices/" + item.uuid, {
             timeout: $scope.aborter.promise
           }).success(function(response) {
-            device.refresh();
+            // device.refresh();
+            device.page.pageChanged();
           }).error(function(response, status) {
             var tmpMsg = {};
             tmpMsg.Label = "错误";
@@ -586,7 +590,8 @@ app.register.controller('Project', [
           }
           $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/devices/" + item.uuid + '/firmware', {}).success(function(response) {
             alert("升级device: " + item.name + " 成功。");
-            device.refresh();
+            // device.refresh();
+            device.page.pageChanged();
           }).error(function(response, status) {
             var tmpMsg = {};
             tmpMsg.Label = "错误";
