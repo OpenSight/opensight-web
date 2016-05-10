@@ -1,5 +1,6 @@
 var wx_api = "http://api.opensight.cn/api/ivc/v1/wechat/";
 app.controller('MyInfo', ['$scope', '$http', '$q', '$window',  function($scope, $http, $q, $window){
+    $scope.ToastTxt = "xxxx";
     $scope.unbind = (function () {
 
         $scope.aborter = $q.defer(),
@@ -7,9 +8,17 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window',  function($scope, 
                 +$.cookie('binding_id'), {
                 timeout: $scope.aborter.promise
             }).success(function (response) {
-                    $scope.customerlist.data = response;
-                }).error(function (response,status) {
-                    alert("解绑失败！");
+                    $scope.ToastTxt = "解绑成功";
+                    $('#loadingToast').show();
+                    setTimeout(function () {
+                        $('#loadingToast').hide();
+                    }, 2000);
+                }).error(function (response) {
+                    $scope.ToastTxt = "解绑失败";
+                    $('#loadingToast').show();
+                    setTimeout(function () {
+                        $('#loadingToast').hide();
+                    }, 2000);
                     /*
                     var tmpMsg = {};
                     tmpMsg.Label = "错误";

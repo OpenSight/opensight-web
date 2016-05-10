@@ -1,54 +1,44 @@
-var state = "1";
-var api = "http://api.opensight.cn/api/ivc/v1/wechat/";
 var Jwt = function(urlname){
-  state = urlname;
-  var params;
-  this.init(params.jwt, params.ui, params.url);
-  
-  this.keepalive();
+      this.url = urlname;
+      //this.init();
+      //this.keepalive();
 };
 
-var bindUrl =  "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
-    "bind.html&response_type=code&scope=snsapi_userinfo&state=" + state +
-    "#wechat_redirect";
-
 Jwt.prototype = {
-  init: function(jwt, ui, url){
-    if (undefined !== jwt){
-      $.cookie('jwt', jwt);
-      this.jwt = jwt;
-    } else {
+  init: function(){
       this.jwt = $.cookie('jwt');
-    }
-    if (0 >= this.check()){
-      this.jump();
-    }
+      this.binding_id = $.cookie('binding_id');
+      this.api = "http://api.opensight.cn/api/ivc/v1/wechat/";
+      this.bindUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+          "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+          "bind.html&response_type=code&scope=snsapi_userinfo&state=" + this.url +
+          "#wechat_redirect";
 
-    var claim = this.parse();
-    if (undefined !== claim.aud){
-      this.aud = claim.aud;
-    } else {
-      this.jump();
-    }
+        if (0 >= this.check()){
+          this.jump();
+        }
+
+        var claim = this.parse();
+        if (undefined !== claim.aud){
+          this.aud = claim.aud;
+        } else {
+          this.jump();
+        }
   },
 
   check: function(jwt){
-    if (undefined === this.jwt){
-      return -1;
-    }
-    var claim = this.parse();
-    if (undefined === claim.exp){
-      return -1;
-    }
-    var t = Math.ceil((new Date().getTime()) / 1000)
-    return (claim.exp - t);
+      if (undefined === this.jwt || this.binding_id === undefined){//must have two cookies
+          return -1;
+      }
+      var claim = this.parse();
+      if (undefined === claim.exp){
+          return -1;
+      }
+      var t = Math.ceil((new Date().getTime()) / 1000)
+      return (claim.exp - t);
   },
 
   update: function(){
-    if (undefined === this.pwd){
-      this.jump();
-    }
     if (true === this.updateing){
       return false;
     }
@@ -59,8 +49,8 @@ Jwt.prototype = {
 
     var _this = this;
       $.ajax({
-          url: this.api + 'binding_login',
-          data: {binding_id: $.cookie('binding_id'), expired: e},
+          url: _this.api + 'binding_login',
+          data: {binding_id: this.binding_id, expired: e},
           type: 'POST',
           success: function(json){
               _this.jwt = json.jwt;
@@ -68,6 +58,7 @@ Jwt.prototype = {
               _this.updateing = false;
           },
           error: function() {
+              window.location.replace(this.bindUrl);
               _this.updateing = false;
           }
       });
@@ -86,8 +77,12 @@ Jwt.prototype = {
   },
 
   jump: function(){
-    window.location.replace(bindUrl);
+      if (this.binding_id !== undefined && this.binding_id !== null && this.binding_id !== ""){
+          this.update();
+      }else
+        window.location.replace(this.bindUrl);
   },
+
   keepalive: function(){
     var _this = this;
     var interval = 10 * 60 * 1000;
