@@ -35,7 +35,6 @@ Login.prototype = {
       data: data,
       type: 'POST',
       success: function(json) {
-        debugger;
         if (true === r) {
           $.cookie('username', u, { expires: 30 });
           $.cookie('password', p, { expires: 30 });
