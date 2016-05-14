@@ -227,6 +227,13 @@ angular.module('app.controller', [])
   }
 ])
 
+.controller('camera-tab', [
+  '$scope', '$rootScope', '$http', 'flagFactory',
+  function($scope, $rootScope, $http, flagFactory) {
+    $scope.caminfo = {};
+  }
+])
+
 .controller('camera-detail', [
   '$scope', '$rootScope', '$http', 'flagFactory',
   function($scope, $rootScope, $http, flagFactory) {
@@ -248,6 +255,7 @@ angular.module('app.controller', [])
       $scope.info.ptz_ability = flags.ptz;
       $scope.info.preview_ability = flags.preview;
       preview_ability = flags.preview;
+      $scope.$parent.caminfo = $scope.info;
     }).error(function(response, status) {
       console.log('error');
     });
@@ -287,6 +295,46 @@ angular.module('app.controller', [])
       }).error(function(response, status) {
         $rootScope.$emit('messagePush', { succ: false, text: text + '直播失败。' });
         console.log('error');
+      });
+    };
+  }
+])
+
+.controller('camera-record-plan', [
+  '$scope', '$rootScope', '$http', 'flagFactory',
+  function($scope, $rootScope, $http, flagFactory) {
+    $scope.boolFalse = false;
+    $scope.boolTrue = true;
+    var project = $rootScope.$stateParams.project;
+    $scope.camera = $rootScope.$stateParams.camera;
+    var url = api + "projects/" + project + '/cameras/' + $scope.camera + '/record/configure';
+
+    $http.get(url, {}).success(function(response) {
+      $scope.info = response;
+    }).error(function(response, status) {
+      console.log('error');
+    });
+
+    $http.get(api + "projects/" + project + '/record/schedules', {}).success(function(response) {
+      $scope.schedules = response;
+    }).error(function(response, status) {
+      console.log('error');
+    });
+
+    $scope.save = function() {
+      var data = {
+        stream_quality: $scope.info.stream_quality.toLowerCase(),
+        schedule_id: $scope.info.schedule_id,
+        mannual: $scope.info.mannual_enabled,
+        mannual_last: 60
+      };
+      $rootScope.$emit('messageHide');
+      $http.put(url, data).success(function(response) {
+        console.log('success');
+        $rootScope.$emit('messagePush', { succ: true, text: '修改摄像机录像计划成功。' });
+      }).error(function(response, status) {
+        console.log('error');
+        $rootScope.$emit('messagePush', { succ: false, text: '修改摄像机录像计划失败。' });
       });
     };
   }
