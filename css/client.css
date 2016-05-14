@@ -153,3 +153,13 @@ body {
 .ptz-item:hover use {
   fill: #fff;
 }
+.tab-icon{
+  font-size: 1.5em;
+  line-height: 40px;
+}
+.fa.pull-left.tab-icon{
+  margin-right: 20px;
+}
+.tab-pane > form{
+  padding-top: 10px;
+}
