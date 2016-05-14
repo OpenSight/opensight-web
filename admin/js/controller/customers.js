@@ -91,7 +91,7 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
             },
 
             encryptPasswd: function (passwd) {
-                return sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(passwd, G_salt, 100000));
+                return sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(passwd, G_salt, 10000));
                 //return sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2("password", "salt", 1));
             },
 

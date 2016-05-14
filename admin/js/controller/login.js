@@ -40,7 +40,7 @@ login.controller('loginCtrl', ['$scope', '$http', '$q','$location','$window','$c
                 var e = Math.ceil(d.getTime() / 1000);
                 var postData = {
                     username: $scope.admin,
-                    password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2($scope.passwd, G_salt, 100000)),
+                    password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2($scope.passwd, G_salt, 10000)),
                     expired: e
                 };
 
