@@ -97,7 +97,7 @@ Jwt.prototype = {
     var data = {username: this.aud, password: this.pwd, expired: e};
     var _this = this;
     $.ajax({
-      url: 'http://121.41.72.231:5001/api/ivc/v1/plaintext_login',
+      url: 'http://121.41.72.231:5001/api/ivc/v1/user_login',
       data: data,
       type: 'POST',
       success: function(json){
@@ -138,6 +138,7 @@ Jwt.prototype = {
   keepalive: function(){
     var _this = this;
     var interval = 10 * 60 * 1000;
+    
     setInterval(function(){
       if (interval > _this.check()){
         _this.update();
