@@ -340,6 +340,76 @@ angular.module('app.controller', [])
   }
 ])
 
+.controller('schedule', [
+  '$scope', '$rootScope', '$http', '$uibModal', 'flagFactory',
+  function($scope, $rootScope, $http, $uibModal, flagFactory, pageFactory) {
+    $scope.project = $rootScope.$stateParams.project;
+    var url = api + "projects/" + $scope.project + '/record/schedules';
+
+    $scope.query = function() {
+      $http.get(url, {}).success(function(response) {
+        $scope.schedules = response;
+      }).error(function(response, status) {
+        console.log('error');
+      });
+    };
+    $scope.query();
+  }
+])
+
+.controller('add-schedule', [
+  '$scope', '$rootScope', '$http',
+  function($scope, $rootScope, $http) {
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/record/schedules';
+
+    var init = function() {
+      $scope.info = {
+        name: '',
+        desc: '',
+        long_desc: '',
+        entries:[]
+      };
+      $scope.type = 'weekday';
+    };
+
+    init();
+
+    $scope.addItem = function(){
+      var it = {
+        date: '',
+        weekday: 1,
+        monthday: 1,
+        start: '00:00:00',
+        end: '23:59:59',
+        prerecord: true
+      };
+      if ('weekday' !== $scope.type){
+        it.weekday = 0;
+      } else {
+        it.monthday = 0;
+      }
+      $scope.info.entries.push(it);
+    };
+
+    $scope.removeItem = function(it, index){
+      // if (false ==== confirm('确定要删除此条记录？')){
+      //   return;
+      // }
+      $scope.info.entries.splice(index, 1);
+    };
+
+    $scope.add = function() {
+      $http.post(url, $scope.info).success(function(response) {
+        alert('添加成功。');
+        init();
+      }).error(function(response, status) {
+        alert('添加失败。');
+        console.log('error');
+      });
+    };
+  }
+])
+
 .controller('log', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
   $scope.project = $rootScope.$stateParams.project;
   $scope.list = [];

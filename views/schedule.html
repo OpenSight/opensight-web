@@ -1,0 +1,33 @@
+<div class="container-fluid" ng-controller="schedule">
+  <form class="form-inline">
+    <button class="btn btn-default" ng-click="query()">
+      <i class="glyphicon glyphicon-refresh pointer"></i>
+    </button>
+    <button class="btn btn-default pull-right" ui-sref="project.add-schedule">
+      <i class="glyphicon glyphicon-plus pointer"></i>
+    </button>
+  </form>
+  <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
+    <thead>
+      <tr>
+        <th class="col-sm-2">计划名称</th>
+        <th class="col-sm-2">描述</th>
+        <th class="col-sm-2 text-center">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in schedule.list">
+        <td>{{item.name}}</td>
+        <td>{{item.desc}}</td>
+        <td class="text-center">
+          <button class="btn btn-default btn-sm" title="详细">
+            <i class="glyphicon glyphicon-cog pointer"></i>
+          </button>&nbsp;
+          <button class="btn btn-default btn-sm" ng-click="restart(item.uuid)" title="删除">
+            <i class="glyphicon glyphicon-trash pointer"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
