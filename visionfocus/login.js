@@ -99,7 +99,6 @@ Login.prototype = {
     d.setHours(d.getHours() + 1);
     var e = Math.ceil(d.getTime() / 1000);
 
-    debugger;
     var data = { 
       username: u, 
       password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(p, this.salt, 10000)),
