@@ -363,22 +363,24 @@ angular.module('app.controller', [])
     var url = api + "projects/" + $rootScope.$stateParams.project + '/record/schedules';
 
     var init = function() {
+      $scope.type = 'weekday';
       $scope.info = {
         name: '',
         desc: '',
         long_desc: '',
         entries:[]
       };
-      $scope.type = 'weekday';
+      for (var i = 1; i < 8; i++){
+        $scope.addItem(i);
+      }
     };
 
-    init();
-
-    $scope.addItem = function(){
+    $scope.addItem = function(idx){
+      idx = idx || 1;
       var it = {
         date: '',
-        weekday: 1,
-        monthday: 1,
+        weekday: idx,
+        monthday: idx,
         start: '00:00:00',
         end: '23:59:59',
         prerecord: true
@@ -407,6 +409,7 @@ angular.module('app.controller', [])
         console.log('error');
       });
     };
+    init();
   }
 ])
 
