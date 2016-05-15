@@ -32,6 +32,7 @@
     "angular-cookies": "1.4.9",
     "angular-file-saver": "~1.1.0",
     "angular-loading-bar": "~0.8.0",
-    "angular-awesome-slider": "~2.4.4"
+    "angular-awesome-slider": "~2.4.4",
+    "sjcl": "~1.0.3"
   }
 }
