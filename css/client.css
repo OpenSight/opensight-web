@@ -164,3 +164,7 @@ body {
 .tab-pane > form{
   padding-top: 10px;
 }
+.timepicker-container{
+  padding-left: 10px;
+  padding-right: 10px;
+}
