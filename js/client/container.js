@@ -340,6 +340,125 @@ angular.module('app.controller', [])
   }
 ])
 
+.controller('schedule', [
+  '$scope', '$rootScope', '$http', '$uibModal', 'flagFactory',
+  function($scope, $rootScope, $http, $uibModal, flagFactory, pageFactory) {
+    $scope.project = $rootScope.$stateParams.project;
+    var url = api + "projects/" + $scope.project + '/record/schedules';
+
+    $scope.query = function() {
+      $http.get(url, {}).success(function(response) {
+        $scope.schedules = response;
+      }).error(function(response, status) {
+        console.log('error');
+      });
+    };
+    $scope.query();
+  }
+])
+
+.controller('add-schedule', [
+  '$scope', '$rootScope', '$http',
+  function($scope, $rootScope, $http) {
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/record/schedules';
+
+    $scope.boolFalse = false;
+    $scope.boolTrue = true;
+    $scope.datepicker = [];
+    $scope.timepicker = [];
+    $scope.info = {
+      name: '',
+      desc: '',
+      long_desc: '',
+      entries:[]
+    };
+    $scope.typechange = function(type) {
+      $scope.type = type;
+      $scope.info.entries = [];
+      var l = 'weekday' === type ? 7 : 31;
+      for (var i = 1; i <= l; i++){
+        $scope.addItem(i);
+      }
+    };
+
+    $scope.weekdays = [
+      {name: '请选择星期', value: 0},
+      {name: '星期一', value: 1},
+      {name: '星期二', value: 2},
+      {name: '星期三', value: 3},
+      {name: '星期四', value: 4},
+      {name: '星期五', value: 5},
+      {name: '星期六', value: 6},
+      {name: '星期天', value: 7}
+    ];
+    $scope.monthdays = [
+      {name: '请选择日期', value: 0}
+    ];
+    for (var i = 1; i < 32; i++){
+      $scope.monthdays.push({name: i + '日', value: i});
+    }
+
+    $scope.addItem = function(idx){
+      idx = idx || 1;
+      var it = {
+        date: '',
+        weekday: idx,
+        monthday: idx,
+        start: '00:00:00',
+        end: '23:59:59',
+        prerecord: true
+      };
+      if ('weekday' !== $scope.type){
+        it.weekday = 0;
+      } else {
+        it.monthday = 0;
+      }
+      var s = new Date();
+      
+
+      $scope.info.entries.push(it);
+      $scope.datepicker.push(false);
+
+      var t = {
+        start: new Date(),
+        end: new Date()
+      };
+      t.start.setHours(0);
+      t.start.setMinutes(0);
+      t.start.setSeconds(0);
+      t.end.setHours(23);
+      t.end.setMinutes(59);
+      t.end.setSeconds(59);
+      $scope.timepicker.push(t);
+    };
+
+    $scope.removeItem = function(it, index){
+      // if (false ==== confirm('确定要删除此条记录？')){
+      //   return;
+      // }
+      $scope.info.entries.splice(index, 1);
+      $scope.datepicker.splice(index, 1);
+      $scope.timepicker.splice(index, 1);
+    };
+
+    $scope.timechange = function(index, key){
+      var d = $scope.timepicker[index][key];
+      $scope.info.entries[index][key] = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+    };
+
+    $scope.add = function() {
+      $http.post(url, $scope.info).success(function(response) {
+        alert('添加成功。');
+        init();
+      }).error(function(response, status) {
+        alert('添加失败。');
+        console.log('error');
+      });
+    };
+    $scope.typechange('weekday');
+  }
+])
+
 .controller('log', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
   $scope.project = $rootScope.$stateParams.project;
   $scope.list = [];
