@@ -114,10 +114,11 @@ body {
 .msg {
   position: fixed;
   z-index: 999999999;
-  top: 45px;
+  top: 25px;
 }
-.msg > p {
-  padding: 5px;
+.msg > .panel,
+.msg > .panel .table{
+  margin-bottom: 0;
 }
 .page-bar button {
   margin-right: 5px;
