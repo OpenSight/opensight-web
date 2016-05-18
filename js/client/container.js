@@ -449,7 +449,7 @@ angular.module('app.controller', [])
     $scope.add = function() {
       $http.post(url, $scope.info).success(function(response) {
         alert('添加成功。');
-        init();
+        $scope.typechange('weekday');
       }).error(function(response, status) {
         alert('添加失败。');
         console.log('error');
