@@ -22,7 +22,7 @@
         <td>{{item.desc}}</td>
         <td>{{item.long_desc}}</td>
         <td class="text-center">
-          <button class="btn btn-default btn-sm" title="详细">
+          <button class="btn btn-default btn-sm" ui-sref="project.schedule-detail({schedule: item.id})" title="详细">
             <i class="glyphicon glyphicon-cog pointer"></i>
           </button>&nbsp;
           <button class="btn btn-default btn-sm" ng-click="remove(item, $index)" title="删除">
