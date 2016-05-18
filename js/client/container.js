@@ -318,6 +318,7 @@ angular.module('app.controller', [])
     $http.get(api + "projects/" + project + '/record/schedules', {}).success(function(response) {
       $scope.schedules = response;
     }).error(function(response, status) {
+      $rootScope.$emit('messageShow', { succ: false, text: '获取录像计划失败' });
       console.log('error');
     });
 
@@ -350,9 +351,24 @@ angular.module('app.controller', [])
       $http.get(url, {}).success(function(response) {
         $scope.schedules = response;
       }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: false, text: '获取录像计划失败' });
         console.log('error');
       });
     };
+
+    $scope.remove = function(item, index){
+      if (false === confirm('确认删除录像计划模板 "' +   item.name + '" 吗？')){
+        return;
+      }
+      $http.delete(url + '/' + item.id, {}).success(function(response) {
+        $scope.schedules.list.splice(index, 1);
+        $rootScope.$emit('messageShow', { succ: true, text: '删除录像模板成功。' });
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: true, text: '删除录像模板失败。' });
+        console.log('error');
+      });
+    };
+
     $scope.query();
   }
 ])
@@ -448,10 +464,10 @@ angular.module('app.controller', [])
 
     $scope.add = function() {
       $http.post(url, $scope.info).success(function(response) {
-        alert('添加成功。');
+        $rootScope.$emit('messageShow', { succ: true, text: '添加成功。' });
         $scope.typechange('weekday');
       }).error(function(response, status) {
-        alert('添加失败。');
+        $rootScope.$emit('messageShow', { succ: false, text: '添加失败。' });
         console.log('error');
       });
     };

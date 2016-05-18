@@ -12,6 +12,7 @@
       <tr>
         <th class="col-sm-2">计划名称</th>
         <th class="col-sm-2">描述</th>
+        <th class="col-sm-6">详细描述</th>
         <th class="col-sm-2 text-center">操作</th>
       </tr>
     </thead>
@@ -19,11 +20,12 @@
       <tr ng-repeat="item in schedules.list">
         <td>{{item.name}}</td>
         <td>{{item.desc}}</td>
+        <td>{{item.long_desc}}</td>
         <td class="text-center">
           <button class="btn btn-default btn-sm" title="详细">
             <i class="glyphicon glyphicon-cog pointer"></i>
           </button>&nbsp;
-          <button class="btn btn-default btn-sm" ng-click="restart(item.uuid)" title="删除">
+          <button class="btn btn-default btn-sm" ng-click="remove(item, $index)" title="删除">
             <i class="glyphicon glyphicon-trash pointer"></i>
           </button>
         </td>
