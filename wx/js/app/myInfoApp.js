@@ -1,4 +1,4 @@
-var app = angular.module('app', []);
+var app = angular.module('app', ['angular-loading-bar', 'ngAnimate']);
 
 app
 .config(function($controllerProvider, $compileProvider, $filterProvider, $provide) {
@@ -27,4 +27,4 @@ app
                 }
             };
         });
-}]);
+    }]);

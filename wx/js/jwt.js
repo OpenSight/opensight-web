@@ -1,11 +1,12 @@
 var Jwt = function(urlname){
       this.url = urlname;
-      //this.init();
-      //this.keepalive();
+      this.init();
+      this.keepalive();
 };
 
 Jwt.prototype = {
   init: function(){
+      if (Base64 === undefined) alert("Base64 not load well!");
       this.jwt = $.cookie('jwt');
       this.binding_id = $.cookie('binding_id');
       this.api = "http://api.opensight.cn/api/ivc/v1/wechat/";

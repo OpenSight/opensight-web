@@ -1,0 +1,6 @@
+html, body{
+    font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+    /*padding-top: 70px;*/
+    height: 100%;
+    background-color: #eee;
+}
