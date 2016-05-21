@@ -10,33 +10,79 @@ var codeLoginUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
 
 app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope, $http, $q, $window){
     var videoPic = "../img/video.jpg";
-
+    $scope.cameraListShown = true;
     $scope.cameralist = (function () {
         return {
             init:function(){
+                $scope.cameraListShown = true;
+                var mySwiper = new Swiper ('.swiper-container', {
+                    direction: 'horizontal',
+                    loop: false,
 
+                    // 如果需要分页器
+                    //pagination: '.swiper-pagination',
+                    //后翻获取当前页并向后台获取
+                    onSlideChangeStart: function(swiper){
+                        $scope.cameralist.get($scope.projectlist.data[mySwiper.activeIndex].name);
+                        //G_ProjectName = $scope.projectlist.data[mySwiper.activeIndex].name;
+                    },
+                    // 如果需要前进后退按钮
+                    nextButton: '.swiper-button-next',
+                    prevButton: '.swiper-button-prev',
+                    observer:'true'
+                    // 如果需要滚动条
+                    //scrollbar: '.swiper-scrollbar'
+                })
             },
-            get: function () {
+            getProject: function () {
                 if (flag === true && jwt != undefined && jwt.aud != undefined){
 
                 }else {
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+                    return;
+                }
+                $('#ToastTxt').html("获取项目列表中");
+                $('#loadingToast').show();
+
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/users/"+jwt.aud+"/projects", {
+                        timeout: $scope.aborter.promise
+                    }).success(function (response) {
+                            $scope.projectlist = {};
+                            $scope.projectlist.data = response;
+                            $scope.cameralist.init();
+                            $('#loadingToast').hide();
+                            $scope.cameralist.get($scope.projectlist.data[0].name);
+                        }).error(function (response,status) {
+                            $('#ToastTxt').html("获取项目列表失败");
+                            $('#loadingToast').show();
+                            setTimeout(function () {
+                                $('#loadingToast').hide();
+                            }, 2000);
+                            $window.location.replace(codeLoginUrl);
+                        });
+
+            },
+            get: function (pName) {
+                if (flag === true && jwt != undefined && jwt.aud != undefined && pName !== ""){
+
+                }else {
                     alert("网络有点小卡哦，请尝试刷新！");
+
                 }
                 $('#ToastTxt').html("获取摄像头列表中");
                 $('#loadingToast').show();
 
-                //$('#loadingToast').show();
-
                 $scope.aborter = $q.defer(),
-                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/"+G_ProjectName+"/cameras?limit=100&start=0", {
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/"+pName+"/cameras?limit=100&start=0", {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
-                            $scope.cameraListShown = true;
+                            //$scope.cameraListShown = true;
                             $scope.cameralist.data = [];
                             $scope.cameralist.data = response.list;
-                            setTimeout(function () {
-                                $('#loadingToast').hide();
-                            }, 100);
+                            $('#loadingToast').hide();
                         }).error(function (response,status) {
                             $('#ToastTxt').html("获取摄像头列表失败");
                             $('#loadingToast').show();
@@ -47,42 +93,7 @@ app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope
                         });
 
             },
-            /*
-             submitForm: function (u) {
-             var postData =  {
-             title: u.title,
-             max_media_sessions: u.max_media_sessions,
-             media_server: u.media_server,
-             desc: u.desc,
-             long_desc: u.long_desc,
-             is_public: u.is_public
-             };
 
-             // $scope.mycamera.data_mod.modMyProjectToken = Math.random();
-             $scope.aborter = $q.defer(),
-             $http.put("http://api.opensight.cn/api/ivc/v1/cameras/"+ u.name, postData, {
-             timeout: $scope.aborter.promise
-             }).success(function (response) {
-             $scope.ToastTxt = "更新项目信息成功";
-             $('#loadingToast').show();
-             setTimeout(function () {
-             $('#loadingToast').hide();
-             }, 2000);
-             }).error(function (response,status) {
-             $scope.ToastTxt = "更新项目信息失败";
-             $('#loadingToast').show();
-             setTimeout(function () {
-             $('#loadingToast').hide();
-             }, 2000);
-             $window.location.replace(codeLoginUrl);
-
-             });
-             }
-             */
-
-            backProject: function () {
-                $state.go('project');
-            },
             showPlayer: function (item) {
                 $scope.c.img = videoPic;
                 $scope.c.tip = true;
@@ -110,6 +121,7 @@ app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope
                     on: !((item.flags & 0x08) === 0)
                 }];
                 $scope.cameraListShown = false;
+                $scope.cameralist.showPlayer(item);
             }
         };
     })();
@@ -122,7 +134,7 @@ app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope
     };
 
     $scope.$on('$destroy', $scope.destroy);
-    $scope.cameralist.get();
+    $scope.cameralist.getProject();
 
 
 

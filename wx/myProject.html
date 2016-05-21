@@ -2,7 +2,7 @@
 <html lang="zh-CN" ng-app="app">
 <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<!-- <script src="../bower_components/js-base64/base64.min.js"></script> -->
+<!--script src="../bower_components/js-base64/base64.min.js"></script-->
 <!--script src="../bower_components/juicer/juicer-min.js"></script-->
 <script src="./js/auth.js"></script>
 <script src="./js/jwt.js"></script>
@@ -63,7 +63,7 @@
                         <div class="weui_cell">
                             <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">详细描述</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
-                                <textarea class="weui_textarea" placeholder="请输入描述" ng-model="u.long_desc" rows="3"></textarea>
+                                <textarea class="weui_textarea" placeholder="" ng-model="u.long_desc" rows="3"></textarea>
                                 <!--div class="weui_textarea_counter"><span>0</span>/200</div-->
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                                 <input class="weui_input" value="" placeholder="" ng-model="u.max_media_sessions" required/>
                             </div>
                         </div>
-                        <div class="weui_cell">
+                        <!--div class="weui_cell">
                             <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">流服务器</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
                                 <input class="weui_input" value="" placeholder="" ng-model="u.media_server" required/>
@@ -96,7 +96,7 @@
                             <div class="weui_cell_bd weui_cell_primary">
                                 <p class="form-control-static">{{u.utime}}</p>
                             </div>
-                        </div>
+                        </div-->
 
             </div>
         </div>
@@ -123,12 +123,12 @@
                 </div>
               </div>
          </div>
-    <!-- 如果需要分页器 >
-            <div class="swiper-pagination"></div-->
+    <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
 
-    <!-- 如果需要导航按钮 -->
+    <!-- 如果需要导航按钮 >
     <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+    <div class="swiper-button-next"></div-->
 
     <!-- 如果需要滚动条 >
     <div class="swiper-scrollbar"></div-->

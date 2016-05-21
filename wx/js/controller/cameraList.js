@@ -108,22 +108,27 @@ app.register.controller('CameraList',['$scope', '$http', '$q', '$window', '$stat
                 $scope.c.stearmOptions = [{
                     text: 'LD',
                     title: '流畅',
-                    on: !((item.flags & 0x01) === 0)
+                    on: item.flags & 0x01
                 }, {
                     text: 'SD',
                     title: '标清',
-                    on: !((item.flags & 0x02) === 0)
+                    on: item.flags & 0x02
                 }, {
                     text: 'HD',
                     title: '高清',
-                    on: !((item.flags & 0x04) === 0)
+                    on: item.flags & 0x04
                 }, {
                     text: 'FHD',
                     title: '超清',
-                    on: !((item.flags & 0x08) === 0)
+                    on: item.flags & 0x08
                 }];
                 $scope.cameraListShown = false;
                 $scope.cameralist.showPlayer(item);
+            },
+            checkBtn: function (it) {
+               if (it.on === 1){
+                   it.on = 2;
+               }else it.on = 1;
             }
         };
     })();

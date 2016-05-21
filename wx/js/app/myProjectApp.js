@@ -193,17 +193,17 @@ app.controller('MyProject', ['$scope', '$http', '$q','$window', '$state', functi
                 var mySwiper = new Swiper ('.swiper-container', {
                     direction: 'horizontal',
                     loop: false,
-
                     // 如果需要分页器
-                    //pagination: '.swiper-pagination',
+                    pagination : '.swiper-pagination',
+                    paginationHide :true,
                     //后翻获取当前页并向后台获取
                     onSlideChangeStart: function(swiper){
                         //            alert(mySwiper.activeIndex);
                         G_ProjectName = $scope.projectlist.data[mySwiper.activeIndex].name;
                     },
                     // 如果需要前进后退按钮
-                    nextButton: '.swiper-button-next',
-                    prevButton: '.swiper-button-prev',
+                    //nextButton: '.swiper-button-next',
+                    //prevButton: '.swiper-button-prev',
                     observer:'true'
                     // 如果需要滚动条
                     //scrollbar: '.swiper-scrollbar'

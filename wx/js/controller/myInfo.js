@@ -11,11 +11,7 @@ var codeLoginUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
 app.controller('MyInfo', ['$scope', '$http', '$q', '$window',  function($scope, $http, $q, $window){
     $scope.ToastTxt = "xxxx";
     $scope.Acc = jwt.aud;
-    if (flag === true && jwt != undefined && jwt.aud != undefined){
 
-    }else {
-        alert("网络有点小卡哦，请尝试刷新！");
-    }
     $scope.unbind = (function () {
         $scope.aborter = $q.defer(),
             $http.delete (wx_api+"bindings/"
@@ -66,6 +62,15 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window',  function($scope, 
                     },
 
                     initDetail: function () {
+                        if (flag === true && jwt != undefined && jwt.aud != undefined){
+
+                        }else {
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                            return;
+                        }
+
                         if ($scope.userinfo.data_mod.tabs === undefined) $scope.userinfo.data_mod.tabs = [];
                         if ($scope.userinfo.data_mod.tabs[0] === undefined) $scope.userinfo.data_mod.tabs[0] = {};
                         $scope.userinfo.data_mod.tabs[0].active = true;
