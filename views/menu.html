@@ -4,7 +4,7 @@
       <div class="list-group">
         <a ui-sref="project.project" ui-sref-active="active" class="list-group-item">项目信息</a>
         <a ui-sref="project.camera" ui-sref-active="active" ng-class="{active: $state.is('project.camera-detail')}" class="list-group-item">摄像机</a>
-        <a ui-sref="project.schedule" ui-sref-active="active" class="list-group-item">录像计划模板</a>
+        <a ui-sref="project.schedule" ui-sref-active="active" ng-class="{active: $state.is('project.schedule-detail') || $state.is('project.add-schedule')}" class="list-group-item">录像计划模板</a>
         <a ui-sref="project.log" ui-sref-active="active" class="list-group-item">操作记录</a>
         <a ui-sref="project.user" ui-sref-active="active" class="list-group-item">用户列表</a>
         <a ui-sref="project.session-status" ui-sref-active="active" class="list-group-item">会话状态</a>

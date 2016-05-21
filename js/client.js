@@ -88,6 +88,10 @@ var app = angular.module('client', [
         url: '/add-schedule',
         templateUrl: path + 'views/add-schedule.html'
       })
+      .state('project.schedule-detail', {
+        url: '/schedule/:schedule',
+        templateUrl: path + 'views/schedule-detail.html'
+      })
       .state('project.log', {
         url: '/log',
         templateUrl: path + 'views/log.html'
