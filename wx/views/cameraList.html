@@ -1,37 +1,11 @@
-<!doctype html>
-<html lang="zh-CN" ng-app="app">
-<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="../bower_components/js-base64/base64.min.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/jwt.js"></script>
-<script>
-    var auth = new Auth();
-    var flag = true;
-    flag = auth.init('myCamera');
-    if (flag === false) alert("auth error");
-</script>
-
-<script>
-    if (flag === true)
-        var jwt = new Jwt('myCamera');
-</script>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>我的摄像头</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.0/style/weui.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css">
-    <link rel="stylesheet" href="css/square.css">
-</head>
-<body ng-controller="MyCamera">
-<div class="container-fluid container-compact os-tab-container">
+<div class="container-fluid container-compact os-tab-container" ng-controller="CameraList">
     <div class="row row-in-tab os-row-no-padding">
         <div class="col-sm-12 os-table-container" ng-show="cameraListShown">
+            <div class="weui_cell" >
+               <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回我的项目" ng-click="cameralist.backProject();">
+                <i  class="fa fa-arrow-left"></i>
+                </span>
+            </div>
             <!--div class="weui_cells_title">{{PName}} 摄像头列表</div>
             <div class="weui_cells weui_cells_form">
                 <div class="weui_cell" ng-repeat="u in cameralist.data">
@@ -139,13 +113,6 @@
                             </div>
                         </div>
                         <div class="weui_cell">
-                            <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">详细描述</label></div>
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <textarea class="weui_textarea" placeholder="请输入描述" ng-model="c.long_desc" rows="3"></textarea>
-                                <!--div class="weui_textarea_counter"><span>0</span>/200</div-->
-                            </div>
-                        </div>
-                        <div class="weui_cell">
                             <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">流类型</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
                                 <div class="btn-group btn-group-xs">
@@ -157,24 +124,6 @@
                             <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">在线状态</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
                                 <p class="form-control-static">{{c.is_online|online}}</p>
-                            </div>
-                        </div>
-                        <div class="weui_cell">
-                            <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">经度</label></div>
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" value="" placeholder="" ng-model="c.longitude" required/>
-                            </div>
-                        </div>
-                        <div class="weui_cell">
-                            <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">纬度</label></div>
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" value="" placeholder="" ng-model="c.latitude" required/>
-                            </div>
-                        </div>
-                        <div class="weui_cell">
-                            <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">海拔</label></div>
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" value="" placeholder="" ng-model="c.altitude" required/>
                             </div>
                         </div>
                         <div class="weui_cell">
@@ -196,42 +145,3 @@
         </div>
     </div>
 </div>
-
-
-
-        <!-- loading toast -->
-        <div id="loadingToast" class="weui_loading_toast" style="display:none;">
-            <div class="weui_mask_transparent"></div>
-            <div class="weui_toast">
-                <div class="weui_loading">
-                    <div class="weui_loading_leaf weui_loading_leaf_0"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_1"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_2"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_3"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_4"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_5"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_6"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_7"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_8"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_9"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_10"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_11"></div>
-                </div>
-                <p class="weui_toast_content">{{ToastTxt}}</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
-<!--script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script-->
-<script src="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
-<script src="js/app/myCameraApp.js"></script>
-<script src="js/controller/myCamera.js"></script>
-<script src="js/video.js"></script>
-
-</body>
-</html>

@@ -62,6 +62,38 @@ Login.prototype = {
         });
     },
 
+    goBind:function(u, p){
+        //alert("begin sjcl!");
+        var d = new Date ();
+        d.setTime(d.getTime()+90*24*3600*1000);
+        var e = Math.ceil(d.getTime() / 1000);
+        var data = {};
+        var _this = this;
+        data = {username: u, password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(p, "opensight.cn", 10000)), expired: e, code: _this.code};
+        $.ajax({
+            url: _this.api + 'bindings',
+            data: data,
+            type: 'POST',
+            success: function(json){
+                $.cookie('binding_id', json.binding_id, {expires: 90*1440});
+                _this.bindLogin(json.binding_id);
+            },
+            error: function(err) {
+                $('#loadingToast').hide();
+                if (err.responseText.indexOf("Wechat Binding Already exists")>=0){
+                    alert("bind error!err info: "+err.responseText);
+                    _this.logining = false;
+                    window.location.replace(_this.codeLoginUrl);
+                }else{
+                    alert("bind error!err info: "+err.responseText);
+                    _this.logining = false;
+                    window.location.replace(_this.bindUrl);
+                }
+
+            }
+        });
+    },
+
     login: function(u, p){
         if (undefined === u || "" === u){
           return false;
@@ -77,13 +109,26 @@ Login.prototype = {
         this.logining = true;
         $('#loadingTxt').val("正在进行绑定");
         $('#loadingToast').show();
-        var d = new Date ();
+
+     /*   var d = new Date ();
         d.setTime(d.getTime()+90*24*3600*1000);
         var e = Math.ceil(d.getTime() / 1000);
-        var data = {username: u, password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(p, "opensight.cn", 100000)), expired: e, code: this.code};
+        var data = {};
         var _this = this;
+        */
+        setTimeout(this.goBind(u, p), 3000);
+
+/*
+        var xe = new Date ();
+        var xeT = Math.ceil(xe.getTime() / 1000);
+
+        var xp = new Date ();
+        var xpT = Math.ceil(xp.getTime() / 1000);
+        alert("100000test---->before:"+xeT+" now:"+xpT+ "time="+(xpT-xeT));
+*/
+     /*   var _this = this;
         $.ajax({
-          url: this.api + 'bindings',
+          url: _this.api + 'bindings',
           data: data,
           type: 'POST',
           success: function(json){
@@ -104,6 +149,7 @@ Login.prototype = {
 
           }
         });
+*/
         return false;
     },
 
