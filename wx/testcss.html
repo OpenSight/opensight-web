@@ -1,23 +1,10 @@
 <!doctype html>
-<html lang="zh-CN" ng-app="app">
+<html lang="zh-CN">
 <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<!-- <script src="../bower_components/js-base64/base64.min.js"></script> -->
-<!--script src="../bower_components/juicer/juicer-min.js"></script-->
-<script src="./js/auth.js"></script>
-<script src="./js/jwt.js"></script>
-<script>
-    var flag = true;
-    if (auth === undefined) alert("auth.js not load well！");
-    flag = auth.init('myProject');
-    if (flag === false) alert("auth error");
-</script>
+<script src="../bower_components/js-base64/base64.min.js"></script>
 
-<script>
-    if (flag === true)
-        var jwt = new Jwt('myProject');
-    if (jwt === undefined) alert("jwt.js not load well！");
-</script>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -26,20 +13,19 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.0/style/weui.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.2/style/weui.min.css">
+
     <link rel="stylesheet" href="//cdn.bootcss.com/Swiper/3.3.1/css/swiper.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css">
     <link rel="stylesheet" href="./css/project.css">
 </head>
-<body ng-controller="MyProject">
-<div class="swiper-container form-group" style="height: 100%;" id="projectTab">
-     <div class="swiper-wrapper">
-          <div class="swiper-slide" ng-repeat="u in projectlist.data">
-            <div class="weui_tab" >
-                <div class="weui_tab_bd">
-        <!--div class="swiper-container form-group" style="height: 100%;">
+<body>
+
+<div class="weui_tab" id="projectTab">
+    <div class="weui_tab_bd">
+        <div class="swiper-container form-group" style="height: 100%;">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" ng-repeat="u in projectlist.data"-->
+                <div class="swiper-slide" ng-repeat="u in projectlist.data">
                     <div class="weui_cells_title">我的项目</div>
                     <div class="weui_cells weui_cells_form">
                         <div class="weui_cell">
@@ -97,13 +83,28 @@
                                 <p class="form-control-static">{{u.utime}}</p>
                             </div>
                         </div>
-
+                        <!--div class="weui_btn_area">
+                            <a class="weui_btn weui_btn_primary" ng-click="projectlist.goIpc(u)">查看摄像头</a>
+                        </div>
+                        <div class="weui_btn_area">
+                            <a class="weui_btn weui_btn_primary" ng-click="projectlist.goBill(u)">查看账单</a>
+                        </div-->
+                    </div>
+                </div>
             </div>
+            <!-- 如果需要分页器 >
+            <div class="swiper-pagination"></div-->
+
+            <!-- 如果需要导航按钮 -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+
+            <!-- 如果需要滚动条 >
+            <div class="swiper-scrollbar"></div-->
         </div>
 
 
-
-
+    </div>
 
 
     <div class="weui_tabbar">
@@ -120,18 +121,6 @@
             <p class="weui_tabbar_label">摄像头</p>
         </a>
     </div>
-                </div>
-              </div>
-         </div>
-    <!-- 如果需要分页器 >
-            <div class="swiper-pagination"></div-->
-
-    <!-- 如果需要导航按钮 -->
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-
-    <!-- 如果需要滚动条 >
-    <div class="swiper-scrollbar"></div-->
 </div>
 
 
@@ -204,40 +193,39 @@
             </div-->
 
 
-            <!--div class="panel-body">
-                <div class="form-horizontal os-form" role="form">
+<!--div class="panel-body">
+    <div class="form-horizontal os-form" role="form">
 
-                </div>
-            </div-->
-
-
+    </div>
+</div-->
 
 
 
 
 
-        <!-- loading toast -->
-        <div id="loadingToast" class="weui_loading_toast" style="display: none">
-            <div class="weui_mask_transparent"></div>
-            <div class="weui_toast">
-                <div class="weui_loading">
-                    <div class="weui_loading_leaf weui_loading_leaf_0"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_1"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_2"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_3"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_4"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_5"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_6"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_7"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_8"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_9"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_10"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_11"></div>
-                </div>
-                <p class="weui_toast_content" id="ToastTxt"></p>
-            </div>
+
+
+<!-- loading toast -->
+<div id="loadingToast" class="weui_loading_toast" style="display: none">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        <div class="weui_loading">
+            <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_11"></div>
         </div>
-
+        <p class="weui_toast_content" id="ToastTxt"></p>
+    </div>
+</div>
 
 
 <script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
@@ -249,7 +237,7 @@
 <script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
 <script src="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
 <script src="//cdn.bootcss.com/oclazyload/1.0.9/ocLazyLoad.min.js"></script>
-<script src="js/app/myProjectApp.js"></script>
+
 </body>
 </html>
 

@@ -97,3 +97,5 @@
 
      }
  };
+
+ var auth = new Auth();
