@@ -330,7 +330,7 @@ angular.module('app.controller', [])
         mannual_last: 60
       };
       $rootScope.$emit('messageHide');
-      $http.put(url, data).success(function(response) {
+      $http.post(url, data).success(function(response) {
         console.log('success');
         $rootScope.$emit('messagePush', { succ: true, text: '修改摄像机录像计划成功。' });
       }).error(function(response, status) {
