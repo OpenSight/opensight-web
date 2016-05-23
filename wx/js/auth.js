@@ -41,6 +41,7 @@
              url: _this.api + 'binding_login',
              data: {binding_id: _this.binding_id, expired: e},
              type: 'POST',
+             async: false,
              success: function(json){
                  $.cookie('jwt', json.jwt);
              },
@@ -63,6 +64,7 @@
          var data = {code: code, expired: e};
          var _this = this;
          $.ajax({
+             async: false,
              url: _this.api + 'code_login',
              data: data,
              type: 'POST',

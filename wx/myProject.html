@@ -2,7 +2,7 @@
 <html lang="zh-CN" ng-app="app">
 <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<!--script src="../bower_components/js-base64/base64.min.js"></script-->
+<script src="./js/base64.min.js"></script>
 <!--script src="../bower_components/juicer/juicer-min.js"></script-->
 <script src="./js/auth.js"></script>
 <script src="./js/jwt.js"></script>
@@ -73,6 +73,12 @@
                                 <input class="weui_input" value="" placeholder="" ng-model="u.max_media_sessions" required/>
                             </div>
                         </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">在线IPC</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" value="" placeholder="" ng-model="u.ipcState" required/>
+                            </div>
+                        </div>
                         <!--div class="weui_cell">
                             <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">流服务器</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
@@ -124,7 +130,7 @@
               </div>
          </div>
     <!-- 如果需要分页器 -->
-            <div class="swiper-pagination"></div>
+            <div style = "bottom: 65px;" class="swiper-pagination"></div>
 
     <!-- 如果需要导航按钮 >
     <div class="swiper-button-prev"></div>

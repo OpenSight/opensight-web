@@ -116,8 +116,8 @@ Login.prototype = {
         var data = {};
         var _this = this;
         */
-        setTimeout(this.goBind(u, p), 3000);
-
+        //setTimeout(this.goBind(u, p), 3000);
+        this.goBind(u, p);
 /*
         var xe = new Date ();
         var xeT = Math.ceil(xe.getTime() / 1000);

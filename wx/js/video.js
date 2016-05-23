@@ -77,6 +77,7 @@ HlsVideo.prototype = {
   createSession: function(){
     var _this = this;
     $.ajax({
+//add some code to force quality
       url: this.api +  this.project + '/cameras/' + this.uuid + '/sessions',
       cache: true,
       data: {format: 'hls', quality: 'ld', create: true},

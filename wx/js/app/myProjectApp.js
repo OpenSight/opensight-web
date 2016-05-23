@@ -204,12 +204,28 @@ app.controller('MyProject', ['$scope', '$http', '$q','$window', '$state', functi
                     // 如果需要前进后退按钮
                     //nextButton: '.swiper-button-next',
                     //prevButton: '.swiper-button-prev',
-                    observer:'true'
+                    observer: true
                     // 如果需要滚动条
                     //scrollbar: '.swiper-scrollbar'
                 })
             },
+            getCameraNum: function (index) {
+                $scope.projectlist.data[index].ipcState = "获取中";
+                var online = 0;
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.projectlist.data[index].name+"/cameras?limit=100&start=0", {
+                        timeout: $scope.aborter.promise
+                    }).success(function (response) {
+                            for (var i in response.list){
+                                if (response.list[i].is_online === 1) online++;
+                            }
+                            $scope.projectlist.data[index].ipcState = online+"/"+response.total;
+                        }).error(function (response,status) {
+                            $scope.projectlist.data[index].ipcState = "获取失败";
+                        });
+            },
             get: function () {
+                var index = 0;
                 if (flag === true && jwt != undefined && jwt.aud != undefined){
 
                 }else {
@@ -225,6 +241,9 @@ app.controller('MyProject', ['$scope', '$http', '$q','$window', '$state', functi
                     }).success(function (response) {
                             $scope.projectlist.data = response;
                             $scope.projectlist.init();
+                            for (var i in $scope.projectlist.data){
+                                $scope.projectlist.getCameraNum(i);
+                            }
                         }).error(function (response,status) {
                             $('#ToastTxt').html("获取项目列表失败");
                             $('#loadingToast').show();
