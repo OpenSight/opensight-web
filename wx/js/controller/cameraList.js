@@ -108,25 +108,52 @@ app.register.controller('CameraList',['$scope', '$http', '$q', '$window', '$stat
                 $scope.c.stearmOptions = [{
                     text: 'LD',
                     title: '流畅',
-                    on: item.flags & 0x01
+                    on: ((item.flags & 0x01) === 0)?0:1
                 }, {
                     text: 'SD',
                     title: '标清',
-                    on: item.flags & 0x02
+                    on: ((item.flags & 0x02) === 0)?0:1
                 }, {
                     text: 'HD',
                     title: '高清',
-                    on: item.flags & 0x04
+                    on: ((item.flags & 0x04) === 0)?0:1
                 }, {
                     text: 'FHD',
                     title: '超清',
-                    on: item.flags & 0x08
+                    on: ((item.flags & 0x08) === 0)?0:1
                 }];
+
+                var stream = $.cookie('stream');
+                if (stream === "" || stream === undefined){
+                    stream = 0;
+                }
+                if ($scope.c.stearmOptions[stream].on !== 0){
+                    $scope.c.stearmOptions[stream].on = 2;
+                    item.playStream = $scope.c.stearmOptions[stream].text.toLowerCase();
+                }
+                else{
+                    for (var i in $scope.c.stearmOptions){
+                        if ($scope.c.stearmOptions[i].on !== 0){
+                            $scope.c.stearmOptions[i].on = 2;
+                            item.playStream = $scope.c.stearmOptions[i].text.toLowerCase();
+                            break;
+                        }
+                    }
+                }
+
                 $scope.cameraListShown = false;
                 $scope.cameralist.showPlayer(item);
             },
             checkBtn: function (it) {
                if (it.on === 1){
+                   for (var i in $scope.c.stearmOptions){//reset all checked
+                       if ($scope.c.stearmOptions[i].on === 2){
+                           $scope.c.stearmOptions[i].on = 1;
+                       }
+                       if (it.text === $scope.c.stearmOptions[i].text)
+                           $.cookie('stream',i,{expires: 1440*360});
+                   }
+
                    it.on = 2;
                }else it.on = 1;
             }

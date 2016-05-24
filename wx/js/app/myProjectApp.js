@@ -217,7 +217,7 @@ app.controller('MyProject', ['$scope', '$http', '$q','$window', '$state', functi
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
                             for (var i in response.list){
-                                if (response.list[i].is_online === 1) online++;
+                                if (response.list[i].is_online === 1 || response.list[i].is_online === 2) online++;
                             }
                             $scope.projectlist.data[index].ipcState = online+"/"+response.total;
                         }).error(function (response,status) {

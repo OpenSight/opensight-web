@@ -3,7 +3,7 @@ var HlsVideo = function(opts){
   this.api = 'http://www.opensight.cn/api/ivc/v1/projects/';
   this.project = opts.project_name;
   this.uuid = opts.uuid;
-
+  this.playStream = opts.playStream;
   this.init();
 };
 
@@ -75,12 +75,38 @@ HlsVideo.prototype = {
     $('#long_desc').text(info.long_desc);
   },
   createSession: function(){
+      /*
+      var tempStreamStr = "ld";
+      var stream = $.cookie('stream');
+      if (stream === "" || stream === undefined){
+          stream = "0";
+      }
+
+      switch(stream){
+          case "0":
+              tempStreamStr = "ld";
+              break;
+          case "1":
+              tempStreamStr = "sd";
+              break;
+          case "2":
+              tempStreamStr = "hd";
+              break;
+          case "3":
+              tempStreamStr = "fhd";
+              break;
+          default:
+              tempStreamStr = "ld";
+              break;
+      }
+      */
     var _this = this;
     $.ajax({
 //add some code to force quality
+
       url: this.api +  this.project + '/cameras/' + this.uuid + '/sessions',
       cache: true,
-      data: {format: 'hls', quality: 'ld', create: true},
+      data: {format: 'hls', quality: _this.playStream, create: true},
       type: 'POST',
       success: function(info){
         if (true === _this.html5){
