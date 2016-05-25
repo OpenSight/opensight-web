@@ -50,33 +50,36 @@
                 </div>
             </div>
         </div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+
+
+
+
+        <div class="swiper-pagination"></div>
     </div>
 
     <div class="row row-in-tab os-row-no-padding" ng-show="cameraListShown">
-            <div class="container squera-container">
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="item in cameralist.data">
+        <div class="container squera-container">
+            <div class="row">
+                <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="item in cameralist.data">
 
-                        <div class="thumbnail">
-                            <a ng-click="cameralist.showMore(item)"><img src="{{item.preview}}" alt="{{item.name}}"></a>
-                            <div class="caption">
-                                <p class="text-name">
-                                    <a ng-click="cameralist.showMore(item)">{{item.name}}</a>
-                                    <span class="pull-right" ng-class ="{'text-highlight': item.is_online!==0, 'text-danger': item.is_online===0}" >{{item.is_online|online}}</span>
-                                </p>
-                                <p class="text-muted text-desc">{{item.desc}}</p>
+                    <div class="thumbnail">
+                        <a ng-click="cameralist.showMore(item)"><img src="{{item.preview}}" alt="{{item.name}}"></a>
+                        <div class="caption">
+                            <p class="text-name">
+                                <a ng-click="cameralist.showMore(item)">{{item.name}}</a>
+                                <span class="pull-right" ng-class ="{'text-highlight': item.is_online!==0, 'text-danger': item.is_online===0}" >{{item.is_online|online}}</span>
+                            </p>
+                            <p class="text-muted text-desc">{{item.desc}}</p>
 
-                            </div>
                         </div>
                     </div>
                 </div>
-                <!--div class="row loading hidden" id="loading">
-                    <span></span>
-                </div>
-                <div class="row" id="lastpage"></div-->
             </div>
+            <!--div class="row loading hidden" id="loading">
+                <span></span>
+            </div>
+            <div class="row" id="lastpage"></div-->
+        </div>
     </div>
 
     <div ng-show="!cameraListShown">
@@ -95,12 +98,12 @@
                             <input class="weui_input" value="" placeholder="" ng-model="c.project_name" required/>
                         </div>
                     </div>
-                    <div class="weui_cell">
+                    <!--div class="weui_cell">
                         <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">相机名称</label></div>
                         <div class="weui_cell_bd weui_cell_primary">
                             <input class="weui_input" value="" placeholder="" ng-model="c.name" required/>
                         </div>
-                    </div>
+                    </div-->
 
                     <div class="col-md-3 col-sm-4 col-xs-12">
                         <!--div class="thumbnail">
@@ -126,10 +129,23 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="caption">
+                                <p class="text-name">
+                                    <a ng-click="cameralist.showMore(item)">{{c.name}}</a>
+                                    <span class="pull-right" ng-class ="{'text-highlight': c.is_online!==0, 'text-danger': c.is_online===0}" >{{c.is_online|online}}</span>
+                                </p>
+                            </div>
                         </div>
 
                     </div>
-
+                    <div class="weui_cell">
+                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">清晰度</label></div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <div class="btn-group btn-group-xs">
+                                <button ng-repeat="it in c.stearmOptions" class="btn" role="group"  ng-class="{2:'btn-primary',1:'btn-default',0:'btn-invisible'}[it.on]" ng-click="cameralist.checkBtn(it);" role="group" title={{it.title}}>{{it.text}}</button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="weui_cell">
                         <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">描述</label></div>
                         <div class="weui_cell_bd weui_cell_primary">
@@ -137,7 +153,7 @@
                         </div>
                     </div>
 
-                    <div class="weui_cell">
+                    <!--div class="weui_cell">
                         <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">流类型</label></div>
                         <div class="weui_cell_bd weui_cell_primary">
                             <div class="btn-group btn-group-xs">
@@ -162,7 +178,7 @@
                         <div class="weui_cell_bd weui_cell_primary">
                             <p class="form-control-static">{{c.utime}}</p>
                         </div>
-                    </div>
+                    </div-->
                 </div>
             </div>
 

@@ -20,15 +20,16 @@ app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope
                     loop: false,
 
                     // 如果需要分页器
-                    //pagination: '.swiper-pagination',
+                    pagination : '.swiper-pagination',
+                    paginationHide :true,
                     //后翻获取当前页并向后台获取
                     onSlideChangeStart: function(swiper){
                         $scope.cameralist.get($scope.projectlist.data[mySwiper.activeIndex].name);
                         //G_ProjectName = $scope.projectlist.data[mySwiper.activeIndex].name;
                     },
                     // 如果需要前进后退按钮
-                    nextButton: '.swiper-button-next',
-                    prevButton: '.swiper-button-prev',
+                    //nextButton: '.swiper-button-next',
+                    //prevButton: '.swiper-button-prev',
                     observer:'true'
                     // 如果需要滚动条
                     //scrollbar: '.swiper-scrollbar'
@@ -106,22 +107,54 @@ app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope
                 $scope.c.stearmOptions = [{
                     text: 'LD',
                     title: '流畅',
-                    on: !((item.flags & 0x01) === 0)
+                    on: ((item.flags & 0x01) === 0)?0:1
                 }, {
                     text: 'SD',
                     title: '标清',
-                    on: !((item.flags & 0x02) === 0)
+                    on: ((item.flags & 0x02) === 0)?0:1
                 }, {
                     text: 'HD',
                     title: '高清',
-                    on: !((item.flags & 0x04) === 0)
+                    on: ((item.flags & 0x04) === 0)?0:1
                 }, {
                     text: 'FHD',
                     title: '超清',
-                    on: !((item.flags & 0x08) === 0)
+                    on: ((item.flags & 0x08) === 0)?0:1
                 }];
+
+                var stream = $.cookie('stream');
+                if (stream === "" || stream === undefined){
+                    stream = 0;
+                }
+                if ($scope.c.stearmOptions[stream].on !== 0){
+                    $scope.c.stearmOptions[stream].on = 2;
+                    item.playStream = $scope.c.stearmOptions[stream].text.toLowerCase();
+                }
+                else{
+                    for (var i in $scope.c.stearmOptions){
+                        if ($scope.c.stearmOptions[i].on !== 0){
+                            $scope.c.stearmOptions[i].on = 2;
+                            item.playStream = $scope.c.stearmOptions[i].text.toLowerCase();
+                            break;
+                        }
+                    }
+                }
+
                 $scope.cameraListShown = false;
                 $scope.cameralist.showPlayer(item);
+            },
+            checkBtn: function (it) {
+                if (it.on === 1){
+                    for (var i in $scope.c.stearmOptions){//reset all checked
+                        if ($scope.c.stearmOptions[i].on === 2){
+                            $scope.c.stearmOptions[i].on = 1;
+                        }
+                        if (it.text === $scope.c.stearmOptions[i].text)
+                            $.cookie('stream',i,{expires: 1440*360});
+                    }
+
+                    it.on = 2;
+                }else it.on = 1;
             }
         };
     })();

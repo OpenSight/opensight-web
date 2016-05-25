@@ -56,6 +56,7 @@ Jwt.prototype = {
           success: function(json){
               _this.jwt = json.jwt;
               $.cookie('jwt', json.jwt);
+              _this.setJqueryHeader();
               _this.updateing = false;
           },
           error: function() {
@@ -87,15 +88,25 @@ Jwt.prototype = {
   keepalive: function(){
     var _this = this;
     var interval = 10 * 60 * 1000;
+    _this.setJqueryHeader();
     setInterval(function(){
       if (interval > _this.check()){
         _this.update();
       }
     }, interval);
   },
+
   logout: function(){
     $.removeCookie('jwt');
     this.jump();
+  },
+
+  setJqueryHeader: function(){
+        $.ajaxSetup( {
+            headers: { // 默认添加请求头
+                "Authorization": "Bearer " + this.jwt
+            }
+        } );
   }
 };
 
