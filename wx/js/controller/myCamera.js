@@ -98,7 +98,7 @@ app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope
             showPlayer: function (item) {
                 $scope.c.img = videoPic;
                 $scope.c.tip = true;
-                new HlsVideo(item);
+                $scope.Player = new HlsVideo(item);
             },
             showMore: function (item) {
                 $scope.c = item;

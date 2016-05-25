@@ -9,12 +9,23 @@ var HlsVideo = function(opts){
 
 HlsVideo.prototype = {
   init: function(){
+      this.on();
     this.createSession();
     this.getCameraInfo();
-    this.on();
     this.updateTip();
   },
-  on: function(){},
+    on: function(){
+        var id = 'videoPlayer';
+        var html = '<div id="videoPlayer">' +
+            '<p class="play-tip pull-right" >' +
+            '<span class="text-highlight" id="playTipSec">10</span>' +
+            '秒之后直播开始' +
+            '</p>' +
+            '</div>';
+
+        var el = $('#' + id).parent().html(html);
+        this.destroyed = false;
+    },
     /*
   loadFlash: function(info){
     var flashvars = {
@@ -109,7 +120,7 @@ HlsVideo.prototype = {
       data: {format: 'hls', quality: _this.playStream, create: true},
       type: 'POST',
       success: function(info){
-        if (true === _this.html5){
+        if (true === _this.html5 && _this.destroyed === false){
           _this.addVideoTag(info);
         }
         /*else {
@@ -130,7 +141,7 @@ HlsVideo.prototype = {
   },
   keepalive: function(sessionid){
     var _this = this;
-    setInterval(function(){
+      this.keeptimer = setInterval(function(){
       $.ajax({
         url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + sessionid,
         cache: true,
@@ -157,7 +168,32 @@ HlsVideo.prototype = {
       this.tiptimer = undefined;
     }
     alert('启动实况失败，请刷新页面重试。');
-  }
+  },
+    destroy: function(){
+        var id = 'videoPlayer';
+        if($("#playTipSec").length>0){
+            clearInterval(this.tiptimer);
+            this.tiptimer = undefined;
+        }else{
+            var player = document.getElementById(id);
+            if (player!==null && player.currentTime){
+                player.currentTime = 0;
+                player.pause();
+            }
+        }
+        clearInterval(this.keeptimer);
+        this.keeptimer = undefined;
+        var html = '<div id="videoPlayer">' +
+            '<p class="play-tip pull-right" >' +
+            '<span class="text-highlight" id="playTipSec">10</span>' +
+            '秒之后直播开始' +
+            '</p>' +
+            '</div>';
+
+        var el = $('#' + id).parent().html(html);
+        this.destroyed = true;
+
+    }
 };
 
 /*

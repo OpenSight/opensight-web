@@ -84,7 +84,7 @@
 
     <div ng-show="!cameraListShown">
         <div class="weui_cell" >
-               <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回摄像头列表" ng-click="cameraListShown=true;">
+               <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回摄像头列表" ng-click="cameraListShown=true;Player.destroy();">
                 <i  class="fa fa-arrow-left"></i>
                 </span>
         </div>

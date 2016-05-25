@@ -99,7 +99,7 @@ app.register.controller('CameraList',['$scope', '$http', '$q', '$window', '$stat
             showPlayer: function (item) {
                 $scope.c.img = videoPic;
                 $scope.c.tip = true;
-                new HlsVideo(item);
+                $scope.Player = new HlsVideo(item);
             },
             showMore: function (item) {
                 $scope.c = item;
