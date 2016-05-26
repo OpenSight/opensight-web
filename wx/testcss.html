@@ -37,37 +37,37 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    </div>
+                <div class="row row-in-tab os-row-no-padding">
+                    <div class="container squera-container">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="item in cameralist.data">
 
-    <div class="row row-in-tab os-row-no-padding">
-            <div class="container squera-container">
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="item in cameralist.data">
+                                <div class="thumbnail">
+                                    <a ng-click="cameralist.showMore(item)"><img src="./img/play-logo.png" alt="xxxx"></a>
+                                    <div class="caption">
+                                        <p class="text-name">
+                                            <a ng-click="cameralist.showPlayer(item)">xxx</a>
+                                            <span class="pull-right" ng-class ="{'text-highlight': item.is_online!==0, 'text-danger': item.is_online===0}" >sss</span>
+                                        </p>
+                                        <p class="text-muted text-desc">xx</p>
 
-                        <div class="thumbnail">
-                            <a ng-click="cameralist.showMore(item)"><img src="{{item.preview}}" alt="{{item.name}}"></a>
-                            <div class="caption">
-                                <p class="text-name">
-                                    <a ng-click="cameralist.showPlayer(item)">{{item.name}}</a>
-                                    <span class="pull-right" ng-class ="{'text-highlight': item.is_online!==0, 'text-danger': item.is_online===0}" >{{item.is_online|online}}</span>
-                                </p>
-                                <p class="text-muted text-desc">{{item.desc}}</p>
-
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <!--div class="row loading hidden" id="loading">
+                            <span></span>
+                        </div>
+                        <div class="row" id="lastpage"></div-->
                     </div>
-                </div>
-                <!--div class="row loading hidden" id="loading">
-                    <span></span>
-                </div>
-                <div class="row" id="lastpage"></div-->
-            </div>
 
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
     </div>
+
+
 
     <div class="">
         <div class="weui_cell" >
