@@ -39,9 +39,7 @@ app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope
                 if (flag === true && jwt != undefined && jwt.aud != undefined){
 
                 }else {
-                    setTimeout(function () {
-                        window.location.reload();
-                    }, 2000);
+                    alert("bad jwt!plz reload your page!");
                     return;
                 }
                 $('#ToastTxt').html("获取项目列表中");
@@ -62,7 +60,7 @@ app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope
                             setTimeout(function () {
                                 $('#loadingToast').hide();
                             }, 2000);
-                            $window.location.replace(codeLoginUrl);
+                           // $window.location.replace(codeLoginUrl);
                         });
 
             },

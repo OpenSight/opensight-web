@@ -31,9 +31,7 @@ app.register.controller('BillList', ['$scope', '$http', '$q', '$window', '$state
                 if (flag === true && jwt != undefined && jwt.aud != undefined){
 
                 }else {
-                    setTimeout(function () {
-                        $scope.billlist.get_acc();
-                    }, 2000);
+                    alert("bad jwt!plz reload your page!");
                     return;
                 }
                 //            http://api.opensight.cn/api/ivc/v1/projects/demo/account
@@ -57,9 +55,7 @@ app.register.controller('BillList', ['$scope', '$http', '$q', '$window', '$state
                 if (flag === true && jwt != undefined && jwt.aud != undefined){
 
                 }else {
-                    setTimeout(function () {
-                        $scope.billlist.get();
-                    }, 2000);
+                    alert("bad jwt!plz reload your page!");
                     return;
                 }
    //             http://api.opensight.cn/api/ivc/v1/projects/demo/bills?end_to=2016-05-16T23:59:59&limit=10&start=0&start_from=2016-05-16T00:00:00

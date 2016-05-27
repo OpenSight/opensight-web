@@ -229,9 +229,7 @@ app.controller('MyProject', ['$scope', '$http', '$q','$window', '$state', functi
                 if (flag === true && jwt != undefined && jwt.aud != undefined){
 
                 }else {
-                    setTimeout(function () {
-                        window.location.reload();
-                    }, 2000);
+                    alert("bad jwt!plz reload your page!");
                     return;
                 }
 

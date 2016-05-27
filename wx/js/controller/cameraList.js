@@ -30,9 +30,7 @@ app.register.controller('CameraList',['$scope', '$http', '$q', '$window', '$stat
                 if (flag === true && jwt != undefined && jwt.aud != undefined){
 
                 }else {
-                    setTimeout(function () {
-                        $scope.cameralist.get();
-                    }, 2000);
+                    alert("bad jwt!plz reload your page!");
                     return;
                 }
                 $('#ToastTxt').html("获取摄像头列表中");

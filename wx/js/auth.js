@@ -34,6 +34,7 @@
              url: _this.api + 'code_login',
              data: data,
              type: 'POST',
+             cache:false,
              success: function(json){
                  $.cookie('jwt', json.jwt, {expires: 30});
                  $.cookie('binding_id', json.binding_id, {expires: 1440*90});
@@ -44,7 +45,7 @@
                      window.location.replace(_this.bindUrl);
                     return false;
                  }else{
-                     alert(err.responseText.info);
+                     alert(err.responseText);
                      window.location.replace(_this.selfUrl);
                      return false;
                  }

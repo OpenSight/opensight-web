@@ -70,6 +70,9 @@ HlsVideo.prototype = {
       url: this.api +  this.project + '/cameras/' + this.uuid,
       cache: true,
       async: false,
+        headers: { // 添加请求头
+            "Authorization": "Bearer " + $.cookie('jwt')
+        },
       type: 'GET',
       success: function(info){
         // $('#img').attr('src', info.preview);
@@ -117,6 +120,9 @@ HlsVideo.prototype = {
 
       url: this.api +  this.project + '/cameras/' + this.uuid + '/sessions',
       cache: true,
+        headers: { // 添加请求头
+            "Authorization": "Bearer " + $.cookie('jwt')
+        },
       data: {format: 'hls', quality: _this.playStream, create: true},
       type: 'POST',
       success: function(info){
@@ -145,6 +151,9 @@ HlsVideo.prototype = {
       $.ajax({
         url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + sessionid,
         cache: true,
+          headers: { // 添加请求头
+              "Authorization": "Bearer " + $.cookie('jwt')
+          },
         type: 'POST'
       });
     }, 30000);

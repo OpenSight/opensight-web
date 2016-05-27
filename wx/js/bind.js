@@ -45,7 +45,7 @@ Login.prototype = {
                 setTimeout(function () {
                     $('#loadingToast').hide();
                 }, 2000);
-                _this.logining = false;
+                //_this.logining = false;
                 window.location.replace(_this.url+".html");
             },
             error: function(err) {
@@ -54,7 +54,7 @@ Login.prototype = {
                     $('#loadingToast').hide();
                 }, 2000);
                 alert("bind login err, err info: "+ err.responseText);
-                _this.logining = false;
+                //_this.logining = false;
                 $.removeCookie('jwt');
                 $.removeCookie('binding_id');
                 window.location.replace(_this.codeLoginUrl);
@@ -76,18 +76,19 @@ Login.prototype = {
             type: 'POST',
             success: function(json){
                 $.cookie('binding_id', json.binding_id, {expires: 90*1440});
+                //_this.logining = false;
                 _this.bindLogin(json.binding_id);
             },
             error: function(err) {
                 $('#loadingToast').hide();
                 if (err.responseText.indexOf("Wechat Binding Already exists")>=0){
                     alert("bind error!err info: "+err.responseText);
-                    _this.logining = false;
+                   // _this.logining = false;
                     window.location.replace(_this.codeLoginUrl);
                 }else{
-                    alert("bind error!err info: "+err.responseText);
-                    _this.logining = false;
-                    window.location.replace(_this.bindUrl);
+                    alert("bind error!");
+                    //_this.logining = false;
+                    window.location.replace(_this.codeLoginUrl);
                 }
 
             }
@@ -101,12 +102,12 @@ Login.prototype = {
         if (undefined === p || "" === p){
           return false;
         }
-
+/*
         if (true === this.logining){
           return false;
         }
 
-        this.logining = true;
+        this.logining = true;*/
         $('#loadingTxt').val("正在进行绑定");
         $('#loadingToast').show();
 
@@ -153,15 +154,6 @@ Login.prototype = {
         return false;
     },
 
-    get: function(){
-        var u = $.cookie('username');
-        var p = $.cookie('password');
-        if (undefined === u || undefined === p){
-          return null;
-        }
-        return {username: u, password: p};
-    },
-
     getUrlParams: function(){
         var href = window.location.href;
         var start = href.indexOf('?') + 1;
@@ -196,11 +188,6 @@ Login.prototype = {
 
 $(function(){
   var login = new Login();
-  var userinfo = login.get();
-  if (null !== userinfo){
-    $('#username').val(userinfo.username);
-    $('#password').val(userinfo.password);
-  }
 
   $('#form').submit(function(event) {
     /* Act on the event */
