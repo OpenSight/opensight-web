@@ -17,7 +17,7 @@ app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope
                 $scope.cameraListShown = true;
                 var mySwiper = new Swiper ('.swiper-container', {
                     direction: 'horizontal',
-                    loop: false,
+                    loop: true,
 
                     // 如果需要分页器
                     pagination : '.swiper-pagination',

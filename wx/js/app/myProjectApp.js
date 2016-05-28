@@ -192,7 +192,7 @@ app.controller('MyProject', ['$scope', '$http', '$q','$window', '$state', functi
                 G_ProjectName = $scope.projectlist.data[0].name;
                 var mySwiper = new Swiper ('.swiper-container', {
                     direction: 'horizontal',
-                    loop: false,
+                    loop: true,
                     // 如果需要分页器
                     pagination : '.swiper-pagination',
                     paginationHide :true,
