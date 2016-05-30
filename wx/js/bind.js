@@ -65,7 +65,7 @@ Login.prototype = {
     goBind:function(u, p){
         //alert("begin sjcl!");
         var d = new Date ();
-        d.setTime(d.getTime()+90*24*3600*1000);
+        d.setTime(d.getTime()+370*24*3600*1000);
         var e = Math.ceil(d.getTime() / 1000);
         var data = {};
         var _this = this;

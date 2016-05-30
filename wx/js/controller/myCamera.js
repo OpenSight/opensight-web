@@ -17,7 +17,7 @@ app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope
                 $scope.cameraListShown = true;
                 var mySwiper = new Swiper ('.swiper-container', {
                     direction: 'horizontal',
-                    loop: true,
+                    loop: false,
 
                     // 如果需要分页器
                     pagination : '.swiper-pagination',
@@ -149,6 +149,9 @@ app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope
                         }
                         if (it.text === $scope.c.stearmOptions[i].text)
                             $.cookie('stream',i,{expires: 1440*360});
+                        $scope.Player.destroy();
+                        $scope.c.playStream = it.text.toLowerCase();
+                        $scope.Player = new HlsVideo($scope.c);
                     }
 
                     it.on = 2;

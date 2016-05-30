@@ -192,7 +192,7 @@ app.controller('MyProject', ['$scope', '$http', '$q','$window', '$state', functi
                 G_ProjectName = $scope.projectlist.data[0].name;
                 var mySwiper = new Swiper ('.swiper-container', {
                     direction: 'horizontal',
-                    loop: true,
+                    loop: false,
                     // 如果需要分页器
                     pagination : '.swiper-pagination',
                     paginationHide :true,
@@ -204,7 +204,7 @@ app.controller('MyProject', ['$scope', '$http', '$q','$window', '$state', functi
                     // 如果需要前进后退按钮
                     //nextButton: '.swiper-button-next',
                     //prevButton: '.swiper-button-prev',
-                    observer: true
+                    observer:'true'
                     // 如果需要滚动条
                     //scrollbar: '.swiper-scrollbar'
                 })
@@ -242,6 +242,7 @@ app.controller('MyProject', ['$scope', '$http', '$q','$window', '$state', functi
                             for (var i in $scope.projectlist.data){
                                 $scope.projectlist.getCameraNum(i);
                             }
+
                         }).error(function (response,status) {
                             $('#ToastTxt').html("获取项目列表失败");
                             $('#loadingToast').show();
@@ -347,5 +348,3 @@ app.filter('online', [function() {
             return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
         };
     }]);
-
-

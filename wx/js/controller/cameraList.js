@@ -153,6 +153,9 @@ app.register.controller('CameraList',['$scope', '$http', '$q', '$window', '$stat
                    }
 
                    it.on = 2;
+                   $scope.Player.destroy();
+                   $scope.c.playStream = it.text.toLowerCase();
+                   $scope.Player = new HlsVideo($scope.c);
                }else it.on = 1;
             }
         };
