@@ -3,10 +3,10 @@
 angular.module('app.services', [])
 .factory('flagFactory', function() {
   var camera_ab = [
-    {text: 'LD', title: '流畅', cls: '', idx: 0}, 
-    {text: 'SD', title: '标清', cls: '', idx: 1}, 
-    {text: 'HD', title: '高清', cls: '', idx: 2}, 
-    {text: 'FHD', title: '超清', cls: '', idx: 3}
+    {value: 'ld', text: 'LD', title: '流畅', cls: '', idx: 0}, 
+    {value: 'sd', text: 'SD', title: '标清', cls: '', idx: 1}, 
+    {value: 'hd', text: 'HD', title: '高清', cls: '', idx: 2}, 
+    {value: 'fhd', text: 'FHD', title: '超清', cls: '', idx: 3}
   ];
   return {
     getBitmap: function(f, bits) {

@@ -26,9 +26,11 @@ angular.module('app.filter', []).filter('online', [function() {
       return '操作员';
     }
   };
-}]).filter('key_enabled', [function() {
+}])
+
+.filter('key_enabled', [function() {
   return function(enabled) {
-    if (true === enabled) {
+    if (true === enabled){
       return '启用';
     } else {
       return '禁用';
@@ -36,8 +38,21 @@ angular.module('app.filter', []).filter('online', [function() {
   };
 }])
 
+.filter('mannual_enabled', [function() {
+  return function(enabled) {
+    if (true === enabled){
+      return '启动';
+    } else {
+      return '停止';
+    }
+  };
+}])
+
 .filter('stream_quality', [function() {
   return function(quality) {
+    if (undefined === quality){
+      return '';
+    }
     var em = {
       ld: '流畅',
       sd: '标清',
@@ -69,4 +84,16 @@ angular.module('app.filter', []).filter('online', [function() {
   };
 }])
 
+filter('range', function() {
+  return function(input, start, end) {    
+    start = parseInt(start);
+    end = parseInt(end);
+    var direction = (start <= end) ? 1 : -1;
+    while (start != end) {
+        input.push(start);
+        start += direction;
+    }
+    return input;
+  };
+})
 ;

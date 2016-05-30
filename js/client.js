@@ -80,6 +80,10 @@ var app = angular.module('client', [
         url: '/camera/:camera',
         templateUrl: path + 'views/camera-detail.html'
       })
+      .state('project.camera-replay', {
+        url: '/camera-replay/:camera?camname',
+        templateUrl: path + 'views/camera-replay.html'
+      })
       .state('project.schedule', {
         url: '/schedule',
         templateUrl: path + 'views/schedule.html'

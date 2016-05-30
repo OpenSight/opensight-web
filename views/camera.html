@@ -20,18 +20,22 @@
     <thead>
       <tr>
         <th class="col-sm-2">摄像机名称</th>
-        <th class="col-sm-2">描述</th>
+        <!-- <th class="col-sm-2">描述</th> -->
         <th class="col-sm-1 text-center">在线状态</th>
+        <th class="col-sm-1 text-center">录像状态</th>
         <th class="col-sm-2 text-center">允许直播</th>
         <th class="col-sm-3 text-center">预览</th>
-        <th class="col-sm-2 text-center">操作</th>
+        <th class="col-sm-1 text-center">回放</th>
+        <th class="col-sm-1 text-center">重启</th>
+        <th class="col-sm-1 text-center">配置</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="item in camera.list">
         <td>{{item.name}}</td>
-        <td>{{item.desc}}</td>
+        <!-- <td>{{item.desc}}</td> -->
         <td class="text-center">{{item.is_online|online}}</td>
+        <td class="text-center">{{item.record_state|record_state}}</td>
         <td class="text-center">
           <div class="btn-group btn-group-sm">
             <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[item.live]" title="允许直播" ng-click="enable(item, true)">允许</button>
@@ -52,16 +56,20 @@
               <li><a class="pointer" ng-click="preview(item, 'hls')">HLS</a></li>
             </ul>
           </div>
-          <!-- <div class="btn-group btn-group-xs">
-            <button ng-repeat="it in item.ability" class="btn btn-default text-primary" ng-disabled="!item.live" role="group" title={{it.title}} ng-click="preview(item, it.text)">{{it.text}}</button>
-          </div> -->
         </td>
         <td class="text-center">
-          <button class="btn btn-default btn-sm" ui-sref="project.camera-detail({camera: item.uuid})" title="详细">
-            <i class="glyphicon glyphicon-cog pointer"></i>
-          </button>&nbsp;
+          <button class="btn btn-default btn-sm" ui-sref="project.camera-replay({camera: item.uuid, camname: item.name})" title="回放">
+            <i class="glyphicon glyphicon-film pointer"></i>
+          </button>
+        </td>
+        <td class="text-center">
           <button class="btn btn-default btn-sm" ng-click="restart(item.uuid)" title="重启">
             <i class="glyphicon glyphicon-repeat pointer"></i>
+          </button>
+        </td>
+        <td class="text-center">
+          <button class="btn btn-default btn-sm" ui-sref="project.camera-detail({camera: item.uuid})" title="配置">
+            <i class="glyphicon glyphicon-cog pointer"></i>
           </button>
         </td>
       </tr>
