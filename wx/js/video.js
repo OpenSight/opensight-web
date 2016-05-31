@@ -3,18 +3,29 @@ var HlsVideo = function(opts){
   this.api = 'http://www.opensight.cn/api/ivc/v1/projects/';
   this.project = opts.project_name;
   this.uuid = opts.uuid;
-
+  this.playStream = opts.playStream;
   this.init();
 };
 
 HlsVideo.prototype = {
   init: function(){
+      this.on();
     this.createSession();
     this.getCameraInfo();
-    this.on();
     this.updateTip();
   },
-  on: function(){},
+    on: function(){
+        var id = 'videoPlayer';
+        var html = '<div id="videoPlayer">' +
+            '<p class="play-tip pull-right" >' +
+            '<span class="text-highlight" id="playTipSec">10</span>' +
+            '秒之后直播开始' +
+            '</p>' +
+            '</div>';
+
+        var el = $('#' + id).parent().html(html);
+        this.destroyed = false;
+    },
     /*
   loadFlash: function(info){
     var flashvars = {
@@ -59,6 +70,9 @@ HlsVideo.prototype = {
       url: this.api +  this.project + '/cameras/' + this.uuid,
       cache: true,
       async: false,
+        headers: { // 添加请求头
+            "Authorization": "Bearer " + $.cookie('jwt')
+        },
       type: 'GET',
       success: function(info){
         // $('#img').attr('src', info.preview);
@@ -75,14 +89,44 @@ HlsVideo.prototype = {
     $('#long_desc').text(info.long_desc);
   },
   createSession: function(){
+      /*
+      var tempStreamStr = "ld";
+      var stream = $.cookie('stream');
+      if (stream === "" || stream === undefined){
+          stream = "0";
+      }
+
+      switch(stream){
+          case "0":
+              tempStreamStr = "ld";
+              break;
+          case "1":
+              tempStreamStr = "sd";
+              break;
+          case "2":
+              tempStreamStr = "hd";
+              break;
+          case "3":
+              tempStreamStr = "fhd";
+              break;
+          default:
+              tempStreamStr = "ld";
+              break;
+      }
+      */
     var _this = this;
     $.ajax({
+//add some code to force quality
+
       url: this.api +  this.project + '/cameras/' + this.uuid + '/sessions',
       cache: true,
-      data: {format: 'hls', quality: 'ld', create: true},
+        headers: { // 添加请求头
+            "Authorization": "Bearer " + $.cookie('jwt')
+        },
+      data: {format: 'hls', quality: _this.playStream, create: true},
       type: 'POST',
       success: function(info){
-        if (true === _this.html5){
+        if (true === _this.html5 && _this.destroyed === false){
           _this.addVideoTag(info);
         }
         /*else {
@@ -103,10 +147,13 @@ HlsVideo.prototype = {
   },
   keepalive: function(sessionid){
     var _this = this;
-    setInterval(function(){
+      this.keeptimer = setInterval(function(){
       $.ajax({
         url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + sessionid,
         cache: true,
+          headers: { // 添加请求头
+              "Authorization": "Bearer " + $.cookie('jwt')
+          },
         type: 'POST'
       });
     }, 30000);
@@ -130,7 +177,32 @@ HlsVideo.prototype = {
       this.tiptimer = undefined;
     }
     alert('启动实况失败，请刷新页面重试。');
-  }
+  },
+    destroy: function(){
+        var id = 'videoPlayer';
+        if($("#playTipSec").length>0){
+            clearInterval(this.tiptimer);
+            this.tiptimer = undefined;
+        }else{
+            var player = document.getElementById(id);
+            if (player!==null && player.currentTime){
+                player.currentTime = 0;
+                player.pause();
+            }
+        }
+        clearInterval(this.keeptimer);
+        this.keeptimer = undefined;
+        var html = '<div id="videoPlayer">' +
+            '<p class="play-tip pull-right" >' +
+            '<span class="text-highlight" id="playTipSec">10</span>' +
+            '秒之后直播开始' +
+            '</p>' +
+            '</div>';
+
+        var el = $('#' + id).parent().html(html);
+        this.destroyed = true;
+
+    }
 };
 
 /*

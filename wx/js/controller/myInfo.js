@@ -1,40 +1,39 @@
-var wx_api = "http://api.opensight.cn/api/ivc/v1/wechat/";
-var bindUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
-    "bind.html&response_type=code&scope=snsapi_userinfo&state=myInfo" +
-    "#wechat_redirect";
-var codeLoginUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
-    "myInfo.html&response_type=code&scope=snsapi_userinfo&state=myInfo" +
-    "#wechat_redirect";
-
 app.controller('MyInfo', ['$scope', '$http', '$q', '$window',  function($scope, $http, $q, $window){
     $scope.ToastTxt = "xxxx";
     $scope.Acc = jwt.aud;
-    if (flag === true && jwt != undefined && jwt.aud != undefined){
-
-    }else {
-        alert("网络有点小卡哦，请尝试刷新！");
-    }
+    $scope.wx_api = "http://api.opensight.cn/api/ivc/v1/wechat/";
+    $scope.bindUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+        "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+        "bind.html&response_type=code&scope=snsapi_userinfo&state=myInfo" +
+        "#wechat_redirect";
+    $scope.codeLoginUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+        "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+        "myInfo.html&response_type=code&scope=snsapi_userinfo&state=myInfo" +
+        "#wechat_redirect";
+    
     $scope.unbind = (function () {
         $scope.aborter = $q.defer(),
-            $http.delete (wx_api+"bindings/"
+            $http.delete ($scope.wx_api+"bindings/"
                 +$.cookie('binding_id'), {
                 timeout: $scope.aborter.promise
             }).success(function (response) {
+                    $.removeCookie('jwt');
+                    $.removeCookie('binding_id');
                     $scope.ToastTxt = "解绑成功";
                     $('#loadingToast').show();
                     setTimeout(function () {
                         $('#loadingToast').hide();
                     }, 2000);
-                    $window.location.replace(bindUrl);
+                    $window.location.replace($scope.bindUrl);
                 }).error(function (response) {
+                    $.removeCookie('jwt');
+                    $.removeCookie('binding_id');
                     $scope.ToastTxt = "解绑失败";
                     $('#loadingToast').show();
                     setTimeout(function () {
                         $('#loadingToast').hide();
                     }, 2000);
-                    $window.location.replace(codeLoginUrl);
+                    $window.location.replace($scope.codeLoginUrl);
                 });
     });
 
@@ -66,6 +65,13 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window',  function($scope, 
                     },
 
                     initDetail: function () {
+                        if (flag === true && jwt != undefined && jwt.aud != undefined){
+
+                        }else {
+                            alert("bad jwt!plz reload your page!");
+                            return;
+                        }
+
                         if ($scope.userinfo.data_mod.tabs === undefined) $scope.userinfo.data_mod.tabs = [];
                         if ($scope.userinfo.data_mod.tabs[0] === undefined) $scope.userinfo.data_mod.tabs[0] = {};
                         $scope.userinfo.data_mod.tabs[0].active = true;
@@ -80,7 +86,7 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window',  function($scope, 
                                     setTimeout(function () {
                                         $('#loadingToast').hide();
                                     }, 2000);
-                                    $window.location.replace(codeLoginUrl);
+                                    $window.location.replace($scope.codeLoginUrl);
                                 });
                     },
 
@@ -109,7 +115,7 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window',  function($scope, 
                                     setTimeout(function () {
                                         $('#loadingToast').hide();
                                     }, 2000);
-                                    $window.location.replace(codeLoginUrl);
+                                    $window.location.replace($scope.codeLoginUrl);
                                 });
                     },
 
@@ -158,7 +164,7 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window',  function($scope, 
                                     setTimeout(function () {
                                         $('#loadingToast').hide();
                                     }, 2000);
-                                    $window.location.replace(codeLoginUrl);
+                                    $window.location.replace($scope.codeLoginUrl);
                                 });
 
                     },
