@@ -381,6 +381,35 @@ angular.module('app.controller', [])
         console.log('error');
       });
     };
+    $scope.play = function(it){
+      if ('' === document.createElement('video').canPlayType('application/x-mpegURL')) {
+        loadFlash(it.hls);
+      } else {
+        addVideoTag(it.hls);
+      }
+    };
+    var loadFlash = function(hls) {
+      var flashvars = {
+        // src: 'http://www.opensight.cn/hls/camera1.m3u8',
+        src: hls,
+        plugin_hls: "../flashlsOSMF.swf",
+        // scaleMode: 'none',
+        autoPlay: true
+      };
+
+      var params = {
+        allowFullScreen: true,
+        allowScriptAccess: "always",
+        wmode: 'opaque',
+        bgcolor: "#000000"
+      };
+      var attrs = {
+        name: "replayPlayer"
+      };
+
+      swfobject.embedSWF("../GrindPlayer.swf", "replayPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
+    };
+    var addVideoTag = function(info) {};
     $scope.$watch('dt', search);
   }
 ])
