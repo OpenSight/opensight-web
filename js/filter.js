@@ -101,6 +101,7 @@ angular.module('app.filter', []).filter('online', [function() {
   return function(state) {
     var list = [
       '未启动',
+      '预录中',
       '录像中',
       '异常'
     ];
