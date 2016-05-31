@@ -323,11 +323,14 @@ angular.module('app.controller', [])
     });
 
     $scope.save = function() {
+      var schedule_id = $scope.info.schedule_id;
+      if ('number' !== typeof schedule_id){
+        schedule_id = -1;
+      }
       var data = {
         stream_quality: $scope.info.stream_quality.toLowerCase(),
-        schedule_id: $scope.info.schedule_id,
-        mannual: $scope.info.mannual_enabled,
-        mannual_last: 60
+        schedule_id: schedule_id,
+        record_lifecycle: $scope.info.record_lifecycle
       };
       $rootScope.$emit('messageHide');
       $http.post(url, data).success(function(response) {
@@ -338,6 +341,48 @@ angular.module('app.controller', [])
         $rootScope.$emit('messagePush', { succ: false, text: '修改摄像机录像计划失败。' });
       });
     };
+  }
+])
+
+.controller('camera-replay', [
+  '$scope', '$rootScope', '$http', 'flagFactory',
+  function($scope, $rootScope, $http, flagFactory) {
+    $scope.camname = $rootScope.$stateParams.camname;
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/cameras/' + $rootScope.$stateParams.camera + '/record/search';
+    $scope.options = {
+      minDate: new Date('2016-01-01'),
+      showWeeks: false
+    };
+    $scope.dt = new Date();
+
+    var search = function(){
+      debugger;
+      var tmp = $scope.dt;
+      tmp.setHours(0);
+      tmp.setMinutes(0);
+      tmp.setSeconds(0);
+      tmp.setMilliseconds(0);
+      var start = tmp.getTime();
+      tmp.setHours(23);
+      tmp.setMinutes(59);
+      tmp.setSeconds(59);
+      tmp.setMilliseconds(999);
+      var end = tmp.getTime();
+      $scope.recordlist = [];
+      $http.get(url, {
+        params: {
+          start: start,
+          end: end,
+          seglength: 60
+        }
+      }).success(function(response) {
+        $scope.recordlist = response;
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: false, text: '查询录像失败。' });
+        console.log('error');
+      });
+    };
+    $scope.$watch('dt', search);
   }
 ])
 

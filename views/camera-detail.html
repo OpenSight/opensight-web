@@ -89,7 +89,7 @@
         </div>
       </form>
     </uib-tab>
-    <uib-tab index="1" heading="录像计划">
+    <uib-tab index="1" heading="录像配置">
       <form ng-controller="camera-record-plan">
         <div class="form-group">
           <label>摄像机名称</label>
@@ -97,7 +97,11 @@
         </div>
         <div class="form-group">
           <label>录像质量</label>
-          <select class="form-control" ng-model="info.stream_quality" ng-options="it.text as it.title for it in caminfo.ability"></select>
+          <select class="form-control" ng-model="info.stream_quality" ng-options="it.value as it.title for it in caminfo.ability"></select>
+        </div>
+        <div class="form-group">
+          <label>保存天数</label>
+          <input type="text" class="form-control" ng-model="info.record_lifecycle">
         </div>
         <div class="form-group">
           <label>录像计划模板</label>
@@ -107,11 +111,7 @@
         </div>
         <div class="form-group">
           <label>手动录像</label>
-          <div class="radio">
-            <label><input type="radio" ng-model="info.mannual_enabled" ng-value="boolFalse">&nbsp;停止</label>
-            &nbsp;&nbsp;
-            <label><input type="radio" ng-model="info.mannual_enabled" ng-value="boolTrue">&nbsp;启动</label>
-          </div>
+          <p class="form-control-static">{{info.mannual_enabled|mannual_enabled}}</p>
         </div>
         <div class="form-group" ng-show="info.mannual_enabled">
           <label>手动录像结束时间</label>

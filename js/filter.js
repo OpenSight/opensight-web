@@ -26,12 +26,24 @@ angular.module('app.filter', []).filter('online', [function() {
       return '操作员';
     }
   };
-}]).filter('key_enabled', [function() {
+}])
+
+.filter('key_enabled', [function() {
   return function(enabled) {
     if (true === enabled){
       return '启用';
     } else {
       return '禁用';
+    }
+  };
+}])
+
+.filter('mannual_enabled', [function() {
+  return function(enabled) {
+    if (true === enabled){
+      return '启动';
+    } else {
+      return '停止';
     }
   };
 }])
@@ -72,7 +84,7 @@ angular.module('app.filter', []).filter('online', [function() {
   };
 }])
 
-filter('range', function() {
+.filter('range', function() {
   return function(input, start, end) {    
     start = parseInt(start);
     end = parseInt(end);
@@ -82,6 +94,17 @@ filter('range', function() {
         start += direction;
     }
     return input;
+  };
+})
+
+.filter('record_state', function() {
+  return function(state) {
+    var list = [
+      '未启动',
+      '录像中',
+      '异常'
+    ];
+    return list[state];
   };
 })
 ;

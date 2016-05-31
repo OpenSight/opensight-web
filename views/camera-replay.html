@@ -1,0 +1,43 @@
+<div class="container-fluid" ng-controller="camera-replay">
+  <div class="col-sm-12 page-header page-header-condensed">
+    <h3>
+      <button class="btn btn-default btn-sm" ui-sref="project.camera"><i class="fa fa-arrow-left"></i></button>&nbsp;&nbsp;
+      {{camname}}
+    </h3>
+  </div>
+  <div class="col-sm-8">
+  </div>
+  <div class="col-sm-4">
+    <uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></uib-datepicker>
+    <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
+      <thead>
+        <tr>
+          <th class="col-sm-1 text-center">
+            <input type="checkbox" ng-model="info.live_ability">
+          </th>
+          <th class="col-sm-5 text-center">开始</th>
+          <th class="col-sm-5 text-center">结束</th>
+          <th class="col-sm-1 text-center">
+            <button class="btn btn-default btn-sm" style='visibility: hidden;'>
+              <i class="glyphicon glyphicon-cog pointer"></i>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in recordlist">
+          <td class="col-sm-1 text-center">
+            <input type="checkbox" ng-model="item.checked">
+          </td>
+          <td class="text-center">{{item.segments[0].start}}</td>
+          <td class="text-center">{{item.segments[item.segments.length - 1].end}}</td>
+          <td class="text-center">
+            <button class="btn btn-default btn-sm" ng-click="play(item)" title="回放">
+              <i class="fa fa-play"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
