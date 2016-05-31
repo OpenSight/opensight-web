@@ -25,12 +25,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in recordlist">
+        <tr ng-repeat="item in record.segments">
           <td class="col-sm-1 text-center">
             <input type="checkbox" ng-model="item.checked">
           </td>
-          <td class="text-center">{{item.segments[0].start}}</td>
-          <td class="text-center">{{item.segments[item.segments.length - 1].end}}</td>
+          <td class="text-center">{{item.start}}</td>
+          <td class="text-center">{{item.end}}</td>
           <td class="text-center">
             <button class="btn btn-default btn-sm" ng-click="play(item)" title="回放">
               <i class="fa fa-play"></i>

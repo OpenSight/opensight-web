@@ -356,7 +356,6 @@ angular.module('app.controller', [])
     $scope.dt = new Date();
 
     var search = function(){
-      debugger;
       var tmp = $scope.dt;
       tmp.setHours(0);
       tmp.setMinutes(0);
@@ -376,7 +375,7 @@ angular.module('app.controller', [])
           seglength: 60
         }
       }).success(function(response) {
-        $scope.recordlist = response;
+        $scope.record = response;
       }).error(function(response, status) {
         $rootScope.$emit('messageShow', { succ: false, text: '查询录像失败。' });
         console.log('error');
