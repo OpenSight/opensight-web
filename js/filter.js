@@ -108,4 +108,22 @@ angular.module('app.filter', []).filter('online', [function() {
     return list[state];
   };
 })
+
+.filter('duration', function() {
+  var a = [{t: '秒', v: 60}, {t: '分', v: 60}, {t: '时', v: 60}, {t: '天', v: 24}];
+  return function(dur, ms) {
+    var s = '';
+    if (true === ms){
+      dur = Math.floor(dur / 1000);
+    }
+    for (var i = 0, l = a.length; i < l; i++){
+      s = dur % a[i].v + a[i].t + s;
+      dur = Math.floor(dur / a[i].v);
+      if (0 === dur){
+        break;
+      }
+    }
+    return s;
+  };
+})
 ;

@@ -389,6 +389,7 @@ angular.module('app.controller', [])
       }
     };
     var loadFlash = function(hls) {
+      hls = encodeURIComponent(hls);
       var flashvars = {
         // src: 'http://www.opensight.cn/hls/camera1.m3u8',
         src: hls,
