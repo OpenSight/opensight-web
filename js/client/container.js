@@ -246,6 +246,7 @@ angular.module('app.controller', [])
 
     $http.get(url, {}).success(function(response) {
       $scope.info = response;
+      $scope.info.preview += '?_=' + new Date().getTime();
       var bitmap = flagFactory.getBitmap(response.flags, 8);
       var flags = flagFactory.parseCamera(bitmap);
       $scope.info.ability = flags.ability;

@@ -117,7 +117,7 @@ Login.prototype = {
           $.cookie('username', u, { expires: 30 });
           $.cookie('password', p, { expires: 30 });
         }
-        var ui = Base64.encodeURI(JSON.stringify(data));
+        var ui = window.btoa(JSON.stringify(data));
         window.location.replace(_this.url + '?jwt=' + json.jwt + '&ui=' + ui);
       },
       error: function() {
