@@ -68,6 +68,8 @@ Jwt.prototype = {
 
   },
   parse: function(){
+    debugger;
+    var a = this.jwt.split();
     var list = Base64.decode(this.jwt).match(/\{[^\{\}]*\}/g);
     for (var i = 0, l = list.length; i < l; i++){
       var obj = JSON.parse(list[i]);

@@ -31,7 +31,7 @@ Jwt.prototype = {
     }
 
     if (undefined !== ui){
-      ui = JSON.parse(Base64.decode(ui));
+      ui = JSON.parse(window.atob(ui));
       if (undefined !== ui.password){
         $.cookie(this.opts.pwd, ui.password);
         this.pwd = ui.password;
@@ -112,15 +112,24 @@ Jwt.prototype = {
     });
   },
   parse: function(){
-    var list = Base64.decode(this.jwt).match(/\{[^\{\}]*\}/g);
-    for (var i = 0, l = list.length; i < l; i++){
-      var obj = JSON.parse(list[i]);
-      if (undefined === obj.aud || undefined === obj.exp){
-        continue;
-      }
-      return obj;
+    var a = this.jwt.split('.');
+    if (a.length < 2){
+      return {};
     }
-    return {};
+    var obj = JSON.parse(window.atob(a[1]));
+    if (undefined === obj.aud || undefined === obj.exp){
+      return {};
+    }
+    return obj;
+    // var list = Base64.decode(this.jwt).match(/\{[^\{\}]*\}/g);
+    // for (var i = 0, l = list.length; i < l; i++){
+    //   var obj = JSON.parse(list[i]);
+    //   if (undefined === obj.aud || undefined === obj.exp){
+    //     continue;
+    //   }
+    //   return obj;
+    // }
+    // return {};
   },
   get: function(){
     return {aud: this.aud, jwt: this.jwt};
