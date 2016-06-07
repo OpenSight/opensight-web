@@ -3,6 +3,7 @@ var HlsVideo = function(opts){
   this.api = 'http://www.opensight.cn/api/ivc/v1/projects/';
   this.project = opts.project_name;
   this.uuid = opts.uuid;
+  this.alivetimer = undefined;
   this.playStream = opts.playStream;
   this.init();
 };
@@ -145,6 +146,8 @@ HlsVideo.prototype = {
       }
     });
   },
+
+    /*
   keepalive: function(sessionid){
     var _this = this;
       this.keeptimer = setInterval(function(){
@@ -158,6 +161,51 @@ HlsVideo.prototype = {
       });
     }, 30000);
   },
+    */
+
+  keepalive: function(sessionid){
+      this.session_id = sessionid;
+        var _this = this;
+        if (undefined !== _this.alivetimer){
+            $timeout.cancel(_this.alivetimer);
+            _this.alivetimer = undefined;
+        }
+        var count = 1440;
+      _this.alivetimer = $timeout(function(){
+            if (0 === count){
+                _this.stop();
+                return;
+            } else {
+                count--;
+            }
+            $.ajax({
+                url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + _this.session_id,
+                cache: true,
+                headers: { // 添加请求头
+                    "Authorization": "Bearer " + $.cookie('jwt')
+                },
+                type: 'POST'
+            });
+        }, 30000);
+  },
+
+  stop: function(){
+        var _this = this;
+        if (undefined !== _this.alivetimer){
+            clearInterval(_this.alivetimer);
+            _this.alivetimer = undefined;
+        }
+        if (undefined === _this.session_id){
+            return;
+        }
+
+        $.ajax({
+            url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + _this.session_id,
+            cache: true,
+            type: 'DELETE'
+        });
+  },
+
   updateTip: function(){
     var _this = this;
     var sec = 10;
@@ -171,6 +219,7 @@ HlsVideo.prototype = {
       $('#playTipSec').text(sec);
     }, 1000);
   },
+
   error: function(){
     if (undefined !== this.tiptimer){
       clearInterval(this.tiptimer);
@@ -178,7 +227,9 @@ HlsVideo.prototype = {
     }
     alert('启动实况失败，请刷新页面重试。');
   },
+
     destroy: function(){
+        this.stop();
         var id = 'videoPlayer';
         if($("#playTipSec").length>0){
             clearInterval(this.tiptimer);
@@ -201,13 +252,46 @@ HlsVideo.prototype = {
 
         var el = $('#' + id).parent().html(html);
         this.destroyed = true;
-
     }
 };
 
 /*
-$(function(){
-//  var params = parseUrl();
-  new HlsVideo(params);
-});
+ keepalive: function(sessionid){
+ var _this = this;
+ if (undefined !== alivetimer){
+ $timeout.cancel(alivetimer);
+ alivetimer = undefined;
+ }
+ var count = 1440;
+ alivetimer = $timeout(function(){
+ if (0 === count){
+ stop();
+ return;
+ } else {
+ count--;
+ }
+ $.ajax({
+ url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + sessionid,
+ cache: true,
+ type: 'POST'
+ });
+ }, 30000);
+ },
+
+ stop: function(){
+ if (undefined !== alivetimer){
+ clearInterval(alivetimer);
+ alivetimer = undefined;
+ }
+ if (undefined === this.session_id){
+ return;
+ }
+ var _this = this;
+ $.ajax({
+ url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + _this.session_id,
+ cache: true,
+ type: 'DELETE'
+ });
+ //$http.delete(url + '/' + $scope.id, {});
+ },
     */

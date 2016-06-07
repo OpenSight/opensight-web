@@ -6,7 +6,7 @@ var Jwt = function(urlname){
 
 Jwt.prototype = {
   init: function(){
-      if (Base64 === undefined) alert("Base64 not load well!");
+  //    if (Base64 === undefined) alert("Base64 not load well!");
       this.jwt = $.cookie('jwt');
       this.binding_id = $.cookie('binding_id');
       this.api = "http://api.opensight.cn/api/ivc/v1/wechat/";
@@ -18,13 +18,14 @@ Jwt.prototype = {
         if (0 >= this.check()){
           this.jump();
         }
-
+/*
         var claim = this.parse();
         if (undefined !== claim.aud){
           this.aud = claim.aud;
         } else {
           this.jump();
         }
+        */
   },
 
   check: function(){
@@ -32,9 +33,10 @@ Jwt.prototype = {
           return -1;
       }
       var claim = this.parse();
-      if (undefined === claim.exp){
+      if (undefined === claim.exp || undefined === claim.aud){
           return -1;
       }
+      this.aud = claim.aud;
       var t = Math.ceil((new Date().getTime()) / 1000)
       return (claim.exp - t);
   },
@@ -67,6 +69,26 @@ Jwt.prototype = {
       });
 
   },
+/*
+    function _doDecode() {
+    var sJWT = document.form1.jwt1.value;
+
+    var a = sJWT.split(".");
+    var uHeader = b64utos(a[0]);
+    var uClaim = b64utos(a[1]);
+
+    var pHeader = KJUR.jws.JWS.readSafeJSONString(uHeader);
+    var pClaim = KJUR.jws.JWS.readSafeJSONString(uClaim);
+
+    var sHeader = JSON.stringify(pHeader, null, "  ");
+    var sClaim = JSON.stringify(pClaim, null, "  ");
+
+    document.form1.im_head1.value = sHeader;
+    document.form1.im_payload1.value = sClaim;
+}
+*/
+
+    /*
   parse: function(){
     var list = Base64.decode(this.jwt).match(/\{[^\{\}]*\}/g);
     for (var i = 0, l = list.length; i < l; i++){
@@ -78,6 +100,27 @@ Jwt.prototype = {
     }
     return {};
   },
+*/
+
+   parse: function(){
+       /*
+       var a = this.jwt.split(".");
+       var uClaim = b64utos(a[1]);
+       var obj = JSON.parse(uClaim);
+       return obj;
+       */
+       var a = this.jwt.split('.');
+       if (a.length < 2){
+           return {};
+       }
+       var obj = JSON.parse(window.atob(a[1]));
+       if (undefined === obj.aud || undefined === obj.exp){
+           alert("jwt解析失败！");
+           return {};
+       }
+
+       return obj;
+   },
 
   jump: function(){
       if (this.binding_id !== undefined && this.binding_id !== null && this.binding_id !== ""){

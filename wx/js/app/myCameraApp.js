@@ -34,7 +34,7 @@ app.filter('online', [function() {
             if (1 === is_online){
                 return '在线';
             } else if (2 === is_online){
-                return '直播中';
+                return '工作中';
             } else {
                 return '离线';
             }
