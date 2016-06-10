@@ -126,4 +126,10 @@ angular.module('app.filter', []).filter('online', [function() {
     return s;
   };
 })
+
+.filter('listlength', function() {
+  return function(length) {
+    return 0 === length ? '无' : '有';
+  };
+})
 ;

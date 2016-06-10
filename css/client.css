@@ -169,3 +169,17 @@ body {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+@media (min-width: 768px){
+  .form-inline .input-group .timepicker-container .form-control{
+    width: 50px;
+  }
+}
+@media (min-width: 992px) {
+  .modal-player {
+    width: 90%;
+  }
+}
+.input-group-150{
+  width: 150px;
+}

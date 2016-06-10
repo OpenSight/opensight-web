@@ -203,7 +203,7 @@ angular.module('app.controller', [])
       var modalInstance = $uibModal.open({
         templateUrl: 'sessionModalContent.html',
         controller: 'session',
-        size: 'lg',
+        size: 'lg modal-player',
         resolve: {
           caminfo: function() {
             return $scope.cam;
@@ -325,7 +325,7 @@ angular.module('app.controller', [])
 
     $scope.save = function() {
       var schedule_id = $scope.info.schedule_id;
-      if ('number' !== typeof schedule_id){
+      if ('number' !== typeof schedule_id) {
         schedule_id = -1;
       }
       var data = {
@@ -346,34 +346,38 @@ angular.module('app.controller', [])
 ])
 
 .controller('camera-replay', [
-  '$scope', '$rootScope', '$http', 'flagFactory',
-  function($scope, $rootScope, $http, flagFactory) {
+  '$scope', '$rootScope', '$http', '$uibModal', 'playerFactory', 'dateFactory',
+  function($scope, $rootScope, $http, $uibModal, playerFactory, dateFactory) {
     $scope.camname = $rootScope.$stateParams.camname;
     var url = api + "projects/" + $rootScope.$stateParams.project + '/cameras/' + $rootScope.$stateParams.camera + '/record/search';
-    $scope.options = {
-      minDate: new Date('2016-01-01'),
-      showWeeks: false
-    };
-    $scope.dt = new Date();
 
-    var search = function(){
-      var tmp = $scope.dt;
-      tmp.setHours(0);
-      tmp.setMinutes(0);
-      tmp.setSeconds(0);
-      tmp.setMilliseconds(0);
-      var start = tmp.getTime();
-      tmp.setHours(23);
-      tmp.setMinutes(59);
-      tmp.setSeconds(59);
-      tmp.setMilliseconds(999);
-      var end = tmp.getTime();
-      $scope.recordlist = [];
+    (function() {
+      $scope.options = {
+        minDate: new Date('2016-01-01'),
+        showWeeks: false
+      };
+      $scope.hidden = true;
+      $scope.dt = new Date();
+      $scope.opened = false;
+
+      $scope.timepicker = {
+        start: '00:00:00',
+        end: '23:59:59'
+      };
+      $scope.timepicker.startdt = dateFactory.str2time($scope.timepicker.start, true);
+      $scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
+      $scope.seglength = '60';
+    })();
+    $scope.timechange = function(time, key) {
+      $scope.timepicker[key] = dateFactory.time2str(time);
+    };
+
+    $scope.query = function(){
       $http.get(url, {
         params: {
-          start: start,
-          end: end,
-          seglength: 60
+          start: dateFactory.getms($scope.dt, $scope.timepicker.startdt),
+          end: dateFactory.getms($scope.dt, $scope.timepicker.enddt),
+          seglength: parseInt($scope.seglength, 10)
         }
       }).success(function(response) {
         $scope.record = response;
@@ -382,37 +386,35 @@ angular.module('app.controller', [])
         console.log('error');
       });
     };
-    $scope.play = function(it){
-      if ('' === document.createElement('video').canPlayType('application/x-mpegURL')) {
-        loadFlash(it.hls);
-      } else {
-        addVideoTag(it.hls);
-      }
-    };
-    var loadFlash = function(hls) {
-      hls = encodeURIComponent(hls);
-      var flashvars = {
-        // src: 'http://www.opensight.cn/hls/camera1.m3u8',
-        src: hls,
-        plugin_hls: "../flashlsOSMF.swf",
-        // scaleMode: 'none',
-        autoPlay: true
-      };
 
-      var params = {
-        allowFullScreen: true,
-        allowScriptAccess: "always",
-        wmode: 'opaque',
-        bgcolor: "#000000"
-      };
-      var attrs = {
-        name: "replayPlayer"
-      };
-
-      swfobject.embedSWF("../GrindPlayer.swf", "replayPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
+    $scope.play = function(it) {
+      it.camname = $scope.camname;
+      $scope.selected = it;
+      var modalInstance = $uibModal.open({
+        templateUrl: 'replayModalContent.html',
+        controller: 'replayModalController',
+        size: 'lg modal-player',
+        resolve: {
+          record: function() {
+            return $scope.selected;
+          }
+        }
+      });
     };
-    var addVideoTag = function(info) {};
-    $scope.$watch('dt', search);
+    $scope.query();
+  }
+])
+
+.controller('replayModalController', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'playerFactory', 'record',
+  function($scope, $rootScope, $http, $uibModalInstance, playerFactory, record) {
+    $scope.ok = function() {
+      $uibModalInstance.close();
+    };
+
+    $scope.record = record;
+    setTimeout(function() {
+      playerFactory.load(record.hls, 'replayPlayer');
+    }, 0);
   }
 ])
 
@@ -431,8 +433,8 @@ angular.module('app.controller', [])
       });
     };
 
-    $scope.remove = function(item, index){
-      if (false === confirm('确认删除录像计划模板 "' +   item.name + '" 吗？')){
+    $scope.remove = function(item, index) {
+      if (false === confirm('确认删除录像计划模板 "' + item.name + '" 吗？')) {
         return;
       }
       $http.delete(url + '/' + item.id, {}).success(function(response) {
@@ -461,35 +463,35 @@ angular.module('app.controller', [])
       name: '',
       desc: '',
       long_desc: '',
-      entries:[]
+      entries: []
     };
     $scope.typechange = function(type) {
       $scope.type = type;
       $scope.info.entries = [];
       var l = 'weekday' === type ? 7 : 31;
-      for (var i = 1; i <= l; i++){
+      for (var i = 1; i <= l; i++) {
         $scope.addItem(i);
       }
     };
 
     $scope.weekdays = [
-      {name: '请选择星期', value: 0},
-      {name: '星期一', value: 1},
-      {name: '星期二', value: 2},
-      {name: '星期三', value: 3},
-      {name: '星期四', value: 4},
-      {name: '星期五', value: 5},
-      {name: '星期六', value: 6},
-      {name: '星期天', value: 7}
+      { name: '请选择星期', value: 0 },
+      { name: '星期一', value: 1 },
+      { name: '星期二', value: 2 },
+      { name: '星期三', value: 3 },
+      { name: '星期四', value: 4 },
+      { name: '星期五', value: 5 },
+      { name: '星期六', value: 6 },
+      { name: '星期天', value: 7 }
     ];
     $scope.monthdays = [
-      {name: '请选择日期', value: 0}
+      { name: '请选择日期', value: 0 }
     ];
-    for (var i = 1; i < 32; i++){
-      $scope.monthdays.push({name: i + '日', value: i});
+    for (var i = 1; i < 32; i++) {
+      $scope.monthdays.push({ name: i + '日', value: i });
     }
 
-    $scope.addItem = function(idx){
+    $scope.addItem = function(idx) {
       idx = idx || 1;
       var it = {
         date: '',
@@ -499,13 +501,13 @@ angular.module('app.controller', [])
         end: '23:59:59',
         prerecord: true
       };
-      if ('weekday' !== $scope.type){
+      if ('weekday' !== $scope.type) {
         it.weekday = 0;
       } else {
         it.monthday = 0;
       }
       var s = new Date();
-      
+
 
       $scope.info.entries.push(it);
       $scope.datepicker.push(false);
@@ -523,7 +525,7 @@ angular.module('app.controller', [])
       $scope.timepicker.push(t);
     };
 
-    $scope.removeItem = function(it, index){
+    $scope.removeItem = function(it, index) {
       // if (false ==== confirm('确定要删除此条记录？')){
       //   return;
       // }
@@ -532,7 +534,7 @@ angular.module('app.controller', [])
       $scope.timepicker.splice(index, 1);
     };
 
-    $scope.timechange = function(index, key){
+    $scope.timechange = function(index, key) {
       var d = $scope.timepicker[index][key];
       $scope.info.entries[index][key] = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
     };
@@ -554,7 +556,7 @@ angular.module('app.controller', [])
   '$scope', '$rootScope', '$http',
   function($scope, $rootScope, $http) {
     var url = api + "projects/" + $rootScope.$stateParams.project + '/record/schedules/' + $rootScope.$stateParams.schedule;
-    
+
     $scope.boolFalse = false;
     $scope.boolTrue = true;
     $scope.datepicker = [];
@@ -563,36 +565,36 @@ angular.module('app.controller', [])
       name: '',
       desc: '',
       long_desc: '',
-      entries:[]
+      entries: []
     };
     $scope.type = 'weekday';
     $scope.typechange = function(type) {
       $scope.type = type;
       $scope.info.entries = [];
       var l = 'weekday' === type ? 7 : 31;
-      for (var i = 1; i <= l; i++){
+      for (var i = 1; i <= l; i++) {
         $scope.addItem(i);
       }
     };
 
     $scope.weekdays = [
-      {name: '请选择星期', value: 0},
-      {name: '星期一', value: 1},
-      {name: '星期二', value: 2},
-      {name: '星期三', value: 3},
-      {name: '星期四', value: 4},
-      {name: '星期五', value: 5},
-      {name: '星期六', value: 6},
-      {name: '星期天', value: 7}
+      { name: '请选择星期', value: 0 },
+      { name: '星期一', value: 1 },
+      { name: '星期二', value: 2 },
+      { name: '星期三', value: 3 },
+      { name: '星期四', value: 4 },
+      { name: '星期五', value: 5 },
+      { name: '星期六', value: 6 },
+      { name: '星期天', value: 7 }
     ];
     $scope.monthdays = [
-      {name: '请选择日期', value: 0}
+      { name: '请选择日期', value: 0 }
     ];
-    for (var i = 1; i < 32; i++){
-      $scope.monthdays.push({name: i + '日', value: i});
+    for (var i = 1; i < 32; i++) {
+      $scope.monthdays.push({ name: i + '日', value: i });
     }
 
-    $scope.addItem = function(idx){
+    $scope.addItem = function(idx) {
       idx = idx || 1;
       var it = {
         date: '',
@@ -602,13 +604,13 @@ angular.module('app.controller', [])
         end: '23:59:59',
         prerecord: true
       };
-      if ('weekday' !== $scope.type){
+      if ('weekday' !== $scope.type) {
         it.weekday = 0;
       } else {
         it.monthday = 0;
       }
       var s = new Date();
-      
+
 
       $scope.info.entries.push(it);
       $scope.datepicker.push(false);
@@ -626,7 +628,7 @@ angular.module('app.controller', [])
       $scope.timepicker.push(t);
     };
 
-    $scope.removeItem = function(it, index){
+    $scope.removeItem = function(it, index) {
       // if (false ==== confirm('确定要删除此条记录？')){
       //   return;
       // }
@@ -635,7 +637,7 @@ angular.module('app.controller', [])
       $scope.timepicker.splice(index, 1);
     };
 
-    $scope.timechange = function(index, key){
+    $scope.timechange = function(index, key) {
       var d = $scope.timepicker[index][key];
       $scope.info.entries[index][key] = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
     };
@@ -650,11 +652,11 @@ angular.module('app.controller', [])
       });
     };
 
-    (function(){
+    (function() {
       $http.get(url, {}).success(function(response) {
         $scope.info = response;
-        if (response.entries.length !== 0 && 
-            (0 === response.entries[0].weekday || null === response.entries[0].weekday)){
+        if (response.entries.length !== 0 &&
+          (0 === response.entries[0].weekday || null === response.entries[0].weekday)) {
           $scope.type = 'monthday';
         }
       }).error(function(response, status) {
