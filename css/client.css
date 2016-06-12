@@ -2,10 +2,12 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, 'Hiragino Sans GB', 'Hiragino Sans GB W3', 'Microsoft YaHei UI', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
   padding-top: 60px;
 }
+
 .navbar-brand {
   padding-top: 5px;
   padding-bottom: 5px;
 }
+
 .nav-dropdown-toggle {
   line-height: 20px;
   position: relative;
@@ -16,55 +18,77 @@ body {
   text-decoration: none;
   color: #25a8e1;
 }
-.nav-dropdown > .nav-ui-sref:focus, .nav-dropdown > .nav-ui-sref:hover
-.nav-dropdown-toggle:focus, .nav-dropdown-toggle:hover, .nav-ui-sref.active, .nav-dropdown.active > .nav-ui-sref {
+
+.nav-dropdown > .nav-ui-sref:focus,
+.nav-dropdown > .nav-ui-sref:hover .nav-dropdown-toggle:focus,
+.nav-dropdown-toggle:hover,
+.nav-ui-sref.active,
+.nav-dropdown.active > .nav-ui-sref {
   text-decoration: none;
   background-color: #eee;
 }
-.navbar-default .navbar-nav > li > .nav-ui-sref.active, .navbar-default .navbar-nav > li > .nav-ui-sref.active {
+
+.navbar-default .navbar-nav > li > .nav-ui-sref.active,
+.navbar-default .navbar-nav > li > .nav-ui-sref.active {
   background-color: #eee;
 }
-.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > li > a:hover {
   background-color: #eee;
 }
-.text-pointer, .text-pointer span {
+
+.text-pointer,
+.text-pointer span {
   cursor: pointer;
 }
+
 @media (min-width:768px) {
   .nav-dropdown-toggle {
     padding-top: 15px;
     padding-bottom: 15px;
   }
 }
+
 .client-card {
   border-radius: 0;
   background-color: #f4f5f7;
   box-shadow: 3px 3px 8px #ddd;
 }
+
 .pointer {
   cursor: pointer;
 }
+
 .pagination-condensed {
   margin-top: 0;
   margin-bottom: 0;
 }
-.pagination-condensed > li > a, .pagination-condensed > li > span {
+
+.pagination-condensed > li > a,
+.pagination-condensed > li > span {
   padding: 2px 5px;
 }
+
 .client-icon:hover {
   color: #25a8e1;
 }
 
+
 /*video page*/
+
 .live {
   position: relative;
 }
+
 .img-container {
   visibility: hidden;
 }
+
 .img-container img {
   width: 100%;
 }
+
 .player-container {
   position: absolute;
   top: 0;
@@ -73,113 +97,241 @@ body {
   height: 100%;
   background: #000 url(../img/play-logo.png) no-repeat center;
 }
+
 .play-tip {
   padding: 5px;
   color: #fff;
 }
+
 .form-inline {
   margin-bottom: 10px;
 }
-.table-vertical-middle > tbody > tr > td, .table-vertical-middle > tbody > tr > th, .table-vertical-middle > tfoot > tr > td, .table-vertical-middle > tfoot > tr > th, .table-vertical-middle > thead > tr > td, .table-vertical-middle > thead > tr > th {
+
+.table-vertical-middle > tbody > tr > td,
+.table-vertical-middle > tbody > tr > th,
+.table-vertical-middle > tfoot > tr > td,
+.table-vertical-middle > tfoot > tr > th,
+.table-vertical-middle > thead > tr > td,
+.table-vertical-middle > thead > tr > th {
   vertical-align: middle;
 }
-.table-vertical-middle > thead > tr > td, .table-vertical-middle > thead > tr > th {
+
+.table-vertical-middle > thead > tr > td,
+.table-vertical-middle > thead > tr > th {
   padding-top: 8px;
   padding-bottom: 8px;
 }
-.pagination-container{
+
+.pagination-container {
   margin-bottom: 20px;
 }
+
 .pagination {
   margin-top: 0;
   margin-bottom: 0;
   vertical-align: middle;
 }
-.pagination-jump{
+
+.pagination-jump {
   vertical-align: middle;
   margin-bottom: 0;
 }
-.pagination-jump input{
+
+.pagination-jump input {
   display: inline-block;
   width: 40px;
 }
+
 .page-header-condensed {
   margin-top: 10px;
   margin-bottom: 5px;
 }
+
 .page-header-condensed h3 {
   margin-top: 5px;
   margin-bottom: 2px;
 }
+
 .msg {
   position: fixed;
   z-index: 999999999;
   top: 25px;
 }
+
 .msg > .panel,
-.msg > .panel .table{
+.msg > .panel .table {
   margin-bottom: 0;
 }
+
 .page-bar button {
   margin-right: 5px;
   margin-left: 5px;
 }
+
 .page-bar input {
   display: inline-block;
   width: 40px;
 }
+
 .ptz {
   display: block;
   overflow: visible;
   margin: 0 auto;
 }
+
 .ptz-item .ptz-sector {
   transition: all .1s linear;
   fill: rgba(255, 255, 255, .8);
   stroke: #ddd;
 }
+
 .ptz-item:hover .ptz-sector {
   fill: #333;
 }
+
 .ptz-menu-trigger {
   pointer-events: auto;
   fill: deepPink;
 }
+
 .ptz-menu-trigger:hover {
   cursor: pointer;
 }
+
 .ptz-item use {
   fill: #333;
 }
+
 .ptz-item:hover use {
   fill: #fff;
 }
-.tab-icon{
+
+.tab-icon {
   font-size: 1.5em;
   line-height: 40px;
   cursor: pointer;
 }
-.fa.pull-left.tab-icon{
+
+.fa.pull-left.tab-icon {
   margin-right: 20px;
 }
-.tab-pane > form{
+
+.tab-pane > form {
   padding-top: 10px;
 }
-.timepicker-container{
+
+.timepicker-container {
   padding-left: 10px;
   padding-right: 10px;
 }
 
-@media (min-width: 768px){
-  .form-inline .input-group .timepicker-container .form-control{
+@media (min-width: 768px) {
+  .form-inline .input-group .timepicker-container .form-control {
     width: 50px;
   }
 }
+
 @media (min-width: 992px) {
   .modal-player {
-    width: 90%;
+    width: 80%;
   }
 }
-.input-group-150{
+
+.input-group-150 {
   width: 150px;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  50.01% {
+    opacity: 0;
+  }
+  /* 注意这里定义50.01%立刻透明度为０，可以设置闪烁效果 */
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* 添加兼容性前缀 */
+
+@-webkit-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  50.01% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  50.01% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-ms-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  50.01% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-o-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  50.01% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* 定义blink类*/
+
+.blink {
+  /* 其它浏览器兼容性前缀 */
+  animation: blink 2s linear infinite;
+}
+
+.status-container {
+  position: absolute;
+  z-index: 999;
+  padding: 10px;
+  color: #ff0000;
+  font-weight: bold;
 }

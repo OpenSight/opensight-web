@@ -372,7 +372,7 @@ angular.module('app.controller', [])
       $scope.timepicker[key] = dateFactory.time2str(time);
     };
 
-    $scope.query = function(){
+    $scope.query = function() {
       $http.get(url, {
         params: {
           start: dateFactory.getms($scope.dt, $scope.timepicker.startdt),
@@ -451,8 +451,8 @@ angular.module('app.controller', [])
 ])
 
 .controller('add-schedule', [
-  '$scope', '$rootScope', '$http',
-  function($scope, $rootScope, $http) {
+  '$scope', '$rootScope', '$http', 'dateFactory',
+  function($scope, $rootScope, $http, dateFactory) {
     var url = api + "projects/" + $rootScope.$stateParams.project + '/record/schedules';
 
     $scope.boolFalse = false;
@@ -513,15 +513,9 @@ angular.module('app.controller', [])
       $scope.datepicker.push(false);
 
       var t = {
-        start: new Date(),
-        end: new Date()
+        start: dateFactory.str2time(it.start, true),
+        end: dateFactory.str2time(it.end, false)
       };
-      t.start.setHours(0);
-      t.start.setMinutes(0);
-      t.start.setSeconds(0);
-      t.end.setHours(23);
-      t.end.setMinutes(59);
-      t.end.setSeconds(59);
       $scope.timepicker.push(t);
     };
 
@@ -536,7 +530,7 @@ angular.module('app.controller', [])
 
     $scope.timechange = function(index, key) {
       var d = $scope.timepicker[index][key];
-      $scope.info.entries[index][key] = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+      $scope.timepicker[key] = dateFactory.time2str(d);
     };
 
     $scope.add = function() {
@@ -553,8 +547,8 @@ angular.module('app.controller', [])
 ])
 
 .controller('schedule-detail', [
-  '$scope', '$rootScope', '$http',
-  function($scope, $rootScope, $http) {
+  '$scope', '$rootScope', '$http', 'dateFactory',
+  function($scope, $rootScope, $http, dateFactory) {
     var url = api + "projects/" + $rootScope.$stateParams.project + '/record/schedules/' + $rootScope.$stateParams.schedule;
 
     $scope.boolFalse = false;
@@ -616,15 +610,9 @@ angular.module('app.controller', [])
       $scope.datepicker.push(false);
 
       var t = {
-        start: new Date(),
-        end: new Date()
+        start: dateFactory.str2time(it.start, true),
+        end: dateFactory.str2time(it.end, false)
       };
-      t.start.setHours(0);
-      t.start.setMinutes(0);
-      t.start.setSeconds(0);
-      t.end.setHours(23);
-      t.end.setMinutes(59);
-      t.end.setSeconds(59);
       $scope.timepicker.push(t);
     };
 
@@ -639,7 +627,7 @@ angular.module('app.controller', [])
 
     $scope.timechange = function(index, key) {
       var d = $scope.timepicker[index][key];
-      $scope.info.entries[index][key] = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+      $scope.timepicker[key] = dateFactory.time2str(d);
     };
 
     $scope.modify = function() {
@@ -658,6 +646,14 @@ angular.module('app.controller', [])
         if (response.entries.length !== 0 &&
           (0 === response.entries[0].weekday || null === response.entries[0].weekday)) {
           $scope.type = 'monthday';
+        }
+        for (var i = 0, l = $scope.info.entries.length; i < l; i++) {
+          debugger;
+          var t = {
+            start: dateFactory.str2time($scope.info.entries[i].start, true),
+            end: dateFactory.str2time($scope.info.entries[i].end, false)
+          };
+          $scope.timepicker.push(t);
         }
       }).error(function(response, status) {
         $rootScope.$emit('messageShow', { succ: false, text: '获取信息失败。' });
@@ -911,8 +907,9 @@ angular.module('app.controller', [])
   };
 }])
 
-.controller('session', ['$scope', '$rootScope', '$http', '$uibModalInstance', '$timeout', '$interval', 'caminfo',
-  function($scope, $rootScope, $http, $uibModalInstance, $timeout, $interval, caminfo) {
+.controller('session', [
+  '$scope', '$rootScope', '$http', '$uibModalInstance', '$timeout', '$interval', 'playerFactory', 'caminfo',
+  function($scope, $rootScope, $http, $uibModalInstance, $timeout, $interval, playerFactory, caminfo) {
     $scope.cam = caminfo;
     $scope.sec = 10;
 
@@ -923,13 +920,14 @@ angular.module('app.controller', [])
     var alivetimer = undefined;
 
     var create = function() {
-      $http.post(url, { format: caminfo.format.toLowerCase(), quality: caminfo.quality.toLowerCase(), create: true, user: user }).success(function(response) {
+      $http.post(url, {
+        format: caminfo.format.toLowerCase(),
+        quality: caminfo.quality.toLowerCase(),
+        create: true,
+        user: user
+      }).success(function(response) {
         $scope.id = response.session_id;
-        if ('' === document.createElement('video').canPlayType('application/x-mpegURL')) {
-          loadFlash(response);
-        } else {
-          addVideoTag(response);
-        }
+        playerFactory.load(response.url, 'videoPlayer');
         keepalive(response);
         if (tiptimer) {
           $interval.cancel(tiptimer);
@@ -939,28 +937,6 @@ angular.module('app.controller', [])
         console.log('error');
       });
     };
-    var loadFlash = function(info) {
-      var flashvars = {
-        // src: 'http://www.opensight.cn/hls/camera1.m3u8',
-        src: info.url,
-        plugin_hls: "../flashlsOSMF.swf",
-        // scaleMode: 'none',
-        autoPlay: true
-      };
-
-      var params = {
-        allowFullScreen: true,
-        allowScriptAccess: "always",
-        wmode: 'opaque',
-        bgcolor: "#000000"
-      };
-      var attrs = {
-        name: "videoPlayer"
-      };
-
-      swfobject.embedSWF("../GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
-    };
-    var addVideoTag = function(info) {};
     var keepalive = function(info) {
       if (undefined !== alivetimer) {
         $interval.cancel(alivetimer);
@@ -1002,6 +978,8 @@ angular.module('app.controller', [])
         // $scope.$apply();
       }, 1000);
     };
+    create();
+    updateTip();
 
     $scope.speed = 50;
     $scope.options = {
@@ -1085,11 +1063,51 @@ angular.module('app.controller', [])
       }
     })();
 
+    (function() {
+      var url = api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/record/manual';
+      $scope.recording = caminfo.record_state === 2;
+      $scope.startRecord = function(duration) {
+        $http.post(api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/record/manual', {
+          duration: duration
+        }).success(function(response) {
+          $scope.recording = true;
+        }).error(function(response, status) {
+          $rootScope.$emit('messageShow', { succ: false, text: '启动手动录像失败' });
+          console.log('error');
+        });
+      };
+      
+      $scope.stopRecord = function() {
+        $http.delete(api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/record/manual', {}).success(function(response) {
+          $rootScope.$emit('messageShow', { succ: true, text: '停止手动录像成功'});
+          getRecordStatus();
+        }).error(function(response, status) {
+          $rootScope.$emit('messageShow', { succ: false, text: '停止手动录像失败' });
+          console.log('error');
+        });
+        $scope.recording = false;
+      };
 
-    create();
-    updateTip();
+      var getRecordStatus = function() {
+        $http.get(api + 'projects/' + project + '/cameras/' + caminfo.uuid, {}).success(function(response) {
+          $scope.recording = response.record_state === 2;
+        }).error(function(response, status) {
+          console.log('error');
+        });
+      };
+
+      var timer = $interval(function() {
+        getRecordStatus();
+      }, 10000);
+
+      $scope.stopGetRecordStatus = function() {
+        $interval.cancel(timer);
+      };
+    })();
+
     $scope.ok = function() {
       stop();
+      $scope.stopGetRecordStatus();
       $uibModalInstance.close();
     };
   }
