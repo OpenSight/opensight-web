@@ -38,7 +38,7 @@ angular.module('app.filter', []).filter('online', [function() {
   };
 }])
 
-.filter('mannual_enabled', [function() {
+.filter('manual_enabled', [function() {
   return function(enabled) {
     if (true === enabled){
       return '启动';
