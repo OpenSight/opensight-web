@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" ng-app="app">
 <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="../bower_components/js-base64/base64.min.js"></script>
@@ -20,178 +20,98 @@
     <link rel="stylesheet" href="./css/project.css">
 </head>
 <body ng-controller="MyCamera">
-<div class="container-fluid container-compact os-tab-container">
-    <div class="swiper-container form-group">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide" ng-repeat="u in projectlist.data">
-                <div class="weui_tab" >
-                    <div class="weui_tab_bd">
-                        <div class="weui_cells_title">当前项目</div>
-                        <div class="weui_cells weui_cells_form">
-                            <div class="weui_cell">
-                                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
-                                <div class="weui_cell_bd weui_cell_primary">
-                                    <p class="form-control-static">{{u.name}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row row-in-tab os-row-no-padding">
-                    <div class="container squera-container">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="item in cameralist.data">
-
-                                <div class="thumbnail">
-                                    <a ng-click="cameralist.showMore(item)"><img src="./img/play-logo.png" alt="xxxx"></a>
-                                    <div class="caption">
-                                        <p class="text-name">
-                                            <a ng-click="cameralist.showPlayer(item)">xxx</a>
-                                            <span class="pull-right" ng-class ="{'text-highlight': item.is_online!==0, 'text-danger': item.is_online===0}" >sss</span>
-                                        </p>
-                                        <p class="text-muted text-desc">xx</p>
-
+<div class="container">
+    <div class="container-fluid container-compact os-tab-container">
+        <div class="swiper-container form-group">
+            <div class="swiper-wrapper">
+                    <div class="swiper-slide" ng-repeat="u in x" swpierwait>
+                        <div class="weui_tab" >
+                            <div class="weui_tab_bd">
+                                <div class="weui_cells_title">当前项目</div>
+                                <div class="weui_cells weui_cells_form">
+                                    <div class="weui_cell">
+                                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                        <div class="weui_cell_bd weui_cell_primary">
+                                            <p class="form-control-static">{{u.name}}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--div class="row loading hidden" id="loading">
-                            <span></span>
-                        </div>
-                        <div class="row" id="lastpage"></div-->
                     </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="swiper-pagination"></div>
-    </div>
-
-
-
-    <div class="">
-        <div class="weui_cell" >
-               <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回摄像头列表" ng-click="cameraListShown=true;">
-                <i  class="fa fa-arrow-left"></i>
-                </span>
-        </div>
-
-        <div class="container squera-container">
-            <div class="row">
-                <div class="weui_cells_title">摄像头信息</div>
-                <div class="weui_cells weui_cells_form">
-                    <div class="weui_cell">
-                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            <input class="weui_input" value="" placeholder="" ng-model="c.project_name" required/>
-                        </div>
-                    </div>
-                    <div class="weui_cell">
-                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">相机名称</label></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            <input class="weui_input" value="" placeholder="" ng-model="c.name" required/>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-4 col-xs-12">
-                        <!--div class="thumbnail">
-                            <a ng-click="cameralist.showPlayer(item)"><img src="{{item.preview}}" alt="{{item.name}}"></a>
-                            <div class="caption">
-                                <p class="text-name">
-                                    <a ng-click="cameralist.showPlayer(item)">{{item.name}}</a>
-                                    <span class="pull-right" ng-class ="{'text-highlight': item.is_online!==0, 'text-danger': item.is_online===0}" >{{item.is_online|online}}</span>
-                                </p>
-                                <p class="text-muted text-desc">{{item.desc}}</p>
-                            </div>
-                        </div-->
-
-                        <div class="thumbnail" id="videoPlayerWrapper">
-                            <div class="live">
-                                <div class="img-container"><a ng-click="cameralist.showPlayer(c)"><img id="img" ng-src="{{c.img}}" alt="" /></a></div>
-                                <div class="player-container" ng-show="c.tip">
-                                    <div id="videoPlayer">
-                                        <p class="play-tip pull-right" >
-                                            <span class="text-highlight" id="playTipSec">10</span>
-                                            秒之后直播开始
-                                        </p>
+                    <!--div class="swiper-slide">
+                        <div class="weui_tab" >
+                            <div class="weui_tab_bd">
+                                <div class="weui_cells_title">当前项目</div>
+                                <div class="weui_cells weui_cells_form">
+                                    <div class="weui_cell">
+                                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                        <div class="weui_cell_bd weui_cell_primary">
+                                            <p class="form-control-static">1</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-
-                    <div class="weui_cell">
-                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">描述</label></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            <input class="weui_input" value="" placeholder="" ng-model="c.desc" required/>
                         </div>
-                    </div>
-                    <div class="weui_cell">
-                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">详细描述</label></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            <textarea class="weui_textarea" placeholder="请输入描述" ng-model="c.long_desc" rows="3"></textarea>
-                            <!--div class="weui_textarea_counter"><span>0</span>/200</div-->
-                        </div>
-                    </div>
-                    <div class="weui_cell">
-                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">流类型</label></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            <div class="btn-group btn-group-xs">
-                                <button ng-repeat="it in c.stearmOptions" class="btn" role="group"  ng-class="{true:'btn-primary',false:'btn-default'}[it.on]" ng-click="it.on = !it.on" role="group" title={{it.title}}>{{it.text}}</button>
+                    <div class="swiper-slide">
+                        <div class="weui_tab" >
+                            <div class="weui_tab_bd">
+                                <div class="weui_cells_title">当前项目</div>
+                                <div class="weui_cells weui_cells_form">
+                                    <div class="weui_cell">
+                                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                        <div class="weui_cell_bd weui_cell_primary">
+                                            <p class="form-control-static">2</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="weui_cell">
-                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">在线状态</label></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            <p class="form-control-static">{{c.is_online|online}}</p>
                         </div>
-                    </div>
-                    <div class="weui_cell">
-                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">生成时间</label></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            <p class="form-control-static">{{c.ctime}}</p>
+                    <div class="swiper-slide">
+                        <div class="weui_tab" >
+                            <div class="weui_tab_bd">
+                                <div class="weui_cells_title">当前项目</div>
+                                <div class="weui_cells weui_cells_form">
+                                    <div class="weui_cell">
+                                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                        <div class="weui_cell_bd weui_cell_primary">
+                                            <p class="form-control-static">3</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="weui_cell">
-                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">更新时间</label></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            <p class="form-control-static">{{c.utime}}</p>
                         </div>
-                    </div>
+                    <div class="swiper-slide">
+                        <div class="weui_tab" >
+                            <div class="weui_tab_bd">
+                                <div class="weui_cells_title">当前项目</div>
+                                <div class="weui_cells weui_cells_form">
+                                    <div class="weui_cell">
+                                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                        <div class="weui_cell_bd weui_cell_primary">
+                                            <p class="form-control-static">4</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div-->
                 </div>
-            </div>
-
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-pagination"></div>
         </div>
-    </div>
+</div>
 </div>
 
 
 
-<!-- loading toast -->
-<div id="loadingToast" class="weui_loading_toast" style="display:none;">
-    <div class="weui_mask_transparent"></div>
-    <div class="weui_toast">
-        <div class="weui_loading">
-            <div class="weui_loading_leaf weui_loading_leaf_0"></div>
-            <div class="weui_loading_leaf weui_loading_leaf_1"></div>
-            <div class="weui_loading_leaf weui_loading_leaf_2"></div>
-            <div class="weui_loading_leaf weui_loading_leaf_3"></div>
-            <div class="weui_loading_leaf weui_loading_leaf_4"></div>
-            <div class="weui_loading_leaf weui_loading_leaf_5"></div>
-            <div class="weui_loading_leaf weui_loading_leaf_6"></div>
-            <div class="weui_loading_leaf weui_loading_leaf_7"></div>
-            <div class="weui_loading_leaf weui_loading_leaf_8"></div>
-            <div class="weui_loading_leaf weui_loading_leaf_9"></div>
-            <div class="weui_loading_leaf weui_loading_leaf_10"></div>
-            <div class="weui_loading_leaf weui_loading_leaf_11"></div>
-        </div>
-        <p class="weui_toast_content">{{ToastTxt}}</p>
-    </div>
-</div>
-</div>
-</div>
+
+
+
 
 
 <script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
@@ -199,10 +119,7 @@
 <script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
 <script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
 <script src="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
-<script src="js/app/myCameraApp.js"></script>
-<script src="js/controller/myCamera.js"></script>
-<script src="js/video.js"></script>
-
+<script src="js/tsst.js" ></script>
 </body>
 
 </html>
