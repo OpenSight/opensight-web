@@ -5,49 +5,150 @@
       {{camname}}
     </h3>
   </div>
-  <div class="col-sm-8">
-    <div class="live">
-      <div class="img-container">
-        <img id="img" src="../img/video.jpg" alt="">
-      </div>
-      <div class="player-container">
-        <div id="replayPlayer"></div>
+  <form class="form-inline">
+    <div class="form-group">
+      <label>日期</label>
+      <span class="input-group input-group-150">
+        <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="dt" is-open="opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="opened = true"> <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </span>
+    </div>
+    <div class="form-group" ng-hide="hidden">
+      <label>开始</label>
+      <div class="input-group input-group-150">
+        <input type="text" class="form-control" ng-model="timepicker.start">
+        <div class="input-group-btn" uib-dropdown auto-close="disabled">
+          <button type="button" class="btn btn-default" uib-dropdown-toggle>
+            <i class="glyphicon glyphicon-time"></i>
+          </button>
+          <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
+            <uib-timepicker ng-model="timepicker.startdt" ng-change="timechange(timepicker.startdt, 'start')" show-seconds="true" show-meridian="false"></uib-timepicker>
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-sm-4">
-    <uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></uib-datepicker>
-    <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
-      <thead>
-        <tr>
-          <!-- <th class="col-sm-1 text-center">
-            <input type="checkbox" ng-model="info.live_ability">
-          </th> -->
-          <th class="col-sm-3 text-center">开始</th>
-          <th class="col-sm-3 text-center">结束</th>
-          <th class="col-sm-4 text-center">时长</th>
-          <th class="col-sm-1 text-center">
-            <button class="btn btn-default btn-sm" style='visibility: hidden;'>
-              <i class="glyphicon glyphicon-cog pointer"></i>
-            </button>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="item in record.segments">
-          <!-- <td class="col-sm-1 text-center">
-            <input type="checkbox" ng-model="item.checked">
-          </td> -->
-          <td class="text-center">{{item.start|date: "HH:mm:ss"}}</td>
-          <td class="text-center">{{item.end|date: "HH:mm:ss"}}</td>
-          <td class="text-center">{{item.duration|duration: true}}</td>
-          <td class="text-center">
-            <button class="btn btn-default btn-sm" ng-click="play(item)" title="回放">
-              <i class="fa fa-play"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="form-group" ng-hide="hidden">
+      <label>结束</label>
+      <div class="input-group input-group-150">
+        <input type="text" class="form-control" ng-model="timepicker.end">
+        <div class="input-group-btn" uib-dropdown auto-close="disabled">
+          <button type="button" class="btn btn-default" uib-dropdown-toggle>
+            <i class="glyphicon glyphicon-time"></i>
+          </button>
+          <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
+            <uib-timepicker ng-model="timepicker.enddt" ng-change="timechange(timepicker.enddt, 'end')" show-seconds="true" show-meridian="false"></uib-timepicker>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-hide="hidden">
+      <label>分段时长</label>
+      <select class="form-control" ng-model="seglength">
+        <option value="60">1小时</option>
+        <option value="30">30分钟</option>
+        <option value="10">10分钟</option>
+      </select>
+    </div>
+    <button class="btn btn-default" ng-click="hidden = !hidden">
+      <i class="fa" ng-class="{true: 'fa-angle-double-right', false: 'fa-angle-double-left'}[hidden]"></i>
+    </button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="btn btn-default" ng-click="query()" title="查询">
+      <i class="glyphicon glyphicon-search pointer"></i>
+    </button>
+  </form>
+  <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
+    <thead>
+      <tr>
+        <!-- <th></th> -->
+        <th class="col-sm-3 text-center">开始</th>
+        <th class="col-sm-3 text-center">结束</th>
+        <th class="col-sm-2">时长</th>
+        <th class="col-sm-1 text-center">报警</th>
+        <th class="col-sm-1 text-center">回放</th>
+        <th class="col-sm-1 text-center">下载</th>
+        <th class="col-sm-1 text-center">备份</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in record.segments">
+        <!-- <td class="text-center">{{$index + 1}}</td> -->
+        <td class="text-center">{{item.start|date: "yyyy-MM-dd HH:mm:ss"}}</td>
+        <td class="text-center">{{item.end|date: "yyyy-MM-dd HH:mm:ss"}}</td>
+        <td>{{item.duration|duration: true}}</td>
+        <td class="text-center">{{item.alarm_list.length|listlength}}</td>
+        <td class="text-center">
+          <button class="btn btn-default btn-sm" ng-click="play(item)" title="回放">
+            <i class="fa fa-play"></i>
+          </button>
+        </td>
+        <td class="text-center">
+          <button class="btn btn-default btn-sm" ng-click="play(item)" title="下载">
+            <i class="fa fa-download"></i>
+          </button>
+        </td>
+        <td class="text-center">
+          <button class="btn btn-default btn-sm" ng-click="play(item)" title="锁定">
+            <i class="fa fa-lock"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <script type="text/ng-template" id="replayModalContent.html">
+    <div class="modal-header">
+      <h4 class="modal-title">{{record.camname}}
+        <i class="glyphicon glyphicon-remove pull-right" ng-click="ok()"></i>
+      </h4>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-10">
+            <div class="live">
+              <div class="img-container">
+                <img id="img" src="../img/video.jpg" alt="">
+              </div>
+              <div class="player-container">
+                <div id="replayPlayer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <form>
+              <div class="form-group">
+                <label>开始时间</label>
+                <p class="form-control-static">{{record.start|date: "yyyy-MM-dd HH:mm:ss"}}</p>
+              </div>
+              <div class="form-group">
+                <label>结束时间</label>
+                <p class="form-control-static">{{record.end|date: "yyyy-MM-dd HH:mm:ss"}}</p>
+              </div>
+              <div class="form-group" ng-show="0 !== record.alarm_list.length">
+                <label>报警列表</label>
+                <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
+                  <tr>
+                    <td></td>
+                    <td class="col-sm-6 text-center">开始</td>
+                    <td class="col-sm-6 text-center">结束</td>
+                  </tr>
+                  <tr ng-repeat="item in record.alarm_list">
+                    <td class="text-center">{{$index + 1}}</td>
+                    <td class="text-center">{{item.start|date: "HH:mm:ss"}}</td>
+                    <td class="text-center">{{item.end|date: "HH:mm:ss"}}</td>
+                  </tr>
+                </table>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">关闭</button>
+    </div>
+  </script>
 </div>

@@ -38,7 +38,7 @@ angular.module('app.filter', []).filter('online', [function() {
   };
 }])
 
-.filter('mannual_enabled', [function() {
+.filter('manual_enabled', [function() {
   return function(enabled) {
     if (true === enabled){
       return '启动';
@@ -124,6 +124,12 @@ angular.module('app.filter', []).filter('online', [function() {
       }
     }
     return s;
+  };
+})
+
+.filter('listlength', function() {
+  return function(length) {
+    return 0 === length ? '无' : '有';
   };
 })
 ;
