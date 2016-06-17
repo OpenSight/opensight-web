@@ -18,7 +18,7 @@ Square.prototype = {
       if (0 === status){
         return '#';
       }
-      return 'video.html?uuid=' + uuid + '&project=' + project; 
+      return 'liveVideo.html?uuid=' + uuid + '&project=' + project; 
     });
     juicer.register('getCls', function(status){
       if (1 === status){
