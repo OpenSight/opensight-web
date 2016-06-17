@@ -107,7 +107,7 @@ HlsVideo.prototype = {
     $.ajax({
       url: this.api +  this.project + '/cameras/' + this.uuid + '/sessions',
       cache: true,
-      data: {format: 'hls', quality: 'hd', create: true, user: 'demo'},
+      data: {format: 'hls', quality: 'sd', create: true, user: 'demo'},
       type: 'POST',
       success: function(info){
         if (true === _this.html5){
