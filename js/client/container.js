@@ -316,7 +316,11 @@ angular.module('app.controller', [])
       console.log('error');
     });
 
-    $http.get(api + "projects/" + project + '/record/schedules', {}).success(function(response) {
+    $http.get(api + "projects/" + project + '/record/schedules', {
+      params: {
+        include_global: true
+      }
+    }).success(function(response) {
       $scope.schedules = response;
     }).error(function(response, status) {
       $rootScope.$emit('messageShow', { succ: false, text: '获取录像计划失败' });
@@ -401,7 +405,21 @@ angular.module('app.controller', [])
         }
       });
     };
+
     $scope.query();
+
+    // $scope.download = function(it){
+    //   $http.get(it.ts, {
+    //     timeout: 86400000
+    //   }).success(function(response){
+    //     var blob = new Blob([response], {
+    //       type: 'application/application/x-mpegurl, video/mp2t'
+    //     });
+    //     saveAs(blob, 'aaa.mp4');
+    //   });
+    //   var file = new File(["Hello, world!"], "hello world.txt", {type: "text/plain;charset=utf-8"});
+      
+    // };
   }
 ])
 
@@ -425,7 +443,11 @@ angular.module('app.controller', [])
     var url = api + "projects/" + $scope.project + '/record/schedules';
 
     $scope.query = function() {
-      $http.get(url, {}).success(function(response) {
+      $http.get(url, {
+        params: {
+          include_global: true
+        }
+      }).success(function(response) {
         $scope.schedules = response;
       }).error(function(response, status) {
         $rootScope.$emit('messageShow', { succ: false, text: '获取录像计划失败' });
@@ -648,7 +670,6 @@ angular.module('app.controller', [])
           $scope.type = 'monthday';
         }
         for (var i = 0, l = $scope.info.entries.length; i < l; i++) {
-          debugger;
           var t = {
             start: dateFactory.str2time($scope.info.entries[i].start, true),
             end: dateFactory.str2time($scope.info.entries[i].end, false)
@@ -1076,7 +1097,7 @@ angular.module('app.controller', [])
           console.log('error');
         });
       };
-      
+
       $scope.stopRecord = function() {
         $http.delete(api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/record/manual', {}).success(function(response) {
           $rootScope.$emit('messageShow', { succ: true, text: '停止手动录像成功'});

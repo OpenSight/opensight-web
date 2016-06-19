@@ -86,9 +86,9 @@
           </button>
         </td>
         <td class="text-center">
-          <button class="btn btn-default btn-sm" ng-click="play(item)" title="下载">
+          <a href="{{item.ts}}" download="{{camname}}_{{item.start|date: 'yyyyMMddHHmmss'}}_{{item.end|date: 'yyyyMMddHHmmss'}}" target="_blank" class="btn btn-default btn-sm" title="下载">
             <i class="fa fa-download"></i>
-          </button>
+          </a>
         </td>
         <td class="text-center">
           <button class="btn btn-default btn-sm" ng-click="play(item)" title="锁定">
