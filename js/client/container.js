@@ -521,7 +521,7 @@ angular.module('app.controller', [])
         monthday: idx,
         start: '00:00:00',
         end: '23:59:59',
-        prerecord: true
+        prerecord: false
       };
       if ('weekday' !== $scope.type) {
         it.weekday = 0;
@@ -618,7 +618,7 @@ angular.module('app.controller', [])
         monthday: idx,
         start: '00:00:00',
         end: '23:59:59',
-        prerecord: true
+        prerecord: false
       };
       if ('weekday' !== $scope.type) {
         it.weekday = 0;
@@ -1276,5 +1276,23 @@ angular.module('app.controller', [])
     })();
 
     $scope.query();
+  }
+])
+.controller('bill-detail', [
+  '$scope', '$rootScope', '$http',
+  function($scope, $rootScope, $http) {
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/bills/' + $rootScope.$stateParams.bill;
+
+    $scope.boolFalse = false;
+    $scope.boolTrue = true;
+
+    (function() {
+      $http.get(url, {}).success(function(response) {
+        $scope.info = response;
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: false, text: '获取账单信息失败。' });
+        console.log('error');
+      });
+    })();
   }
 ]);

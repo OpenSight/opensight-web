@@ -1,0 +1,90 @@
+<div class="container-fluid" ng-controller="bill-detail">
+  <div class="col-sm-12 page-header page-header-condensed">
+    <h3>
+      <button class="btn btn-default btn-sm" ui-sref="project.bill">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      &nbsp;&nbsp;
+      账单详细信息
+    </h3>
+  </div>
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">账单编号</label>
+      <div class="col-sm-8">
+        <p class="form-control-static">{{info.bill_id}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">类型</label>
+      <div class="col-sm-8">
+        <p class="form-control-static">{{info.bill_type|bill_type}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">已经开票</label>
+      <div class="col-sm-8">
+        <label class="radio-inline">
+          <input type="radio" ng-model="info.invoiced" ng-value="true">是</label>
+        <label class="radio-inline">
+          <input type="radio" ng-model="info.invoiced" ng-value="false">否</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">余额(元)</label>
+      <div class="col-sm-8">
+        <p class="form-control-static">{{info.cur_balance|currency:"￥"}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">收入(元)</label>
+      <div class="col-sm-8">
+        <p class="form-control-static">{{info.income|currency:"￥"}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">支出(元)</label>
+      <div class="col-sm-8">
+        <p class="form-control-static">{{info.expense|currency:"￥"}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">备注</label>
+      <div class="col-sm-8">
+        <textarea class="form-control" rows="6" ng-model="info.comment" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">操作用户</label>
+      <div class="col-sm-8">
+        <p class="form-control-static">{{info.username}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">记费起始时间</label>
+      <div class="col-sm-8">
+        <p class="form-control-static">
+          {{info.start_from|date: "yyyy-MM-dd"}}
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">记费结束时间</label>
+      <div class="col-sm-8">
+        <p class="form-control-static">{{info.end_to|date: "yyyy-MM-dd"}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">生成时间</label>
+      <div class="col-sm-8">
+        <p class="form-control-static">{{info.ctime|date: "yyyy-MM-dd HH:mm:ss"}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">最新修改时间</label>
+      <div class="col-sm-8">
+        <p class="form-control-static">{{info.utime|date: "yyyy-MM-dd HH:mm:ss"}}}</p>
+      </div>
+    </div>
+  </form>
+</div>
