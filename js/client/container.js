@@ -261,6 +261,24 @@ angular.module('app.controller', [])
       console.log('error');
     });
 
+    $scope.enable = function(enabled){
+      var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
+      if (false === confirm(tip)) {
+        return;
+      }
+      var data = {
+        enable: enabled
+      };
+      var text = enabled ? '禁用' : '启用';
+      $http.post(url + '/stream_toggle', data).success(function(response) {
+        console.log('success');
+        $scope.info.live_ability = enabled;
+        $rootScope.$emit('messagePush', { succ: true, text: text + '直播成功。' });
+      }).error(function(response, status) {
+        $rootScope.$emit('messagePush', { succ: false, text: text + '直播失败。' });
+        console.log('error');
+      });
+    };
     $scope.save = function() {
       var data = {
         flags: $scope.info.flags,
@@ -281,22 +299,7 @@ angular.module('app.controller', [])
       if (live_ability === $scope.info.live_ability) {
         return;
       }
-      var tip = $scope.info.live_ability ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
-      if (false === confirm(tip)) {
-        return;
-      }
-      var data = {
-        enable: $scope.info.live_ability
-      };
-      var text = $scope.info.live_ability ? '禁用' : '启用';
-      $http.post(url + '/stream_toggle', data).success(function(response) {
-        console.log('success');
-        live_ability = $scope.info.live_ability;
-        $rootScope.$emit('messagePush', { succ: true, text: text + '直播成功。' });
-      }).error(function(response, status) {
-        $rootScope.$emit('messagePush', { succ: false, text: text + '直播失败。' });
-        console.log('error');
-      });
+      $scope.enable($scope.info.live_ability);
     };
   }
 ])
