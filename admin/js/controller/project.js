@@ -1990,6 +1990,7 @@ app.register.controller('Project', [
         },
         get: function(params) {
           $scope.project.bill.getAccount();
+
           $http.get("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/bills', {
             params: params
               // timeout: $scope.aborter.promise
@@ -2029,11 +2030,39 @@ app.register.controller('Project', [
         getAccount: function() {
           $http.get("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/account', {}).success(function(response) {
             $scope.project.bill.account = response;
+            $scope.project.bill.editing = false;
+            $scope.project.bill.price_info = $scope.project.bill.account.price_info;
             // $scope.page = page($scope.bills.start, $scope.bills.total, params.limit, 2);
           }).error(function(response, status) {
             var tmpMsg = {};
             tmpMsg.Label = "错误";
             tmpMsg.ErrorContent = "获取账户信息失败";
+            tmpMsg.ErrorContentDetail = response;
+            tmpMsg.SingleButtonShown = true;
+            tmpMsg.MutiButtonShown = false;
+            //tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
+            // tmpMsg.Callback = "firmware.show";
+            if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+              //$scope.$emit("Logout", tmpMsg);
+              $state.go('logOut', {
+                info: response.info,
+                traceback: response.traceback
+              });
+            } else
+              $scope.$emit("Ctr1ModalShow", tmpMsg);
+          });
+        },
+        saveAccount: function(){
+          $http.put("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/account', {
+            price_info: $scope.project.bill.price_info
+          }).success(function(response) {
+            debugger;
+            $scope.project.bill.editing = false;
+            $scope.project.bill.account.price_info = $scope.project.bill.price_info;            
+          }).error(function(response, status) {
+            var tmpMsg = {};
+            tmpMsg.Label = "错误";
+            tmpMsg.ErrorContent = "修改账户信息失败";
             tmpMsg.ErrorContentDetail = response;
             tmpMsg.SingleButtonShown = true;
             tmpMsg.MutiButtonShown = false;
