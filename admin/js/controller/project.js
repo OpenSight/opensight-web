@@ -631,7 +631,7 @@ app.register.controller('Project', [
             vendor: device.detail[index].vendor,
             media_channel_num: device.detail[index].media_channel_num,
             longitude: device.detail[index].longitude,
-            login_passwd: device.detail[index].login_passwd,
+            // login_passwd: device.detail[index].login_passwd,
             latitude: device.detail[index].latitude,
             altitude: device.detail[index].altitude
           };
