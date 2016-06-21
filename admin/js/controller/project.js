@@ -2056,7 +2056,6 @@ app.register.controller('Project', [
           $http.put("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/account', {
             price_info: $scope.project.bill.price_info
           }).success(function(response) {
-            debugger;
             $scope.project.bill.editing = false;
             $scope.project.bill.account.price_info = $scope.project.bill.price_info;            
           }).error(function(response, status) {
