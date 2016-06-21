@@ -9,6 +9,9 @@
           <div> <strong>余额：</strong>
             <span class="text-primary">{{account.balance|currency:"￥"}} 元</span>
           </div>
+          <div> <strong>计费信息：</strong>
+            <span class="text-primary">{{account.price_info}}</span>
+          </div>
           <div>
             <strong>上次更新时间：</strong>
             <span>{{account.utime|date: "yyyy-MM-dd"}}</span>
@@ -77,14 +80,8 @@
     </tbody>
   </table>
   <div class="pagination-container">
-    <uib-pagination 
-      total-items="page.total" 
-      ng-model="page.curr" 
-      max-size="page.max" 
-      items-per-page="page.limit" 
-      previous-text="&laquo;" next-text="&raquo;" 
-      ng-change="page.pageChanged()" 
-      boundary-link-numbers="true" class="pagination-sm">
+    <uib-pagination total-items="page.total" ng-model="page.curr" max-size="page.max" items-per-page="page.limit" previous-text="&laquo;"
+    next-text="&raquo;" ng-change="page.pageChanged()" boundary-link-numbers="true" class="pagination-sm">
     </uib-pagination>
     &nbsp;&nbsp;&nbsp;&nbsp;
     <label class="pagination-jump">
@@ -93,5 +90,5 @@
     </label>
     <button class="btn btn-default btn-sm" ng-click="page.jump()">Go</button>
   </div>
-  
+
 </div>
