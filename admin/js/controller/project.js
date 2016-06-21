@@ -2048,8 +2048,9 @@ app.register.controller('Project', [
                 info: response.info,
                 traceback: response.traceback
               });
-            } else
+            } else{
               $scope.$emit("Ctr1ModalShow", tmpMsg);
+            }
           });
         },
         saveAccount: function(){
