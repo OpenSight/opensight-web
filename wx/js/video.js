@@ -4,6 +4,7 @@ var HlsVideo = function(opts){
   this.project = opts.project_name;
   this.uuid = opts.uuid;
   this.alivetimer = undefined;
+  this.player = undefined;
   this.playStream = opts.playStream;
   this.init();
 };
@@ -53,17 +54,19 @@ HlsVideo.prototype = {
   addVideoTag: function(info){
     var id = 'videoPlayer';
     var html = '<video id="' + id + '" class="video" controls preload autoplay="autoplay" width="100%" height="100%">' +
-      '<source src = "' + info.url + '" type = "application/x-mpegURL">' +
+      '<source src = "' + info.url + '" type = "application/x-mpegURL" />' +
     '</video>';
     var el = $('#' + id).parent().html(html);
-    var player = document.getElementById(id);
-    player.play();
-    player.pause();
+
+      this.player = document.getElementById(id);
+      this.player.play();
+      this.player.pause();
     var u = window.navigator.userAgent.toLowerCase();
     if (-1 === u.indexOf('windows') && -1 !== u.indexOf('android')) {
-      player.load();
+        this.player.load();
     }
-    player.play();
+      this.player.play();
+
   },
   getCameraInfo: function(){
     var _this = this;
@@ -195,6 +198,11 @@ HlsVideo.prototype = {
             clearInterval(_this.alivetimer);
             _this.alivetimer = undefined;
         }
+
+        if (this.player!==undefined){
+//            this.player.stop();
+        }
+
         if (undefined === _this.session_id){
             return;
         }
@@ -237,8 +245,11 @@ HlsVideo.prototype = {
         }else{
             var player = document.getElementById(id);
             if (player!==null && player.currentTime){
+
                 player.currentTime = 0;
                 player.pause();
+                player.src="movie.ogg";
+                player.load();
             }
         }
         clearInterval(this.keeptimer);

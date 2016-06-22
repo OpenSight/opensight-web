@@ -92,6 +92,8 @@ app.register.controller('CameraList',['$scope', '$http', '$q', '$window', '$stat
             */
 
             backProject: function () {
+                if ($scope.Player !== undefined)
+                    $scope.Player.destroy();
                 $state.go('project');
             },
             showPlayer: function (item) {
