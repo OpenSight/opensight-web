@@ -185,7 +185,7 @@ app
         });
     }]);
 
-app.controller('MyProject', ['$scope', '$http', '$q','$window', '$state', function($scope, $http, $q, $window, $state){
+app.controller('MyProject', ['$rootScope','$scope', '$http', '$q','$window', '$state', function($rootScope, $scope, $http, $q, $window, $state){
     $scope.projectlist = (function () {
         return {
             init:function(){
@@ -304,6 +304,12 @@ app.controller('MyProject', ['$scope', '$http', '$q','$window', '$state', functi
 
     $scope.$on('$destroy', $scope.destroy);
     $scope.projectlist.get();
+    $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
+        if(fromState.name === 'camera')
+        {
+            if ($rootScope.Player !== undefined) $rootScope.Player.destroy();
+        }
+    });
 }]);
 
 app.filter('online', [function() {

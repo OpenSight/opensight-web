@@ -1,5 +1,5 @@
 
-app.register.controller('CameraList',['$scope', '$http', '$q', '$window', '$stateParams', '$state', function($scope, $http, $q, $window, $stateParams, $state){
+app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$window', '$stateParams', '$state', function($rootScope, $scope, $http, $q, $window, $stateParams, $state){
     $('#projectTab').hide();
     /*
      if ($stateParams.projectName === null || $stateParams.projectName === undefined){
@@ -100,6 +100,7 @@ app.register.controller('CameraList',['$scope', '$http', '$q', '$window', '$stat
                 $scope.c.img = videoPic;
                 $scope.c.tip = true;
                 $scope.Player = new HlsVideo(item);
+                $rootScope.Player = $scope.Player;
             },
             showMore: function (item) {
                 $scope.c = item;

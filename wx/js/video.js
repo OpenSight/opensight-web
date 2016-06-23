@@ -173,10 +173,16 @@ HlsVideo.prototype = {
             $timeout.cancel(_this.alivetimer);
             _this.alivetimer = undefined;
         }
-        var count = 1440;
+        var count = 20;//10min
       _this.alivetimer = $timeout(function(){
             if (0 === count){
-                _this.stop();
+                $('#ToastTxt').html("查看时间过长，休息一下吧！");
+                $('#loadingToast').show();
+                setTimeout(function () {
+                    $('#loadingToast').hide();
+                }, 2000);
+                //_this.destroy();
+                window.history.back();
                 return;
             } else {
                 count--;
@@ -237,6 +243,7 @@ HlsVideo.prototype = {
   },
 
     destroy: function(){
+        if (this.destroyed === true) return;
         this.stop();
         var id = 'videoPlayer';
         if($("#playTipSec").length>0){
