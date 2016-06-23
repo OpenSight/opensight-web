@@ -1,4 +1,4 @@
-var project = 'mianbaogongzhuang';
+var project = 'manbaogongzhuang';
 //project = 'demo';
 var Square = function(){
   this.api = 'http://121.41.72.231:5001/api/ivc/v1/projects/';
