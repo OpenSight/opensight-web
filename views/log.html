@@ -26,10 +26,31 @@
     <button class="btn btn-default pull-right" ng-click="download()">
       <i  class="fa fa-download"></i>
     </button>
-    <button class="btn btn-default pull-right" ng-click="stats()">
-      <i  class="glyphicon glyphicon-stats"></i>
-    </button>
   </form>
+  <div class="panel panel-primary client-card">
+    <div class="panel-body">
+      <div class="col-sm-12">
+        <strong>总计：</strong>
+        <span>{{sum.total}}分钟</span>
+      </div>
+      <div class="col-sm-3">
+        <strong>流畅：</strong>
+        <span>{{sum.per_quality.ld}}分钟</span>
+      </div>
+      <div class="col-sm-3">
+        <strong>标清：</strong>
+        <span>{{sum.per_quality.sd}}分钟</span>
+      </div>
+      <div class="col-sm-3">
+        <strong>高清：</strong>
+        <span>{{sum.per_quality.hd}}分钟</span>
+      </div>
+      <div class="col-sm-3">
+        <strong>超清：</strong>
+        <span>{{sum.per_quality.fhd}}分钟</span>
+      </div>
+    </div>
+  </div>
   <table class="table table-condensed table-hover table-bordered table-striped">
     <thead>
       <tr>

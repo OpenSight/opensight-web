@@ -704,6 +704,17 @@ angular.module('app.controller', [])
   $scope.open = function(opts) {
     opts.opened = true;
   };
+
+  $scope.sum = {
+    total: 0,
+    per_quality: {
+      ld: 0,
+      sd: 0,
+      hd: 0,
+      fhd: 0
+    }
+  };
+
   $scope.query = function(opts) {
     $scope.params.start_from = format($scope.start.dt) + 'T00:00:00';
     $scope.params.end_to = format($scope.end.dt) + 'T23:59:59';
@@ -716,6 +727,8 @@ angular.module('app.controller', [])
       $scope.bLast = true;
     });
     $scope.bLast = false;
+
+    sum({start_from: $scope.params.start_from, end_to: $scope.params.end_to});
   };
 
   $scope.next = function() {
@@ -735,6 +748,38 @@ angular.module('app.controller', [])
       $scope.bFirst = true;
     });
     $scope.bLast = false;
+  };
+
+  $scope.download = function(){
+    $http({
+      url: api + "projects/" + $scope.project + '/session_logs_csv',
+      method: "GET",
+      params: {
+        start_from: $scope.params.start_from, 
+        end_to: $scope.params.end_to
+      }
+    }).success(function(response) {
+      var blob = new Blob([response], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+      saveAs(blob, format($scope.start.dt) + '_' + format($scope.end.dt) + '.csv');
+    }).error(function(response, status) {
+      $rootScope.$emit('messageShow', { succ: false, text: '导出直播记录失败。' });
+      console.log('error');
+    });
+  };
+
+  var sum = function(params){
+    $http({
+      url: api + "projects/" + $scope.project + '/session_logs_sum',
+      method: "GET",
+      params: params
+    }).success(function(response) {
+      $scope.sum.total = response.total;
+      angular.extend($scope.sum.per_quality, response.per_quality);
+    }).error(function(response, status) {
+      console.log('error');
+    });
   };
 
   var get = function(params, fn) {
