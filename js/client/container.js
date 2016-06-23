@@ -750,6 +750,15 @@ angular.module('app.controller', [])
     $scope.bLast = false;
   };
 
+  var getFileName = function () {
+    var s = format($scope.start.dt);
+    var e = format($scope.end.dt);
+    if (e === s){
+      return s + '.csv';
+    } else {
+      return s + '_' + e + '.csv';
+    }
+  };
   $scope.download = function(){
     $http({
       url: api + "projects/" + $scope.project + '/session_logs_csv',
@@ -762,7 +771,7 @@ angular.module('app.controller', [])
       var blob = new Blob([response], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       });
-      saveAs(blob, format($scope.start.dt) + '_' + format($scope.end.dt) + '.csv');
+      saveAs(blob, getFileName());
     }).error(function(response, status) {
       $rootScope.$emit('messageShow', { succ: false, text: '导出直播记录失败。' });
       console.log('error');
