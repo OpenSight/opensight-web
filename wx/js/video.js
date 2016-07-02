@@ -166,15 +166,15 @@ HlsVideo.prototype = {
   },
     */
 
-  keepalive: function(sessionid){
-      this.session_id = sessionid;
+    keepalive: function(sessionid){
+        this.session_id = sessionid;
         var _this = this;
         if (undefined !== _this.alivetimer){
-            $timeout.cancel(_this.alivetimer);
+            clearInterval(_this.alivetimer);
             _this.alivetimer = undefined;
         }
-        var count = 20;//10min
-      _this.alivetimer = $timeout(function(){
+        var count = 40;//20min
+        _this.alivetimer = setInterval(function(){
             if (0 === count){
                 $('#ToastTxt').html("查看时间过长，休息一下吧！");
                 $('#loadingToast').show();
@@ -196,7 +196,7 @@ HlsVideo.prototype = {
                 type: 'POST'
             });
         }, 30000);
-  },
+    },
 
   stop: function(){
         var _this = this;
@@ -272,44 +272,3 @@ HlsVideo.prototype = {
         this.destroyed = true;
     }
 };
-
-/*
- keepalive: function(sessionid){
- var _this = this;
- if (undefined !== alivetimer){
- $timeout.cancel(alivetimer);
- alivetimer = undefined;
- }
- var count = 1440;
- alivetimer = $timeout(function(){
- if (0 === count){
- stop();
- return;
- } else {
- count--;
- }
- $.ajax({
- url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + sessionid,
- cache: true,
- type: 'POST'
- });
- }, 30000);
- },
-
- stop: function(){
- if (undefined !== alivetimer){
- clearInterval(alivetimer);
- alivetimer = undefined;
- }
- if (undefined === this.session_id){
- return;
- }
- var _this = this;
- $.ajax({
- url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + _this.session_id,
- cache: true,
- type: 'DELETE'
- });
- //$http.delete(url + '/' + $scope.id, {});
- },
-    */
