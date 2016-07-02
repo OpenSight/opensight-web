@@ -1,0 +1,248 @@
+<div class="container-fluid container-compact os-tab-container" ng-controller="Schedule">
+  <div class="row row-in-tab os-row-no-padding">
+    <form class="form-inline os-table-toolbar">
+      <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="刷新" ng-click="query()">
+        <i  class="fa fa-refresh"></i>
+      </span>
+      <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="添加" ng-click="addShown = !addShown">
+        <i  class="fa fa-plus"></i>
+      </span>
+    </form>
+  </div>
+  <div class="panel os-panel" ng-show="addShown">
+    <div class="panel-body">
+      <form class="form-horizontal os-form">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">名称</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" ng-model="addinfo.name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">描述</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" ng-model="addinfo.desc">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">详细描述</label>
+          <div class="col-sm-10">
+            <textarea class="form-control" rows="6" ng-model="addinfo.long_desc"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">类型</label>
+          <div class="radio col-sm-10">
+            <label>
+          <input type="radio" ng-model="addinfo.type" value="weekday" ng-click="typechange(addinfo, 'weekday')">按周</label>            &nbsp;&nbsp;
+            <label>
+          <input type="radio" ng-model="addinfo.type" value="monthday" ng-click="typechange(addinfo, 'monthday')">按月</label>
+            <i class="glyphicon glyphicon-plus pointer pull-right" ng-click="addItem(addinfo)"></i>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-10 col-sm-offset-2">
+            <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
+              <thead>
+                <tr>
+                  <!-- <th class="col-sm-3">启动日期</th> -->
+                  <th class="col-sm-3">Day</th>
+                  <th class="col-sm-3">启动时间</th>
+                  <th class="col-sm-3">停止时间</th>
+                  <th class="col-sm-2 text-center">预录</th>
+                  <th class="col-sm-1 text-center">删除</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in addinfo.entries">
+                  <td>
+                    <select class="form-control" ng-model="item.weekday" ng-show="'weekday' === addinfo.type" ng-options="it.value as it.name for it in weekdays">
+                </select>
+                    <select class="form-control" ng-model="item.monthday" ng-show="'monthday' === addinfo.type" ng-options="it.value as it.name for it in monthdays">
+                </select>
+                  </td>
+                  <td>
+                    <div class="input-group">
+                      <input type="text" class="form-control" ng-model="item.start">
+                      <div class="input-group-btn" uib-dropdown auto-close="disabled">
+                        <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                      <i class="glyphicon glyphicon-time"></i>
+                    </button>
+                        <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
+                      <uib-timepicker ng-model="addinfo[$index].timepicker.start" ng-change="timechange($index, 'start')" show-seconds="true" show-meridian="false"></uib-timepicker>
+                    </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group">
+                      <input type="text" class="form-control" ng-model="item.end">
+                      <div class="input-group-btn" uib-dropdown auto-close="disabled">
+                        <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                      <i class="glyphicon glyphicon-time"></i>
+                    </button>
+                        <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
+                      <uib-timepicker ng-model="addinfo[$index].timepicker.end" ng-change="timechange($index, 'end')" show-seconds="true" show-meridian="false"></uib-timepicker>
+                    </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="radio">
+                      <label>
+                    <input type="radio" ng-model="item.prerecord" ng-value="boolTrue">是</label> &nbsp;&nbsp;
+                      <label>
+                    <input type="radio" ng-model="item.prerecord" ng-value="boolFalse">否</label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <button class="btn btn-default btn-sm" ng-click="removeItem(addinfo, $index)" title="删除">
+                  <i class="glyphicon glyphicon-trash pointer"></i>
+                </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="form-group os-submit-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-primary" ng-click="add()">保存</button>
+            <button class="btn btn-default" ng-click="addShown = !addShown">取消</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-sm-12 os-table-container">
+    <table class="table os-table table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="col-sm-2">计划名称</th>
+          <th class="col-sm-2">描述</th>
+          <th class="col-sm-6">详细描述</th>
+          <th class="col-sm-1 text-center">删除</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="item in schedules.list">
+        <tr style="cursor:pointer;">
+          <td ng-click="showDetail(item, $index)">{{item.name}}</td>
+          <td ng-click="showDetail(item, $index)">{{item.desc}}</td>
+          <td ng-click="showDetail(item, $index)">{{item.long_desc}}</td>
+          <td ng-click="remove(item, $index)" title="删除">
+            <i class="fa fa-trash"></i>
+          </td>
+        </tr>
+        <tr class="ng-hide" ng-show="item.bDetailShown">
+          <td colspan="999">
+            <div class="panel os-panel">
+              <div class="panel-body">
+                <form class="form-horizontal os-form" role="form">
+                  <div class="form-group hidden" ng-bind="schedule_index=$index"></div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">名称</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" ng-model="detail[$index].name">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">描述</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" ng-model="detail[$index].desc">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">详细描述</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" rows="6" ng-model="detail[$index].long_desc"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">类型</label>
+                    <div class="radio col-sm-10">
+                      <label>
+          <input type="radio" ng-model="detail[schedule_index].type" value="weekday" ng-click="typechange(detail[schedule_index], 'weekday')">按周</label>                      &nbsp;&nbsp;
+                      <label>
+          <input type="radio" ng-model="detail[schedule_index].type" value="monthday" ng-click="typechange(detail[schedule_index], 'monthday')">按月</label>
+                      <i class="glyphicon glyphicon-plus pointer pull-right" ng-click="addItem(detail[schedule_index])"></i>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                      <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
+                        <thead>
+                          <tr>
+                            <!-- <th class="col-sm-3">启动日期</th> -->
+                            <th class="col-sm-3">Day</th>
+                            <th class="col-sm-3">启动时间</th>
+                            <th class="col-sm-3">停止时间</th>
+                            <th class="col-sm-2 text-center">预录</th>
+                            <th class="col-sm-1 text-center">删除</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="item in detail[schedule_index].entries">
+                            <td>
+                              <select class="form-control" ng-model="item.weekday" ng-show="'weekday' === detail[schedule_index].type" ng-options="it.value as it.name for it in weekdays"></select>
+                              <select class="form-control" ng-model="item.monthday" ng-show="'monthday' === detail[schedule_index].type" ng-options="it.value as it.name for it in monthdays"></select>
+                            </td>
+                            <td>
+                              <div class="input-group">
+                                <input type="text" class="form-control" ng-model="item.start">
+                                <div class="input-group-btn" uib-dropdown auto-close="disabled">
+                                  <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                      <i class="glyphicon glyphicon-time"></i>
+                    </button>
+                                  <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
+                      <uib-timepicker ng-model="item[$idx].timepicker.start" ng-change="timechange($index, 'start')" show-seconds="true" show-meridian="false"></uib-timepicker>
+                    </span>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="input-group">
+                                <input type="text" class="form-control" ng-model="item.end">
+                                <div class="input-group-btn" uib-dropdown auto-close="disabled">
+                                  <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                      <i class="glyphicon glyphicon-time"></i>
+                    </button>
+                                  <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
+                      <uib-timepicker ng-model="item[$idx].timepicker.end" ng-change="timechange($index, 'end')" show-seconds="true" show-meridian="false"></uib-timepicker>
+                    </span>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="text-center">
+                              <div class="radio">
+                                <label>
+                    <input type="radio" ng-model="item.prerecord" ng-value="boolTrue">是</label>                                &nbsp;&nbsp;
+                                <label>
+                    <input type="radio" ng-model="item.prerecord" ng-value="boolFalse">否</label>
+                              </div>
+                            </td>
+                            <td class="text-center">
+                              <button class="btn btn-default btn-sm" ng-click="removeItem(item, $index)" title="删除">
+                  <i class="glyphicon glyphicon-trash pointer"></i>
+                </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button class="btn btn-primary" ng-click="add()">保存</button>
+                      <button class="btn btn-default" ui-sref="project.schedule">取消</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
