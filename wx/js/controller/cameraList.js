@@ -1,5 +1,5 @@
 
-app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$window', '$stateParams', '$state', function($rootScope, $scope, $http, $q, $window, $stateParams, $state){
+app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$window', '$stateParams', '$state', 'dateFactory', function($rootScope, $scope, $http, $q, $window, $stateParams, $state, dateFactory){
     $('#projectTab').hide();
     /*
      if ($stateParams.projectName === null || $stateParams.projectName === undefined){
@@ -43,6 +43,8 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
                             $scope.cameraListShown = true;
+                            $scope.oneCameraShown = false;
+                            $scope.recListShown = false;
                             $scope.cameralist.data = [];
                             $scope.cameralist.data = response.list;
                             setTimeout(function () {
@@ -143,6 +145,7 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                 }
 
                 $scope.cameraListShown = false;
+                $scope.oneCameraShown = true;
                 $scope.cameralist.showPlayer(item);
             },
             checkBtn: function (it) {
@@ -160,8 +163,137 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                    $scope.c.playStream = it.text.toLowerCase();
                    $scope.Player = new HlsVideo($scope.c);
                }else it.on = 1;
+            },
+            showRec: function (item) {
+                $scope.cameraListShown = false;
+                $scope.recListShown = true;
+                $scope.recordlist.init(item);
+                $scope.recordlist.query();
+                //$scope.cameralist.showPlayer(item);
             }
         };
+    })();
+
+    $scope.recordlist = (function () {
+        return {
+            init: function(item){
+                $scope.recordlist.url = "http://api.opensight.cn/api/ivc/v1/projects/" + item.project_name + '/cameras/' + item.uuid + '/record/search';
+                $scope.dt = new Date();
+                $scope.timepicker = {
+                    start: '00:00:00',
+                    end: '23:59:59'
+                };
+                $scope.timepicker.startdt = dateFactory.str2time($scope.timepicker.start, true);
+                $scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
+                $scope.seglength = '60';
+            },
+            query: function() {
+                $('#ToastTxt').html("正在获取录像列表");
+                $('#loadingToast').show();
+                $http.get($scope.recordlist.url, {
+                    params: {
+                        start: dateFactory.getms($scope.dt, $scope.timepicker.startdt),
+                        end: dateFactory.getms($scope.dt, $scope.timepicker.enddt),
+                        seglength: parseInt($scope.seglength, 10)
+                    }
+                }).success(function(response) {
+                        $scope.reclist = response;
+                        setTimeout(function () {
+                            $('#loadingToast').hide();
+                        }, 100);
+                    }).error(function (response,status) {
+                        $('#ToastTxt').html("获取录像列表失败");
+                        $('#loadingToast').show();
+                        setTimeout(function () {
+                            $('#loadingToast').hide();
+                        }, 2000);
+                    });
+            },
+            timechange: function() {
+                $scope.timepicker = {
+                    start: '00:00:00',
+                    end: '23:59:59'
+                };
+                $scope.timepicker.startdt = dateFactory.str2time($scope.timepicker.start, true);
+                $scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
+                $scope.seglength = '60';
+                $scope.recordlist.query();
+            },
+            play: function(item) {
+                $scope.oneRecShown = true;
+                $scope.recListShown = false;
+                $scope.cameraListShown=false;
+                $scope.oneCameraShown=false;
+                $scope.recInfo = item;
+                var player = document.getElementById("replayPlayer");
+                player.currentTime = 0;
+                player.pause();
+                player.src=$scope.recInfo.hls;
+                player.load();
+                player.play();
+            },
+            backList: function() {
+                $scope.recListShown=true;
+                $scope.cameraListShown=false;
+                $scope.oneCameraShown=false;
+                $scope.oneRecShown=false;
+                $scope.recordlist.stopRec();
+            },
+            stopRec: function(){
+                var player = document.getElementById("replayPlayer");
+                if (player!==null && player.currentTime){
+                    player.currentTime = 0;
+                    player.pause();
+                    player.src="movie.ogg";
+                    player.load();
+                }
+            },
+
+//            queryMore: function(item) {
+//                $('#ToastTxt').html("正在获取录像列表");
+//                $('#loadingToast').show();
+//                $http.get($scope.recordlist.url, {
+//                    params: {
+//                        start: item.start,
+//                        end: item.end,
+//                        seglength: 10
+//                    }
+//                }).success(function(response) {
+//                        $('#loadingToast').hide();
+//                        $scope.morelist = response;
+//                        $scope.recordlist.actionShow();
+//                    }).error(function (response,status) {
+//                        $('#ToastTxt').html("获取详细录像列表失败");
+//                        $('#loadingToast').show();
+//                        setTimeout(function () {
+//                            $('#loadingToast').hide();
+//                        }, 2000);
+//                    });
+//            },
+
+            actionShow:function() {
+                var mask = $('#mask');
+                var weuiActionsheet = $('#weui_actionsheet');
+                weuiActionsheet.addClass('weui_actionsheet_toggle');
+                mask.show()
+                    .focus()//加focus是为了触发一次页面的重排(reflow or layout thrashing),使mask的transition动画得以正常触发
+                    .addClass('weui_fade_toggle').one('click', function () {
+                        hideActionSheet(weuiActionsheet, mask);
+                    });
+
+                mask.unbind('transitionend').unbind('webkitTransitionEnd');
+
+                function hideActionSheet(weuiActionsheet, mask) {
+                    weuiActionsheet.removeClass('weui_actionsheet_toggle');
+                    mask.removeClass('weui_fade_toggle');
+                    mask.on('transitionend', function () {
+                        mask.hide();
+                    }).on('webkitTransitionEnd', function () {
+                            mask.hide();
+                        })
+                }
+            }
+        }
     })();
 
     $scope.destroy = function () {
@@ -177,6 +309,8 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
 
 
 }]);
+
+
 
 /*
 var project = G_ProjectName;;

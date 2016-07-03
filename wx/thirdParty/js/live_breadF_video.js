@@ -127,6 +127,7 @@ HlsVideo.prototype = {
       }
     });
   },
+
   keepalive: function(sessionid){
     var _this = this;
     setInterval(function(){
@@ -137,6 +138,7 @@ HlsVideo.prototype = {
       });
     }, 30000);
   },
+
   updateTip: function(){
     var _this = this;
     var sec = 10;

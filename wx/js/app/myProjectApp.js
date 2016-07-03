@@ -354,3 +354,48 @@ app.filter('online', [function() {
             return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
         };
     }]);
+
+app.factory('dateFactory', function() {
+    var padding = function(n) {
+        if (10 > n) {
+            return '0' + n;
+        }
+        return n.toString();
+    };
+    var getDate = function(dt) {
+        return [
+            dt.getFullYear(),
+            padding(dt.getMonth() + 1),
+            padding(dt.getDate())
+        ].join('-');
+    };
+    return {
+        getStart: function(dt) {
+            return getDate(dt) + 'T00:00:00';
+        },
+        getEnd: function(dt) {
+            return getDate(dt) + 'T23:59:59';
+        },
+        time2str: function(dt){
+            return padding(dt.getHours()) + ':' + padding(dt.getMinutes()) + ':' + padding(dt.getSeconds());
+        },
+        str2time: function(str, bstart){
+            var a = str.split(':');
+            var dt = new Date();
+            dt.setHours(a[0]);
+            dt.setMinutes(a[1]);
+            dt.setSeconds(a[2]);
+            if (bstart){
+                dt.setMilliseconds(0);
+            } else{
+                dt.setMilliseconds(999);
+            }
+            return dt;
+        },
+        getms: function(dt, tm){
+            var tmp = tm;
+            tmp.setFullYear(dt.getFullYear(), dt.getMonth(), dt.getDate());
+            return tmp.getTime();
+        }
+    };
+});
