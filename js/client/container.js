@@ -201,7 +201,7 @@ angular.module('app.controller', [])
       cam.format = format;
       $scope.cam = cam;
       var modalInstance = $uibModal.open({
-        templateUrl: 'sessionModalContent.html',
+        templateUrl: path  + 'views/sessionModalContent.html',
         controller: 'session',
         size: 'lg modal-player',
         resolve: {
@@ -235,8 +235,8 @@ angular.module('app.controller', [])
 ])
 
 .controller('camera-detail', [
-  '$scope', '$rootScope', '$http', 'flagFactory',
-  function($scope, $rootScope, $http, flagFactory) {
+  '$scope', '$rootScope', '$http', '$uibModal', 'flagFactory',
+  function($scope, $rootScope, $http, $uibModal, flagFactory) {
     $scope.bFirst = true;
     $scope.bLast = true;
     var project = $rootScope.$stateParams.project;
@@ -252,8 +252,11 @@ angular.module('app.controller', [])
       $scope.info.ability = flags.ability;
       $scope.info.live_ability = flags.live;
       live_ability = flags.live;
-
       $scope.info.ptz_ability = flags.ptz;
+      if (0 !== response.ability.length) {
+        response.quality = response.ability[0].text;
+      }
+
       $scope.info.preview_ability = flags.preview;
       preview_ability = flags.preview;
       $scope.$parent.caminfo = $scope.info;
@@ -261,7 +264,7 @@ angular.module('app.controller', [])
       console.log('error');
     });
 
-    $scope.enable = function(enabled){
+    $scope.enable = function(enabled) {
       var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
       if (false === confirm(tip)) {
         return;
@@ -300,6 +303,21 @@ angular.module('app.controller', [])
         return;
       }
       $scope.enable($scope.info.live_ability);
+    };
+
+    $scope.preview = function(cam, format) {
+      cam.format = format;
+      $scope.cam = cam;
+      var modalInstance = $uibModal.open({
+        templateUrl: path  + 'views/sessionModalContent.html',
+        controller: 'session',
+        size: 'lg modal-player',
+        resolve: {
+          caminfo: function() {
+            return $scope.cam;
+          }
+        }
+      });
     };
   }
 ])
@@ -421,7 +439,7 @@ angular.module('app.controller', [])
     //     saveAs(blob, 'aaa.mp4');
     //   });
     //   var file = new File(["Hello, world!"], "hello world.txt", {type: "text/plain;charset=utf-8"});
-      
+
     // };
   }
 ])
@@ -728,7 +746,7 @@ angular.module('app.controller', [])
     });
     $scope.bLast = false;
 
-    sum({start_from: $scope.params.start_from, end_to: $scope.params.end_to});
+    sum({ start_from: $scope.params.start_from, end_to: $scope.params.end_to });
   };
 
   $scope.next = function() {
@@ -750,21 +768,21 @@ angular.module('app.controller', [])
     $scope.bLast = false;
   };
 
-  var getFileName = function () {
+  var getFileName = function() {
     var s = format($scope.start.dt);
     var e = format($scope.end.dt);
-    if (e === s){
+    if (e === s) {
       return s + '.csv';
     } else {
       return s + '_' + e + '.csv';
     }
   };
-  $scope.download = function(){
+  $scope.download = function() {
     $http({
       url: api + "projects/" + $scope.project + '/session_logs_csv',
       method: "GET",
       params: {
-        start_from: $scope.params.start_from, 
+        start_from: $scope.params.start_from,
         end_to: $scope.params.end_to
       }
     }).success(function(response) {
@@ -778,7 +796,7 @@ angular.module('app.controller', [])
     });
   };
 
-  var sum = function(params){
+  var sum = function(params) {
     $http({
       url: api + "projects/" + $scope.project + '/session_logs_sum',
       method: "GET",
@@ -1157,7 +1175,7 @@ angular.module('app.controller', [])
 
       $scope.stopRecord = function() {
         $http.delete(api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/record/manual', {}).success(function(response) {
-          $rootScope.$emit('messageShow', { succ: true, text: '停止手动录像成功'});
+          $rootScope.$emit('messageShow', { succ: true, text: '停止手动录像成功' });
           getRecordStatus();
         }).error(function(response, status) {
           $rootScope.$emit('messageShow', { succ: false, text: '停止手动录像失败' });
@@ -1276,80 +1294,80 @@ angular.module('app.controller', [])
 ])
 
 .controller('bill', [
-  '$scope', '$rootScope', '$http', 'dateFactory', 'pageFactory',
-  function($scope, $rootScope, $http, dateFactory, pageFactory) {
-    var pro = $rootScope.$stateParams.project;
+    '$scope', '$rootScope', '$http', 'dateFactory', 'pageFactory',
+    function($scope, $rootScope, $http, dateFactory, pageFactory) {
+      var pro = $rootScope.$stateParams.project;
 
-    $scope.start = {
-      dt: new Date(),
-      opened: false
-    };
-    $scope.end = {
-      dt: new Date(),
-      opened: false
-    };
-    $scope.open = function(opts) {
-      opts.opened = true;
-    };
-    $scope.bills = {
-      start: 0,
-      total: 10,
-      list: []
-    };
-
-    var query = function(params) {
-      $http.get(api + "projects/" + pro + '/bills', {
-        params: params
-      }).success(function(response) {
-        $scope.bills = response;
-        pageFactory.set(response, params);
-      }).error(function(response, status) {
-        console.log('error');
-      });
-    };
-    $scope.page = pageFactory.init({
-      query: query,
-      jumperror: function() {
-        alert('页码输入不正确。');
-      }
-    });
-
-    $scope.query = function() {
-      var params = {
-        start_from: dateFactory.getStart($scope.start.dt),
-        end_to: dateFactory.getEnd($scope.end.dt),
-        start: 0,
-        limit: $scope.page.limit
+      $scope.start = {
+        dt: new Date(),
+        opened: false
       };
-      query(params);
-    };
+      $scope.end = {
+        dt: new Date(),
+        opened: false
+      };
+      $scope.open = function(opts) {
+        opts.opened = true;
+      };
+      $scope.bills = {
+        start: 0,
+        total: 10,
+        list: []
+      };
 
-    (function() {
-      $http.get(api + "projects/" + pro + '/account', {}).success(function(response) {
-        $scope.account = response;
-      }).error(function(response, status) {
-        console.log('error');
+      var query = function(params) {
+        $http.get(api + "projects/" + pro + '/bills', {
+          params: params
+        }).success(function(response) {
+          $scope.bills = response;
+          pageFactory.set(response, params);
+        }).error(function(response, status) {
+          console.log('error');
+        });
+      };
+      $scope.page = pageFactory.init({
+        query: query,
+        jumperror: function() {
+          alert('页码输入不正确。');
+        }
       });
-    })();
 
-    $scope.query();
-  }
-])
-.controller('bill-detail', [
-  '$scope', '$rootScope', '$http',
-  function($scope, $rootScope, $http) {
-    var url = api + "projects/" + $rootScope.$stateParams.project + '/bills/' + $rootScope.$stateParams.bill;
+      $scope.query = function() {
+        var params = {
+          start_from: dateFactory.getStart($scope.start.dt),
+          end_to: dateFactory.getEnd($scope.end.dt),
+          start: 0,
+          limit: $scope.page.limit
+        };
+        query(params);
+      };
 
-    $scope.boolFalse = false;
-    $scope.boolTrue = true;
+      (function() {
+        $http.get(api + "projects/" + pro + '/account', {}).success(function(response) {
+          $scope.account = response;
+        }).error(function(response, status) {
+          console.log('error');
+        });
+      })();
 
-    (function() {
-      $http.get(url, {}).success(function(response) {
-        $scope.info = response;
-      }).error(function(response, status) {
-        $rootScope.$emit('messageShow', { succ: false, text: '获取账单信息失败。' });
-        console.log('error');
-      });
-    })();
-  }
-]);
+      $scope.query();
+    }
+  ])
+  .controller('bill-detail', [
+    '$scope', '$rootScope', '$http',
+    function($scope, $rootScope, $http) {
+      var url = api + "projects/" + $rootScope.$stateParams.project + '/bills/' + $rootScope.$stateParams.bill;
+
+      $scope.boolFalse = false;
+      $scope.boolTrue = true;
+
+      (function() {
+        $http.get(url, {}).success(function(response) {
+          $scope.info = response;
+        }).error(function(response, status) {
+          $rootScope.$emit('messageShow', { succ: false, text: '获取账单信息失败。' });
+          console.log('error');
+        });
+      })();
+    }
+  ]);

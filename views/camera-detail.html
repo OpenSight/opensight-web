@@ -10,7 +10,7 @@
               <p class="form-control-static">{{info.name}}</p>
             </div>
           </div>
-           <div class="form-group">
+          <div class="form-group">
             <label class="col-sm-3 control-label">id</label>
             <div class="col-sm-9">
               <p class="form-control-static">{{info.uuid}}</p>
@@ -35,7 +35,17 @@
             <label class="col-sm-3 control-label">画面质量</label>
             <div class="col-sm-9">
               <div class="btn-group btn-group-sm">
-                <button ng-repeat="it in info.ability" class="btn btn-default" role="group" title={{it.title}}>{{it.title}}</button>
+                <button ng-repeat="it in info.ability" class="btn btn-default" role="group" ng-class="{'btn-primary': it.text === info.quality}" title={{it.title}} ng-click="info.quality = it.text">{{it.title}}</button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="(!info.live_ability) || (!info.is_online)">
+                  预览
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="pointer" ng-click="preview(info, 'rtmp')">RTMP</a></li>
+                  <li><a class="pointer" ng-click="preview(info, 'hls')">HLS</a></li>
+                </ul>
               </div>
             </div>
           </div>
