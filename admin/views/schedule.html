@@ -2,10 +2,10 @@
   <div class="row row-in-tab os-row-no-padding">
     <form class="form-inline os-table-toolbar">
       <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="刷新" ng-click="query()">
-        <i  class="fa fa-refresh"></i>
+        <i class="fa fa-refresh"></i>
       </span>
       <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="添加" ng-click="addShown = !addShown">
-        <i  class="fa fa-plus"></i>
+        <i class="fa fa-plus"></i>
       </span>
     </form>
   </div>
@@ -34,9 +34,9 @@
           <label class="col-sm-2 control-label">类型</label>
           <div class="radio col-sm-10">
             <label>
-          <input type="radio" ng-model="addinfo.type" value="weekday" ng-click="typechange(addinfo, 'weekday')">按周</label>            &nbsp;&nbsp;
+              <input type="radio" ng-model="addinfo.type" value="weekday" ng-click="typechange(addinfo, 'weekday')">按周</label> &nbsp;&nbsp;
             <label>
-          <input type="radio" ng-model="addinfo.type" value="monthday" ng-click="typechange(addinfo, 'monthday')">按月</label>
+              <input type="radio" ng-model="addinfo.type" value="monthday" ng-click="typechange(addinfo, 'monthday')">按月</label>
             <i class="glyphicon glyphicon-plus pointer pull-right" ng-click="addItem(addinfo)"></i>
           </div>
         </div>
@@ -57,20 +57,20 @@
                 <tr ng-repeat="item in addinfo.entries">
                   <td>
                     <select class="form-control" ng-model="item.weekday" ng-show="'weekday' === addinfo.type" ng-options="it.value as it.name for it in weekdays">
-                </select>
+                    </select>
                     <select class="form-control" ng-model="item.monthday" ng-show="'monthday' === addinfo.type" ng-options="it.value as it.name for it in monthdays">
-                </select>
+                    </select>
                   </td>
                   <td>
                     <div class="input-group">
                       <input type="text" class="form-control" ng-model="item.start">
                       <div class="input-group-btn" uib-dropdown auto-close="disabled">
                         <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                      <i class="glyphicon glyphicon-time"></i>
-                    </button>
+                          <i class="glyphicon glyphicon-time"></i>
+                        </button>
                         <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
-                      <uib-timepicker ng-model="addinfo[$index].timepicker.start" ng-change="timechange($index, 'start')" show-seconds="true" show-meridian="false"></uib-timepicker>
-                    </span>
+                          <uib-timepicker ng-model="addinfo[$index].timepicker.start" ng-change="timechange($index, 'start')" show-seconds="true" show-meridian="false"></uib-timepicker>
+                        </span>
                       </div>
                     </div>
                   </td>
@@ -79,26 +79,26 @@
                       <input type="text" class="form-control" ng-model="item.end">
                       <div class="input-group-btn" uib-dropdown auto-close="disabled">
                         <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                      <i class="glyphicon glyphicon-time"></i>
-                    </button>
+                          <i class="glyphicon glyphicon-time"></i>
+                        </button>
                         <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
-                      <uib-timepicker ng-model="addinfo[$index].timepicker.end" ng-change="timechange($index, 'end')" show-seconds="true" show-meridian="false"></uib-timepicker>
-                    </span>
+                          <uib-timepicker ng-model="addinfo[$index].timepicker.end" ng-change="timechange($index, 'end')" show-seconds="true" show-meridian="false"></uib-timepicker>
+                        </span>
                       </div>
                     </div>
                   </td>
                   <td class="text-center">
                     <div class="radio">
                       <label>
-                    <input type="radio" ng-model="item.prerecord" ng-value="boolTrue">是</label> &nbsp;&nbsp;
+                        <input type="radio" ng-model="item.prerecord" ng-value="boolTrue">是</label> &nbsp;&nbsp;
                       <label>
-                    <input type="radio" ng-model="item.prerecord" ng-value="boolFalse">否</label>
+                        <input type="radio" ng-model="item.prerecord" ng-value="boolFalse">否</label>
                     </div>
                   </td>
                   <td class="text-center">
                     <button class="btn btn-default btn-sm" ng-click="removeItem(addinfo, $index)" title="删除">
-                  <i class="glyphicon glyphicon-trash pointer"></i>
-                </button>
+                      <i class="glyphicon glyphicon-trash pointer"></i>
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -114,7 +114,6 @@
       </form>
     </div>
   </div>
-
   <div class="col-sm-12 os-table-container">
     <table class="table os-table table-striped table-hover">
       <thead>
@@ -162,9 +161,9 @@
                     <label class="col-sm-2 control-label">类型</label>
                     <div class="radio col-sm-10">
                       <label>
-          <input type="radio" ng-model="detail[schedule_index].type" value="weekday" ng-click="typechange(detail[schedule_index], 'weekday')">按周</label>                      &nbsp;&nbsp;
+                        <input type="radio" ng-model="detail[schedule_index].type" value="weekday" ng-click="typechange(detail[schedule_index], 'weekday')">按周</label> &nbsp;&nbsp;
                       <label>
-          <input type="radio" ng-model="detail[schedule_index].type" value="monthday" ng-click="typechange(detail[schedule_index], 'monthday')">按月</label>
+                        <input type="radio" ng-model="detail[schedule_index].type" value="monthday" ng-click="typechange(detail[schedule_index], 'monthday')">按月</label>
                       <i class="glyphicon glyphicon-plus pointer pull-right" ng-click="addItem(detail[schedule_index])"></i>
                     </div>
                   </div>
@@ -192,11 +191,11 @@
                                 <input type="text" class="form-control" ng-model="item.start">
                                 <div class="input-group-btn" uib-dropdown auto-close="disabled">
                                   <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                      <i class="glyphicon glyphicon-time"></i>
-                    </button>
+                                    <i class="glyphicon glyphicon-time"></i>
+                                  </button>
                                   <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
-                      <uib-timepicker ng-model="item[$idx].timepicker.start" ng-change="timechange($index, 'start')" show-seconds="true" show-meridian="false"></uib-timepicker>
-                    </span>
+                                    <uib-timepicker ng-model="item[$idx].timepicker.start" ng-change="timechange($index, 'start')" show-seconds="true" show-meridian="false"></uib-timepicker>
+                                  </span>
                                 </div>
                               </div>
                             </td>
@@ -205,26 +204,26 @@
                                 <input type="text" class="form-control" ng-model="item.end">
                                 <div class="input-group-btn" uib-dropdown auto-close="disabled">
                                   <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                      <i class="glyphicon glyphicon-time"></i>
-                    </button>
+                                    <i class="glyphicon glyphicon-time"></i>
+                                  </button>
                                   <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
-                      <uib-timepicker ng-model="item[$idx].timepicker.end" ng-change="timechange($index, 'end')" show-seconds="true" show-meridian="false"></uib-timepicker>
-                    </span>
+                                    <uib-timepicker ng-model="item[$idx].timepicker.end" ng-change="timechange($index, 'end')" show-seconds="true" show-meridian="false"></uib-timepicker>
+                                  </span>
                                 </div>
                               </div>
                             </td>
                             <td class="text-center">
                               <div class="radio">
                                 <label>
-                    <input type="radio" ng-model="item.prerecord" ng-value="boolTrue">是</label>                                &nbsp;&nbsp;
+                                  <input type="radio" ng-model="item.prerecord" ng-value="boolTrue">是</label> &nbsp;&nbsp;
                                 <label>
-                    <input type="radio" ng-model="item.prerecord" ng-value="boolFalse">否</label>
+                                  <input type="radio" ng-model="item.prerecord" ng-value="boolFalse">否</label>
                               </div>
                             </td>
                             <td class="text-center">
-                              <button class="btn btn-default btn-sm" ng-click="removeItem(item, $index)" title="删除">
-                  <i class="glyphicon glyphicon-trash pointer"></i>
-                </button>
+                              <button class="btn btn-default btn-sm" ng-click="removeItem(detail[schedule_index], $index)" title="删除">
+                                <i class="glyphicon glyphicon-trash pointer"></i>
+                              </button>
                             </td>
                           </tr>
                         </tbody>
@@ -233,8 +232,8 @@
                   </div>
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                      <button class="btn btn-primary" ng-click="add()">保存</button>
-                      <button class="btn btn-default" ui-sref="project.schedule">取消</button>
+                      <button class="btn btn-primary" ng-click="save(detail[schedule_index])">保存</button>
+                      <button class="btn btn-default" ng-click="showDetail(item, $index)">取消</button>
                     </div>
                   </div>
                 </form>

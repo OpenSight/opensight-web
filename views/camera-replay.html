@@ -52,7 +52,7 @@
         <option value="10">10分钟</option>
       </select>
     </div>
-    <button class="btn btn-default" ng-click="hidden = !hidden">
+    <button class="btn btn-default" ng-click="hidden = !hidden" title="{{hidden ? '高级': '隐藏'}}">
       <i class="fa" ng-class="{true: 'fa-angle-double-right', false: 'fa-angle-double-left'}[hidden]"></i>
     </button>
     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -66,8 +66,9 @@
         <!-- <th></th> -->
         <th class="col-sm-3 text-center">开始</th>
         <th class="col-sm-3 text-center">结束</th>
-        <th class="col-sm-2">时长</th>
+        <th class="col-sm-3">时长</th>
         <th class="col-sm-1 text-center">报警</th>
+        <th class="col-sm-1 text-center">画质</th>
         <th class="col-sm-1 text-center">回放</th>
         <th class="col-sm-1 text-center">下载</th>
         <th class="col-sm-1 text-center">备份</th>
@@ -80,6 +81,7 @@
         <td class="text-center">{{item.end|date: "yyyy-MM-dd HH:mm:ss"}}</td>
         <td>{{item.duration|duration: true}}</td>
         <td class="text-center">{{item.alarm_list.length|listlength}}</td>
+        <td class="text-center">{{item.quality|stream_quality}}</td>
         <td class="text-center">
           <button class="btn btn-default btn-sm" ng-click="play(item)" title="回放">
             <i class="fa fa-play"></i>
@@ -126,6 +128,10 @@
               <div class="form-group">
                 <label>结束时间</label>
                 <p class="form-control-static">{{record.end|date: "yyyy-MM-dd HH:mm:ss"}}</p>
+              </div>
+              <div class="form-group">
+                <label>画质</label>
+                <p class="form-control-static">{{record.quality|stream_quality}}</p>
               </div>
               <div class="form-group" ng-show="0 !== record.alarm_list.length">
                 <label>报警列表</label>

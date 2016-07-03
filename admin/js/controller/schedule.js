@@ -159,7 +159,7 @@ app.register.controller('Schedule', ['$scope', '$http', '$q', 'dateFactory', fun
         return;
       }
       $scope.aborter = $q.defer();
-      $http.delete(url + '/' + item.id, {
+      $http.delete(api + '/' + item.id, {
         timeout: $scope.aborter.promise
       }).success(function (response) {
         $scope.schedules.list.splice(index, 1);
@@ -183,29 +183,55 @@ app.register.controller('Schedule', ['$scope', '$http', '$q', 'dateFactory', fun
     $scope.query();
   })();
 
+  (function () {
+    $scope.detail = [];
+    $scope.showDetail = function (item, index) {
+      if (true === item.bDetailShown) {
+        item.bDetailShown = false;
+      } else {
+        item.bDetailShown = true;
+        $scope.detail[index] = angular.copy(item);
+        if ($scope.detail[index].entries.length !== 0 &&
+          (0 === $scope.detail[index].entries[0].weekday || null === $scope.detail[index].entries[0].weekday)) {
+          $scope.detail[index].type = 'monthday';
+        } else {
+          $scope.detail[index].type = 'weekday';
+        }
+        for (var i = 0, l = $scope.detail[index].entries.length; i < l; i++) {
+          var t = {
+            start: dateFactory.str2time($scope.detail[index].entries[i].start, true),
+            end: dateFactory.str2time($scope.detail[index].entries[i].end, false)
+          };
+          $scope.detail[index].timepicker = t;
+        }
+      }
+    };
 
-  $scope.detail = [];
-  $scope.showDetail = function (item, index) {
-    if (true === item.bDetailShown) {
-      item.bDetailShown = false;
-    } else {
-      item.bDetailShown = true;
-      $scope.detail[index] = angular.copy(item);
-      if ($scope.detail[index].entries.length !== 0 &&
-        (0 === $scope.detail[index].entries[0].weekday || null === $scope.detail[index].entries[0].weekday)) {
-        $scope.detail[index].type = 'monthday';
-      } else{
-        $scope.detail[index].type = 'weekday';
-      }
-      for (var i = 0, l = $scope.detail[index].entries.length; i < l; i++) {
-        var t = {
-          start: dateFactory.str2time($scope.detail[index].entries[i].start, true),
-          end: dateFactory.str2time($scope.detail[index].entries[i].end, false)
-        };
-        $scope.detail[index].timepicker = t;
-      }
-    }
-  };
+    $scope.save = function (info, index) {
+      $scope.aborter = $q.defer();
+      var d = copy(info);
+      $http.put(api + '/' + info.id, d, {
+        timeout: $scope.aborter.promise
+      }).success(function (response) {
+        $scope.schedules.list[index] = d;
+        $scope.showDetail(info, index);
+      }).error(function (response, status) {
+        var tmpMsg = {};
+        tmpMsg.Label = "错误";
+        tmpMsg.ErrorContent = "修改录像模板失败。";
+        tmpMsg.ErrorContentDetail = response;
+        tmpMsg.SingleButtonShown = true;
+        tmpMsg.MutiButtonShown = false;
+        if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+          //$scope.$emit("Logout", tmpMsg);
+          $state.go('logOut', { info: response.info, traceback: response.traceback });
+        } else {
+          $scope.$emit("Ctr1ModalShow", tmpMsg);
+        }
+        console.log('error');
+      });
+    };
+  })();
 
   $scope.destroy = function () {
     if (undefined !== $scope.aborter) {

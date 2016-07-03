@@ -12,8 +12,9 @@
       <tr>
         <th class="col-sm-2">计划名称</th>
         <th class="col-sm-2">描述</th>
-        <th class="col-sm-6">详细描述</th>
-        <th class="col-sm-2 text-center">操作</th>
+        <th class="col-sm-7">详细描述</th>
+        <th class="col-sm-1 text-center">详细</th>
+        <th class="col-sm-1 text-center">删除</th>
       </tr>
     </thead>
     <tbody>
@@ -22,11 +23,13 @@
         <td>{{item.desc}}</td>
         <td>{{item.long_desc}}</td>
         <td class="text-center">
-          <button class="btn btn-default btn-sm" ui-sref="project.schedule-detail({schedule: item.id})" title="详细">
-            <i class="glyphicon glyphicon-cog pointer"></i>
-          </button>&nbsp;
-          <button class="btn btn-default btn-sm" ng-click="remove(item, $index)" title="删除">
-            <i class="glyphicon glyphicon-trash pointer"></i>
+          <button class="btn btn-default btn-sm" ui-sref="project.schedule-detail({schedule: item.id})" ng-disabled="null === item.project_name" title="详细">
+            <i class="glyphicon glyphicon-cog" ng-class="{false: 'pointer'}[null === item.project_name]"></i>
+          </button>
+        </td>
+        <td class="text-center">
+          <button class="btn btn-default btn-sm" ng-click="remove(item, $index)" ng-disabled="null === item.project_name" title="删除">
+            <i class="glyphicon glyphicon-trash" ng-class="{false: 'pointer'}[null === item.project_name]"></i>
           </button>
         </td>
       </tr>
