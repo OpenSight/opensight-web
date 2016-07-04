@@ -21,19 +21,22 @@
                     <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="item in cameralist.data">
 
                         <div class="thumbnail">
-                            <a ng-click="cameralist.showMore(item)"><img src="{{item.preview}}" alt="{{item.name}}"></a>
                             <div class="caption">
                                 <p class="text-name">
                                     <a ng-click="cameralist.showMore(item)">{{item.name}}</a>
                                     <span class="pull-right" ng-class ="{'text-highlight': item.is_online!==0, 'text-danger': item.is_online===0}" >{{item.is_online|online}}</span>
                                 </p>
-
+                            </div>
+                            <a ng-click="cameralist.showMore(item)"><img src="{{item.preview}}" alt="{{item.name}}"></a>
+                            <div class="caption">
                                 <p class="text-name">
-                                    <a ng-click="cameralist.showMore(item)" class="btn btn-primary" style="padding-top: 3px;padding-bottom: 3px;">现场</a>
-                                    <a ng-click="cameralist.showRec(item)" class="btn btn-primary pull-right" style="padding-top: 3px;padding-bottom: 3px;">重播</a>
+                                    <!--<a ng-click="cameralist.showMore(item)" class="btn btn-primary" style="padding-top: 3px;padding-bottom: 3px;">直播</a>-->
+                                    <!--<a ng-click="cameralist.showRec(item)" class="btn btn-primary pull-right" style="padding-top: 3px;padding-bottom: 3px;">回放</a>-->
+                                    <a ng-click="cameralist.showRec(item)" class="weui_btn  weui_btn_default" style="display: inline-block;width:49%;">回放</a>
+                                    <a ng-click="cameralist.showMore(item)" class="weui_btn weui_btn_default" style="display: inline-block;width:49%;">实时</a>
+
                                 </p>
                                 <p class="text-muted text-desc">{{item.desc}}</p>
-
                             </div>
                         </div>
                     </div>
@@ -100,9 +103,16 @@
                 <i  class="fa fa-arrow-left"></i>
                 </span>
             </div>
-            <div class="weui_cells_title">视频重播</div>
-            <div class="weui_cell" style="min-height:290px;padding: 0px;">
-                <div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options" style="padding: 0px;margin:auto;" ng-click="recordlist.timechange();"></div>
+            <div class="weui_cells_title">视频回放</div>
+
+            <!--<div class="weui_cell" style="min-height:290px;padding: 0px;">-->
+                <!--<div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options" style="padding: 0px;margin:auto;" ng-click="recordlist.timechange();"></div>-->
+            <!--</div>-->
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label" style="margin-bottom: 0px;">日期</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="date" value="" ng-model="dt" ng-change="recordlist.timechange();"/>
+                </div>
             </div>
             <div class="weui_cells weui_cells_access" style="margin-top: 0px" ng-repeat="item in reclist.segments">
                 <!--<div class="weui_cell_hd">-->
@@ -111,8 +121,13 @@
                     <!--</span>-->
                 <!--</div>-->
                 <a class="weui_cell" href="javascript:;" ng-click="recordlist.play(item);">
+                    <div class="weui_cell_hd">
+                        <span class="btn-small" style="cursor:pointer;float:left;padding-top:5px;padding-bottom:5px;padding-left:5px;width:20px;margin-right:5px;display:block" title="more">
+                            <i  class="fa fa-file-video-o"></i>
+                        </span>
+                    </div>
                     <div class="weui_cell_bd weui_cell_primary">
-                        <p style="margin-bottom:0px ">{{item.start|date: "HH:mm:ss"}} - {{item.end|date: "HH:mm:ss"}}</p>
+                        <p style="margin-bottom: 0px;">{{item.start|date: "HH:mm:ss"}} - {{item.end|date: "HH:mm:ss"}}    （{{item.duration|duration: true}}）</p>
                     </div>
                     <div class="weui_cell_ft"></div>
                 </a>
@@ -170,13 +185,13 @@
                     </div>
                 </div>
                 <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">开始时间</label></div>
+                    <div class="weui_cell_hd" style="margin-bottom: 0px;"><label for="" class="weui_label" style="width:4em">开始时间</label></div>
                     <div class="weui_cell_bd weui_cell_primary">
                         <p class="form-control-static">{{recInfo.start|date: "yyyy-MM-dd HH:mm:ss"}}</p>
                     </div>
                 </div>
                 <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">结束时间</label></div>
+                    <div class="weui_cell_hd" style="margin-bottom: 0px;"><label for="" class="weui_label" style="width:4em">结束时间</label></div>
                     <div class="weui_cell_bd weui_cell_primary">
                         <p class="form-control-static">{{recInfo.end|date: "yyyy-MM-dd HH:mm:ss"}}</p>
                     </div>

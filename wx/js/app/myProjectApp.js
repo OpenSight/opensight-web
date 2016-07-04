@@ -353,7 +353,16 @@ app.filter('online', [function() {
             }
             return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
         };
-    }]);
+    }]).filter('duration', function() {
+        return function(dur, ms) {
+            var s = '';
+            if (true === ms){
+                dur = dur / 1000;
+            }
+            s = parseInt(dur/60, 10) + "分";
+            return s;
+        };
+    });
 
 app.factory('dateFactory', function() {
     var padding = function(n) {
