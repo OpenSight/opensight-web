@@ -59,6 +59,7 @@
     <button class="btn btn-default" ng-click="query()" title="查询">
       <i class="glyphicon glyphicon-search pointer"></i>
     </button>
+    <button class="btn btn-default pull-right" ng-click="merge()" ng-disabled="0 === record.segments.length">合并下载</button>
   </form>
   <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
     <thead>

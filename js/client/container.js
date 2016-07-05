@@ -201,7 +201,7 @@ angular.module('app.controller', [])
       cam.format = format;
       $scope.cam = cam;
       var modalInstance = $uibModal.open({
-        templateUrl: path  + 'views/sessionModalContent.html',
+        templateUrl: path + 'views/sessionModalContent.html',
         controller: 'session',
         size: 'lg modal-player',
         resolve: {
@@ -309,7 +309,7 @@ angular.module('app.controller', [])
       cam.format = format;
       $scope.cam = cam;
       var modalInstance = $uibModal.open({
-        templateUrl: path  + 'views/sessionModalContent.html',
+        templateUrl: path + 'views/sessionModalContent.html',
         controller: 'session',
         size: 'lg modal-player',
         resolve: {
@@ -425,6 +425,12 @@ angular.module('app.controller', [])
           }
         }
       });
+    };
+    $scope.merge = function() {
+      var u = api + "projects/" + $rootScope.$stateParams.project + '/cameras/' + $rootScope.$stateParams.camera +
+        '/record/playlist.ts?start=' + $scope.record.segments[0].start +
+        '&end=' + $scope.record.segments[$scope.record.segments.length - 1].start;
+      window.open(u);
     };
 
     $scope.query();
