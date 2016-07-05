@@ -86,23 +86,23 @@ angular.module('app.services', [])
     getEnd: function(dt) {
       return getDate(dt) + 'T23:59:59';
     },
-    time2str: function(dt){
+    time2str: function(dt) {
       return padding(dt.getHours()) + ':' + padding(dt.getMinutes()) + ':' + padding(dt.getSeconds());
     },
-    str2time: function(str, bstart){
+    str2time: function(str, bstart) {
       var a = str.split(':');
       var dt = new Date();
       dt.setHours(a[0]);
       dt.setMinutes(a[1]);
       dt.setSeconds(a[2]);
-      if (bstart){
+      if (bstart) {
         dt.setMilliseconds(0);
-      } else{
+      } else {
         dt.setMilliseconds(999);
       }
       return dt;
     },
-    getms: function(dt, tm){
+    getms: function(dt, tm) {
       var tmp = tm;
       tmp.setFullYear(dt.getFullYear(), dt.getMonth(), dt.getDate());
       return tmp.getTime();
@@ -165,34 +165,68 @@ angular.module('app.services', [])
 })
 
 .factory('playerFactory', function() {
-  var loadFlash = function(src, id) {
-    src = encodeURIComponent(src);
-    var flashvars = {
-      src: src,
-      plugin_hls: "../flashlsOSMF.swf",
-      autoPlay: true
-    };
+  var flash = {
+    load: function(src, id) {
+      src = encodeURIComponent(src);
+      var flashvars = {
+        src: src,
+        plugin_hls: "../flashlsOSMF.swf",
+        autoPlay: true
+      };
 
-    var params = {
-      allowFullScreen: true,
-      allowScriptAccess: "always",
-      wmode: 'opaque',
-      bgcolor: "#000000"
-    };
-    var attrs = {
-      name: id
-    };
+      var params = {
+        allowFullScreen: true,
+        allowScriptAccess: "always",
+        wmode: 'opaque',
+        bgcolor: "#000000"
+      };
+      var attrs = {
+        name: id
+      };
 
-    swfobject.embedSWF("../GrindPlayer.swf", id, "100%", "100%", "10.2", null, flashvars, params, attrs);
+      swfobject.embedSWF("../GrindPlayer.swf", id, "100%", "100%", "10.2", null, flashvars, params, attrs);
+    },
+    stop: function(id) {
+      player = document.getElementById(id);
+      player.stop2();
+    }
   };
-  var addVideoTag = function(src, id) {};
+  var video = {
+    load: function(src, id) {
+      src = encodeURIComponent(src);
+      var flashvars = {
+        src: src,
+        plugin_hls: "../flashlsOSMF.swf",
+        autoPlay: true
+      };
+
+      var params = {
+        allowFullScreen: true,
+        allowScriptAccess: "always",
+        wmode: 'opaque',
+        bgcolor: "#000000"
+      };
+      var attrs = {
+        name: id
+      };
+
+      swfobject.embedSWF("../GrindPlayer.swf", id, "100%", "100%", "10.2", null, flashvars, params, attrs);
+    },
+    stop: function(id) {
+      player = document.getElementById(id);
+      player.stop2();
+    }
+  };
+
+  var getObj = function(){
+    return '' === document.createElement('video').canPlayType('application/x-mpegURL') ? flash : video;
+  };
   return {
     load: function(src, id) {
-      if ('' === document.createElement('video').canPlayType('application/x-mpegURL')) {
-        loadFlash(src, id);
-      } else {
-        addVideoTag(src, id);
-      }
+      getObj().load(src, id);
+    },
+    stop: function(id){
+      getObj().load(id);
     }
   };
 });
