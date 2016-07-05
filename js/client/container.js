@@ -446,13 +446,15 @@ angular.module('app.controller', [])
 
 .controller('replayModalController', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'playerFactory', 'record',
   function($scope, $rootScope, $http, $uibModalInstance, playerFactory, record) {
+    var playerId = 'replayPlayer';
     $scope.ok = function() {
+      playerFactory.stop(playerId);
       $uibModalInstance.close();
     };
 
     $scope.record = record;
     setTimeout(function() {
-      playerFactory.load(record.hls, 'replayPlayer');
+      playerFactory.load(record.hls, playerId);
     }, 0);
   }
 ])
