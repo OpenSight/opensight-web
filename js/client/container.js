@@ -1022,6 +1022,7 @@ angular.module('app.controller', [])
     var url = api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/sessions';
     var tiptimer = undefined;
     var alivetimer = undefined;
+    var playerId = 'videoPlayer';
 
     var create = function() {
       $http.post(url, {
@@ -1031,7 +1032,7 @@ angular.module('app.controller', [])
         user: user
       }).success(function(response) {
         $scope.id = response.session_id;
-        playerFactory.load(response.url, 'videoPlayer');
+        playerFactory.load(response.url, playerId);
         keepalive(response);
         if (tiptimer) {
           $interval.cancel(tiptimer);
@@ -1046,10 +1047,10 @@ angular.module('app.controller', [])
         $interval.cancel(alivetimer);
         alivetimer = undefined;
       }
-      var count = 1440;
+      var count = 20;
       alivetimer = $interval(function() {
         if (0 === count) {
-          stop();
+          $scope.ok();
           return;
         } else {
           count--;
@@ -1062,6 +1063,7 @@ angular.module('app.controller', [])
       }, 30000);
     };
     var stop = function() {
+      playerFactory.stop(playerId);
       if (undefined !== alivetimer) {
         $interval.cancel(alivetimer);
         alivetimer = undefined;
