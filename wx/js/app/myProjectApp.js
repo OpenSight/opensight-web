@@ -356,10 +356,15 @@ app.filter('online', [function() {
     }]).filter('duration', function() {
         return function(dur, ms) {
             var s = '';
+            var tmpTime;
             if (true === ms){
                 dur = dur / 1000;
             }
-            s = parseInt(dur/60, 10) + "分";
+            tmpTime = parseInt(dur/60, 10);
+            if (tmpTime === 0){
+                s = parseInt(dur, 10) + "秒";
+            }else
+                s = tmpTime + "分";
             return s;
         };
     });
