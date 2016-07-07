@@ -1047,7 +1047,7 @@ angular.module('app.controller', [])
         $interval.cancel(alivetimer);
         alivetimer = undefined;
       }
-      var count = 20;
+      var count = 120;
       alivetimer = $interval(function() {
         if (0 === count) {
           $scope.ok();
