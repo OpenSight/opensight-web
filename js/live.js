@@ -40,6 +40,17 @@ Square.prototype = {
     });
     
   },
+    filterData: function(data){
+        var newlist = {
+            list:[]
+        };
+        for (var i = 0, l = data.list.length; i < l; i++){
+            if (data.list[i].is_online === 1 || data.list[i].is_online === 2){
+                newlist.list.push(data.list[i]);
+            }
+        }
+        return newlist;
+  },
   get: function(){
     if (true === this.loading || true === this.finished){
       return;
@@ -57,6 +68,8 @@ Square.prototype = {
         _this.loading = false;
         if (0 === data.list.length) {
           _this.finished = true;
+        }else{
+            data = _this.filterData(data);
         }
         _this.page.start += data.list.length;
         // for (var i = 0, l = data.list.length; i < l; i++){
