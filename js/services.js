@@ -187,7 +187,7 @@ angular.module('app.services', [])
       swfobject.embedSWF("../GrindPlayer.swf", id, "100%", "100%", "10.2", null, flashvars, params, attrs);
     },
     stop: function(id) {
-      player = document.getElementById(id);
+      var player = document.getElementById(id);
       player.stop2();
     }
   };
@@ -213,7 +213,7 @@ angular.module('app.services', [])
       swfobject.embedSWF("../GrindPlayer.swf", id, "100%", "100%", "10.2", null, flashvars, params, attrs);
     },
     stop: function(id) {
-      player = document.getElementById(id);
+      var player = document.getElementById(id);
       player.stop2();
     }
   };
@@ -226,7 +226,7 @@ angular.module('app.services', [])
       getObj().load(src, id);
     },
     stop: function(id){
-      getObj().load(id);
+      getObj().stop(id);
     }
   };
 });
