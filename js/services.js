@@ -106,6 +106,9 @@ angular.module('app.services', [])
       var tmp = tm;
       tmp.setFullYear(dt.getFullYear(), dt.getMonth(), dt.getDate());
       return tmp.getTime();
+    },
+    dt2str: function(dt){
+      return dt.getFullYear() + '-' + padding(dt.getMonth() + 1) + '-' + padding(dt.getDate());
     }
   };
 })

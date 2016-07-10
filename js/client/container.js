@@ -412,7 +412,7 @@ angular.module('app.controller', [])
       });
     };
 
-    $scope.play = function(it) {
+    $scope.play = function() {
       it.camname = $scope.camname;
       $scope.selected = it;
       var modalInstance = $uibModal.open({
@@ -426,6 +426,22 @@ angular.module('app.controller', [])
         }
       });
     };
+    $scope.backup = function(it) {
+      it.camname = $scope.camname;
+      it.camera_id = $rootScope.$stateParams.camera;
+      $scope.selected = it;
+      var modalInstance = $uibModal.open({
+        templateUrl: 'backupModalContent.html',
+        controller: 'backupModalController',
+        size: 'lg',
+        resolve: {
+          record: function() {
+            return $scope.selected;
+          }
+        }
+      });
+    };
+
     $scope.merge = function() {
       var u = api + "projects/" + $rootScope.$stateParams.project + '/cameras/' + $rootScope.$stateParams.camera +
         '/record/playlist.ts?start=' + $scope.record.segments[0].start +
@@ -462,6 +478,35 @@ angular.module('app.controller', [])
     setTimeout(function() {
       playerFactory.load(record.hls, playerId);
     }, 0);
+  }
+])
+
+.controller('backupModalController', [
+  '$scope', '$rootScope', '$http', '$uibModalInstance', 'dateFactory', 'record',
+  function($scope, $rootScope, $http, $uibModalInstance, dateFactory, record) {
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/record/events';
+    $scope.info = {
+      start: record.start,
+      end: record.end,
+      camera_id: record.camera_id,
+      desc: dateFactory.dt2str(new Date(record.start)) + ' ' + dateFactory.time2str(new Date(record.start))+ ' ~ ' + dateFactory.time2str(new Date(record.end)),
+      long_desc: ''
+    };
+    $scope.camname = record.camname;
+    $scope.ok = function() {
+      $uibModalInstance.close();
+    };
+
+    $scope.save = function(){
+      $http.post(url, $scope.info).success(function() {
+        $scope.ok();
+        $rootScope.$emit('messageShow', { succ: true, text: '录像成功。' });
+      }).error(function() {
+        /* Act on the event */
+        $rootScope.$emit('messageShow', { succ: false, text: '录像备份失败。' });
+        console.log('error');
+      });;
+    };
   }
 ])
 
