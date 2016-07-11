@@ -412,11 +412,11 @@ angular.module('app.controller', [])
       });
     };
 
-    $scope.play = function() {
+    $scope.play = function(it) {
       it.camname = $scope.camname;
       $scope.selected = it;
       var modalInstance = $uibModal.open({
-        templateUrl: 'replayModalContent.html',
+        templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
         size: 'lg modal-player',
         resolve: {
@@ -1429,8 +1429,8 @@ angular.module('app.controller', [])
 ])
 
 .controller('record-event', [
-  '$scope', '$rootScope', '$http', 'pageFactory',
-  function($scope, $rootScope, $http, pageFactory) {
+  '$scope', '$rootScope', '$http', '$uibModal', 'pageFactory',
+  function($scope, $rootScope, $http, $uibModal, pageFactory) {
     var pro = $rootScope.$stateParams.project;
 
     $scope.events = {
@@ -1462,6 +1462,23 @@ angular.module('app.controller', [])
       };
       query(params);
     };
+
+    $scope.play = function(it) {
+      $scope.selected = angular.copy(it);
+      $scope.selected.camname = it.cameras[0].name;
+      $scope.selected.hls = it.cameras[0].hls;
+      var modalInstance = $uibModal.open({
+        templateUrl: path + 'views/replayModalContent.html',
+        controller: 'replayModalController',
+        size: 'lg modal-player',
+        resolve: {
+          record: function() {
+            return $scope.selected;
+          }
+        }
+      });
+    };
+
     $scope.query();
   }
 ]);
