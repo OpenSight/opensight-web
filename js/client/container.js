@@ -489,7 +489,7 @@ angular.module('app.controller', [])
       start: record.start,
       end: record.end,
       camera_id: record.camera_id,
-      desc: dateFactory.dt2str(new Date(record.start)) + ' ' + dateFactory.time2str(new Date(record.start))+ ' ~ ' + dateFactory.time2str(new Date(record.end)),
+      desc: dateFactory.dt2str(new Date(record.start)) + ' ' + dateFactory.time2str(new Date(record.start)) + ' ~ ' + dateFactory.time2str(new Date(record.end)),
       long_desc: ''
     };
     $scope.camname = record.camname;
@@ -497,10 +497,10 @@ angular.module('app.controller', [])
       $uibModalInstance.close();
     };
 
-    $scope.save = function(){
+    $scope.save = function() {
       $http.post(url, $scope.info).success(function() {
         $scope.ok();
-        $rootScope.$emit('messageShow', { succ: true, text: '录像成功。' });
+        $rootScope.$emit('messageShow', { succ: true, text: '录像备份成功。' });
       }).error(function() {
         /* Act on the event */
         $rootScope.$emit('messageShow', { succ: false, text: '录像备份失败。' });
@@ -1349,80 +1349,119 @@ angular.module('app.controller', [])
 ])
 
 .controller('bill', [
-    '$scope', '$rootScope', '$http', 'dateFactory', 'pageFactory',
-    function($scope, $rootScope, $http, dateFactory, pageFactory) {
-      var pro = $rootScope.$stateParams.project;
+  '$scope', '$rootScope', '$http', 'dateFactory', 'pageFactory',
+  function($scope, $rootScope, $http, dateFactory, pageFactory) {
+    var pro = $rootScope.$stateParams.project;
 
-      $scope.start = {
-        dt: new Date(),
-        opened: false
-      };
-      $scope.end = {
-        dt: new Date(),
-        opened: false
-      };
-      $scope.open = function(opts) {
-        opts.opened = true;
-      };
-      $scope.bills = {
-        start: 0,
-        total: 10,
-        list: []
-      };
+    $scope.start = {
+      dt: new Date(),
+      opened: false
+    };
+    $scope.end = {
+      dt: new Date(),
+      opened: false
+    };
+    $scope.open = function(opts) {
+      opts.opened = true;
+    };
+    $scope.bills = {
+      start: 0,
+      total: 10,
+      list: []
+    };
 
-      var query = function(params) {
-        $http.get(api + "projects/" + pro + '/bills', {
-          params: params
-        }).success(function(response) {
-          $scope.bills = response;
-          pageFactory.set(response, params);
-        }).error(function(response, status) {
-          console.log('error');
-        });
-      };
-      $scope.page = pageFactory.init({
-        query: query,
-        jumperror: function() {
-          alert('页码输入不正确。');
-        }
+    var query = function(params) {
+      $http.get(api + "projects/" + pro + '/bills', {
+        params: params
+      }).success(function(response) {
+        $scope.bills = response;
+        pageFactory.set(response, params);
+      }).error(function(response, status) {
+        console.log('error');
       });
+    };
+    $scope.page = pageFactory.init({
+      query: query,
+      jumperror: function() {
+        alert('页码输入不正确。');
+      }
+    });
 
-      $scope.query = function() {
-        var params = {
-          start_from: dateFactory.getStart($scope.start.dt),
-          end_to: dateFactory.getEnd($scope.end.dt),
-          start: 0,
-          limit: $scope.page.limit
-        };
-        query(params);
+    $scope.query = function() {
+      var params = {
+        start_from: dateFactory.getStart($scope.start.dt),
+        end_to: dateFactory.getEnd($scope.end.dt),
+        start: 0,
+        limit: $scope.page.limit
       };
+      query(params);
+    };
 
-      (function() {
-        $http.get(api + "projects/" + pro + '/account', {}).success(function(response) {
-          $scope.account = response;
-        }).error(function(response, status) {
-          console.log('error');
-        });
-      })();
+    (function() {
+      $http.get(api + "projects/" + pro + '/account', {}).success(function(response) {
+        $scope.account = response;
+      }).error(function(response, status) {
+        console.log('error');
+      });
+    })();
 
-      $scope.query();
-    }
-  ])
-  .controller('bill-detail', [
-    '$scope', '$rootScope', '$http',
-    function($scope, $rootScope, $http) {
-      var url = api + "projects/" + $rootScope.$stateParams.project + '/bills/' + $rootScope.$stateParams.bill;
+    $scope.query();
+  }
+])
 
-      $scope.boolFalse = false;
-      $scope.boolTrue = true;
+.controller('bill-detail', [
+  '$scope', '$rootScope', '$http',
+  function($scope, $rootScope, $http) {
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/bills/' + $rootScope.$stateParams.bill;
 
-      (function() {
-        $http.get(url, {}).success(function(response) {
-          $scope.info = response;
-        }).error(function(response, status) {
-          $rootScope.$emit('messageShow', { succ: false, text: '获取账单信息失败。' });
-          console.log('error');
-        });
-      })();
-    }
-  ]);
+    $scope.boolFalse = false;
+    $scope.boolTrue = true;
+
+    (function() {
+      $http.get(url, {}).success(function(response) {
+        $scope.info = response;
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: false, text: '获取账单信息失败。' });
+        console.log('error');
+      });
+    })();
+  }
+])
+
+.controller('record-event', [
+  '$scope', '$rootScope', '$http', 'pageFactory',
+  function($scope, $rootScope, $http, pageFactory) {
+    var pro = $rootScope.$stateParams.project;
+
+    $scope.events = {
+      start: 0,
+      total: 10,
+      list: []
+    };
+    var query = function(params) {
+      $http.get(api + "projects/" + pro + '/record/events', {
+        params: params
+      }).success(function(response) {
+        $scope.events = response;
+        pageFactory.set(response, params);
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: false, text: '获取备份录像列表失败。' });
+        console.log('error');
+      });
+    };
+    $scope.page = pageFactory.init({
+      query: query,
+      jumperror: function() {
+        alert('页码输入不正确。');
+      }
+    });
+    $scope.query = function() {
+      var params = {
+        start: 0,
+        limit: $scope.page.limit
+      };
+      query(params);
+    };
+    $scope.query();
+  }
+]);

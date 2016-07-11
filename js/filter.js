@@ -132,4 +132,11 @@ angular.module('app.filter', []).filter('online', [function() {
     return 0 === length ? '无' : '有';
   };
 })
+
+.filter('event_state', function() {
+  return function(state) {
+    var states = ['备份中', '正常', '异常'];
+    return states[state];
+  };
+})
 ;
