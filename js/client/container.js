@@ -1445,6 +1445,7 @@ angular.module('app.controller', [])
         $scope.events = response;
         pageFactory.set(response, params);
       }).error(function(response, status) {
+        pageFactory.set($scope.events, params);
         $rootScope.$emit('messageShow', { succ: false, text: '获取备份录像列表失败。' });
         console.log('error');
       });
