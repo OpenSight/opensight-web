@@ -537,7 +537,7 @@ angular.module('app.controller', [])
         $scope.schedules.list.splice(index, 1);
         $rootScope.$emit('messageShow', { succ: true, text: '删除录像模板成功。' });
       }).error(function(response, status) {
-        $rootScope.$emit('messageShow', { succ: true, text: '删除录像模板失败。' });
+        $rootScope.$emit('messageShow', { succ: false, text: '删除录像模板失败。' });
         console.log('error');
       });
     };
@@ -1465,8 +1465,7 @@ angular.module('app.controller', [])
 
     $scope.play = function(it) {
       $scope.selected = angular.copy(it);
-      $scope.selected.camname = it.cameras[0].name;
-      $scope.selected.hls = it.cameras[0].hls;
+      $scope.selected.camname = it.camera_name;
       var modalInstance = $uibModal.open({
         templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
@@ -1479,6 +1478,62 @@ angular.module('app.controller', [])
       });
     };
 
+    $scope.remove = function(item, index) {
+      if (false === confirm('确认删除备份录像 "' + item.camera_name + '" 吗？')) {
+        return;
+      }
+      $http.delete(url + '/' + item.id, {}).success(function(response) {
+        $scope.schedules.list.splice(index, 1);
+        $rootScope.$emit('messageShow', { succ: true, text: '删除备份录像成功。' });
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: false, text: '删除备份录像失败。' });
+        console.log('error');
+      });
+    };
+
     $scope.query();
+  }
+])
+
+.controller('record-event-detail', [
+  '$scope', '$rootScope', '$http', '$uibModal',
+  function($scope, $rootScope, $http, $uibModal) {
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/record/events/' + $rootScope.$stateParams.event;
+
+    $http.get(url, {}).success(function(response) {
+      $scope.info = response;
+    }).error(function(response, status) {
+      $rootScope.$emit('messageShow', { succ: false, text: '获取备份录像信息失败。' });
+      console.log('error');
+    });
+
+    $scope.save = function() {
+      var data = {
+        desc: $scope.info.desc,
+        long_desc: $scope.info.long_desc
+      };
+      $http.put(url, data).success(function(response) {
+        $rootScope.$emit('messageShow', { succ: true, text: '修改备份录像信息成功。' });
+        console.log('success');
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: false, text: '修改备份录像信息失败。' });
+        console.log('error');
+      });
+    };
+
+    $scope.play = function(info) {
+      $scope.selected = angular.copy(it);
+      $scope.selected.camname = it.camera_name;
+      var modalInstance = $uibModal.open({
+        templateUrl: path + 'views/replayModalContent.html',
+        controller: 'replayModalController',
+        size: 'lg modal-player',
+        resolve: {
+          record: function() {
+            return $scope.selected;
+          }
+        }
+      });
+    };
   }
 ]);

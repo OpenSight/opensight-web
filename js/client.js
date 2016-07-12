@@ -120,6 +120,10 @@ var app = angular.module('client', [
         url: '/record-event',
         templateUrl: path + 'views/record-event.html'
       })
+      .state('project.record-event-detail', {
+        url: '/record-event-detail/:event',
+        templateUrl: path + 'views/record-event-detail.html'
+      })
     ;
   }
 ])
