@@ -1431,7 +1431,7 @@ angular.module('app.controller', [])
 .controller('record-event', [
   '$scope', '$rootScope', '$http', '$uibModal', 'pageFactory',
   function($scope, $rootScope, $http, $uibModal, pageFactory) {
-    var pro = $rootScope.$stateParams.project;
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/record/events';
 
     $scope.events = {
       start: 0,
@@ -1439,7 +1439,7 @@ angular.module('app.controller', [])
       list: []
     };
     var query = function(params) {
-      $http.get(api + "projects/" + pro + '/record/events', {
+      $http.get(url, {
         params: params
       }).success(function(response) {
         $scope.events = response;
@@ -1480,11 +1480,11 @@ angular.module('app.controller', [])
     };
 
     $scope.remove = function(item, index) {
-      if (false === confirm('确认删除备份录像 "' + item.camera_name + '" 吗？')) {
+      if (false === confirm('确认删除备份录像 "' + item.desc + '" 吗？')) {
         return;
       }
-      $http.delete(url + '/' + item.id, {}).success(function(response) {
-        $scope.schedules.list.splice(index, 1);
+      $http.delete(url + '/' + item.event_id, {}).success(function(response) {
+        $scope.events.list.splice(index, 1);
         $rootScope.$emit('messageShow', { succ: true, text: '删除备份录像成功。' });
       }).error(function(response, status) {
         $rootScope.$emit('messageShow', { succ: false, text: '删除备份录像失败。' });
@@ -1523,8 +1523,8 @@ angular.module('app.controller', [])
     };
 
     $scope.play = function(info) {
-      $scope.selected = angular.copy(it);
-      $scope.selected.camname = it.camera_name;
+      $scope.selected = angular.copy(info);
+      $scope.selected.camname = info.camera_name;
       var modalInstance = $uibModal.open({
         templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
