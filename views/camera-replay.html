@@ -60,6 +60,7 @@
       <i class="glyphicon glyphicon-search pointer"></i>
     </button>
     <button class="btn btn-default pull-right" ng-click="merge()" ng-disabled="0 === record.segments.length">合并下载</button>
+    <button class="btn btn-default pull-right" ng-click="merge_backup()" ng-disabled="0 === record.segments.length">合并下载</button>
   </form>
   <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
     <thead>
@@ -94,7 +95,7 @@
           </a>
         </td>
         <td class="text-center">
-          <button class="btn btn-default btn-sm" ng-click="backup(item)" title="锁定">
+          <button class="btn btn-default btn-sm" ng-click="backup(item)" title="备份到云盘">
             <i class="fa fa-lock"></i>
           </button>
         </td>
@@ -112,7 +113,7 @@
         <div class="row">
           <form class="form-horizontal">
             <div class="form-group">
-              <label class="col-sm-2 control-label">事件标题</label>
+              <label class="col-sm-2 control-label">标题</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" ng-model="info.desc">
               </div>

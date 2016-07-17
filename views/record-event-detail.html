@@ -7,7 +7,7 @@
   </div>
   <form class="form-horizontal">
     <div class="form-group">
-      <label class="col-sm-2 control-label">事件标题</label>
+      <label class="col-sm-2 control-label">标题</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" ng-model="info.desc">
       </div>
@@ -44,7 +44,7 @@
         <a href="{{info.ts}}" download="{{info.camera_name}}_{{info.start|date: 'yyyyMMddHHmmss'}}_{{info.end|date: 'yyyyMMddHHmmss'}}" target="_blank" class="btn btn-default btn-sm" title="下载">
           <i class="fa fa-download"></i>&nbsp;下载
         </a>
-        <button class="btn btn-default" ui-sref="project.schedule">取消</button>
+        <button class="btn btn-default" ui-sref="project.record-event">取消</button>
       </div>
     </div>
   </form>

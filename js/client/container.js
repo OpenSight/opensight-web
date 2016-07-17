@@ -201,6 +201,8 @@ angular.module('app.controller', [])
       cam.format = format;
       $scope.cam = cam;
       var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
         templateUrl: path + 'views/sessionModalContent.html',
         controller: 'session',
         size: 'lg modal-player',
@@ -309,6 +311,8 @@ angular.module('app.controller', [])
       cam.format = format;
       $scope.cam = cam;
       var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
         templateUrl: path + 'views/sessionModalContent.html',
         controller: 'session',
         size: 'lg modal-player',
@@ -416,6 +420,8 @@ angular.module('app.controller', [])
       it.camname = $scope.camname;
       $scope.selected = it;
       var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
         templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
         size: 'lg modal-player',
@@ -431,6 +437,8 @@ angular.module('app.controller', [])
       it.camera_id = $rootScope.$stateParams.camera;
       $scope.selected = it;
       var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
         templateUrl: 'backupModalContent.html',
         controller: 'backupModalController',
         size: 'lg',
@@ -447,6 +455,12 @@ angular.module('app.controller', [])
         '/record/playlist.ts?start=' + $scope.record.segments[0].start +
         '&end=' + $scope.record.segments[$scope.record.segments.length - 1].start;
       window.open(u);
+    };
+
+    $scope.merge_backup = function(){
+      var info = angular.copy($scope.record.segments[0]);
+      info.end = $scope.record.segments[$scope.record.segments.length - 1].end;
+      $scope.backup(info);
     };
 
     $scope.query();
@@ -489,7 +503,7 @@ angular.module('app.controller', [])
       start: record.start,
       end: record.end,
       camera_id: record.camera_id,
-      desc: dateFactory.dt2str(new Date(record.start)) + ' ' + dateFactory.time2str(new Date(record.start)) + ' ~ ' + dateFactory.time2str(new Date(record.end)),
+      desc: record.camname + dateFactory.format(record.start, '_MMdd'),
       long_desc: ''
     };
     $scope.camname = record.camname;
@@ -963,6 +977,8 @@ angular.module('app.controller', [])
     $scope.open = function(key_id) {
       $scope.key_id = key_id;
       var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
         templateUrl: 'secretModalContent.html',
         controller: 'secret',
         resolve: {
@@ -1468,6 +1484,8 @@ angular.module('app.controller', [])
       $scope.selected = angular.copy(it);
       $scope.selected.camname = it.camera_name;
       var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
         templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
         size: 'lg modal-player',
@@ -1526,6 +1544,8 @@ angular.module('app.controller', [])
       $scope.selected = angular.copy(info);
       $scope.selected.camname = info.camera_name;
       var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
         templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
         size: 'lg modal-player',
