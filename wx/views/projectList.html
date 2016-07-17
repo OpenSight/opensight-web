@@ -1,0 +1,79 @@
+        <div class="swiper-container form-group" style="height: 100%;" id="projectTab" ng-controller="ProjectList">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" ng-repeat="u in projectlist.data">
+                    <div class="weui_tab" >
+                        <div class="weui_tab_bd">
+                            <!--div class="swiper-container form-group" style="height: 100%;">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" ng-repeat="u in projectlist.data"-->
+                            <!--div class="weui_cells_title">我的项目</div-->
+                            <div class="weui_cells weui_cells_form">
+                                <div class="weui_cell">
+                                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <p class="form-control-static">{{u.name}}</p>
+                                    </div>
+                                </div>
+                                <div class="weui_cell">
+                                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目标题</label></div>
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <input class="weui_input" value="" placeholder="" ng-model="u.title" readonly/>
+                                    </div>
+                                </div>
+                                <div class="weui_cell">
+                                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">描述</label></div>
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <input class="weui_input" value="" placeholder="" ng-model="u.desc" readonly/>
+                                    </div>
+                                </div>
+                                <div class="weui_cell">
+                                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">详细描述</label></div>
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <textarea class="weui_textarea" placeholder="" ng-model="u.long_desc" rows="3" readonly></textarea>
+                                        <!--div class="weui_textarea_counter"><span>0</span>/200</div-->
+                                    </div>
+                                </div>
+                                <div class="weui_cell">
+                                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">流并发数</label></div>
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <input class="weui_input" value="" placeholder="" ng-model="u.max_media_sessions" readonly/>
+                                    </div>
+                                </div>
+                                <div class="weui_cell">
+                                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:6em">在线摄像头</label></div>
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <input class="weui_input" value="" placeholder="" ng-model="u.ipcState" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="weui_tabbar">
+                            <a href="javascript:;" ng-click="projectlist.goIpc()" class="weui_tabbar_item">
+                                <div class="weui_tabbar_icon">
+                                    <img src="./images/icon_nav_article.png" alt="">
+                                </div>
+                                <p class="weui_tabbar_label">摄像头</p>
+                            </a>
+                            <a href="javascript:;" ng-click="projectlist.goBill()" class="weui_tabbar_item weui_bar_item_on">
+                                <div class="weui_tabbar_icon">
+                                    <img src="./images/icon_nav_button.png" alt="">
+                                </div>
+                                <p class="weui_tabbar_label">账单</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 如果需要分页器 -->
+            <div style = "bottom: 65px;" class="swiper-pagination"></div>
+
+            <!-- 如果需要导航按钮 >
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div-->
+
+            <!-- 如果需要滚动条 >
+            <div class="swiper-scrollbar"></div-->
+        </div>
+
+

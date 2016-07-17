@@ -1,12 +1,12 @@
-var wx_api = "http://api.opensight.cn/api/ivc/v1/wechat/";
-var bindUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
-    "bind.html&response_type=code&scope=snsapi_userinfo&state=myProject" +
-    "#wechat_redirect";
-var codeLoginUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
-    "myProject.html&response_type=code&scope=snsapi_userinfo&state=myProject" +
-    "#wechat_redirect";
+//var wx_api = "http://api.opensight.cn/api/ivc/v1/wechat/";
+//var bindUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+//    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+//    "bind.html&response_type=code&scope=snsapi_userinfo&state=myProject" +
+//    "#wechat_redirect";
+//var codeLoginUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+//    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+//    "myProject.html&response_type=code&scope=snsapi_userinfo&state=myProject" +
+//    "#wechat_redirect";
 var G_ProjectName = "";
 
 var app = angular.module('app', ['ui.router', 'oc.lazyLoad','angular-loading-bar', 'ngAnimate', 'ui.bootstrap']);
@@ -34,10 +34,10 @@ app
         $stateProvider
             .state('project', {
                 url: '/project',
-                templateUrl: './views/empty.html',
+                templateUrl: './views/projectList.html',
                 params:      {projectName: null,info: null},
                 resolve: {
-                     load: app.asyncjs("./js/controller/empty.js")
+                     load: app.asyncjs("./js/controller/ProjectList.js")
                 }
             })
 
@@ -47,6 +47,30 @@ app
                 params:      {projectName: null,info: null},
                 resolve: {
                      load: app.asyncjs(["./js/controller/cameraList.js", "./js/video.js", "./css/square.css"])
+                }
+            })
+
+            .state('plive', {
+                url: '/plive',
+                templateUrl: './views/pLive.html',
+                resolve: {
+                    load: app.asyncjs(["./js/controller/PLive.js"])
+                }
+            })
+
+            .state('prec', {
+                url: '/prec',
+                templateUrl: './views/pRec.html',
+                resolve: {
+                    load: app.asyncjs(["./js/controller/PRec.js"])
+                }
+            })
+
+            .state('precplay', {
+                url: '/precplay',
+                templateUrl: './views/pRecPlay.html',
+                resolve: {
+                    load: app.asyncjs(["./js/controller/PRecPlay.js"])
                 }
             })
 
@@ -186,114 +210,6 @@ app
     }]);
 
 app.controller('MyProject', ['$rootScope','$scope', '$http', '$q','$window', '$state', function($rootScope, $scope, $http, $q, $window, $state){
-    $scope.projectlist = (function () {
-        return {
-            init:function(){
-                G_ProjectName = $scope.projectlist.data[0].name;
-                var mySwiper = new Swiper ('.swiper-container', {
-                    direction: 'horizontal',
-                    loop: false,
-                    // 如果需要分页器
-                    pagination : '.swiper-pagination',
-                    paginationHide :true,
-                    //后翻获取当前页并向后台获取
-                    onSlideChangeStart: function(swiper){
-                        //            alert(mySwiper.activeIndex);
-                        G_ProjectName = $scope.projectlist.data[mySwiper.activeIndex].name;
-                    },
-                    // 如果需要前进后退按钮
-                    //nextButton: '.swiper-button-next',
-                    //prevButton: '.swiper-button-prev',
-                    observer:'true'
-                    // 如果需要滚动条
-                    //scrollbar: '.swiper-scrollbar'
-                })
-            },
-            getCameraNum: function (index) {
-                $scope.projectlist.data[index].ipcState = "获取中";
-                var online = 0;
-                $scope.aborter = $q.defer(),
-                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.projectlist.data[index].name+"/cameras?limit=100&start=0", {
-                        timeout: $scope.aborter.promise
-                    }).success(function (response) {
-                            for (var i in response.list){
-                                if (response.list[i].is_online === 1 || response.list[i].is_online === 2) online++;
-                            }
-                            $scope.projectlist.data[index].ipcState = online+"/"+response.total;
-                        }).error(function (response,status) {
-                            $scope.projectlist.data[index].ipcState = "获取失败";
-                        });
-            },
-            get: function () {
-                var index = 0;
-                if (flag === true && jwt != undefined && jwt.aud != undefined){
-
-                }else {
-                    alert("bad jwt!plz reload your page!");
-                    return;
-                }
-
-                $scope.aborter = $q.defer(),
-                    $http.get("http://api.opensight.cn/api/ivc/v1/users/"+jwt.aud+"/projects", {
-                        timeout: $scope.aborter.promise
-                    }).success(function (response) {
-                            $scope.projectlist.data = response;
-                            $scope.projectlist.init();
-                            for (var i in $scope.projectlist.data){
-                                $scope.projectlist.getCameraNum(i);
-                            }
-
-                        }).error(function (response,status) {
-                            $('#ToastTxt').html("获取项目列表失败");
-                            $('#loadingToast').show();
-                            setTimeout(function () {
-                                $('#loadingToast').hide();
-                            }, 2000);
-                            $window.location.replace(codeLoginUrl);
-                        });
-
-            },
-
-            goIpc: function () {
-                $state.go('camera');
-            },
-            goBill: function () {
-                $state.go('bill');
-            }
-            /*
-             submitForm: function (u) {
-             var postData =  {
-             title: u.title,
-             max_media_sessions: u.max_media_sessions,
-             media_server: u.media_server,
-             desc: u.desc,
-             long_desc: u.long_desc,
-             is_public: u.is_public
-             };
-
-             // $scope.myproject.data_mod.modMyProjectToken = Math.random();
-             $scope.aborter = $q.defer(),
-             $http.put("http://api.opensight.cn/api/ivc/v1/projects/"+ u.name, postData, {
-             timeout: $scope.aborter.promise
-             }).success(function (response) {
-             $scope.ToastTxt = "更新项目信息成功";
-             $('#loadingToast').show();
-             setTimeout(function () {
-             $('#loadingToast').hide();
-             }, 2000);
-             }).error(function (response,status) {
-             $scope.ToastTxt = "更新项目信息失败";
-             $('#loadingToast').show();
-             setTimeout(function () {
-             $('#loadingToast').hide();
-             }, 2000);
-             $window.location.replace(codeLoginUrl);
-
-             });
-             }
-             */
-        };
-    })();
 
     $scope.destroy = function () {
         if (undefined !== $scope.aborter) {
@@ -303,11 +219,18 @@ app.controller('MyProject', ['$rootScope','$scope', '$http', '$q','$window', '$s
     };
 
     $scope.$on('$destroy', $scope.destroy);
-    $scope.projectlist.get();
+
     $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
-        if(fromState.name === 'camera')
+        if(fromState.name === 'plive' || fromState.name === 'prec' ||  fromState.name === 'precplay')
         {
             if ($rootScope.Player !== undefined) $rootScope.Player.destroy();
+            var player = $rootScope.RecPlayer;
+            if (player!==null && player!==undefined && player.currentTime){
+                player.currentTime = 0;
+                player.pause();
+                player.src="movie.ogg";
+                player.load();
+            }
         }
     });
 }]);

@@ -1,12 +1,12 @@
-var wx_api = "http://api.opensight.cn/api/ivc/v1/wechat/";
-var bindUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
-    "bind.html&response_type=code&scope=snsapi_userinfo&state=myProject" +
-    "#wechat_redirect";
-var codeLoginUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
-    "myProject.html&response_type=code&scope=snsapi_userinfo&state=myProject" +
-    "#wechat_redirect";
+//var wx_api = "http://api.opensight.cn/api/ivc/v1/wechat/";
+//var bindUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+//    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+//    "bind.html&response_type=code&scope=snsapi_userinfo&state=myProject" +
+//    "#wechat_redirect";
+//var codeLoginUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+//    "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+//    "myProject.html&response_type=code&scope=snsapi_userinfo&state=myProject" +
+//    "#wechat_redirect";
 
 app.controller('MyCamera', ['$scope', '$http', '$q', '$window',  function($scope, $http, $q, $window){
     var videoPic = "../img/video.jpg";
