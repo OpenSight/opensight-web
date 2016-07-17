@@ -109,6 +109,19 @@ angular.module('app.services', [])
     },
     dt2str: function(dt){
       return dt.getFullYear() + '-' + padding(dt.getMonth() + 1) + '-' + padding(dt.getDate());
+    },
+    format: function(dt, fmt){
+      if (!(dt instanceof Date)){
+        dt = new Date(dt);
+      }
+      fmt = fmt || 'yyyy-MM-dd HH:mm:ss';
+      return fmt
+        .replace('yyyy', dt.getFullYear())
+        .replace('MM', padding(dt.getMonth() + 1))
+        .replace('dd', padding(dt.getDate()))
+        .replace('HH', padding(dt.getHours()))
+        .replace('mm', padding(dt.getMinutes()))
+        .replace('ss', padding(dt.getSeconds()));
     }
   };
 })
