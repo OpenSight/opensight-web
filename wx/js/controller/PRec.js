@@ -51,7 +51,8 @@ app.register.controller('PRec', ['$rootScope', '$scope', '$http', '$q', '$window
             },
             backToCameraList: function() {
                 $scope.prec.stopRec();
-                $state.go('camera');
+//                $state.go('camera');
+                window.history.back();
             },
             stopRec: function(){
                 var player = $rootScope.RecPlayer;

@@ -4,7 +4,14 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
 
     $scope.cameralist = (function () {
         return {
+            initPreShow:function(){
+                var preShow = $.cookie('preShow');
+                if (preShow === "" || preShow === undefined || preShow === "true"){
+                    $scope.preShow = true;
+                }else $scope.preShow = false;
+            },
             init: function(activeIndex){
+                $scope.cameralist.initPreShow();
                 $rootScope.PName = $scope.projectlist.data[activeIndex].name;
 
                 var mySwiper = new Swiper ('.swiper-container', {

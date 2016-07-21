@@ -22,7 +22,9 @@ a,
 a:hover{
   color: #25A8E1;
 }
-
+body{
+  padding-top: 70px;
+}
 .squera-container{
   /*width: 992px;*/
 }
@@ -49,20 +51,24 @@ a:hover{
 .live{
   position: relative;
 }
-.topimg-container{
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background:  url(../img/play.png) no-repeat center;
-}
-.topimg-container img{
-;
+.img-container{
+  visibility: hidden;
 }
 .img-container img{
   width: 100%;
 }
+.topimg-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 80%;
+    width: 100%;
+    background:  url(../img/play.png) no-repeat center;
+}
+.topimg-container img{
+   ;
+}
+
 .player-container{
   position: absolute;
   top: 0;
@@ -89,7 +95,4 @@ a:hover{
 .play-tip{
   padding: 5px;
   color: #FFF;
-}
-.btn-invisible{
-    visibility: hidden;
 }

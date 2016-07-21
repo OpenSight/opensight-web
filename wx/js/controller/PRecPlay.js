@@ -13,7 +13,8 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
             },
             backList: function() {
                 $scope.precplay.stopRec();
-                $state.go('prec');
+//                $state.go('prec');
+                window.history.back();
             },
             stopRec: function(){
                 var player = $rootScope.RecPlayer;

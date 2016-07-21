@@ -61,7 +61,8 @@ app.register.controller('BillList', ['$scope', '$http', '$q', '$window', '$state
                         });
             },
             backProject: function () {
-                $state.go('project', { projectName: PName });
+//                $state.go('project', { projectName: PName });
+                window.history.back();
             }
         };
     })();

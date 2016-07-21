@@ -58,8 +58,17 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window',  function($scope, 
                 return {
                     initData: function(item) {
                         $scope.userinfo.data_mod.data = item;
+                        $scope.userinfo.data_mod.initPreShow();
                     },
-
+                    initPreShow:function(){
+                        var preShow = $.cookie('preShow');
+                        if (preShow === "" || preShow === undefined || preShow === "true"){
+                            $scope.preShow = true;
+                        }else $scope.preShow = false;
+                    },
+                    setPreCookie: function () {
+                        $.cookie('preShow',$scope.preShow,{expires: 1440*360});
+                    },
                     close: function() {
                         $scope.userinfo.data_mod.initDetail();
                     },

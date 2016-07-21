@@ -196,8 +196,20 @@
             </div>
 
             <div class="weui_cells_title">解除绑定</div>
-            <div class="weui_btn_area">
-                <a class="weui_btn weui_btn_warn" ng-click="unbind();">确认解绑</a>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_btn_area">
+                    <a class="weui_btn weui_btn_warn" ng-click="unbind();">确认解绑</a>
+                </div>
+            </div>
+
+            <div class="weui_cells_title">设定</div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell weui_cell_switch">
+                    <div class="weui_cell_hd weui_cell_primary">缩略图</div>
+                    <div class="weui_cell_ft">
+                        <input class="weui_switch"  ng-model="preShow" ng-change="userinfo.data_mod.setPreCookie();" type="checkbox"/>
+                    </div>
+                </div>
             </div>
         </div>
 

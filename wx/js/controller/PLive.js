@@ -69,7 +69,8 @@ app.register.controller('PLive', ['$rootScope', '$scope', '$http', '$q', '$windo
             backToCameraList: function () {
                 if ($scope.Player !== undefined)
                     $scope.Player.destroy();
-                $state.go('camera');
+//                $state.go('camera');
+                window.history.back();
 
             }
         };

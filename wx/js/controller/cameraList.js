@@ -13,7 +13,10 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
     $scope.cameralist = (function () {
         return {
             init:function(){
-
+                var preShow = $.cookie('preShow');
+                if (preShow === "" || preShow === undefined || preShow === "true"){
+                    $scope.preShow = true;
+                }else $scope.preShow = false;
             },
             get: function () {
                 if (flag === true && jwt != undefined && jwt.aud != undefined){
@@ -49,7 +52,8 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
             backProject: function () {
                 if ($scope.Player !== undefined)
                     $scope.Player.destroy();
-                $state.go('project');
+//                $state.go('project');
+                window.history.back();
             },
             showMore: function (item) {
                 $rootScope.pCamera = item;
@@ -71,6 +75,7 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
     };
 
     $scope.$on('$destroy', $scope.destroy);
+    $scope.cameralist.init();
     $scope.cameralist.get();
 }]);
 
