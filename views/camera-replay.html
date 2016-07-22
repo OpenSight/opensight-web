@@ -55,12 +55,19 @@
     <button class="btn btn-default" ng-click="hidden = !hidden" title="{{hidden ? '高级': '隐藏'}}">
       <i class="fa" ng-class="{true: 'fa-angle-double-right', false: 'fa-angle-double-left'}[hidden]"></i>
     </button>
-    &nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;
     <button class="btn btn-default" ng-click="query()" title="查询">
       <i class="glyphicon glyphicon-search pointer"></i>
     </button>
-    <button class="btn btn-default pull-right" ng-click="merge()" ng-disabled="0 === record.segments.length">合并下载</button>
-    <button class="btn btn-default pull-right" ng-click="merge_backup()" ng-disabled="0 === record.segments.length">合并下载</button>
+    <div class="btn-group pull-right">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        合并&nbsp;&nbsp;<span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="pointer" ng-click="merge()">合并下载</a></li>
+        <li><a class="pointer" ng-click="merge_backup()">合并备份</a></li>
+      </ul>
+    </div>
   </form>
   <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
     <thead>

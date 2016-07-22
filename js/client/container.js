@@ -453,7 +453,8 @@ angular.module('app.controller', [])
     $scope.merge = function() {
       var u = api + "projects/" + $rootScope.$stateParams.project + '/cameras/' + $rootScope.$stateParams.camera +
         '/record/playlist.ts?start=' + $scope.record.segments[0].start +
-        '&end=' + $scope.record.segments[$scope.record.segments.length - 1].start;
+        '&end=' + $scope.record.segments[$scope.record.segments.length - 1].start +
+        '&jwt=' + $rootScope.$jwt.get().jwt;
       window.open(u);
     };
 
