@@ -26,9 +26,9 @@
                     </div>
 
 
-                    <div class="container squera-container">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="item in cameralist.data">
+                    <div style="padding-left: 0px;padding-right: 0px;">
+                        <div style="padding-left: 0px;padding-right: 0px;">
+                            <div class="col-md-3 col-sm-4 col-xs-12" style="padding-left: 0px;padding-right: 0px;" ng-repeat="item in cameralist.data">
 
                                 <div class="thumbnail">
                                     <div class="caption">
@@ -40,7 +40,7 @@
                                     </div>
                                     <a ng-click="cameralist.showMore(item)" ng-show="preShow"><img src="{{item.preview}}" alt="{{item.name}}"></a>
                                     <div class="topimg-container" ng-click="cameralist.showMore(item)" ng-show="preShow"></div>
-                                    <div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;margin-bottom: 15px;border-bottom:1px solid #ABAAAA;">
+                                    <div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;margin-bottom: 15px;">
                                         <a ng-click="cameralist.showRec(item)" class="weui_btn_dialog" style="color: #25A8E1;">
                                             <div style="display: block-inline;height:40px;margin:2px;border-right:solid 1px #ABAAAA;">
                                                 <img src="./img/replay24.png" alt="" />
