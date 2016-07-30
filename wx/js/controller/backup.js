@@ -28,8 +28,8 @@ app.register.controller('Backup', [
           });
         },
         play: function(item) {
-          $rootScope.backupInfo = item;
-          $state.go('backupplay');
+          $rootScope.pRecInfo = item;
+          $state.go('precplay');
         },
         backProject: function() {
           if ($scope.Player !== undefined)

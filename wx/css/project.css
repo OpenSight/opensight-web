@@ -10,6 +10,7 @@ html, body{
 }
 .weui_cells_os p.weui_media_desc{
   margin-bottom: 0;
+  color: #888;
 }
 .weui_cells_os .weui_cell{
   padding: 5px;
