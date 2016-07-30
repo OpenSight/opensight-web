@@ -1,5 +1,5 @@
 'use strict';
-var api = 'http://api.opensight.cn/api/ivc/v1/';
+var api = api || 'http://api.opensight.cn/api/ivc/v1/';
 angular.module('app.controller', [])
 
 .controller('header', [

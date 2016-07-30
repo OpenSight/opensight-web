@@ -49,6 +49,14 @@ app
                      load: app.asyncjs(["./js/controller/cameraList.js", "./js/video.js", "./css/square.css"])
                 }
             })
+            .state('backup', {
+                url: '/backup',
+                templateUrl: './views/backup.html',
+                params:      {projectName: null,info: null},
+                resolve: {
+                     load: app.asyncjs(["./js/controller/backup.js"])
+                }
+            })
 
             .state('plive', {
                 url: '/plive',

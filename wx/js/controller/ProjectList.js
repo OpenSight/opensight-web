@@ -79,6 +79,9 @@ app.register.controller('ProjectList', ['$scope', '$http', '$q', '$window', '$st
             },
             goBill: function () {
                 $state.go('bill');
+            },
+            goBackup: function() {
+                $state.go('backup');
             }
         };
     })();

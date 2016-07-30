@@ -4,3 +4,13 @@ html, body{
     height: 100%;
     background-color: #eee;
 }
+.weui_cells_os h4.weui_media_title{
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.weui_cells_os p.weui_media_desc{
+  margin-bottom: 0;
+}
+.weui_cells_os .weui_cell{
+  padding: 5px;
+}
