@@ -1109,7 +1109,9 @@ angular.module('app.controller', [])
         $interval.cancel(alivetimer);
         alivetimer = undefined;
       }
-      var count = 120;
+      var duration = 2 * 60 * 60 * 1000;
+      var intrvl = 20 * 1000;
+      var count = duration / interval;
       alivetimer = $interval(function() {
         if (0 === count) {
           $scope.ok();
@@ -1122,7 +1124,7 @@ angular.module('app.controller', [])
         }).error(function(response, status) {
           console.log('error');
         });
-      }, 30000);
+      }, intrvl);
     };
     var stop = function() {
       playerFactory.stop(playerId);
