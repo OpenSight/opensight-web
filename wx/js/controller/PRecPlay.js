@@ -5,10 +5,9 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
                 $scope.recInfo = $rootScope.pRecInfo;
                 var player = document.getElementById("replayPlayer");
                 $rootScope.RecPlayer = player;
-                player.currentTime = 0;
-                player.pause();
                 player.src = $scope.recInfo.hls;
                 player.load();
+
                 player.play();
             },
             backList: function() {
