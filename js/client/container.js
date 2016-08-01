@@ -266,6 +266,13 @@ angular.module('app.controller', [])
       console.log('error');
     });
 
+    $scope.rtmp_publish_url = undefined;
+    $http.get(url + '/rtmp_publish_url', {}).success(function(response) {
+      $scope.rtmp_publish_url = response.url;
+    }).error(function(response, status) {
+      console.log('error');
+    });
+
     $scope.enable = function(enabled) {
       var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
       if (false === confirm(tip)) {

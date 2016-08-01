@@ -62,6 +62,12 @@
                 <input type="checkbox" ng-model="info.ptz_ability" disabled>云台</label>
             </div>
           </div>
+          <div class="form-group" ng-show="undefined !== rtmp_publish_url">
+            <label class="col-sm-3 control-label">推流地址</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{rtmp_publish_url}}</p>
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-sm-3 control-label">简述</label>
             <div class="col-sm-9">
