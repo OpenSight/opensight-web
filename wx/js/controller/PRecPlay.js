@@ -7,7 +7,6 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
                 $rootScope.RecPlayer = player;
                 player.src = $scope.recInfo.hls;
                 player.load();
-
                 player.play();
             },
             backList: function() {

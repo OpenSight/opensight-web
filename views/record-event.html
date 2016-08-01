@@ -14,7 +14,7 @@
         <th class="col-sm-2 text-center">摄像机名称</th>
         <th class="col-sm-1 text-center">状态</th>
         <th class="col-sm-3 text-center">开始时间</th>
-        <th class="col-sm-3 text-center">结束时间</th>
+        <th class="col-sm-2 text-center">时长</th>
         <th class="text-center">播放</th>
         <th class="text-center">详细</th>
         <th class="text-center">下载</th>
@@ -27,7 +27,7 @@
         <td class="text-center">{{item.camera_name}}</td>
         <td class="text-center">{{item.state|event_state}}</td>
         <td class="text-center">{{item.start|date: "yyyy-MM-dd HH:mm:ss"}}</td>
-        <td class="text-center">{{item.end|date: "yyyy-MM-dd HH:mm:ss"}}</td>
+        <td class="text-center">{{item.end - item.start|duration: true}}</td>
         <td class="text-center">
           <button class="btn btn-default btn-sm" ng-click="play(item)" title="播放">
             <i class="fa fa-play"></i>
