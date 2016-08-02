@@ -1198,7 +1198,7 @@ angular.module('app.controller', [])
 
       var init = function(list) {
         $scope.ptzlist = list;
-        if (0 !== $scope.ptzlist.length) {
+        if (list instanceof Array && 0 !== $scope.ptzlist.length) {
           $scope.token = $scope.ptzlist[0].token;
         } else {
           $scope.token = undefined;
