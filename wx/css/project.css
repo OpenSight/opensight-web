@@ -15,3 +15,9 @@ html, body{
 .weui_cells_os .weui_cell{
   padding: 5px;
 }
+.weui_cells_os .weui_media_hd{
+  margin-right: 10px;
+}
+.weui_cells_form{
+  margin-top: 10px;
+}

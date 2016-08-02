@@ -35,6 +35,14 @@
             </div>
           </div>
         </div>
+        <div class="weui_cell" ng-show="undefined !== recInfo.desc">
+          <div class="weui_cell_hd" style="margin-bottom: 0px;">
+            <label for="" class="weui_label" style="width:5em">标题</label>
+          </div>
+          <div class="weui_cell_bd weui_cell_primary">
+            <p class="form-control-static">{{recInfo.desc}}</p>
+          </div>
+        </div>
         <div class="weui_cell">
           <div class="weui_cell_hd" style="margin-bottom: 0px;">
             <label for="" class="weui_label" style="width:5em">开始时间</label>
@@ -43,7 +51,7 @@
             <p class="form-control-static">{{recInfo.start|date: "yyyy-MM-dd HH:mm:ss"}}</p>
           </div>
         </div>
-        <div class="weui_cell">
+        <div class="weui_cell" ng-show="undefined === recInfo.desc">
           <div class="weui_cell_hd" style="margin-bottom: 0px;">
             <label for="" class="weui_label" style="width:5em">结束时间</label>
           </div>
@@ -51,8 +59,15 @@
             <p class="form-control-static">{{recInfo.end|date: "yyyy-MM-dd HH:mm:ss"}}</p>
           </div>
         </div>
+        <div class="weui_cell" ng-show="undefined !== recInfo.desc">
+          <div class="weui_cell_hd" style="margin-bottom: 0px;">
+            <label for="" class="weui_label" style="width:5em">时长</label>
+          </div>
+          <div class="weui_cell_bd weui_cell_primary">
+            <p class="form-control-static">{{recInfo.end - recInfo.start|duration: true}}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
