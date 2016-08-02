@@ -1111,6 +1111,7 @@ angular.module('app.controller', [])
         console.log('error');
       });
     };
+
     var keepalive = function(info) {
       if (undefined !== alivetimer) {
         $interval.cancel(alivetimer);
@@ -1118,7 +1119,7 @@ angular.module('app.controller', [])
       }
       var duration = 2 * 60 * 60 * 1000;
       var intrvl = 20 * 1000;
-      var count = duration / interval;
+      var count = duration / intrvl;
       alivetimer = $interval(function() {
         if (0 === count) {
           $scope.ok();
