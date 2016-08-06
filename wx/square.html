@@ -11,7 +11,7 @@
     <!-- Place favicon.ico in the root directory -->
 
     <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/square.css">
+    <link rel="stylesheet" href="css/square.css">
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -37,20 +37,20 @@
                 <img alt="Open Sight" src="../img/logo.png">
             </a>
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <!-- <li>
-                  <a href="square.html">视频广场</a>
-                </li> -->
-                <li>
-                    <a href="#">更多</a>
-                </li>
-            </ul>
-        </div>
+        <!--<div class="navbar-collapse collapse">-->
+            <!--<ul class="nav navbar-nav navbar-right">-->
+                <!--&lt;!&ndash; <li>-->
+                  <!--<a href="square.html">视频广场</a>-->
+                <!--</li> &ndash;&gt;-->
+                <!--<li>-->
+                    <!--<a href="#">更多</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
     </div>
 </header>
 
-<div class="container squera-container">
+<div class="container squera-container" style="padding-top:50px ">
     <div class="row" id="container">
     </div>
     <div class="row loading hidden" id="loading">
@@ -74,9 +74,9 @@
         </p-->
     </div>
 </footer>
-<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="../bower_components/juicer/juicer-min.js"></script>
+<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="http://cdn.bootcss.com/juicer/0.6.14/juicer-min.js"></script>
 <!-- <script src="js/content.js"></script> -->
 <script src="../js/square.js"></script>
 
@@ -97,6 +97,7 @@
     <div class="col-md-3 col-sm-4 col-xs-12">
         <div class="thumbnail">
             <a href="${item.uuid, item.is_online|getLink}"><img src="${item.preview}" alt="${item.name}"></a>
+            <div class="topimg-container" onclick="window.location.href= '${item.uuid, item.is_online|getLink}'"></div>
             <div class="caption">
                 <p class="text-name">
                     <a href="${item.uuid, item.is_online|getLink}">${item.name}</a>
@@ -108,5 +109,8 @@
     </div>
     {@/each}
 </script>
+
+
+
 </body>
 </html>
