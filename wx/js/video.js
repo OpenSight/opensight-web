@@ -173,7 +173,7 @@ HlsVideo.prototype = {
             clearInterval(_this.alivetimer);
             _this.alivetimer = undefined;
         }
-        var count = 40;//20min
+        var count = 40*3;//20*3min
         _this.alivetimer = setInterval(function(){
             if (0 === count){
                 $('#ToastTxt').html("查看时间过长，休息一下吧！");
@@ -216,6 +216,9 @@ HlsVideo.prototype = {
         $.ajax({
             url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + _this.session_id,
             cache: true,
+            headers: { // 添加请求头
+                "Authorization": "Bearer " + $.cookie('jwt')
+            },
             type: 'DELETE'
         });
   },
