@@ -21,3 +21,26 @@ html, body{
 .weui_cells_form{
   margin-top: 10px;
 }
+.weui_cell_input{
+  padding-right: 0;
+}
+.weui_cell_input .weui_input{
+  padding-right: 30px;
+}
+.weui_cell_input .weui_cell_bd:after {
+  content: " ";
+  display: inline-block;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  height: 6px;
+  width: 6px;
+  border-width: 2px 2px 0 0;
+  border-color: #c8c8cd;
+  border-style: solid;
+  position: relative;
+  top: -2px;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  margin-top: -3px
+}

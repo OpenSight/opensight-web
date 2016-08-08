@@ -35,9 +35,6 @@
             </div>
           </div>
         </div>
-        <div class="weui_btn_area" ng-show="undefined === recInfo.event_id">
-          <button class="weui_btn weui_btn_primary" ng-click="precplay.goBackup()">备份</button>
-        </div>
         <div class="weui_cell" ng-show="undefined !== recInfo.event_id">
           <div class="weui_cell_hd" style="margin-bottom: 0px;">
             <label for="" class="weui_label" style="width:5em">标题</label>
@@ -69,6 +66,9 @@
           <div class="weui_cell_bd weui_cell_primary">
             <p class="form-control-static">{{recInfo.end - recInfo.start|duration: true}}</p>
           </div>
+        </div>
+        <div class="weui_btn_area" ng-show="undefined === recInfo.event_id">
+          <button class="weui_btn weui_btn_primary" ng-click="precplay.goBackup()">备份</button>
         </div>
       </div>
     </div>
