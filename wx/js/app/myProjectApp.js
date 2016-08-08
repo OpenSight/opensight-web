@@ -291,21 +291,25 @@ app.filter('online', [function() {
     }
     return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
   };
-}]).filter('duration', function() {
+}])
+.filter('duration', function() {
+  var a = [{t: '秒', v: 60}, {t: '分', v: 60}, {t: '时', v: 60}, {t: '天', v: 24}];
   return function(dur, ms) {
     var s = '';
-    var tmpTime;
-    if (true === ms) {
-      dur = dur / 1000;
+    if (true === ms){
+      dur = Math.floor(dur / 1000);
     }
-    tmpTime = parseInt(dur / 60, 10);
-    if (tmpTime === 0) {
-      s = parseInt(dur, 10) + "秒";
-    } else
-      s = tmpTime + "分";
+    for (var i = 0, l = a.length; i < l; i++){
+      s = dur % a[i].v + a[i].t + s;
+      dur = Math.floor(dur / a[i].v);
+      if (0 === dur){
+        break;
+      }
+    }
     return s;
   };
-});
+})
+;
 
 app.factory('dateFactory', function() {
   var padding = function(n) {
