@@ -2,16 +2,15 @@
   <div class="row row-in-tab os-row-no-padding ng-hide" ng-show="project.listShown">
     <form class="form-inline os-table-toolbar">
       <div class="form-group">
-        <select class="form-control" ng-model="projectlist.seachKey" ng-options="o.key as o.name for o in projectlist.searchKeyOptionsData"
-          ng-change=""></select>
+        <select class="form-control" ng-model="projectlist.seachKey" ng-options="o.key as o.name for o in projectlist.searchKeyOptionsData" ng-change=""></select>
         <input type="text" class="form-control" placeholder="Filter..." ng-model="projectlist.seachValue">
       </div>
-      <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.search()"> <i  class="fa fa-search"></i>
+      <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.search()"> <i class="fa fa-search"></i>
       </span>
-      <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加" ng-click="project.add()"> <i  class="fa fa-plus"></i>
+      <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加" ng-click="project.add()"> <i class="fa fa-plus"></i>
       </span>
       <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.refresh()">
-        <i  class="fa fa-refresh"></i>
+        <i class="fa fa-refresh"></i>
       </span>
     </form>
     <div class="panel os-panel" ng-show="project.addShown">
@@ -103,9 +102,8 @@
       <tr>
         <td colspan="999">
           <uib-tabset>
-            <span class="btn-small" style="cursor:pointer;float:left;padding-top:6px;padding-left:10px;padding-right:10px;" title="返回项目列表"
-              ng-click="project.data_mod.showList()">
-              <i  class="fa fa-reply-all"></i>
+            <span class="btn-small" style="cursor:pointer;float:left;padding-top:6px;padding-left:10px;padding-right:10px;" title="返回项目列表" ng-click="project.data_mod.showList()">
+              <i class="fa fa-reply-all"></i>
             </span>
             <uib-tab heading="项目信息" active="project.data_mod.tabs[0]" select="project.data_mod.initDetail()">
               <div class="panel os-panel">
@@ -189,18 +187,17 @@
             <uib-tab heading="device" active="project.data_mod.tabs[1]" select="project.device.initDevices()">
               <form class="form-inline os-table-toolbar">
                 <div class="form-group">
-                  <select class="form-control" ng-model="project.device.seachKey" ng-options="o.key as o.name for o in project.device.searchKeyOptionsData"
-                    ng-change=""></select>
+                  <select class="form-control" ng-model="project.device.seachKey" ng-options="o.key as o.name for o in project.device.searchKeyOptionsData" ng-change=""></select>
                   <input type="text" class="form-control" placeholder="Filter..." ng-model="project.device.seachValue">
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.device.search()">
-                  <i  class="fa fa-search"></i>
+                  <i class="fa fa-search"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加设备" ng-click="project.device.addShown = !project.device.addShown">
-                  <i  class="fa fa-plus"></i>
+                  <i class="fa fa-plus"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.device.page.pageChanged()">
-                  <i  class="fa fa-refresh"></i>
+                  <i class="fa fa-refresh"></i>
                 </span>
               </form>
               <div class="panel os-panel" ng-show="project.device.addShown">
@@ -486,9 +483,7 @@
                   </tbody>
                 </table>
                 <div class="pagination-container">
-                  <uib-pagination total-items="project.device.page.total" ng-model="project.device.page.curr" max-size="project.device.page.max"
-                    items-per-page="project.device.page.limit" previous-text="&laquo;" next-text="&raquo;" ng-change="project.device.page.pageChanged()"
-                    boundary-link-numbers="true" class="pagination-sm">
+                  <uib-pagination total-items="project.device.page.total" ng-model="project.device.page.curr" max-size="project.device.page.max" items-per-page="project.device.page.limit" previous-text="&laquo;" next-text="&raquo;" ng-change="project.device.page.pageChanged()" boundary-link-numbers="true" class="pagination-sm">
                   </uib-pagination>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <label class="pagination-jump">
@@ -502,18 +497,17 @@
             <uib-tab heading="camera" active="project.data_mod.tabs[2]" select="project.camera.initCameras()">
               <form class="form-inline os-table-toolbar">
                 <div class="form-group">
-                  <select class="form-control" ng-model="project.camera.seachKey" ng-options="o.key as o.name for o in project.camera.searchKeyOptionsData"
-                    ng-change=""></select>
+                  <select class="form-control" ng-model="project.camera.seachKey" ng-options="o.key as o.name for o in project.camera.searchKeyOptionsData" ng-change=""></select>
                   <input type="text" class="form-control" placeholder="Filter..." ng-model="project.camera.seachValue">
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.camera.search()">
-                  <i  class="fa fa-search"></i>
+                  <i class="fa fa-search"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加摄像机" ng-click="project.camera.showAdd()">
-                  <i  class="fa fa-plus"></i>
+                  <i class="fa fa-plus"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.camera.page.pageChanged()">
-                  <i  class="fa fa-refresh"></i>
+                  <i class="fa fa-refresh"></i>
                 </span>
               </form>
               <div class="panel os-panel" ng-show="project.camera.addShown">
@@ -533,10 +527,8 @@
                       <label class="col-sm-2 control-label">直播</label>
                       <div class="col-sm-4">
                         <div class="btn-group btn-group-xs">
-                          <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.data_add.live]" title="支持预览图"
-                            ng-click="project.camera.data_add.live=!project.camera.data_add.live">支持</button>
-                          <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.data_add.live]" title="不支持预览图"
-                            ng-click="project.camera.data_add.live=!project.camera.data_add.live">不支持</button>
+                          <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.data_add.live]" title="支持预览图" ng-click="project.camera.data_add.live=!project.camera.data_add.live">支持</button>
+                          <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.data_add.live]" title="不支持预览图" ng-click="project.camera.data_add.live=!project.camera.data_add.live">不支持</button>
                         </div>
                       </div>
                       <label class="col-sm-2 control-label">所属设备通道</label>
@@ -548,10 +540,8 @@
                       <label class="col-sm-2 control-label">预览图</label>
                       <div class="col-sm-4">
                         <div class="btn-group btn-group-xs">
-                          <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.data_add.pic]" title="支持预览图"
-                            ng-click="project.camera.data_add.pic=!project.camera.data_add.pic">支持</button>
-                          <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.data_add.pic]" title="不支持预览图"
-                            ng-click="project.camera.data_add.pic=!project.camera.data_add.pic">不支持</button>
+                          <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.data_add.pic]" title="支持预览图" ng-click="project.camera.data_add.pic=!project.camera.data_add.pic">支持</button>
+                          <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.data_add.pic]" title="不支持预览图" ng-click="project.camera.data_add.pic=!project.camera.data_add.pic">不支持</button>
                         </div>
                       </div>
                       <label class="col-sm-2 control-label">经度</label>
@@ -563,10 +553,8 @@
                       <label class="col-sm-2 control-label">云台控制</label>
                       <div class="col-sm-4">
                         <div class="btn-group btn-group-xs">
-                          <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.data_add.ptz]" title="支持预览图"
-                            ng-click="project.camera.data_add.ptz=!project.camera.data_add.ptz">支持</button>
-                          <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.data_add.ptz]" title="不支持预览图"
-                            ng-click="project.camera.data_add.ptz=!project.camera.data_add.ptz">不支持</button>
+                          <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.data_add.ptz]" title="支持预览图" ng-click="project.camera.data_add.ptz=!project.camera.data_add.ptz">支持</button>
+                          <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.data_add.ptz]" title="不支持预览图" ng-click="project.camera.data_add.ptz=!project.camera.data_add.ptz">不支持</button>
                         </div>
                       </div>
                       <label class="col-sm-2 control-label">纬度</label>
@@ -578,8 +566,7 @@
                       <label class="col-sm-2 control-label">支持流类型</label>
                       <div class="col-sm-4">
                         <div class="btn-group btn-group-xs">
-                          <button ng-repeat="it in project.camera.data_add.qualityList" class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[it.enabled]"
-                            ng-click="it.enabled = !it.enabled" role="group" title={{it.title}}>{{it.text}}</button>
+                          <button ng-repeat="it in project.camera.data_add.qualityList" class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[it.enabled]" ng-click="it.enabled = !it.enabled" role="group" title={{it.title}}>{{it.text}}</button>
                         </div>
                       </div>
                       <label class="col-sm-2 control-label">海拔</label>
@@ -674,10 +661,8 @@
                                 <label class="col-sm-2 control-label">预览图</label>
                                 <div class="col-sm-4">
                                   <div class="btn-group btn-group-xs">
-                                    <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.detail[$index].pic]" title="支持预览图"
-                                      ng-click="project.camera.detail[$index].pic=!project.camera.detail[$index].pic">支持</button>
-                                    <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.detail[$index].pic]" title="不支持预览图"
-                                      ng-click="project.camera.detail[$index].pic=!project.camera.detail[$index].pic">不支持</button>
+                                    <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[project.camera.detail[$index].pic]" title="支持预览图" ng-click="project.camera.detail[$index].pic=!project.camera.detail[$index].pic">支持</button>
+                                    <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[project.camera.detail[$index].pic]" title="不支持预览图" ng-click="project.camera.detail[$index].pic=!project.camera.detail[$index].pic">不支持</button>
                                   </div>
                                 </div>
                                 <label class="col-sm-2 control-label">channel_index</label>
@@ -711,8 +696,7 @@
                                 <label class="col-sm-2 control-label">支持流类型</label>
                                 <div class="col-sm-4">
                                   <div class="btn-group btn-group-xs">
-                                    <button ng-repeat="it in project.camera.detail[$index].qualityList" class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[it.enabled]"
-                                      ng-click="it.enabled = !it.enabled" role="group" title={{it.title}}>{{it.text}}</button>
+                                    <button ng-repeat="it in project.camera.detail[$index].qualityList" class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[it.enabled]" ng-click="it.enabled = !it.enabled" role="group" title={{it.title}}>{{it.text}}</button>
                                   </div>
                                 </div>
                               </div>
@@ -790,9 +774,7 @@
                   </tbody>
                 </table>
                 <div class="pagination-container">
-                  <uib-pagination total-items="project.camera.page.total" ng-model="project.camera.page.curr" max-size="project.device.page.max"
-                    items-per-page="project.device.page.limit" previous-text="&laquo;" next-text="&raquo;" ng-change="project.device.page.pageChanged()"
-                    boundary-link-numbers="true" class="pagination-sm">
+                  <uib-pagination total-items="project.camera.page.total" ng-model="project.camera.page.curr" max-size="project.device.page.max" items-per-page="project.device.page.limit" previous-text="&laquo;" next-text="&raquo;" ng-change="project.device.page.pageChanged()" boundary-link-numbers="true" class="pagination-sm">
                   </uib-pagination>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <label class="pagination-jump">
@@ -806,18 +788,17 @@
             <uib-tab heading="用户" active="project.data_mod.tabs[3]" select="project.user.initUsers()">
               <form class="form-inline os-table-toolbar">
                 <div class="form-group">
-                  <select class="form-control" ng-model="project.userlist.seachKey" ng-options="o.key as o.name for o in project.userlist.searchKeyOptionsData"
-                    ng-change=""></select>
+                  <select class="form-control" ng-model="project.userlist.seachKey" ng-options="o.key as o.name for o in project.userlist.searchKeyOptionsData" ng-change=""></select>
                   <input type="text" class="form-control" placeholder="Filter..." ng-model="project.userlist.seachValue">
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.user.search()">
-                  <i  class="fa fa-search"></i>
+                  <i class="fa fa-search"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="移入用户" ng-click="project.user.add()">
-                  <i  class="fa fa-plus"></i>
+                  <i class="fa fa-plus"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.user.initDevices()">
-                  <i  class="fa fa-refresh"></i>
+                  <i class="fa fa-refresh"></i>
                 </span>
               </form>
               <div class="panel os-panel" ng-show="project.user.addShown">
@@ -979,16 +960,16 @@
                   </span>
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="查询" ng-click="project.sessionlog.search()">
-                  <i  class="fa fa-search"></i>
+                  <i class="fa fa-search"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="下载" ng-click="project.sessionlog.down()">
-                  <i  class="fa fa-download"></i>
+                  <i class="fa fa-download"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="统计" ng-click="project.sessionlog.sum()">
-                  <i  class="fa fa-calculator"></i>
+                  <i class="fa fa-calculator"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.sessionlog.initSession()">
-                  <i  class="fa fa-refresh"></i>
+                  <i class="fa fa-refresh"></i>
                 </span>
               </form>
               <div class="panel os-panel" ng-show="project.sessionlog.sumShown">
@@ -1151,18 +1132,17 @@
             <uib-tab heading="固件管理" active="project.data_mod.tabs[5]" select="project.firmware.initFirmware()">
               <form class="form-inline os-table-toolbar">
                 <div class="form-group">
-                  <select class="form-control" ng-model="project.firmwarelist.seachKey" ng-options="o.key as o.name for o in project.firmwarelist.searchKeyOptionsData"
-                    ng-change=""></select>
+                  <select class="form-control" ng-model="project.firmwarelist.seachKey" ng-options="o.key as o.name for o in project.firmwarelist.searchKeyOptionsData" ng-change=""></select>
                   <input type="text" class="form-control" placeholder="Filter..." ng-model="project.firmwarelist.seachValue">
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.firmware.search()">
-                  <i  class="fa fa-search"></i>
+                  <i class="fa fa-search"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加" ng-click="project.firmware.add()">
-                  <i  class="fa fa-plus"></i>
+                  <i class="fa fa-plus"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.firmware.initFirmware()">
-                  <i  class="fa fa-refresh"></i>
+                  <i class="fa fa-refresh"></i>
                 </span>
               </form>
               <form class="form-inline os-table-toolbar">
@@ -1173,8 +1153,8 @@
                   <input type="text" class="form-control" placeholder="设备硬件..." ng-model="project.firmwarelist.match.hardware_model">
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="匹配" ng-click="project.firmware.match()">
-    <i  class="fa fa-filter"></i>
-  </span>
+                  <i class="fa fa-filter"></i>
+                </span>
               </form>
               <div class="panel os-panel" ng-show="project.firmware.addShown">
                 <div class="panel-body">
@@ -1349,16 +1329,30 @@
                       </div>
                       <div> <strong>计费信息：</strong>
                         <span class="text-primary" ng-hide="project.bill.editing">{{project.bill.account.price_info}}</span>
-                        <input type="text" ng-show="project.bill.editing" ng-model="project.bill.price_info">
-                        <button class="btn btn-success btn-xs" ng-click="project.bill.editing = !project.bill.editing" ng-hide="project.bill.editing">
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary btn-xs" title="修改" ng-click="project.bill.showBillModal()">
                           <i class="fa fa-pencil"></i>
                         </button>
-                        <button class="btn btn-success btn-xs" ng-click="project.bill.saveAccount()" ng-show="project.bill.editing">
-                          <i class="fa fa-check"></i>
-                        </button>
-                        <button class="btn btn-default btn-xs" ng-click="project.bill.editing = !project.bill.editing" ng-show="project.bill.editing">
-                          <i class="fa fa-remove"></i>
-                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="billModalLabel" data-backdrop="static" data-keyboard="false">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="取消">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="billModalLabel">计价信息</h4>
+                              </div>
+                              <div class="modal-body">
+                                <textarea class="form-control" ng-model="project.bill.price_info" rows="6"></textarea>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" ng-click="project.bill.saveAccount()">保存</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div> <strong>上次更新时间：</strong>
                         <span>{{project.bill.account.utime|date: "yyyy-MM-dd"}}</span>
@@ -1373,7 +1367,7 @@
                   <span class="input-group">
                     <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.start.dt" is-open="project.bill.start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                     <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.start)"> 
+                      <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.start)">
                         <i class="fa fa-calendar"></i>
                       </button>
                     </span>
@@ -1382,22 +1376,22 @@
                 <div class="form-group">
                   <label>结束时间</label>
                   <span class="input-group">
-        <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.end.dt" is-open="project.bill.end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.end)"> <i class="fa fa-calendar"></i>
-          </button>
-        </span>
+                    <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.end.dt" is-open="project.bill.end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.end)"> <i class="fa fa-calendar"></i>
+                      </button>
+                    </span>
                   </span>
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="查询" ng-click="project.bill.query()">
-      <i  class="fa fa-search"></i>
-    </span>
+                  <i class="fa fa-search"></i>
+                </span>
                 <span class="btn-small pull-right" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="添加" ng-click="project.bill.showAdd()">
-      <i  class="fa fa-plus"></i>
-    </span>
+                  <i class="fa fa-plus"></i>
+                </span>
                 <span class="btn-small pull-right" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.bill.refresh()">
-      <i  class="fa fa-refresh"></i>
-    </span>
+                  <i class="fa fa-refresh"></i>
+                </span>
               </form>
               <div class="panel os-panel" ng-show="project.bill.addShown">
                 <div class="panel-body">
@@ -1436,12 +1430,12 @@
                       <label class="col-sm-2 control-label">记费起始时间</label>
                       <div class="col-sm-4">
                         <span class="input-group">
-              <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.data_add.start.dt" is-open="project.bill.data_add.start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.data_add.start)">
-                  <i class="fa fa-calendar"></i>
-                </button>
-              </span>
+                          <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.data_add.start.dt" is-open="project.bill.data_add.start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.data_add.start)">
+                              <i class="fa fa-calendar"></i>
+                            </button>
+                          </span>
                         </span>
                       </div>
                     </div>
@@ -1449,12 +1443,12 @@
                       <label class="col-sm-2 control-label">记费结束时间</label>
                       <div class="col-sm-4">
                         <span class="input-group">
-              <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.data_add.end.dt" is-open="project.bill.data_add.end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.data_add.end)">
-                  <i class="fa fa-calendar"></i>
-                </button>
-              </span>
+                          <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.data_add.end.dt" is-open="project.bill.data_add.end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.data_add.end)">
+                              <i class="fa fa-calendar"></i>
+                            </button>
+                          </span>
                         </span>
                       </div>
                     </div>
@@ -1604,7 +1598,7 @@
             <uib-tab heading="会话状态" active="project.data_mod.tabs[7]" select="project.session.init()">
               <form class="form-inline os-table-toolbar">
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.session.page.pageChanged()">
-                  <i  class="fa fa-refresh"></i>
+                  <i class="fa fa-refresh"></i>
                 </span>
               </form>
               <div class="col-sm-12 os-table-container">
@@ -1709,9 +1703,7 @@
                   </tbody>
                 </table>
                 <div class="pagination-container">
-                  <uib-pagination total-items="project.session.page.total" ng-model="project.session.page.curr" max-size="project.session.page.max"
-                    items-per-page="project.session.page.limit" previous-text="&laquo;" next-text="&raquo;" ng-change="project.session.page.pageChanged()"
-                    boundary-link-numbers="true" class="pagination-sm">
+                  <uib-pagination total-items="project.session.page.total" ng-model="project.session.page.curr" max-size="project.session.page.max" items-per-page="project.session.page.limit" previous-text="&laquo;" next-text="&raquo;" ng-change="project.session.page.pageChanged()" boundary-link-numbers="true" class="pagination-sm">
                   </uib-pagination>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <label class="pagination-jump">

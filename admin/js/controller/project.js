@@ -2053,12 +2053,17 @@ app.register.controller('Project', [
             }
           });
         },
+        showBillModal: function(){
+          $scope.project.bill.price_info = $scope.project.bill.account.price_info;
+          $('#billModal').modal('show');
+        },
         saveAccount: function(){
           $http.put("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/account', {
             price_info: $scope.project.bill.price_info
           }).success(function(response) {
             $scope.project.bill.editing = false;
-            $scope.project.bill.account.price_info = $scope.project.bill.price_info;            
+            $scope.project.bill.account.price_info = $scope.project.bill.price_info;
+            $('#billModal').modal('hide');
           }).error(function(response, status) {
             var tmpMsg = {};
             tmpMsg.Label = "错误";
