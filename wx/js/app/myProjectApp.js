@@ -11,203 +11,95 @@ var G_ProjectName = "";
 
 var app = angular.module('app', ['ui.router', 'oc.lazyLoad', 'angular-loading-bar', 'ngAnimate', 'ui.bootstrap']);
 
-app
-  .config(function($controllerProvider, $compileProvider, $filterProvider, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $provide) {
-    app.register = {
-      controller: $controllerProvider.register,
-      directive: $compileProvider.directive,
-      filter: $filterProvider.register,
-      factory: $provide.factory,
-      service: $provide.service
-    };
+app.config(function($controllerProvider, $compileProvider, $filterProvider, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $provide) {
+  app.register = {
+    controller: $controllerProvider.register,
+    directive: $compileProvider.directive,
+    filter: $filterProvider.register,
+    factory: $provide.factory,
+    service: $provide.service
+  };
 
-    app.asyncjs = function(js) {
-      return ['$ocLazyLoad', function($ocLazyLoad) {
-        return $ocLazyLoad.load(js);
-      }];
-    };
+  app.asyncjs = function(js) {
+    return ['$ocLazyLoad', function($ocLazyLoad) {
+      return $ocLazyLoad.load(js);
+    }];
+  };
 
-    $urlRouterProvider
-      .when('/', '/project')
-      .otherwise('/project');
+  $urlRouterProvider
+    .when('/', '/project')
+    .otherwise('/project');
 
-    $stateProvider
-      .state('project', {
-        url: '/project',
-        templateUrl: './views/projectList.html',
-        params: { projectName: null, info: null },
-        resolve: {
-          load: app.asyncjs("./js/controller/ProjectList.js")
-        }
-      })
-
-    .state('camera', {
-        url: '/camera',
-        templateUrl: './views/cameraList.html',
-        params: { projectName: null, info: null },
-        resolve: {
-          load: app.asyncjs(["./js/controller/cameraList.js", "./js/video.js", "./css/square.css"])
-        }
-      })
-      .state('backup', {
-        url: '/backup',
-        templateUrl: './views/backup.html',
-        params: { projectName: null, info: null },
-        resolve: {
-          load: app.asyncjs(["./js/controller/backup.js"])
-        }
-      })
-      .state('backuprecord', {
-        url: '/backuprecord',
-        templateUrl: './views/backup-record.html',
-        params: { projectName: null, info: null },
-        resolve: {
-          load: app.asyncjs(["./js/controller/backup-record.js"])
-        }
-      })
-
-    .state('plive', {
-      url: '/plive',
-      templateUrl: './views/pLive.html',
+  $stateProvider
+    .state('project', {
+      url: '/project',
+      templateUrl: './views/projectList.html',
+      params: { projectName: null, info: null },
       resolve: {
-        load: app.asyncjs(["./js/controller/PLive.js"])
+        load: app.asyncjs("./js/controller/ProjectList.js")
       }
     })
 
-    .state('prec', {
-      url: '/prec',
-      templateUrl: './views/pRec.html',
+  .state('camera', {
+      url: '/camera',
+      templateUrl: './views/cameraList.html',
+      params: { projectName: null, info: null },
       resolve: {
-        load: app.asyncjs(["./js/controller/PRec.js"])
+        load: app.asyncjs(["./js/controller/cameraList.js", "./js/video.js", "./css/square.css"])
+      }
+    })
+    .state('backup', {
+      url: '/backup',
+      templateUrl: './views/backup.html',
+      params: { projectName: null, info: null },
+      resolve: {
+        load: app.asyncjs(["./js/controller/backup.js"])
+      }
+    })
+    .state('backuprecord', {
+      url: '/backuprecord',
+      templateUrl: './views/backup-record.html',
+      params: { projectName: null, info: null },
+      resolve: {
+        load: app.asyncjs(["./js/controller/backup-record.js"])
       }
     })
 
-    .state('precplay', {
-      url: '/precplay',
-      templateUrl: './views/pRecPlay.html',
-      resolve: {
-        load: app.asyncjs(["./js/controller/PRecPlay.js"])
-      }
-    })
-
-    .state('bill', {
-        url: '/bill',
-        templateUrl: './views/billList.html',
-        params: { projectName: null, info: null },
-        resolve: {
-          load: app.asyncjs("./js/controller/billList.js")
-        }
-      })
-      /*
-      .state('home.jump', {
-          url: '/jump'
-      })
-      .state('home.keyManage', {
-          url: '/key_manage',
-          views: {
-              '': {
-                  templateUrl: './views/keyManage.html',
-                  resolve: {
-                      load: app.asyncjs("./js/controller/keyManage.js")
-                  }
-              }
-          }
-
-      })
-      .state('home.customers', {
-          url: '/customers',
-          views: {
-              '': {
-                  templateUrl: './views/customers.html',
-                  resolve: {
-                      load: app.asyncjs(["./js/controller/customers.js", "./js/sjcl.js"])
-                  }
-              }
-          }
-      })
-      .state('home.projects', {
-          url: '/projects',
-          views: {
-              '': {
-                  templateUrl: './views/projectList.html',
-                  resolve: {
-                      load: app.asyncjs("./js/controller/project.js")
-                  }
-              }
-          }
-      })
-      .state('home.firmWare', {
-          url: '/firmWare',
-          templateUrl: './views/firmWareList.html',
-          resolve: {
-              load: app.asyncjs("./js/controller/firmWare.js")
-          }
-      })
-      .state('home.projectDetail', {
-          url: '/projectsDetail'
-
-      })
-      .state('home.session', {
-          url: '/session',
-          templateUrl: './views/session.html',
-          resolve: {
-              load: app.asyncjs("./js/controller/session.js")
-          }
-      })
-      .state('userInfo', {
-          url: '/user',
-          templateUrl: './views/userInfo.html',
-          resolve: {
-              load: app.asyncjs(["./js/controller/user.js", "./js/sjcl.js"])
-          }
-      })
-      .state('camera', {
-          url: '/ipc',
-          templateUrl: './views/cameraList.html',
-          resolve: {
-              load: app.asyncjs("./js/controller/ipc.js")
-          }
-      }).state('keys', {
-          url: '/key',
-          templateUrl: './views/apiKeys.html',
-          resolve: {
-              load: app.asyncjs("./js/controller/key.js")
-          }
-      }).state('help', {
-          url: '/help',
-          templateUrl: './views/help.html',
-          resolve: {
-              load: app.asyncjs("./js/controller/project.js")
-          }
-      }).state('logOut', {
-          url: '/logOut',
-          templateUrl: './views/logOut.html',
-          params: {info: null,traceback:null},
-          resolve: {
-              load: app.asyncjs("./js/controller/logout.js")
-          }
-      }).state('aboutUs', {
-          url: '/about',
-          templateUrl: './views/aboutUs.html',
-          resolve: {
-              load: app.asyncjs("./js/controller/project.js")
-          }
-      }).state('law', {
-          url: '/law',
-          templateUrl: './views/laws.html',
-          resolve: {
-              load: app.asyncjs("./js/controller/project.js")
-          }
-      }).state('contract', {
-          url: '/contract',
-          templateUrl: './views/contractUs.html',
-          resolve: {
-              load: app.asyncjs("./js/controller/project.js")
-          }
-      })*/
-    ;
-
+  .state('plive', {
+    url: '/plive',
+    templateUrl: './views/pLive.html',
+    resolve: {
+      load: app.asyncjs(["./js/controller/PLive.js"])
+    }
   })
+
+  .state('prec', {
+    url: '/prec',
+    templateUrl: './views/pRec.html',
+    resolve: {
+      load: app.asyncjs(["./js/controller/PRec.js"])
+    }
+  })
+
+  .state('precplay', {
+    url: '/precplay',
+    templateUrl: './views/pRecPlay.html',
+    resolve: {
+      load: app.asyncjs(["./js/controller/PRecPlay.js"])
+    }
+  })
+
+  .state('bill', {
+    url: '/bill',
+    templateUrl: './views/billList.html',
+    params: { projectName: null, info: null },
+    resolve: {
+      load: app.asyncjs("./js/controller/billList.js")
+    }
+  });
+
+
+})
 
 .config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push(function($q, $rootScope) {
@@ -226,7 +118,26 @@ app
 }]);
 
 app.controller('MyProject', ['$rootScope', '$scope', '$http', '$q', '$window', '$state', function($rootScope, $scope, $http, $q, $window, $state) {
-
+  (function() {
+    var binding_id = $.cookie('binding_id');
+    var timestamp = Math.round(new Date().getTime() / 1000);
+    var noncestr = binding_id + new Date().getTime().toString();
+    var url = window.location.href;
+    $http.post('http://api.opensight.cn/api/ivc/v1/wechat/bindings/' + binding_id + '/jsapi_signature', {
+      timestamp: timestamp,
+      noncestr: noncestr,
+      url: url
+    }).success(function(res) {
+      wx.config({
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: res.appid, // 必填，公众号的唯一标识
+        timestamp: timestamp, // 必填，生成签名的时间戳
+        nonceStr: noncestr, // 必填，生成签名的随机串
+        signature: res.signature, // 必填，签名，见附录1
+        jsApiList: ['onMenuShareAppMessage', 'showMenuItems', 'onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+      });
+    });
+  })();
   $scope.destroy = function() {
     if (undefined !== $scope.aborter) {
       $scope.aborter.resolve();
@@ -251,65 +162,64 @@ app.controller('MyProject', ['$rootScope', '$scope', '$http', '$q', '$window', '
 }]);
 
 app.filter('online', [function() {
-  return function(is_online) {
-    if (1 === is_online) {
-      return '在线';
-    } else if (2 === is_online) {
-      return '工作中';
-    } else {
-      return '离线';
-    }
-  };
-}]).filter('publicattribute', [function() {
-  return function(bBublic) {
-    if (true === bBublic) {
-      return '公开';
-    } else {
-      return '私有';
-    }
-  };
-}]).filter('key_type', [function() {
-  return function(type) {
-    if (1 === type) {
-      return '管理员';
-    } else {
-      return '操作员';
-    }
-  };
-}]).filter('key_enabled', [function() {
-  return function(enabled) {
-    if (true === enabled) {
-      return '启用';
-    } else {
-      return '停用';
-    }
-  };
-}]).filter('getLink', [function() {
-  return function(item) {
-    if (0 === item.status) {
-      return '#';
-    }
-    return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
-  };
-}])
-.filter('duration', function() {
-  var a = [{t: '秒', v: 60}, {t: '分', v: 60}, {t: '时', v: 60}, {t: '天', v: 24}];
-  return function(dur, ms) {
-    var s = '';
-    if (true === ms){
-      dur = Math.floor(dur / 1000);
-    }
-    for (var i = 0, l = a.length; i < l; i++){
-      s = dur % a[i].v + a[i].t + s;
-      dur = Math.floor(dur / a[i].v);
-      if (0 === dur){
-        break;
+    return function(is_online) {
+      if (1 === is_online) {
+        return '在线';
+      } else if (2 === is_online) {
+        return '工作中';
+      } else {
+        return '离线';
       }
-    }
-    return s;
-  };
-})
-;
+    };
+  }]).filter('publicattribute', [function() {
+    return function(bBublic) {
+      if (true === bBublic) {
+        return '公开';
+      } else {
+        return '私有';
+      }
+    };
+  }]).filter('key_type', [function() {
+    return function(type) {
+      if (1 === type) {
+        return '管理员';
+      } else {
+        return '操作员';
+      }
+    };
+  }]).filter('key_enabled', [function() {
+    return function(enabled) {
+      if (true === enabled) {
+        return '启用';
+      } else {
+        return '停用';
+      }
+    };
+  }]).filter('getLink', [function() {
+    return function(item) {
+      if (0 === item.status) {
+        return '#';
+      }
+      return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
+    };
+  }])
+  .filter('duration', function() {
+    var a = [{ t: '秒', v: 60 }, { t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
+    return function(dur, ms) {
+      var s = '';
+      if (true === ms) {
+        dur = Math.floor(dur / 1000);
+      }
+      for (var i = 0, l = a.length; i < l; i++) {
+        s = dur % a[i].v + a[i].t + s;
+        dur = Math.floor(dur / a[i].v);
+        if (0 === dur) {
+          break;
+        }
+      }
+      return s;
+    };
+  });
 
 app.factory('dateFactory', function() {
   var padding = function(n) {

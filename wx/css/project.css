@@ -44,3 +44,6 @@ html, body{
   right: 15px;
   margin-top: -3px
 }
+.weui_normal_label{
+  font-weight: normal;
+}
