@@ -1,0 +1,27 @@
+<div ng-controller="Backup">
+  <div style="padding-left: 0px;padding-right: 0px;">
+    <div class="col-sm-12 os-table-container" style="padding-left: 0px;padding-right: 0px;">
+      <div class="weui_cell" style="padding-left: 0px;">
+        <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回我的项目" ng-click="backup.backProject();">
+          <i class="fa fa-chevron-left "></i> 返回我的项目
+        </span>
+      </div>
+      <div class="weui_cells weui_cells_access weui_cells_os" style="margin-top: 0px">
+        <div class="weui_cell" href="javascript:;" ng-repeat="item in filelist.list" ng-click="backup.play(item);">
+          <div class="weui_media_hd">
+            <img class="weui_media_appmsg_thumb" src="images/video-player.png" alt="">
+          </div>
+          <div class="weui_cell_bd weui_cell_primary">
+            <h4 class="weui_media_title">
+              {{item.desc}}
+            </h4>
+            <p class="weui_media_desc">
+              {{item.start|date: "MM-dd HH:mm"}}
+              <span class="pull-right">{{item.end - item.start|duration: true}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh-CN" ng-app="app">
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="../bower_components/js-base64/base64.min.js"></script>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>项目信息</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.2/style/weui.min.css">
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/Swiper/3.3.1/css/swiper.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css">
+    <link rel="stylesheet" href="./css/project.css">
+</head>
+<body ng-controller="MyCamera">
+<div class="container">
+    <div class="container-fluid container-compact os-tab-container">
+        <div class="swiper-container form-group">
+            <div class="swiper-wrapper">
+                    <div class="swiper-slide" ng-repeat="u in x" swpierwait>
+                        <div class="weui_tab" >
+                            <div class="weui_tab_bd">
+                                <div class="weui_cells_title">当前项目</div>
+                                <div class="weui_cells weui_cells_form">
+                                    <div class="weui_cell">
+                                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                        <div class="weui_cell_bd weui_cell_primary">
+                                            <p class="form-control-static">{{u.name}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--div class="swiper-slide">
+                        <div class="weui_tab" >
+                            <div class="weui_tab_bd">
+                                <div class="weui_cells_title">当前项目</div>
+                                <div class="weui_cells weui_cells_form">
+                                    <div class="weui_cell">
+                                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                        <div class="weui_cell_bd weui_cell_primary">
+                                            <p class="form-control-static">1</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    <div class="swiper-slide">
+                        <div class="weui_tab" >
+                            <div class="weui_tab_bd">
+                                <div class="weui_cells_title">当前项目</div>
+                                <div class="weui_cells weui_cells_form">
+                                    <div class="weui_cell">
+                                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                        <div class="weui_cell_bd weui_cell_primary">
+                                            <p class="form-control-static">2</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    <div class="swiper-slide">
+                        <div class="weui_tab" >
+                            <div class="weui_tab_bd">
+                                <div class="weui_cells_title">当前项目</div>
+                                <div class="weui_cells weui_cells_form">
+                                    <div class="weui_cell">
+                                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                        <div class="weui_cell_bd weui_cell_primary">
+                                            <p class="form-control-static">3</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    <div class="swiper-slide">
+                        <div class="weui_tab" >
+                            <div class="weui_tab_bd">
+                                <div class="weui_cells_title">当前项目</div>
+                                <div class="weui_cells weui_cells_form">
+                                    <div class="weui_cell">
+                                        <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                        <div class="weui_cell_bd weui_cell_primary">
+                                            <p class="form-control-static">4</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div-->
+                </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+</div>
+
+    <div class="row row-in-tab os-row-no-padding">
+        <div class="col-sm-12 os-table-container" >
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell weui_cell_switch" style="padding-left: 0px;background-color:#eee;">
+                    <div class="weui_cell_hd weui_cell_primary">
+                    <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回我的项目" ng-click="cameralist.backProject();">
+                    <i  class="fa fa-chevron-left "></i>
+                       返回我的项目
+                    </span>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p style="margin-bottom: 0px;margin-top: 10px;float:left;">xxxxx</p>
+
+                        <p style="margin-bottom: 0px;margin-top: 10px;float:right;">缩略图</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <input class="weui_switch" type="checkbox"/>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="weui_cell" style="padding-left: 0px;">-->
+               <!--<span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回我的项目" ng-click="cameralist.backProject();">-->
+                <!--<i  class="fa fa-chevron-left "></i>-->
+                   <!--返回我的项目-->
+                <!--</span>-->
+
+
+                    <!--<div class="weui_cell_ft">-->
+                        <!--缩略图<input class="weui_switch" type="checkbox"/>-->
+                    <!--</div>-->
+
+            <!--</div>-->
+            <div class="weui_cells_title">视频重播</div>
+            <div class="weui_cell" style="min-height:290px;padding: 0px;">
+                <div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options" style="padding: 0px;margin:auto;"></div>
+            </div>
+
+            <div class="weui_cells weui_cells_access">
+                <div class="weui_cell_hd">
+                    <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:5px;width:20px;margin-right:5px;display:block" title="more" ng-click="actionShow();">
+                        <i  class="fa fa-bars"></i>
+                    </span>
+                </div>
+                <a class="weui_cell" href="javascript:;">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p style="margin-bottom:0px ">11:88:99-22:88:99</p>
+                    </div>
+                    <div class="weui_cell_ft"></div>
+                </a>
+            </div>
+            <div class="weui_cells weui_cells_access" style="margin-top: 0px">
+                <div class="weui_cell_hd">
+                    <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:5px;width:20px;margin-right:5px;display:block" title="more" ng-click="actionShow();">
+                        <i  class="fa fa-bars"></i>
+                    </span>
+                </div>
+                <a class="weui_cell" href="javascript:;">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p style="margin-bottom:0px ">11:88:99-22:88:99</p>
+                    </div>
+                    <div class="weui_cell_ft"></div>
+                </a>
+            </div>
+            <div id="actionSheet_wrap">
+                <div class="weui_mask_transition" id="mask"></div>
+                <div class="weui_actionsheet" id="weui_actionsheet">
+                    <div class="weui_actionsheet_menu">
+                        <div class="weui_actionsheet_cell">示例菜单</div>
+                        <div class="weui_actionsheet_cell">示例菜单</div>
+                        <div class="weui_actionsheet_cell">示例菜单</div>
+                        <div class="weui_actionsheet_cell">示例菜单</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+ </div>
+
+
+
+
+
+
+
+
+
+<script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
+<script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
+<script src="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/angular-ui-bootstrap/1.3.3/ui-bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
+<script src="js/tsst.js" ></script>
+</body>
+
+</html>
+
