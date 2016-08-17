@@ -5,11 +5,11 @@
  Auth.prototype = {
      init: function(url){
          this.selfUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-             "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" + url +
+             "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx-inner%2F" + url +
                  ".html&response_type=code&scope=snsapi_userinfo&state=" + url +
              "#wechat_redirect";
          this.bindUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-             "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+             "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx-inner%2F" +
              "bind.html&response_type=code&scope=snsapi_userinfo&state=" + url +
              "#wechat_redirect";
 

@@ -1,5 +1,5 @@
 var Login = function(){
-  this.url = 'http://www.opensight.cn/wx/';
+  this.url = 'http://www.opensight.cn/wx-inner/';
   this.api = 'http://api.opensight.cn/api/ivc/v1/wechat/';
 
   var params = this.getUrlParams();
@@ -9,11 +9,11 @@ var Login = function(){
   }
   this.url += params.state;
   this.codeLoginUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-      "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" + params.state +
+      "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx-inner%2F" + params.state +
       ".html&response_type=code&scope=snsapi_userinfo&state=" + params.state +
       "#wechat_redirect";
   this.bindUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-      "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
+      "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx-inner%2F" +
       "bind.html&response_type=code&scope=snsapi_userinfo&state=" + params.state +
       "#wechat_redirect";
 
