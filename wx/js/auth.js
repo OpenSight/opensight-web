@@ -41,7 +41,7 @@
                  return true;
              },
              error: function(err) {
-                 if (err.responseText.indexOf("Wechat Binding Not Found") >= 0){
+                 if (err.responseText.indexOf("Wechat Binding") >= 0){
                      window.location.replace(_this.bindUrl);
                     return false;
                  }else{
