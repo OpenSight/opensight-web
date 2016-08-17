@@ -933,6 +933,7 @@ angular.module('app.controller', [])
   $scope.old_password = '';
   $scope.new_password = '';
   $scope.repeat_password = '';
+  $scope.salt = "opensight.cn";
 
   $scope.save = function() {
     if ($scope.new_password !== $scope.repeat_password) {
@@ -940,8 +941,8 @@ angular.module('app.controller', [])
       return false;
     }
     var data = {
-      old_password: $scope.old_password,
-      new_password: $scope.new_password
+      old_password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2($scope.old_password, $scope.salt, 10000)),
+      new_password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2($scope.new_password, $scope.salt, 10000))
     }
     $http.put(api + "users/" + $scope.username + '/password', data).success(function(response) {
       console.log('success');
