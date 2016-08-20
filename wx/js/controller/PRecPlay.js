@@ -36,7 +36,7 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
         var desc = '开始时间: ' +  padding(start.getMonth() + 1, 2) + '-' + padding(start.getDate(), 2) + ' ' + padding(start.getHours(), 2) + ':' + padding(start.getMinutes(), 2) + '\r\n' +
           '时长: ' +  getDuration($scope.recInfo.end - $scope.recInfo.start, true);
         // $scope.caminfo.name + '_' + padding($scope.start.getMonth() + 1, 2) + padding($scope.start.getDate(), 2)
-        var url = $scope.recInfo.hls;
+        var url = window.location.href.substr(0, window.location.href.lastIndexOf('/', window.location.href.indexOf('?'))) + '/share/replay.html?jwt=' + jwt.getJwt(7) + '&project_name=' + encodeURI($scope.recInfo.project_name) + '&event_id=' + encodeURI($scope.recInfo.event_id);
         wx.onMenuShareAppMessage({
           title: $scope.recInfo.desc, // 分享标题
           desc: desc, // 分享描述
