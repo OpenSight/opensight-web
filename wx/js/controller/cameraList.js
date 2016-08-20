@@ -17,6 +17,8 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                 if (preShow === "" || preShow === undefined || preShow === "true"){
                     $scope.preShow = true;
                 }else $scope.preShow = false;
+//                initLive*************************************
+                $scope.cameralist.setConfig = false;
             },
             get: function () {
                 if (flag === true && jwt != undefined && jwt.aud != undefined){
@@ -37,6 +39,10 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                             $scope.recListShown = false;
                             $scope.cameralist.data = [];
                             $scope.cameralist.data = response.list;
+                            for (var i in $scope.cameralist.data){
+                                $scope.cameralist.data[i].livePerm = (($scope.cameralist.data[i].flags & 0x20) === 0);
+                            }
+
                             setTimeout(function () {
                                 $('#loadingToast').hide();
                             }, 100);
@@ -62,6 +68,29 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
             showRec: function (item) {
                 $rootScope.pCamera = item;
                 $state.go('prec');
+            },
+            setLive: function (item) {
+                var postData =  {
+                    enable: item.livePerm
+                };
+
+                // $scope.userinfo.data_mod.modUserInfoToken = Math.random();
+                $scope.aborter = $q.defer(),
+                    $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+G_ProjectName+"/cameras/"+item.uuid+"/stream_toggle", postData, {
+                        timeout: $scope.aborter.promise
+                    }).success(function (response) {
+                            $('#ToastTxt').html("直播状态设置成功");
+                            $('#loadingToast').show();
+                            setTimeout(function () {
+                                $('#loadingToast').hide();
+                            }, 2000);
+                        }).error(function (response,status) {
+                            $('#ToastTxt').html("直播状态设置失败");
+                            $('#loadingToast').show();
+                            setTimeout(function () {
+                                $('#loadingToast').hide();
+                            }, 2000);
+                        });
             }
         };
     })();
