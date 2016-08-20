@@ -69,7 +69,7 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
     url: '/plive',
     templateUrl: './views/pLive.html',
     resolve: {
-      load: app.asyncjs(["./js/controller/PLive.js"])
+      load: app.asyncjs(["./js/controller/PLive.js?_=1471563671720"])
     }
   })
 
@@ -77,7 +77,7 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
     url: '/prec',
     templateUrl: './views/pRec.html',
     resolve: {
-      load: app.asyncjs(["./js/controller/PRec.js"])
+      load: app.asyncjs(["./js/controller/PRec.js?_=1471563671720"])
     }
   })
 
@@ -85,7 +85,7 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
     url: '/precplay',
     templateUrl: './views/pRecPlay.html',
     resolve: {
-      load: app.asyncjs(["./js/controller/PRecPlay.js"])
+      load: app.asyncjs(["./js/controller/PRecPlay.js?_=1471563671720"])
     }
   })
 
