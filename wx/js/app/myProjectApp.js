@@ -41,29 +41,31 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
     })
 
   .state('camera', {
-      url: '/camera',
-      templateUrl: './views/cameraList.html',
-      params: { projectName: null, info: null },
-      resolve: {
-        load: app.asyncjs(["./js/controller/cameraList.js", "./js/video.js", "./css/square.css"])
-      }
-    })
-    .state('backup', {
-      url: '/backup',
-      templateUrl: './views/backup.html',
-      params: { projectName: null, info: null },
-      resolve: {
-        load: app.asyncjs(["./js/controller/backup.js"])
-      }
-    })
-    .state('backuprecord', {
-      url: '/backuprecord',
-      templateUrl: './views/backup-record.html',
-      params: { projectName: null, info: null },
-      resolve: {
-        load: app.asyncjs(["./js/controller/backup-record.js"])
-      }
-    })
+    url: '/camera',
+    templateUrl: './views/cameraList.html',
+    params: { projectName: null, info: null },
+    resolve: {
+      load: app.asyncjs(["./js/controller/cameraList.js", "./js/video.js", "./css/square.css"])
+    }
+  })
+
+  .state('backup', {
+    url: '/backup',
+    templateUrl: './views/backup.html',
+    params: { projectName: null, info: null },
+    resolve: {
+      load: app.asyncjs(["./js/controller/backup.js"])
+    }
+  })
+
+  .state('backuprecord', {
+    url: '/backuprecord',
+    templateUrl: './views/backup-record.html',
+    params: { projectName: null, info: null },
+    resolve: {
+      load: app.asyncjs(["./js/controller/backup-record.js"])
+    }
+  })
 
   .state('plive', {
     url: '/plive',
