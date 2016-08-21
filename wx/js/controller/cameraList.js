@@ -50,9 +50,6 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                     $http.get("http://api.opensight.cn/api/ivc/v1/projects/"+G_ProjectName+"/cameras?limit=100&start=0", {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
-                            $scope.cameraListShown = true;
-                            $scope.oneCameraShown = false;
-                            $scope.recListShown = false;
                             $scope.cameralist.data = [];
                             $scope.cameralist.data = response.list;
                             for (var i in $scope.cameralist.data){
