@@ -1,6 +1,7 @@
 <div ng-controller="CameraList">
-    <div style="padding-right: 0px;padding-left: 0px;" ng-show="!cameralist.setConfig">
-<!--list-->
+    <!--list-->
+    <div style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.preList">
+
         <div class="col-sm-12 os-table-container" ng-show="cameraListShown" style="padding-left: 0px;padding-right: 0px;">
             <div class="weui_cell_hd" style="padding-left: 0px;">
                <span class="btn-small" style="cursor:pointer;float:left;padding:10px;" title="返回我的项目" ng-click="cameralist.backProject();">
@@ -10,39 +11,13 @@
 
             </div>
             <div class="weui_cell_ft" style="padding-left: 0px;color: blue;">
-                <span class="btn-small" style="cursor:pointer;float:right;padding:10px;" title="设置" ng-click="cameralist.setConfig = true;">
+                <span class="btn-small" style="cursor:pointer;float:right;padding:10px;" title="设置" ng-click="cameralist.setListShow();">
                 <!--<i  class="fa fa-cog "></i>-->
-                设置
+                &nbsp;&nbsp;设置
                 </span>
             </div>
-            <!--<div class="weui_cells weui_cells_form">-->
-                <!--<div class="weui_cell weui_cell_switch" style="padding-left: 0px;background-color:#eee;">-->
-                    <!--<div class="weui_cell_hd weui_cell_primary">-->
-                    <!--<span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回我的项目" ng-click="cameralist.backProject();">-->
-                    <!--<i  class="fa fa-chevron-left "></i>-->
-                       <!--返回我的项目-->
-                    <!--</span>-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash;<div class="weui_cell_bd weui_cell_primary">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p style="margin-bottom: 0px;margin-top: 10px;float:right;">设置</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--<div class="weui_cell_ft">-->
-                        <!--<span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-right:10px;" title="设置" ng-click="cameralist.setConfig();">-->
-                        <!--<i  class="fa fa-cog "></i>-->
-                        <!--设置-->
-                        <!--</span>-->
-                    <!--</div>-->
-                <!--</div>-->
-            </div>
-            <!--div class="weui_cells_title">{{PName}} 摄像头列表</div>
-            <div class="weui_cells weui_cells_form">
-                <div class="weui_cell" ng-repeat="u in cameralist.data">
-                    <div class="weui_cell_hd"><label class="weui_label" style="width: 12em">{{u.name}}</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <p class="form-control-static">{{u.is_online|online}}</p>
-                    </div>
-                </div>
-            </div-->
+        </div>
+
             <div style="padding-left: 0px;padding-right: 0px;">
                 <div style="padding-left: 0px;padding-right: 0px;">
                     <div class="col-md-3 col-sm-4 col-xs-12" style="padding-left: 0px;padding-right: 0px;" ng-repeat="item in cameralist.data">
@@ -77,38 +52,73 @@
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
 <!--end list-->
 
 
 
-    <div style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.setConfig">
-        <div class="weui_cells_title" style="padding-left: 0px;padding-right: 10px;text-align:right">
-                    <span class="btn-small" style="cursor:pointer;color: blue;" title="完成" ng-click="cameralist.setConfig = false;">
+    <div style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.setList">
+        <div class="weui_cells_title" style="text-align:right;margin-top: 0px;margin-bottom: 0px;padding-right: 0px;padding-top: 10px;padding-bottom: 10px;">
+                    <span class="btn-small" style="padding: 10px;cursor:pointer;color: blue;" title="完成设置" ng-click="cameralist.preListShow();">
                     <!--<i  class="fa fa-cog "></i>-->
-                    完成
+                    完成设置
                     </span>
-
-
         </div>
-        <!--<div class="weui_cells_title">{{PName}} 摄像头列表</div>-->
-        <div class="weui_cells weui_cells_form">
-            <div class="weui_cell" ng-repeat="u in cameralist.data">
-                <div class="weui_cell_hd"><label class="weui_label" style="width: 6em">{{u.name}}</label></div>
+        <!---->
+        <!--<div class="weui_cells weui_cells_form">-->
+            <!--<div class="weui_cell" ng-repeat="u in cameralist.data">-->
+                <!--<div class="weui_cell_hd"><label class="weui_label" style="width: 6em">{{u.name}}</label></div>-->
+                <!---->
                 <!--<div class="weui_cell_bd weui_cell_primary">-->
-                    <!--<p class="form-control-static">{{u.is_online|online}}</p>-->
+                    <!--<p class="form-control-static" style="float:right;">允许直播</p>-->
                 <!--</div>-->
-                <!--<div class="weui_cell_bd weui_cell_primary">-->
-                <!--<p style="margin-bottom: 0px;margin-top: 10px;float:right;">缩略图</p>-->
+                <!--<div class="weui_cell_ft">-->
+                    <!--<input class="weui_switch"  ng-model="u.livePerm" ng-change="cameralist.setLive(u);" type="checkbox"/>-->
                 <!--</div>-->
-                <div class="weui_cell_bd weui_cell_primary">
-                    <p class="form-control-static" style="float:right;">允许直播</p>
-                </div>
-                <div class="weui_cell_ft">
-                    <input class="weui_switch"  ng-model="u.livePerm" ng-change="cameralist.setLive(u);" type="checkbox"/>
+            <!--</div>-->
+        <!--</div>-->
+
+        <div style="padding-left: 0px;padding-right: 0px;">
+            <div style="padding-left: 0px;padding-right: 0px;">
+                <div class="col-md-3 col-sm-4 col-xs-12" style="padding-left: 0px;padding-right: 0px;" ng-repeat="item in cameralist.data">
+
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <p class="text-name">
+                                <a ng-click="cameralist.editConfigShow(item)">{{item.name}}</a>
+                                <span class="pull-right" style="cursor:pointer;color: #C8C8CD;" ng-click="cameralist.editConfigShow(item)">
+                                    编辑
+                                    <i  class="fa fa-chevron-right "></i>
+                                </span>
+                            </p>
+                        </div>
+                        <a ng-click="cameralist.editConfigShow(item)" ng-show="preShow"><img src="{{item.preview}}" alt="{{item.name}}"></a>
+                        <div class="topsetimg-container" ng-click="cameralist.editConfigShow(item)" ng-show="preShow"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
+
+
+    <!--edit config start-->
+    <div style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.editConfig">
+        <div class="weui_cells_title" style="padding: 10px;text-align:right">
+                    <span class="btn-small" style="cursor:pointer;color: blue;" title="完成编辑" ng-click="cameralist.setListShow();">
+                    <!--<i  class="fa fa-cog "></i>-->
+                    完成编辑
+                    </span>
+        </div>
+        <div class="weui_cells_title">{{cameralist.editConf.name}}</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell weui_cell_switch">
+                <div class="weui_cell_hd weui_cell_primary">允许直播</div>
+                <div class="weui_cell_ft">
+                    <input class="weui_switch" ng-model="cameralist.editConf.livePerm" ng-change="cameralist.setLive(cameralist.editConf);" type="checkbox">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--edit end-->
 </div>

@@ -12,13 +12,29 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
 
     $scope.cameralist = (function () {
         return {
+            preListShow:function(){
+                $scope.cameralist.preList = true;
+                $scope.cameralist.setList = false;
+                $scope.cameralist.editConfig = false;
+            },
+            setListShow:function(){
+                $scope.cameralist.preList = false;
+                $scope.cameralist.setList = true;
+                $scope.cameralist.editConfig = false;
+            },
+            editConfigShow:function(item){
+                $scope.cameralist.preList = false;
+                $scope.cameralist.setList = false;
+                $scope.cameralist.editConf = item;
+                $scope.cameralist.editConfig = true;
+            },
             init:function(){
                 var preShow = $.cookie('preShow');
                 if (preShow === "" || preShow === undefined || preShow === "true"){
                     $scope.preShow = true;
                 }else $scope.preShow = false;
 //                initLive*************************************
-                $scope.cameralist.setConfig = false;
+                $scope.cameralist.preListShow();
             },
             get: function () {
                 if (flag === true && jwt != undefined && jwt.aud != undefined){
