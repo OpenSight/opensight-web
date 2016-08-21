@@ -104,13 +104,23 @@
 
     <!--edit config start-->
     <div style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.editConfig">
-        <div class="weui_cells_title" style="padding: 10px;text-align:right">
-                    <span class="btn-small" style="cursor:pointer;color: blue;" title="完成编辑" ng-click="cameralist.setListShow();">
+        <div class="weui_cells_title" style="text-align:right;margin-top: 0px;margin-bottom: 0px;padding-right: 0px;padding-top: 10px;padding-bottom: 10px;">
+                    <span class="btn-small" style="padding: 10px;cursor:pointer;color: blue;" title="完成编辑" ng-click="cameralist.setListShow();">
                     <!--<i  class="fa fa-cog "></i>-->
                     完成编辑
                     </span>
         </div>
-        <div class="weui_cells_title">{{cameralist.editConf.name}}</div>
+
+        <div class="weui_cells">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p style="margin-bottom: 0px;">名称</p>
+                </div>
+                <div class="weui_cell_ft" style="width: 6em">{{cameralist.editConf.name}}</div>
+            </div>
+        </div>
+
+
         <div class="weui_cells weui_cells_form">
             <div class="weui_cell weui_cell_switch">
                 <div class="weui_cell_hd weui_cell_primary">允许直播</div>
