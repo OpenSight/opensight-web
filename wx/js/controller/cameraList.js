@@ -25,7 +25,13 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
             editConfigShow:function(item){
                 $scope.cameralist.preList = false;
                 $scope.cameralist.setList = false;
+                $scope.cameralist.editConf = {};
+//                $scope.cameralist.editConf.name = item.name;
+//                $scope.cameralist.editConf.livePerm = item.livePerm;
+//                $scope.cameralist.editConf.uuid = item.uuid;
                 $scope.cameralist.editConf = item;
+                $scope.cameralist.editConfOld = {};
+                $scope.cameralist.editConfOld.livePerm = item.livePerm;
                 $scope.cameralist.editConfig = true;
             },
             init:function(){
@@ -82,6 +88,14 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                 $rootScope.pCamera = item;
                 $state.go('prec');
             },
+            editCancel: function () {
+                $scope.cameralist.setListShow();
+            },
+            editSubmit: function () {
+                if ($scope.cameralist.editConf.livePerm !== $scope.cameralist.editConfOld.livePerm){
+                    $scope.cameralist.setLive($scope.cameralist.editConf);
+                }else $scope.cameralist.setListShow();
+            },
             setLive: function (item) {
                 var postData =  {
                     enable: item.livePerm
@@ -92,17 +106,20 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                     $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+G_ProjectName+"/cameras/"+item.uuid+"/stream_toggle", postData, {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
-                            $('#ToastTxt').html("直播状态设置成功");
-                            $('#loadingToast').show();
-                            setTimeout(function () {
-                                $('#loadingToast').hide();
-                            }, 2000);
+//                            $('#ToastTxt').html("直播状态设置成功");
+//                            $('#loadingToast').show();
+//                            setTimeout(function () {
+//                                $('#loadingToast').hide();
+//                            }, 2000);
+                            $scope.cameralist.setListShow();
                         }).error(function (response,status) {
                             $('#ToastTxt').html("直播状态设置失败");
                             $('#loadingToast').show();
                             setTimeout(function () {
                                 $('#loadingToast').hide();
                             }, 2000);
+                            $scope.cameralist.editConf.livePerm = $scope.cameralist.editConfOld.livePerm;
+                            console.log("edit camera err, err info: "+ response);
                         });
             }
         };
