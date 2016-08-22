@@ -6,12 +6,10 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
       }
       return n.toString();
     };
-    var getDuration = function(dur, ms) {
-      var a = [{ t: '秒', v: 60 }, { t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
+    var getDuration = function(dur) {
+      var a = [{ t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
       var s = '';
-      if (true === ms) {
-        dur = Math.floor(dur / 1000);
-      }
+      dur = Math.floor(dur / (1000 * 60));
       for (var i = 0, l = a.length; i < l; i++) {
         s = dur % a[i].v + a[i].t + s;
         dur = Math.floor(dur / a[i].v);
@@ -32,15 +30,37 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
         $scope.precplay.on();
       },
       on: function() {
+        var title = $scope.precplay.getMsgTitle();
+        var link = $scope.precplay.getMsgLink();
+        var desc = $scope.precplay.getMsgDesc();
+        $scope.precplay.setShareMessage(title, desc, link);
+      },
+      getMsgLink: function(curtime){
+        var url = window.location.href.substr(0, window.location.href.lastIndexOf('/', window.location.href.indexOf('?')));
+        url += '/share/replay.html?jwt=' + jwt.getJwt(7) + '&project_name=' + encodeURI($scope.recInfo.project_name);
+        if (undefined !== $scope.recInfo.event_id){
+          return url + '&event_id=' + encodeURI($scope.recInfo.event_id);
+        }
+        return url + '&camera_id=' + encodeURI($rootScope.pCamera.uuid) + '&start=' + encodeURI($scope.recInfo.start) + '&end=' + encodeURI($scope.recInfo.end);
+      },
+      getMsgDesc: function(){
         var start = new Date($scope.recInfo.start);
-        var desc = '开始时间: ' +  padding(start.getMonth() + 1, 2) + '-' + padding(start.getDate(), 2) + ' ' + padding(start.getHours(), 2) + ':' + padding(start.getMinutes(), 2) + '\r\n' +
-          '时长: ' +  getDuration($scope.recInfo.end - $scope.recInfo.start, true);
-        // $scope.caminfo.name + '_' + padding($scope.start.getMonth() + 1, 2) + padding($scope.start.getDate(), 2)
-        var url = window.location.href.substr(0, window.location.href.lastIndexOf('/', window.location.href.indexOf('?'))) + '/share/replay.html?jwt=' + jwt.getJwt(7) + '&project_name=' + encodeURI($scope.recInfo.project_name) + '&event_id=' + encodeURI($scope.recInfo.event_id);
+        var desc = '开始时间: ' +  padding(start.getMonth() + 1, 2) + '-' + padding(start.getDate(), 2) + ' ' + padding(start.getHours(), 2) + ':' + padding(start.getMinutes(), 2) + '\t' +
+          '时长: ' +  getDuration($scope.recInfo.end - $scope.recInfo.start);
+        if (undefined !== $scope.recInfo.event_id){
+          return desc;
+        } else {
+          return '摄像机: ' + $rootScope.pCamera.name + '\t' + desc;
+        }
+      },
+      getMsgTitle: function(){
+        return undefined === $scope.recInfo.event_id ? $rootScope.pCamera.name : $scope.recInfo.desc;
+      },
+      setShareMessage: function(title, desc, link){
         wx.onMenuShareAppMessage({
-          title: $scope.recInfo.desc, // 分享标题
+          title: title, // 分享标题
           desc: desc, // 分享描述
-          link: url, // 分享链接
+          link: link, // 分享链接
           imgUrl: 'http://www.opensight.cn/img/play-logo.png', // 分享图标
           success: function() {
             // 用户确认分享后执行的回调函数
@@ -50,8 +70,8 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
           }
         });
         wx.onMenuShareTimeline({
-          title: $scope.recInfo.desc, // 分享标题
-          link: url, // 分享链接
+          title: title, // 分享标题
+          link: link, // 分享链接
           imgUrl: 'http://www.opensight.cn/img/play-logo.png', // 分享图标
           success: function() {
             // 用户确认分享后执行的回调函数
