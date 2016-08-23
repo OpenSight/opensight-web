@@ -37,11 +37,11 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
       },
       getMsgLink: function(curtime){
         var url = window.location.href.substr(0, window.location.href.lastIndexOf('/', window.location.href.indexOf('?')));
-        url += '/share/replay.html?jwt=' + jwt.getJwt(7) + '&project_name=' + encodeURI($scope.recInfo.project_name);
+        url += '/share/replay.html?jwt=' + jwt.getJwt(7);
         if (undefined !== $scope.recInfo.event_id){
-          return url + '&event_id=' + encodeURI($scope.recInfo.event_id);
+          return url + '&project_name=' + encodeURI($scope.recInfo.project_name) + '&event_id=' + encodeURI($scope.recInfo.event_id);
         }
-        return url + '&camera_id=' + encodeURI($rootScope.pCamera.uuid) + '&start=' + encodeURI($scope.recInfo.start) + '&end=' + encodeURI($scope.recInfo.end);
+        return url + '&project_name=' + encodeURI($scope.pCamera.project_name) + '&camera_id=' + encodeURI($rootScope.pCamera.uuid) + '&start=' + encodeURI($scope.recInfo.start) + '&end=' + encodeURI($scope.recInfo.end) + '&current_time=' + document.getElementById("replayPlayer").currentTime;
       },
       getMsgDesc: function(){
         var start = new Date($scope.recInfo.start);
