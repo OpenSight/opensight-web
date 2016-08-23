@@ -45,12 +45,12 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
       },
       getMsgDesc: function(){
         var start = new Date($scope.recInfo.start);
-        var desc = '开始时间: ' +  padding(start.getMonth() + 1, 2) + '-' + padding(start.getDate(), 2) + ' ' + padding(start.getHours(), 2) + ':' + padding(start.getMinutes(), 2) + '\t' +
+        var desc = '开始时间: ' +  padding(start.getMonth() + 1, 2) + '-' + padding(start.getDate(), 2) + ' ' + padding(start.getHours(), 2) + ':' + padding(start.getMinutes(), 2) + '    ' +
           '时长: ' +  getDuration($scope.recInfo.end - $scope.recInfo.start);
         if (undefined !== $scope.recInfo.event_id){
           return desc;
         } else {
-          return '摄像机: ' + $rootScope.pCamera.name + '\t' + desc;
+          return '摄像机: ' + $rootScope.pCamera.name + '    ' + desc;
         }
       },
       getMsgTitle: function(){
