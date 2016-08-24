@@ -20,6 +20,7 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
       return s;
     };
     return {
+      showShareTip: false,
       init: function() {
         $scope.recInfo = $rootScope.pRecInfo;
         var player = document.getElementById("replayPlayer");
@@ -57,6 +58,7 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
         return undefined === $scope.recInfo.event_id ? $rootScope.pCamera.name : $scope.recInfo.desc;
       },
       setShareMessage: function(title, desc, link){
+        var s = $scope;
         wx.onMenuShareAppMessage({
           title: title, // 分享标题
           desc: desc, // 分享描述
@@ -64,9 +66,11 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
           imgUrl: 'http://www.opensight.cn/img/play-logo.png', // 分享图标
           success: function() {
             // 用户确认分享后执行的回调函数
+            s.precplay.showShareTip = false;
           },
           cancel: function() {
             // 用户取消分享后执行的回调函数
+            s.precplay.showShareTip = false;
           }
         });
         wx.onMenuShareTimeline({
@@ -75,9 +79,11 @@ app.register.controller('PRecPlay', ['$rootScope', '$scope', '$http', '$q', '$wi
           imgUrl: 'http://www.opensight.cn/img/play-logo.png', // 分享图标
           success: function() {
             // 用户确认分享后执行的回调函数
+            s.precplay.showShareTip = false;
           },
           cancel: function() {
             // 用户取消分享后执行的回调函数
+            s.precplay.showShareTip = false;
           }
         });
       },
