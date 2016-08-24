@@ -57,6 +57,15 @@ a:hover{
     width: 100%;
     background:  url(../img/config.png) no-repeat center;
 }
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background:  url(../img/play.png) no-repeat center;
+}
+
 .topimg-container1{
     position: absolute;
     top: 0;
