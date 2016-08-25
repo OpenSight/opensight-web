@@ -58,6 +58,7 @@ a:hover{
     background:  url(../img/config.png) no-repeat center;
 }
 
+.topimg-container{
     position: absolute;
     top: 0;
     left: 0;
