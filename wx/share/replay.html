@@ -26,7 +26,7 @@
         <!-- <video id="video-player" class="video" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="movie.ogg" type="application/x-mpegURL"></video> -->
       </div>
     </div>
-    <div class="weui_cell">
+    <div class="weui_cell hidden backup">
       <div class="weui_cell_hd">
         <label for="" class="weui_label">摄像机</label>
       </div>
@@ -38,11 +38,19 @@
       <div class="weui_cell_hd">
         <label for="" class="weui_label">开始时间</label>
       </div>
-      <div class="weui_cell_bd weui_cell_primary" id="start">
-        <p class="form-control-static"></p>
+      <div class="weui_cell_bd weui_cell_primary">
+        <p class="form-control-static" id="start"></p>
       </div>
     </div>
-    <div class="weui_cell">
+    <div class="weui_cell hidden replay">
+      <div class="weui_cell_hd">
+        <label for="" class="weui_label">结束时间</label>
+      </div>
+      <div class="weui_cell_bd weui_cell_primary">
+        <p class="form-control-static" id="end"></p>
+      </div>
+    </div>
+    <div class="weui_cell hidden backup">
       <div class="weui_cell_hd">
         <label for="" class="weui_label">时长</label>
       </div>
