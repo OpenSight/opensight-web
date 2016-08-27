@@ -41,31 +41,29 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
     })
 
   .state('camera', {
-    url: '/camera',
-    templateUrl: './views/cameraList.html',
-    params: { projectName: null, info: null },
-    resolve: {
-      load: app.asyncjs(["./js/controller/cameraList.js", "./js/video.js", "./css/square.css"])
-    }
-  })
-
-  .state('backup', {
-    url: '/backup',
-    templateUrl: './views/backup.html',
-    params: { projectName: null, info: null },
-    resolve: {
-      load: app.asyncjs(["./js/controller/backup.js"])
-    }
-  })
-
-  .state('backuprecord', {
-    url: '/backuprecord',
-    templateUrl: './views/backup-record.html',
-    params: { projectName: null, info: null },
-    resolve: {
-      load: app.asyncjs(["./js/controller/backup-record.js"])
-    }
-  })
+      url: '/camera',
+      templateUrl: './views/cameraList.html',
+      params: { projectName: null, info: null },
+      resolve: {
+        load: app.asyncjs(["./js/controller/cameraList.js", "./js/video.js", "./css/square.css"])
+      }
+    })
+    .state('backup', {
+      url: '/backup',
+      templateUrl: './views/backup.html',
+      params: { projectName: null, info: null },
+      resolve: {
+        load: app.asyncjs(["./js/controller/backup.js"])
+      }
+    })
+    .state('backuprecord', {
+      url: '/backuprecord',
+      templateUrl: './views/backup-record.html',
+      params: { projectName: null, info: null },
+      resolve: {
+        load: app.asyncjs(["./js/controller/backup-record.js"])
+      }
+    })
 
   .state('plive', {
     url: '/plive',
@@ -164,64 +162,90 @@ app.controller('MyProject', ['$rootScope', '$scope', '$http', '$q', '$window', '
 }]);
 
 app.filter('online', [function() {
-    return function(is_online) {
-      if (1 === is_online) {
-        return '在线';
-      } else if (2 === is_online) {
-        return '工作中';
-      } else {
-        return '离线';
+  return function(is_online) {
+    if (1 === is_online) {
+      return '在线';
+    } else if (2 === is_online) {
+      return '工作中';
+    } else {
+      return '离线';
+    }
+  };
+}])
+
+.filter('publicattribute', [function() {
+  return function(bBublic) {
+    if (true === bBublic) {
+      return '公开';
+    } else {
+      return '私有';
+    }
+  };
+}])
+
+.filter('key_type', [function() {
+  return function(type) {
+    if (1 === type) {
+      return '管理员';
+    } else {
+      return '操作员';
+    }
+  };
+}])
+
+.filter('key_enabled', [function() {
+  return function(enabled) {
+    if (true === enabled) {
+      return '启用';
+    } else {
+      return '停用';
+    }
+  };
+}])
+
+.filter('getLink', [function() {
+  return function(item) {
+    if (0 === item.status) {
+      return '#';
+    }
+    return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
+  };
+}])
+
+.filter('duration', function() {
+  var a = [{ t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
+  return function(dur, ms) {
+    var s = '';
+    dur = Math.floor(dur / (1000 * 60));
+    for (var i = 0, l = a.length; i < l; i++) {
+      s = dur % a[i].v + a[i].t + s;
+      dur = Math.floor(dur / a[i].v);
+      if (0 === dur) {
+        break;
       }
-    };
-  }]).filter('publicattribute', [function() {
-    return function(bBublic) {
-      if (true === bBublic) {
-        return '公开';
-      } else {
-        return '私有';
-      }
-    };
-  }]).filter('key_type', [function() {
-    return function(type) {
-      if (1 === type) {
-        return '管理员';
-      } else {
-        return '操作员';
-      }
-    };
-  }]).filter('key_enabled', [function() {
-    return function(enabled) {
-      if (true === enabled) {
-        return '启用';
-      } else {
-        return '停用';
-      }
-    };
-  }]).filter('getLink', [function() {
-    return function(item) {
-      if (0 === item.status) {
-        return '#';
-      }
-      return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
-    };
-  }])
-  .filter('duration', function() {
-    var a = [{ t: '秒', v: 60 }, { t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
-    return function(dur, ms) {
-      var s = '';
-      if (true === ms) {
-        dur = Math.floor(dur / 1000);
-      }
-      for (var i = 0, l = a.length; i < l; i++) {
-        s = dur % a[i].v + a[i].t + s;
-        dur = Math.floor(dur / a[i].v);
-        if (0 === dur) {
-          break;
-        }
-      }
-      return s;
-    };
-  });
+    }
+    return s;
+  };
+})
+
+// .filter('duration', function() {
+//   var a = [{ t: '秒', v: 60 }, { t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
+//   return function(dur, ms) {
+//     var s = '';
+//     if (true === ms) {
+//       dur = Math.floor(dur / 1000);
+//     }
+//     for (var i = 0, l = a.length; i < l; i++) {
+//       s = dur % a[i].v + a[i].t + s;
+//       dur = Math.floor(dur / a[i].v);
+//       if (0 === dur) {
+//         break;
+//       }
+//     }
+//     return s;
+//   };
+// })
+;
 
 app.factory('dateFactory', function() {
   var padding = function(n) {
