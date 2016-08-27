@@ -90,6 +90,11 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
                             //$scope.cameraListShown = true;
                             $scope.cameralist.data = [];
                             $scope.cameralist.data = response.list;
+                            for (var i in $scope.cameralist.data){
+                                if ($scope.preShow === false)
+                                    $scope.cameralist.data[i].preview = "";
+                                $scope.cameralist.data[i].livePerm = (($scope.cameralist.data[i].flags & 0x20) === 0);
+                            }
                             $('#loadingToast').hide();
                         }).error(function (response,status) {
                             $('#ToastTxt').html("获取摄像头列表失败");

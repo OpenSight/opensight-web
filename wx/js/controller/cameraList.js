@@ -59,6 +59,8 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                             $scope.cameralist.data = [];
                             $scope.cameralist.data = response.list;
                             for (var i in $scope.cameralist.data){
+                                if ($scope.preShow === false)
+                                    $scope.cameralist.data[i].preview = "";
                                 $scope.cameralist.data[i].livePerm = (($scope.cameralist.data[i].flags & 0x20) === 0);
                             }
 
