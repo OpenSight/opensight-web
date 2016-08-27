@@ -1,8 +1,6 @@
-html, body{
+body{
   font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
   /*padding-top: 70px;*/
-  // height: 100%;
-  background-color: #eee;
 }
 .navbar-toggle .icon-bar {
   background-color: #25A8E1;
@@ -51,7 +49,15 @@ a:hover{
 .live{
   position: relative;
 }
-.topimg-container{
+.topsetimg-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background:  url(../img/config.png) no-repeat center;
+}
+
     position: absolute;
     top: 0;
     left: 0;
@@ -59,6 +65,7 @@ a:hover{
     width: 100%;
     background:  url(../img/play.png) no-repeat center;
 }
+
 .topimg-container1{
     position: absolute;
     top: 0;
@@ -102,67 +109,4 @@ a:hover{
 }
 .btn-invisible{
     visibility: hidden;
-}
-
-// html, body{
-//   font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
-//   height: 100%;
-//   background-color: #eee;
-// }
-.weui_cells_os h4.weui_media_title{
-  margin-top: 0;
-  margin-bottom: 5px;
-}
-.weui_cells_os p.weui_media_desc{
-  margin-bottom: 0;
-  color: #888;
-}
-.weui_cells_os .weui_cell{
-  padding: 5px;
-}
-.weui_cells_os .weui_media_hd{
-  margin-right: 10px;
-}
-.weui_cells_form{
-  margin-top: 10px;
-}
-.weui_cell_input{
-  padding-right: 0;
-}
-.weui_cell_input .weui_input{
-  padding-right: 30px;
-}
-.weui_cell_input .weui_cell_bd:after {
-  content: " ";
-  display: inline-block;
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-  height: 6px;
-  width: 6px;
-  border-width: 2px 2px 0 0;
-  border-color: #c8c8cd;
-  border-style: solid;
-  position: relative;
-  top: -2px;
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  margin-top: -3px
-}
-.weui_normal_label{
-  font-weight: normal;
-}
-.share_tip{
-  width: 219px;
-  height: 111px;
-  background: url(../img/guide.png) no-repeat;
-  background-size: 189px 111px;
-  float: right;
-}
-.show{
-  display: block;
-}
-.hidden-player-container > video{
-  visibility: hidden;
-  display: none;
 }

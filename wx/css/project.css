@@ -47,17 +47,3 @@ html, body{
 .weui_normal_label{
   font-weight: normal;
 }
-.share_tip{
-  width: 219px;
-  height: 111px;
-  background: url(../img/guide.png) no-repeat;
-  background-size: 189px 111px;
-  float: right;
-}
-.show{
-  display: block;
-}
-.hidden-player-container > video{
-  visibility: hidden;
-  display: none;
-}

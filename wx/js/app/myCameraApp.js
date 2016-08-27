@@ -173,19 +173,18 @@ app.filter('online', [function() {
     }
     return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
   };
-}])
-.filter('duration', function() {
-  var a = [{ t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
+}]).filter('duration', function() {
   return function(dur, ms) {
     var s = '';
-    dur = Math.floor(dur / (1000 * 60));
-    for (var i = 0, l = a.length; i < l; i++) {
-      s = dur % a[i].v + a[i].t + s;
-      dur = Math.floor(dur / a[i].v);
-      if (0 === dur) {
-        break;
-      }
+    var tmpTime;
+    if (true === ms) {
+      dur = dur / 1000;
     }
+    tmpTime = parseInt(dur / 60, 10);
+    if (tmpTime === 0) {
+      s = parseInt(dur, 10) + "秒";
+    } else
+      s = tmpTime + "分";
     return s;
   };
 });

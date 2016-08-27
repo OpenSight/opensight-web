@@ -1,7 +1,6 @@
 app.register.controller('PLive', ['$rootScope', '$scope', '$http', '$q', '$window', '$stateParams', '$state', function($rootScope, $scope, $http, $q, $window, $stateParams, $state) {
   $scope.plive = (function() {
     return {
-      showShareTip: false,
       showPlayer: function(item) {
         $scope.c.img = "img/video4x4.jpg";
         $scope.c.tip = true;
@@ -52,7 +51,6 @@ app.register.controller('PLive', ['$rootScope', '$scope', '$http', '$q', '$windo
         $scope.plive.on();
       },
       on: function() {
-        var _live = $scope.plive;
         var url = window.location.href.substr(0, window.location.href.lastIndexOf('/', window.location.href.indexOf('?'))) + '/share/live.html?jwt=' + jwt.getJwt(7) + '&project_name=' + encodeURI($scope.c.project_name) + '&camera_id=' + encodeURI($scope.c.uuid);
         wx.onMenuShareAppMessage({
           title: $scope.c.name, // 分享标题
@@ -61,11 +59,9 @@ app.register.controller('PLive', ['$rootScope', '$scope', '$http', '$q', '$windo
           imgUrl: 'http://www.opensight.cn/img/play-logo.png', // 分享图标
           success: function() {
             // 用户确认分享后执行的回调函数
-            _live.showShareTip = false;
           },
           cancel: function() {
             // 用户取消分享后执行的回调函数
-            _live.showShareTip = false;
           }
         });
         wx.onMenuShareTimeline({
@@ -74,11 +70,9 @@ app.register.controller('PLive', ['$rootScope', '$scope', '$http', '$q', '$windo
           imgUrl: 'http://www.opensight.cn/img/play-logo.png', // 分享图标
           success: function() {
             // 用户确认分享后执行的回调函数
-            _live.showShareTip = false;
           },
           cancel: function() {
             // 用户取消分享后执行的回调函数
-            _live.showShareTip = false;
           }
         });
       },
