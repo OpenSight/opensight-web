@@ -13,7 +13,7 @@ app.register.controller('BackupRecord', ['$rootScope', '$scope', '$http', '$q', 
 
         $scope.start = new Date(Math.round($scope.recInfo.start / 1000 + $scope.recInfo.currentTime) * 1000);
         $scope.desc = $scope.caminfo.name + '_' + padding($scope.start.getMonth() + 1, 2) + padding($scope.start.getDate(), 2);
-        $scope.duration = "1";
+        $scope.duration = "5";
         $scope.long_desc = '';
       },
       backList: function() {
