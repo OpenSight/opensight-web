@@ -1,65 +1,71 @@
-<!doctype html>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html>
 
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>直播</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-  <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.3/style/weui.min.css">
-  <link rel="stylesheet" href="css/share.css">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+  <link rel="stylesheet" href="css/live.css">
 </head>
 
 <body>
-  <div class="weui_cells weui_cells_form weui_cells_player">
-    <div class="weui_cell">
-      <div class="weui_cell_bd weui_cell_primary">
-        <h1 class="page_title" id="camera_name"></h1>
-      </div>
-    </div>
-    <div class="weui_cell weui_cell_player">
-      <div class="img-container">
-        <img id="recimg" src="../img/video4x4.jpg" alt="">
-      </div>
-      <div class="player-container" id="player-container">
-        <div class="play-tip">
-          <span class="text-highlight" id="player-tip-sec">10</span> 秒之后直播开始
+  <div id="page-fixed-tab" class="page page-current">
+    <div class="content native-scroll">
+      <div class="card facebook-card live-card">
+        <div class="card-content">
+          <img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg" width="100%">
         </div>
-        <!-- <video id="video-player" class="video" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="movie.ogg" type="application/x-mpegURL"></video> -->
+        <div class="card-footer no-border">
+          <a href="#" class="link">赞</a>
+          <a href="#" class="link">评论</a>
+          <a href="#" class="link">分享</a>
+        </div>
       </div>
-    </div>
-    <div class="weui_cell flags" id="flags"></div>
-    <div class="weui_cell">
-      <div class="weui_cell_hd">
-        <label for="" class="weui_label">描述</label>
+      <div class="buttons-tab fixed-tab" data-offset="44" style="top: 0px;">
+        <a href="#tab1" class="tab-link button">全部</a>
+        <a href="#tab2" class="tab-link button">待付款</a>
+        <a href="#tab3" class="tab-link button active">待发货</a>
       </div>
-      <div class="weui_cell_bd weui_cell_primary">
-        <p class="form-control-static" id="desc"></p>
-      </div>
-    </div>
-    <div class="weui_cell">
-      <div class="weui_cell_hd">
-        <label for="" class="weui_label">详细描述</label>
-      </div>
-      <div class="weui_cell_bd weui_cell_primary">
-        <p class="form-control-static" id="long_desc"></p>
+
+      <div class="tabs">
+        <div id="tab1" class="tab">
+          <div class="content-block">
+            <div class="buttons-row">
+              <a href="#tab1-1" class="tab-link active button">Tab 1</a>
+              <a href="#tab1-2" class="tab-link button">Tab 2</a>
+              <a href="#tab1-3" class="tab-link button">Tab 3</a>
+            </div>
+            <div class="tabs">
+              <p class="tab active" id="tab1-1">This is tab 1-1 content</p>
+              <p class="tab" id="tab1-2">This is tab 1-2 content</p>
+              <p class="tab" id="tab1-3">13855589778</p>
+            </div>
+          </div>
+        </div>
+        <div id="tab2" class="tab">
+          <div class="content-block">
+            <p style="height:600px">This is tab 2 content start</p>
+            <p>This is tab 2 content end</p>
+          </div>
+        </div>
+        <div id="tab3" class="tab active">
+          <div class="content-block">
+            <p style="height:600px">This is tab 3 content start</p>
+            <p>This is tab 3 content end</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="weui_dialog_alert hidden" id="weui_dialog_alert">
-    <div class="weui_mask"></div>
-    <div class="weui_dialog">
-      <div class="weui_dialog_hd"><strong class="weui_dialog_title">错误</strong></div>
-      <div class="weui_dialog_bd" id="weui_dialog_alert_info"></div>
-      <div class="weui_dialog_ft">
-        <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
-      </div>
-    </div>
-  </div>
-  <script src="//cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
-  <script src="//cdn.bootcss.com/swfobject/2.2/swfobject.min.js"></script>
-  <!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> -->
+  <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+  <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
   <script src="js/live.js"></script>
 </body>
 
