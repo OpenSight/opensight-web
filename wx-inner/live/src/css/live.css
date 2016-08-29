@@ -1,3 +1,24 @@
+body{
+  font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+}
 .live-card{
   margin: 0;
+}
+.live-card img{
+  width: 100%;
+}
+.video-container{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000 url(../img/play-logo.png) no-repeat center;
+}
+.live-card .card-footer{
+  background: #333;
+}
+.live-card .card-footer a{
+  color: #25A8E1;
 }
