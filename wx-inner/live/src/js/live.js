@@ -62,7 +62,7 @@ $(function () {
     success: function (info) {
       $('title').html(info.name);
       $('#show-name').html(info.name);
-      $('#show-name').html(info.long_desc);
+      $('#show-desc').html(info.long_desc);
 
       //启动直播
       new HlsVideo(info.camera_uuid);
@@ -117,6 +117,9 @@ HlsVideo.prototype = {
     });
 
     $('#record-event-container').on('click', '.record', function(){
+      $('#switch-replay').addClass('hidden');
+      $('#switch-live').removeClass('hidden');
+
       var hls = $(this).attr('hls');
       _t.play(hls);
     });
