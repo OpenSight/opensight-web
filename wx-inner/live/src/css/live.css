@@ -7,7 +7,7 @@ body{
 .live-card img{
   width: 100%;
 }
-.video-container{
+.video-backgroud{
   position: absolute;
   z-index: 1;
   top: 0;
@@ -16,9 +16,24 @@ body{
   height: 100%;
   background: #000 url(../img/play-logo.png) no-repeat center;
 }
+.video-container{
+  width: 100%;
+  height: 100%;
+}
 .live-card .card-footer{
   background: #333;
 }
 .live-card .card-footer a{
   color: #25A8E1;
+}
+.icon-caret-270{
+  -moz-transform:rotate(270deg); 
+  -webkit-transform:rotate(270deg);
+  transform: rotate(270deg);
+}
+.hidden{
+  display: none;
+}
+.card-footer a.link.hidden, .card-header a.link.hidden{
+  display: none;
 }
