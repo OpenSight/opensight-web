@@ -107,6 +107,8 @@ HlsVideo.prototype = {
     $('#switch-replay').click(function () {
       $('#switch-replay').addClass('hidden');
       $('#switch-live').removeClass('hidden');
+      _t.stop();
+
       _t.replay();
     });
 
@@ -119,6 +121,7 @@ HlsVideo.prototype = {
     $('#record-event-container').on('click', '.record', function(){
       $('#switch-replay').addClass('hidden');
       $('#switch-live').removeClass('hidden');
+      _t.stop();
 
       var hls = $(this).attr('hls');
       _t.play(hls);
@@ -217,6 +220,24 @@ HlsVideo.prototype = {
       },
       context: this
     });
+    return this;
+  },
+  keepalive: function(session_id){
+    var _t = this;
+    this.stop();
+    this.interval = setInterval(function() {
+      $.ajax({
+        url: api + '/cameras/' + _t.camera + '/sessions/' + session_id,
+        cache: true,
+        type: 'POST'
+      });
+    }, 30000);
+  },
+  stop: function(){
+    if (undefined !== this.interval){
+      clearInterval(this.interval);
+      this.interval = undefined;
+    }
     return this;
   }
 };
