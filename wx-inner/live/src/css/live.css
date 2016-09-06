@@ -8,15 +8,28 @@ body{
   width: 100%;
 }
 @media screen and (orientation:landscape) {
-  .live-card{
+  .content{
+    width: 100%;
+    height: 100%;
+  }
+  .content,
+  .live-card,
+  .live-card .card-content{
     position: static;
   }
+  
   .live-card video{
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+  }
+  .buttons-tab{
+    visibility: hidden;
+  }
+  .tabs{
+    visibility: hidden;
   }
 }
 .video-backgroud{
