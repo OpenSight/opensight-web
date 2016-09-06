@@ -1655,6 +1655,7 @@ angular.module('app.controller', [])
 //                if ($scope.flags === true)  $scope.info.flags = 1;else $scope.info.flags = 0;
                 $http.post(url, $scope.info).success(function(response) {
                     $rootScope.$emit('messageShow', { succ: true, text: '新建成功。' });
+                    $rootScope.$state.go('project.live');
                 }).error(function(response, status) {
                         $rootScope.$emit('messageShow', { succ: false, text: '新建失败。' });
                         console.log('error');
@@ -1696,6 +1697,7 @@ angular.module('app.controller', [])
                 };
                 $http.put(url, $scope.subinfo).success(function(response) {
                     $rootScope.$emit('messageShow', { succ: true, text: '设置成功。' });
+
                     // $scope.typechange('weekday');
                 }).error(function(response, status) {
                         $rootScope.$emit('messageShow', { succ: false, text: '设置失败。' });

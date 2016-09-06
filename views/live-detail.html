@@ -105,12 +105,22 @@
       <div class="col-sm-offset-2 col-sm-10">
         <button class="btn btn-primary" ng-click="modify()">保存</button>
         <button class="btn btn-default" ui-sref="project.live">取消</button>
+          <!--<button class="btn btn-primary" ng-click="op('start', '启动')" ng-show="info.state === 0">启动直播</button>-->
+          <!--<button class="btn btn-primary" ng-click="op('stop', '结束')" ng-show="info.state === 1||info.state === 2">结束直播</button>-->
+
+          <!--<button class="btn btn-primary" ng-click="op('pause', '暂停')" ng-show="info.state === 1">暂停直播</button>-->
+          <!--<button class="btn btn-primary" ng-click="op('resume', '继续')" ng-show="info.state === 2">继续直播</button>-->
+          <!---->
+          <!--<button class="btn btn-primary" ng-click="op('restart', '重新启动')" ng-show="info.state === 1||info.state === 2">重新启动直播</button>-->
+          <!--<button class="btn btn-primary" ng-click="op('reset', '重置')" ng-show="info.state === 3">重置直播</button>-->
 
           <button class="btn btn-primary" ng-click="op('start', '启动')" ng-show="info.state === 0">启动直播</button>
+          <button class="btn btn-primary" ng-click="op('stop', '结束')" ng-show="info.state !== 0" ng-disabled="(info.state === 3)">结束直播</button>
+
           <button class="btn btn-primary" ng-click="op('pause', '暂停')" ng-show="info.state === 1">暂停直播</button>
-          <button class="btn btn-primary" ng-click="op('resume', '继续')" ng-show="info.state === 2">继续直播</button>
-          <button class="btn btn-primary" ng-click="op('stop', '结束')" ng-show="info.state === 1||info.state === 2">结束直播</button>
-          <button class="btn btn-primary" ng-click="op('restart', '重新启动')" ng-show="info.state === 1||info.state === 2">重新启动直播</button>
+          <button class="btn btn-primary" ng-click="op('resume', '继续')" ng-show="info.state !== 1" ng-disabled="(info.state !== 2)">继续直播</button>
+
+          <button class="btn btn-primary" ng-click="op('restart', '重新启动')" ng-show="info.state !== 3" ng-disabled="(info.state === 3 || info.state === 0)">重新启动直播</button>
           <button class="btn btn-primary" ng-click="op('reset', '重置')" ng-show="info.state === 3">重置直播</button>
       </div>
     </div>
