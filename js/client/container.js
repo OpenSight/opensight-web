@@ -1569,4 +1569,166 @@ angular.module('app.controller', [])
       });
     };
   }
-]);
+])
+
+
+.controller('live', [
+    '$scope', '$rootScope', '$http', '$uibModal', 'flagFactory', 'pageFactory',
+        function($scope, $rootScope, $http, $uibModal, flagFactory, pageFactory) {
+            $scope.project = $rootScope.$stateParams.project;
+
+            $scope.camera = {
+                start: 0,
+                total: 10,
+                list: []
+            };
+
+            $scope.params = {
+                filter_key: 'name',
+                filter_value: ''
+            };
+
+            var query = function(params) {
+                $http.get(api + "projects/" + $scope.project + '/live_shows', {
+                    params: params
+                }).success(function(response) {
+                        $scope.live = response;
+                        pageFactory.set(response, params);
+                    }).error(function(response, status) {
+                        console.log('error');
+                    });
+            };
+
+            $scope.page = pageFactory.init({
+                query: query,
+                jumperror: function() {
+                    alert('页码输入不正确。');
+                }
+            });
+
+            $scope.query = function() {
+                var params = {
+                    start: 0,
+                    limit: $scope.page.limit
+                };
+                if (undefined !== $scope.params.filter_value && '' !== $scope.params.filter_value) {
+                    params.filter_key = $scope.params.filter_key;
+                    params.filter_value = $scope.params.filter_value;
+                }
+                query(params);
+            };
+
+            $scope.remove = function(item, index) {
+                if (false === confirm('确认移除活动直播 "' + item.name + '" 吗？')) {
+                    return;
+                }
+                $http.delete(api + "projects/" + $scope.project + '/live_shows' + '/' + item.uuid , {}).success(function(response) {
+                    $scope.live.list.splice(index, 1);
+                    $rootScope.$emit('messageShow', { succ: true, text: '删除活动直播成功。' });
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '删除活动直播失败。' });
+                        console.log('error');
+                    });
+            };
+            $scope.query();
+        }
+    ])
+
+    .controller('add-live', [
+        '$scope', '$rootScope', '$http', 'dateFactory',
+        function($scope, $rootScope, $http, dateFactory) {
+            var url = api + "projects/" + $rootScope.$stateParams.project + '/live_shows';
+            var curl = api + "projects/" + $rootScope.$stateParams.project + '/cameras';
+//            $scope.flags = true;
+
+            $scope.info = {
+                name: '',
+                desc: '',
+                long_desc: '',
+                camera_id: '',
+                flags: 1,
+                web_url: '',
+                wechat_url: ''
+            };
+
+            $scope.add = function() {
+//                if ($scope.flags === true)  $scope.info.flags = 1;else $scope.info.flags = 0;
+                $http.post(url, $scope.info).success(function(response) {
+                    $rootScope.$emit('messageShow', { succ: true, text: '新建成功。' });
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '新建失败。' });
+                        console.log('error');
+                    });
+            };
+
+            $scope.enable = function(enabled) {
+                if (enabled === true) enabled = 1; else enabled = 0;
+                $scope.info.flags = enabled;
+            };
+
+            (function() {
+                $http.get(curl, {}).success(function(response) {
+                    $scope.cameras = response.list;
+
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '获取相机信息失败。' });
+                        console.log('error');
+                    });
+            })();
+        }
+    ])
+
+    .controller('live-detail', [
+        '$scope', '$rootScope', '$http', 'dateFactory',
+        function($scope, $rootScope, $http, dateFactory) {
+            var url = api + "projects/" + $rootScope.$stateParams.project + '/live_shows/'+ $rootScope.$stateParams.showid;
+
+
+            $scope.modify = function() {
+                $scope.subinfo = {
+                    name: $scope.info.name,
+                    desc: $scope.info.desc,
+                    long_desc: $scope.info.long_desc,
+                    flags: $scope.info.flags,
+                    web_url: $scope.info.web_url,
+                    wechat_url: $scope.info.wechat_url,
+                    record_url: $scope.info.record_url
+                };
+                $http.put(url, $scope.subinfo).success(function(response) {
+                    $rootScope.$emit('messageShow', { succ: true, text: '设置成功。' });
+                    // $scope.typechange('weekday');
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '设置失败。' });
+                        console.log('error');
+                    });
+            };
+
+            $scope.op = function(operation, mes) {
+                var tip = "确认要 " + mes + " 活动直播吗？";
+                if (false === confirm(tip)) {
+                    return false;
+                }
+                $scope.act = {
+                  op: operation
+                };
+                $http.post(url, $scope.act).success(function(response) {
+                    $rootScope.$emit('messageShow', { succ: true, text: '操作成功。' });
+                    $scope.getLiveDetail();
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '操作失败。' });
+                        console.log('error');
+                    });
+            };
+
+            $scope.getLiveDetail = function() {
+                $http.get(url, {}).success(function(response) {
+                    $scope.info = response;
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '获取信息失败。' });
+                        console.log('error');
+                    });
+            };
+            $scope.getLiveDetail();
+        }
+    ]);
+

@@ -124,6 +124,19 @@ var app = angular.module('client', [
         url: '/record-event-detail/:event',
         templateUrl: path + 'views/record-event-detail.html'
       })
+      .state('project.live', {
+          url: '/live',
+          templateUrl: path + 'views/live.html'
+      })
+      .state('project.add-live', {
+          url: '/add-live',
+          templateUrl: path + 'views/add-live.html'
+      })
+      .state('project.live-detail', {
+          url: '/live-detail/:showid',
+          templateUrl: path + 'views/live-detail.html'
+      })
+
     ;
   }
 ])
