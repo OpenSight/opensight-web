@@ -7,6 +7,18 @@ body{
 .live-card img{
   width: 100%;
 }
+@media screen and (orientation:landscape) {
+  .live-card{
+    position: static;
+  }
+  .live-card video{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
 .video-backgroud{
   position: absolute;
   z-index: 1;
@@ -45,3 +57,29 @@ body{
 .card-footer a.link.hidden, .card-header a.link.hidden{
   display: none;
 }
+.share-tip{
+  width: 156px;
+  height: 74px;
+  background: url(../img/guide.png) no-repeat;
+  background-size: 126px 74px;
+  float: right;
+}
+.state{
+  padding-left: 10px;
+}
+/*#SOHUCS #cy-cbox-wrapper{
+  display: none;
+}*/
+#SOHUCS .reset-g.section-floatbar-wap{
+  display: none;
+}
+#SOHUCS .cy-newlogin-body{
+  display: none;
+}
+#SOHUCS .cy-newlogin-wap .cy-newlogin-wrapper .cy-newlogin-footer.login-wrap-wap{
+  border-top: 0 none;
+}
+#SOHUCS .cy-newlogin-wap .cy-newlogin-wrapper .cy-newlogin-footer.login-wrap-wap h4{
+  display: none;
+}
+
