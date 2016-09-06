@@ -404,9 +404,9 @@ Comment.prototype = {
     //   $(e.data.bar).css('display', 'block');
     //   $(e.data.input).css('display', 'none');
     // });
-    this.container.find('textarea').focus(function () {
+    this.container.on('focus', 'textarea', function () {
       $('.live-card').addClass('hidden');
-    }).blur(function () {
+    }).on('blur', 'textarea', function () {
       $('.live-card').removeClass('hidden');
     });
     return this;
