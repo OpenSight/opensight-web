@@ -1722,6 +1722,11 @@ angular.module('app.controller', [])
                     });
             };
 
+            $scope.enable = function(enabled) {
+                if (enabled === true) enabled = 1; else enabled = 0;
+                $scope.info.flags = enabled;
+            };
+
             $scope.getLiveDetail = function() {
                 $http.get(url, {}).success(function(response) {
                     $scope.info = response;
