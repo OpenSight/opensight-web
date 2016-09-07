@@ -31,10 +31,10 @@ var parseStr = function (str, sp) {
 var params = getUrlParams();
 
 (function () {
-  if (undefined === params.showid) {
+  if (undefined === params.live_show) {
     return false;
   }
-  $('#SOHUCS').attr('sid', params.showid);
+  $('#SOHUCS').attr('sid', params.live_show);
 })();
 
 var api = 'http://api.opensight.cn/api/ivc/v1/projects/' + params.project;
