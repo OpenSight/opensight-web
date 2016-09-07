@@ -71,6 +71,9 @@ $(function () {
       if (1 !== info.state) {
         showState(info.state);
         return;
+      } else if (3 === info.state){
+        new Record();
+        return;
       }
       //启动直播
       new HlsVideo(info.camera_uuid, info.start);
@@ -94,7 +97,7 @@ $(function () {
 
 var showState = function (state) {
   state = state || 0;
-  var text = ['活动未启动。', '', '活动暂停中。', '活动已结束。'][state];
+  var text = ['活动未启动。', '', '活动暂停中。', ''][state];
   if ('' === text) {
     return this;
   }
@@ -147,6 +150,11 @@ HlsVideo.prototype = {
       var hls = $(this).attr('hls');
       _t.play(hls);
     });
+
+    $(window).bind('beforeunload', function () {
+      _t.stop();
+    });
+    return this;
   },
   getCamInfo: function () {
     $.ajax({
@@ -263,7 +271,8 @@ HlsVideo.prototype = {
     if (undefined !== this.session_id){
       $.ajax({
         url: api + '/cameras/' + _t.camera + '/sessions/' + session_id,
-        type: 'DELETE'
+        type: 'DELETE',
+        async: false
       });
       this.session_id = session_id;
     }
@@ -348,6 +357,8 @@ Session.prototype = {
     return this;
   }
 };
+
+var Record = function(){};
 
 
 var RecordEvent = function (camera, start_from) {
