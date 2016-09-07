@@ -78,6 +78,7 @@ $(function () {
         //获取精彩片段列表
         new RecordEvent(info.camera_uuid, info.start);
       } else if (3 === info.state) {
+        //直播状态停止直接播放事件录像
         new Record(info.event_record_id);
       } else {
         showState(info.state);
