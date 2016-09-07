@@ -246,18 +246,26 @@ HlsVideo.prototype = {
   keepalive: function (session_id) {
     var _t = this;
     this.stop();
+    this.session_id = session_id;
     this.interval = setInterval(function () {
       $.ajax({
         url: api + '/cameras/' + _t.camera + '/sessions/' + session_id,
-        cache: true,
         type: 'POST'
       });
     }, 30000);
+    return this;
   },
   stop: function () {
     if (undefined !== this.interval) {
       clearInterval(this.interval);
       this.interval = undefined;
+    }
+    if (undefined !== this.session_id){
+      $.ajax({
+        url: api + '/cameras/' + _t.camera + '/sessions/' + session_id,
+        type: 'DELETE'
+      });
+      this.session_id = session_id;
     }
     return this;
   }
