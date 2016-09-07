@@ -68,21 +68,21 @@ $(function () {
       $('#show-name').html(info.desc);
       $('#show-desc').html(info.long_desc);
 
-      if (1 !== info.state) {
+      if (1 === info.state) {
+        //启动直播
+        new HlsVideo(info.camera_uuid, info.start);
+
+        //获取观众数
+        new Session(info.camera_uuid);
+
+        //获取精彩片段列表
+        new RecordEvent(info.camera_uuid, info.start);
+      } else if (3 === info.state) {
+        new Record(info.event_record_id);
+      } else {
         showState(info.state);
         return;
-      } else if (3 === info.state){
-        new Record();
-        return;
       }
-      //启动直播
-      new HlsVideo(info.camera_uuid, info.start);
-
-      //获取观众数
-      new Session(info.camera_uuid);
-
-      //获取精彩片段列表
-      new RecordEvent(info.camera_uuid, info.start);
 
       sh.onShare(info.name, info.long_desc);
     },
@@ -268,7 +268,7 @@ HlsVideo.prototype = {
       clearInterval(this.interval);
       this.interval = undefined;
     }
-    if (undefined !== this.session_id){
+    if (undefined !== this.session_id) {
       $.ajax({
         url: api + '/cameras/' + _t.camera + '/sessions/' + session_id,
         type: 'DELETE',
@@ -358,8 +358,39 @@ Session.prototype = {
   }
 };
 
-var Record = function(){};
-
+var Record = function (id) {
+  this.hideLiveInfo();
+  this.get(id);
+  return this;
+};
+Record.prototype = {
+  get: function (id) {
+    $.ajax({
+      url: api + '/record/events/' + id,
+      type: 'GET',
+      success: function (info) {
+        this.play(info.hls);
+      },
+      context: this
+    });
+  },
+  hideLiveInfo: function () { 
+    $('.live-tip').addClass('visibility-hidden');
+    return this;
+  },
+  play: function (hls) {
+    var el = $('#' + this.container).html('<video id="' +
+      this.id +
+      '" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' +
+      hls +
+      '" type="application/x-mpegURL"></video>');
+    var player = document.getElementById(this.id);
+    player.play();
+    player.pause();
+    player.play();
+    return this;
+  }
+};
 
 var RecordEvent = function (camera, start_from) {
   this.camera = camera;
