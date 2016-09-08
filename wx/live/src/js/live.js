@@ -68,18 +68,22 @@ $(function () {
       $('#show-name').html(info.desc);
       $('#show-desc').html(info.long_desc);
 
-      if (1 !== info.state) {
+      if (1 === info.state) {
+        //启动直播
+        new HlsVideo(info.camera_uuid, info.start);
+
+        //获取观众数
+        new Session(info.camera_uuid);
+
+        //获取精彩片段列表
+        new RecordEvent(info.camera_uuid, info.start);
+      } else if (3 === info.state) {
+        //直播状态停止直接播放事件录像
+        new Record(info.event_record_id);
+      } else {
         showState(info.state);
         return;
       }
-      //启动直播
-      new HlsVideo(info.camera_uuid, info.start);
-
-      //获取观众数
-      new Session(info.camera_uuid);
-
-      //获取精彩片段列表
-      new RecordEvent(info.camera_uuid, info.start);
 
       sh.onShare(info.name, info.long_desc);
     },
@@ -94,7 +98,7 @@ $(function () {
 
 var showState = function (state) {
   state = state || 0;
-  var text = ['活动未启动。', '', '活动暂停中。', '活动已结束。'][state];
+  var text = ['活动未启动。', '', '活动暂停中。', ''][state];
   if ('' === text) {
     return this;
   }
@@ -106,7 +110,7 @@ var HlsVideo = function (camera, start_from) {
   this.id = 'video-player';
   this.format = 'hls';
   this.user = 'show';
-  this.container = 'video-container'
+  this.container = 'video-container';
   this.camera = camera;
   this.start_from = start_from;
 
@@ -147,6 +151,11 @@ HlsVideo.prototype = {
       var hls = $(this).attr('hls');
       _t.play(hls);
     });
+
+    $(window).bind('beforeunload', function () {
+      _t.stop();
+    });
+    return this;
   },
   getCamInfo: function () {
     $.ajax({
@@ -246,18 +255,27 @@ HlsVideo.prototype = {
   keepalive: function (session_id) {
     var _t = this;
     this.stop();
+    this.session_id = session_id;
     this.interval = setInterval(function () {
       $.ajax({
         url: api + '/cameras/' + _t.camera + '/sessions/' + session_id,
-        cache: true,
         type: 'POST'
       });
     }, 30000);
+    return this;
   },
   stop: function () {
     if (undefined !== this.interval) {
       clearInterval(this.interval);
       this.interval = undefined;
+    }
+    if (undefined !== this.session_id) {
+      $.ajax({
+        url: api + '/cameras/' + _t.camera + '/sessions/' + session_id,
+        type: 'DELETE',
+        async: false
+      });
+      this.session_id = session_id;
     }
     return this;
   }
@@ -341,6 +359,42 @@ Session.prototype = {
   }
 };
 
+var Record = function (id) {
+  this.id = 'video-player';
+  this.container = 'video-container';
+  
+  this.hideLiveInfo();
+  this.get(id);
+  return this;
+};
+Record.prototype = {
+  get: function (id) {
+    $.ajax({
+      url: api + '/record/events/' + id,
+      type: 'GET',
+      success: function (info) {
+        this.play(info.hls);
+      },
+      context: this
+    });
+  },
+  hideLiveInfo: function () { 
+    $('.live-tip').addClass('visibility-hidden');
+    return this;
+  },
+  play: function (hls) {
+    var el = $('#' + this.container).html('<video id="' +
+      this.id +
+      '" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' +
+      hls +
+      '" type="application/x-mpegURL"></video>');
+    var player = document.getElementById(this.id);
+    player.play();
+    player.pause();
+    player.play();
+    return this;
+  }
+};
 
 var RecordEvent = function (camera, start_from) {
   this.camera = camera;

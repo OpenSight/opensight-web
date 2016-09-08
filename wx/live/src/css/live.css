@@ -87,6 +87,9 @@ body{
 .hidden{
   display: none;
 }
+.visibility-hidden{
+  visibility: hidden;
+}
 .card-footer a.link.hidden, .card-header a.link.hidden{
   display: none;
 }
