@@ -110,7 +110,7 @@ var HlsVideo = function (camera, start_from) {
   this.id = 'video-player';
   this.format = 'hls';
   this.user = 'show';
-  this.container = 'video-container'
+  this.container = 'video-container';
   this.camera = camera;
   this.start_from = start_from;
 
@@ -360,6 +360,9 @@ Session.prototype = {
 };
 
 var Record = function (id) {
+  this.id = 'video-player';
+  this.container = 'video-container';
+  
   this.hideLiveInfo();
   this.get(id);
   return this;
