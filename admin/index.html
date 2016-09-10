@@ -1,4 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app" >
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/Base64/0.3.0/base64.min.js"></script>
+<!-- <script src="../bower_components/js-base64/base64.js"></script> -->
+<script src="../bower_components/jquery.cookie/jquery.cookie.js"></script>
+<script src="../js/jwt.js"></script>
 <script>
-  var href = window.location.origin + '/opsi-official' + window.location.pathname;
-  window.location.replace(href);
+  var jwt = new Jwt({
+    url: 'url',
+    jwt: 'jwt',
+    pwd: 'pwd',
+    login: '../login.html'
+  });
 </script>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IVC-MANAGER</title>
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bower_components/angular-loading-bar/build/loading-bar.min.css">
+    <link rel="stylesheet" href="style/font-awesome.css">
+    <link rel="stylesheet" href="style/app.css">
+</head>
+<body ng-controller="ModalCtrl" class="storlever">
+<!-- Fixed navbar -->
+<header  class="navbar navbar-fixed-top" role="navigation">
+    <div class="container first-container">
+        <div class="navbar-header" >
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" ui-sref="home.stats" style="padding-top: 0px;padding-bottom: 0px;">
+                <img alt="Open Sight" src="img/public-logo.png"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav">
+                <li ui-sref-active="active" class="menu-list-root"><a ui-sref="home.stats">控制台</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ui-sref-active="active" class="menu-list-root"><a ui-sref="userInfo">{{user}}</a></li>
+                <li ui-sref-active="active" class="menu-list-root"><a ui-sref="keys">access key</a></li>
+                <li ui-sref-active="active" class="menu-list-root"><a ui-sref="logOut">注销</a></li>
+                <li ui-sref-active="active" class="menu-list-root"><a ui-sref="help">帮助</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<div class = "container" ui-view>
+
+</div>
+
+
+<!--footer class="bs-docs-footer" role="contentinfo">
+    <div class="container">
+        <ul class="bs-docs-footer-links text-muted list-inline">
+            <li ui-sref-active="active"><a ui-sref="aboutUs">关于我们</a></li>
+            <li>·</li>
+            <li ui-sref-active="active"><a ui-sref="law">法律条款</a></li>
+            <li>·</li>
+            <li ui-sref-active="active"><a ui-sref="conc">联系我们</a></li>
+        </ul>
+    </div>
+</footer-->
+
+<div class="modal fade" id="myErrorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{gModal.Label}}</h4>
+            </div>
+            <div class="modal-body">
+                {{gModal.ErrorContent}}
+            </div>
+            <div class="modal-body" ng-show="gModal.DetailShown">
+                {{gModal.ErrorContentDetail}}
+            </div>
+            <div class="modal-footer" ng-show="gModal.MessageShown">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+            <div class="modal-footer" ng-show="gModal.SingleButtonShown">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="gModal.DetailShown = !gModal.DetailShown;">Detail</button>
+            </div>
+            <div class="modal-footer" ng-show="gModal.LogoutButtonShown">
+                <button type="button" class="btn btn-default" ng-click="gModal.logout()" data-dismiss="modal">Logout</button>
+                <button type="button" class="btn btn-primary" ng-click="gModal.DetailShown = !gModal.DetailShown;">Detail</button>
+            </div>
+            <div class="modal-footer" ng-show="gModal.MutiButtonShown">
+                <button type="button" class="btn btn-default" ng-click="gModal.goOn();">Yes</button>
+                <button type="button" class="btn btn-default" ng-click="gModal.stop();">No</button>
+                <button type="button" class="btn btn-primary" ng-click="gModal.DetailShown = !gModal.DetailShown;">Detail</button>
+            </div>
+            <div class="modal-footer" ng-show="gModal.ConfirmButtonShown">
+                <button type="button" class="btn btn-default" ng-click="gModal.goOn();">Yes</button>
+                <button type="button" class="btn btn-default" ng-click="gModal.stop();">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--div id="LoginModal" class="container modal fade" role="dialog" aria-labelledby="myModalLabel">
+
+    <form class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input class="input-block-level" placeholder="user" type="text" ng-model="admin">
+        <input class="input-block-level" placeholder="Password" type="password" ng-model="passwd">
+        <label class="checkbox">
+            <input value="remember-me" type="checkbox"> Remember me
+        </label>
+        <button class="btn btn-large btn-primary" style="background-color: #25A8E1" ng-click="Login.get()">Sign in</button>
+    </form>
+</div-->
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!--script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/animate.js"></script>
+<script src="js/ui-bootstrap-tpls-0.11.2.min.js"></script>
+<script src="js/base64.min.js"></script>
+<script src="js/angular-cookies.min.js"></script>
+<script src="js/angular-ui-router.js"></script-->
+
+
+<script src="../bower_components/angular/angular.min.js"></script>
+<script src="../bower_components/angular-cookies/angular-cookies.min.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="../bower_components/angular-file-saver/dist/angular-file-saver.bundle.min.js"></script>
+<!--script src="js/ui-bootstrap-tpls-0.11.2.min.js"></script-->
+
+<!--script src="js/angular-file-saver.bundle.min.js"></script-->
+<script src="../bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+
+<!--script src="js/Chart.min.js"></script>
+<script src="js/angular-chart.js"></script-->
+<!-- <script src="http://192.168.1.120:6543/static/js/isteven-multi-select.js"></script> -->
+<!--script src="./StorLever.html2_files/script.js"></script-->
+
+<script src="js/app/app.js"></script>
+<script src="js/app/directives.js"></script>
+<!-- <script src="js/app/filter.js"></script> -->
+<script src="../js/filter.js"></script>
+<script src="../js/services.js"></script>
+<script src="js/ocLazyLoad.js"></script>
+<!--script src="./StorLever.html2_files/services.js"></script-->
+<script src="js/controller/controllers.js"></script>
+<!--script src="./StorLever.html2_files/filters.js"></script>
+<script src="./StorLever.html2_files/directives.js"></script-->
+
+
+</body>
+</html>

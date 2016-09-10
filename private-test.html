@@ -1,4 +1,163 @@
-<script>
-  var href = window.location.origin + '/opsi-official' + window.location.pathname;
-  window.location.replace(href);
-</script>
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>测试</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/square.css">
+  <!-- <link rel="stylesheet" href="css/video.css"> -->
+</head>
+<style>
+  .live{
+    margin-top: 10px;
+  }
+</style>
+<body>
+  <!--[if lt IE 8]>
+  <p class="browserupgrade">
+    You are using an <strong>outdated</strong>
+    browser. Please
+    <a href="http://browsehappy.com/">upgrade your browser</a>
+    to improve your experience.
+  </p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <header  class="navbar navbar-default navbar-fixed-top" role="navigation" id="header">
+    <div class="container squera-container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://www.opensight.cn/">
+          <img alt="Open Sight" src="img/logo.png">
+        </a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="square.html">视频广场</a>
+          </li>
+          <li>
+            <a href="#">更多</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>  
+
+  <div class="container squera-container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">测试流</h3>
+          </div>
+          <div class="panel-body container-fluid">
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="url" placeholder="url"></div>
+            <div class="col-sm-2">
+              <input type="text" class="form-control" id="bufferTime" placeholder="bufferTime" value="4.0"></div>
+            <div class="col-sm-2">
+              <button class="btn btn-primary" id="preview">播放</button>
+            </div>
+            <div class="live col-sm-12">
+              <div class="img-container">
+                <img id="img" src="img/video.jpg" alt=""></div>
+              <div class="player-container">
+                <div id="videoPlayer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">支持HLS、RTMP</div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">测试Session延时</h3>
+          </div>
+          <div class="panel-body">
+            <p>
+              <form class="form-inline">
+                <select name="" id="uuid" class="form-control">
+                  <option value="8e9afacb-c0b7-4e22-b7c1-9468ff9adc22">demo_c1</option>
+                  <option value="f4d4850f-474e-439c-a7fa-cd7b7b9c1344">demo_c2</option>
+                  <option value="0d4afb76-420c-462f-9676-2c8f7433059a">hyt_c1</option>
+                </select>
+                <select name="" id="time" class="form-control">
+                  <option value="0">0秒</option>
+                  <option value="1000">1秒</option>
+                  <option value="2000">2秒</option>
+                  <option value="3000">3秒</option>
+                  <option value="4000">4秒</option>
+                  <option value="5000">5秒</option>
+                  <option value="6000">6秒</option>
+                  <option value="7000">7秒</option>
+                  <option value="8000">8秒</option>
+                  <option value="9000">9秒</option>
+                  <option value="10000">10秒</option>
+                </select>
+                <button id="start" type="button" class="btn btn-primary">启动</button>
+                <button id="stop" type="button" class="btn btn-primary">停止</button>
+                <p id="tip" class="hidden bg-success"></p>
+              </form>
+            </p>
+          </div>
+          <div class="panel-footer">
+            测试Session延时
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bs-docs-footer" role="contentinfo">
+    <div class="container squera-container">
+      <ul class="bs-docs-footer-links text-muted list-inline">
+        <li>
+          <a href="about.html#about">关于我们</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="#">法律条款</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="swagger-ui/dist/">API</a>
+        </li>
+        <li>·</li>
+        <li>
+          <a href="about.html#conc">联系我们</a>
+        </li>
+      </ul>
+      <p>© 2015 杭州趣观科技有限公司 版权所有</p>
+        <p>备案证编号：浙ICP备15041027号</p>
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010402000840" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="img/gab.png" border="0" style="float:left;" />
+            <p style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">浙公网安备 33010402000840号</p></a>
+        <!--p>
+        <div style="width:470px;margin:0 auto; padding:0">
+            <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010402000840" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="img/gab.png" border="0" style="float:left;" />
+                <p style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">浙公网安备 33010402000840号</p></a>
+        </div>
+
+        </p-->
+    </div>
+  </footer>
+
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/swfobject.min.js"></script>
+<script src="js/test.js"></script>
+</body>
+</html>

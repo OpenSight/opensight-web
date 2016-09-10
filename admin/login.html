@@ -1,4 +1,47 @@
-<script>
-  var href = window.location.origin + '/opsi-official' + window.location.pathname;
-  window.location.replace(href);
-</script>
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="login">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>IVC-MANAGER</title>
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="style/bootstrap.min.css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="style/signin.css">
+    <link rel="stylesheet" href="style/app.css">
+
+</head>
+
+<body class ="storlever ng-scope">
+<header  class="navbar navbar-fixed-top" role="navigation">
+    <div class="container first-container">
+        <div class="navbar-header" >
+            <a class="navbar-brand" style="padding-top: 0px;padding-bottom: 0px;">
+                <img alt="Open Sight" src="img/public-logo.png"></a>
+            <a class="navbar-brand" href="#">IVC-MANAGER</a>
+
+        </div>
+    </div>
+</header>
+<div class="container" style="padding-top: 65px;" ng-controller="loginCtrl">
+    <form class="form-signin" role="form">
+        <input type="text" class="form-control" placeholder="Account" required="" autofocus=""
+               value="" ng-model="admin" />
+        <input type="password" class="form-control" placeholder="Password" required=""
+               value="" ng-model="passwd" />
+        <!--label class="checkbox">
+            <input type="checkbox" value="remember-me"> Remember me
+        </label-->
+        <button class="btn btn-lg btn-primary btn-block" ng-click="auth.check()">Sign in</button>
+    </form>
+</div> <!-- /container -->
+
+<script src="js/angular.min.js"></script>
+<script src="js/angular-cookies.min.js"></script>
+<script src="js/app/login.js"></script>
+<script src="js/sjcl.js"></script>
+<script src="js/controller/login.js"></script>
+</body></html>
