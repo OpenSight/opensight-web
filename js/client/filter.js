@@ -84,7 +84,7 @@ angular.module('app.filter', []).filter('online', [function() {
   };
 }])
 
-filter('range', function() {
+.filter('range', function() {
   return function(input, start, end) {    
     start = parseInt(start);
     end = parseInt(end);
@@ -96,4 +96,21 @@ filter('range', function() {
     return input;
   };
 })
+
+.filter('show_state', [function() {
+      return function(state) {
+          if (0 === state){
+              return '未启动';
+          }else if (1 === state){
+              return '进行中';
+          }else if (2 === state){
+              return '暂停';
+          }else if (3 === state){
+              return '已结束';
+          } else {
+              return '未知';
+          }
+      };
+}])
+
 ;

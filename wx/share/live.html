@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>直播</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.3/style/weui.min.css">
+  <link rel="stylesheet" href="css/share.css">
+</head>
+
+<body>
+  <div class="weui_cells weui_cells_form weui_cells_player">
+    <div class="weui_cell">
+      <div class="weui_cell_bd weui_cell_primary">
+        <h1 class="page_title" id="camera_name"></h1>
+      </div>
+    </div>
+    <div class="weui_cell weui_cell_player">
+      <div class="img-container">
+        <img id="recimg" src="../img/video4x4.jpg" alt="">
+      </div>
+      <div class="player-container" id="player-container">
+        <div class="play-tip">
+          <span class="text-highlight" id="player-tip-sec">10</span>
+          秒之后直播开始
+        </div>
+        <!-- <video id="video-player" class="video" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="movie.ogg" type="application/x-mpegURL"></video> -->
+      </div>
+    </div>
+    <div class="weui_cell flags" id="flags"></div>
+    <div class="weui_cell">
+      <div class="weui_cell_hd">
+        <label for="" class="weui_label">描述</label>
+      </div>
+      <div class="weui_cell_bd weui_cell_primary">
+        <p class="form-control-static" id="desc"></p>
+      </div>
+    </div>
+    <div class="weui_cell">
+      <div class="weui_cell_hd">
+        <label for="" class="weui_label">详细描述</label>
+      </div>
+      <div class="weui_cell_bd weui_cell_primary">
+        <p class="form-control-static" id="long_desc"></p>
+      </div>
+    </div>
+  </div>
+  <div class="weui_dialog_alert hidden" id="weui_dialog_alert">
+    <div class="weui_mask"></div>
+    <div class="weui_dialog">
+      <div class="weui_dialog_hd"><strong class="weui_dialog_title">错误</strong></div>
+      <div class="weui_dialog_bd" id="weui_dialog_alert_info"></div>
+      <div class="weui_dialog_ft">
+        <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+      </div>
+    </div>
+  </div>
+  <script src="//cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+  <script src="//cdn.bootcss.com/swfobject/2.2/swfobject.min.js"></script>
+  <!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> -->
+  <script src="js/live.js"></script>
+</body>
+
+</html>

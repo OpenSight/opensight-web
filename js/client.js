@@ -112,6 +112,31 @@ var app = angular.module('client', [
         url: '/bill',
         templateUrl: path + 'views/bill.html'
       })
+      .state('project.bill-detail', {
+        url: '/bill-detail/:bill',
+        templateUrl: path + 'views/bill-detail.html'
+      })
+      .state('project.record-event', {
+        url: '/record-event',
+        templateUrl: path + 'views/record-event.html'
+      })
+      .state('project.record-event-detail', {
+        url: '/record-event-detail/:event',
+        templateUrl: path + 'views/record-event-detail.html'
+      })
+      .state('project.live', {
+          url: '/live',
+          templateUrl: path + 'views/live.html'
+      })
+      .state('project.add-live', {
+          url: '/add-live',
+          templateUrl: path + 'views/add-live.html'
+      })
+      .state('project.live-detail', {
+          url: '/live-detail/:showid',
+          templateUrl: path + 'views/live-detail.html'
+      })
+
     ;
   }
 ])

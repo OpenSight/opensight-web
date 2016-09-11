@@ -1,0 +1,77 @@
+        <div class="swiper-container form-group" style="height: 100%;" id="projectTab" ng-controller="CameraSwiper">
+            <!--<div class="weui_cells weui_cells_form">-->
+                <!--<div class="weui_cell weui_cell_switch" style="padding-left: 0px;background-color:#eee;">-->
+                    <!--<div class="weui_cell_bd weui_cell_primary">-->
+                        <!--<p style="margin-bottom: 0px;margin-top: 10px;float:right;">缩略图</p>-->
+                    <!--</div>-->
+                    <!--<div class="weui_cell_ft">-->
+                        <!--<input class="weui_switch"  ng-model="preShow" ng-change="cameralist.setPreCookie();" type="checkbox"/>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="swiper-wrapper" style="margin-bottom: 35px;">
+                <div class="swiper-slide" ng-repeat="u in projectlist.data">
+                    <div class="weui_tab" >
+                        <div class="weui_tab_bd" style="padding-bottom: 0px;">
+                            <!--<div class="weui_cells_title">当前项目</div>-->
+                            <div class="weui_cells weui_cells_form">
+                                <div class="weui_cell">
+                                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <p class="form-control-static">{{u.name}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="padding-left: 0px;padding-right: 0px;">
+                        <div style="padding-left: 0px;padding-right: 0px;">
+                            <div class="col-md-3 col-sm-4 col-xs-12" style="padding-left: 0px;padding-right: 0px;" ng-repeat="item in cameralist.data">
+
+                                <div class="thumbnail">
+                                    <div class="caption">
+                                        <p class="text-name">
+                                            <a ng-click="cameralist.showMore(item)">{{item.name}}</a>
+                                            <span class="pull-right" ng-class ="{'text-highlight': item.is_online!==0, 'text-danger': item.is_online===0}" >{{item.is_online|online}}</span>
+                                        </p>
+                                        <p class="text-desc" style="color: #ABAAAA">{{item.desc}}</p>
+                                    </div>
+                                    <a ng-click="cameralist.showMore(item)" ng-show="preShow"><img src="{{item.preview}}" alt="{{item.name}}"></a>
+                                    <div class="topimg-container" ng-click="cameralist.showMore(item)" ng-show="preShow"></div>
+                                    <div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;margin-bottom: 15px;">
+                                        <a ng-click="cameralist.showRec(item)" class="weui_btn_dialog" style="color: #25A8E1;">
+                                            <div style="display: block-inline;height:40px;margin:2px;border-right:solid 1px #ABAAAA;">
+                                                <img src="./img/replay24.png" alt="" />
+                                                <!--<i class="fa fa-film" style="font-size: 22px;color: #000000" aria-hidden="true"></i>-->
+                                                <p class="text-name" style="display: block">回放</p>
+                                            </div>
+                                        </a>
+                                        <a ng-click="cameralist.showMore(item)" class="weui_btn_dialog" style="color: #25A8E1">
+                                            <div style="display: block-inline;height:40px;margin:2px;">
+                                                <img src="./img/live24.png" alt="" />
+                                                <!--<i class="fa fa-play-circle-o" style="font-size: 24px;color: #000000" aria-hidden="true"></i>-->
+                                                <p class="text-name" style="display: block">实时</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+
+            <!-- 如果需要导航按钮 >
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div-->
+
+            <!-- 如果需要滚动条 >
+            <div class="swiper-scrollbar"></div-->
+        </div>
+
+

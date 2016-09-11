@@ -96,6 +96,13 @@ app
           load: app.asyncjs("./js/controller/wechat.js")
         }
       })
+      .state('home.schedule', {
+        url: '/schedule',
+        templateUrl: './views/schedule.html',
+        resolve: {
+          load: app.asyncjs("./js/controller/schedule.js")
+        }
+      })
       .state('home.projectDetail', {
         url: '/projectsDetail'
 

@@ -19,15 +19,15 @@
   <table class="table table-condensed table-hover table-bordered table-striped table-vertical-middle">
     <thead>
       <tr>
-        <th class="col-sm-2">摄像机名称</th>
+        <th class="col-sm-3">摄像机名称</th>
         <!-- <th class="col-sm-2">描述</th> -->
         <th class="col-sm-1 text-center">在线</th>
         <th class="col-sm-1 text-center">录像状态</th>
         <th class="col-sm-2 text-center">允许直播</th>
         <th class="col-sm-3 text-center">预览</th>
         <th class="col-sm-1 text-center">回放</th>
-        <th class="col-sm-1 text-center">重启</th>
         <th class="col-sm-1 text-center">配置</th>
+        <th class="col-sm-1 text-center">重启</th>
       </tr>
     </thead>
     <tbody>
@@ -49,7 +49,8 @@
           <!-- Single button -->
           <div class="btn-group btn-group-sm">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="(!item.live) || (!item.is_online)">
-              预览 <span class="caret"></span>
+              预览
+              <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
               <li><a class="pointer" ng-click="preview(item, 'rtmp')">RTMP</a></li>
@@ -63,27 +64,20 @@
           </button>
         </td>
         <td class="text-center">
-          <button class="btn btn-default btn-sm" ng-click="restart(item.uuid)" title="重启">
-            <i class="glyphicon glyphicon-repeat pointer"></i>
+          <button class="btn btn-default btn-sm" ui-sref="project.camera-detail({camera: item.uuid})" title="配置">
+            <i class="glyphicon glyphicon-cog pointer"></i>
           </button>
         </td>
         <td class="text-center">
-          <button class="btn btn-default btn-sm" ui-sref="project.camera-detail({camera: item.uuid})" title="配置">
-            <i class="glyphicon glyphicon-cog pointer"></i>
+          <button class="btn btn-default btn-sm" ng-click="restart(item.uuid)" title="重启">
+            <i class="glyphicon glyphicon-repeat pointer"></i>
           </button>
         </td>
       </tr>
     </tbody>
   </table>
   <div class="pagination-container">
-    <uib-pagination 
-      total-items="page.total" 
-      ng-model="page.curr" 
-      max-size="page.max" 
-      items-per-page="page.limit" 
-      previous-text="&laquo;" next-text="&raquo;" 
-      ng-change="page.pageChanged()" 
-      boundary-link-numbers="true" class="pagination-sm">
+    <uib-pagination total-items="page.total" ng-model="page.curr" max-size="page.max" items-per-page="page.limit" previous-text="&laquo;" next-text="&raquo;" ng-change="page.pageChanged()" boundary-link-numbers="true" class="pagination-sm">
     </uib-pagination>
     &nbsp;&nbsp;&nbsp;&nbsp;
     <label class="pagination-jump">
@@ -91,117 +85,9 @@
       <input type="text" class="form-control input-sm" ng-model="page.jumpto">
     </label>
     <button class="btn btn-default btn-sm" ng-click="page.jump()">Go</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span>
+      共&nbsp;{{page.total}}&nbsp;条
+    </span>
   </div>
-  <script type="text/ng-template" id="sessionModalContent.html">
-    <div class="modal-header">
-      <h4 class="modal-title">{{cam.name}}
-        <i class="glyphicon glyphicon-remove pull-right" ng-click="ok()"></i>
-      </h4>
-    </div>
-    <div class="modal-body">
-      <div class="container-fluid">
-        <div class="row">
-          <div ng-class="{true: 'col-sm-9', false: 'col-sm-12'}[cam.ptz]">
-            <div class="live">
-              <div class="img-container">
-                <img id="img" src="../img/video.jpg" alt="">
-              </div>
-              <div class="player-container">
-                <div id="videoPlayer">
-                  <p class="play-tip pull-right">
-                    <span class="text-primary" id="playTipSec">{{sec}}</span>秒之后直播开始
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3" ng-show="cam.ptz">
-            <p>
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" class="ptz">
-                <g>
-                  <symbol class="icon icon-" id="ptz-icon-1" viewBox="0 0 89 89">
-                    <!--Replace the contents of this symbol with the content of your icon-->            
-                    <path d="M45 0 L0 89 L89 89 Z"/>            
-                  </symbol>
-
-                  <symbol class="icon icon-" id="ptz-icon-2" viewBox="0 0 512 512">
-                    <!--Replace the contents of this symbol with the content of your icon-->            
-                    <path d="M497.913,497.914c-18.782,18.781-49.226,18.781-68.008,0l-84.862-84.864c-34.89,22.366-76.131,35.718-120.66,35.718  C100.468,448.768,0,348.314,0,224.384C0,100.454,100.468,0,224.383,0c123.931,0,224.384,100.453,224.384,224.384  c0,44.529-13.353,85.771-35.718,120.675l84.863,84.849C516.695,448.689,516.695,479.131,497.913,497.914z M224.383,64.11  c-88.511,0-160.274,71.763-160.274,160.274c0,88.526,71.764,160.274,160.274,160.274c88.526,0,160.273-71.748,160.273-160.274  C384.656,135.873,312.909,64.11,224.383,64.11z M256.438,320.548h-64.108v-64.109H128.22V192.33h64.109v-64.11h64.108v64.11h64.11  v64.109h-64.11V320.548z"/>            
-                  </symbol>
-
-                  <symbol class="icon icon-" id="ptz-icon-3" viewBox="0 0 512 512">
-                    <!--Replace the contents of this symbol with the content of your icon-->            
-                    <path d="M497.913,429.906l-84.863-84.848c22.365-34.903,35.718-76.146,35.718-120.676C448.768,100.453,348.314,0,224.383,0    C100.468,0,0,100.453,0,224.384s100.468,224.384,224.383,224.384c44.529,0,85.771-13.352,120.66-35.718l84.862,84.864    c18.782,18.781,49.226,18.781,68.008,0C516.695,479.131,516.695,448.689,497.913,429.906z M224.383,384.658    c-88.511,0-160.274-71.748-160.274-160.274c0-88.511,71.764-160.274,160.274-160.274c88.526,0,160.273,71.763,160.273,160.274    C384.656,312.91,312.909,384.658,224.383,384.658z M128.219,256.438h192.329v-64.109H128.219V256.438z"/>            
-                  </symbol>
-
-                </g>
-                <g data-svg-origin="250 250" transform="matrix(0.38734,-0.92193,0.92193,0.38734,-77.3193578290572,383.64893561257276)">
-                  <a class="ptz-item" xlink:title="上" transform="matrix(1,0,0,1,0,0)" data-svg-origin="250 250" ng-mousedown="ptzStart('up')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
-                    <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
-                    <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
-                  </a>
-                  <a class="ptz-item" xlink:title="右上" transform="matrix(0.7071,-0.7071,0.7071,0.7071,-103.55339059327378,249.99999999999997)" data-svg-origin="250 250" ng-mousedown="ptzStart('upleft')"  ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
-                    <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
-                    <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
-                  </a>
-                  <a class="ptz-item" xlink:title="右" transform="matrix(0,-1,1,0,0,500)" data-svg-origin="250 250" ng-mousedown="ptzStart('left')"  ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
-                    <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
-                    <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
-                  </a>
-                  <a class="ptz-item" xlink:title="右下" transform="matrix(-0.7071,-0.7071,0.7071,-0.7071,249.99999999999997,603.5533905932738)" data-svg-origin="250 250" ng-mousedown="ptzStart('downleft')"  ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
-                    <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
-                    <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
-                  </a>
-                  <a class="ptz-item" xlink:title="下" transform="matrix(-1,0,0,-1,500,500)" data-svg-origin="250 250" ng-mousedown="ptzStart('down')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
-                    <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
-                    <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
-                  </a>
-                  <a class="ptz-item" xlink:title="左下" transform="matrix(-0.7071,0.7071,-0.7071,-0.7071,603.5533905932738,250.00000000000006)" data-svg-origin="250 250" ng-mousedown="ptzStart('downright')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
-                    <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
-                    <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
-                  </a>
-                  <a class="ptz-item" xlink:title="左" transform="matrix(0,1,-1,0,500.00000000000006,0)" data-svg-origin="250 250" ng-mousedown="ptzStart('right')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
-                    <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
-                    <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
-                  </a>
-                  <a class="ptz-item" xlink:title="左上" transform="matrix(0.7071,0.7071,-0.7071,0.7071,250.00000000000009,-103.55339059327378)" data-svg-origin="250 250" ng-mousedown="ptzStart('upright')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
-                    <path fill="none" stroke="#111" d="M350,250 l150,0 A250,250 0 0,0 426.7766952966369,73.22330470336314 l-106.06601717798213,106.0660171779821 A100,100 0 0,1 350,250" class="ptz-sector"></path>
-                    <use xlink:href="#ptz-icon-1" width="40" height="40" x="394.4505615234375" y="161.88233947753906" transform="rotate(67.5 414.4505615234375 181.88233947753906)"></use>
-                  </a>
-                  <a class="ptz-item" xlink:title="放大" transform="matrix(0.382683,0.923880,-0.923880,0.382683,305,120)" data-svg-origin="250 250" ng-mousedown="ptzStart('zoomin')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
-                    <path fill="none" stroke="#111" stroke-width="1" class="ptz-sector" d="M100,0 L100,200 A100,100 180 0 1 100,0 Z"></path>
-                    <use xlink:href="#ptz-icon-2" width="40" height="40" x="30" y="80"></use>
-                  </a>
-                  <a class="ptz-item" xlink:title="缩小" transform="matrix(0.382683,0.923880,-0.923880,0.382683,305,120)" data-svg-origin="250 250" ng-mousedown="ptzStart('zoomout')" ng-mouseup="ptzStop()" ng-mouseout="ptzmouseout()">
-                    <path fill="none" stroke="#111" stroke-width="1" class="ptz-sector" d="M100,0 L100,200 A100,100 180 0 0 100,0 Z"></path>
-                    <use xlink:href="#ptz-icon-3" width="40" height="40" x="130" y="80"></use>
-                  </a>
-                </g>
-              </svg>
-            </p>
-            <p style="padding-top: 5px; padding-bottom: 5px;">
-              <input ng-model="speed" type="text" slider options="options" />
-            </p>
-            <p>
-              <select class="form-control" ng-model="selected" ng-change="ptzchange()">
-                <option value="preset">预置位</option>
-                <option value="presettour">预置位巡航</option>
-                <option value="patrol">轨迹巡航</option>
-              </select>
-            </p>
-            <p ng-hide="'patrol' === selected">
-              <select class="form-control" ng-model="token" ng-options="it.token as it.name for it in ptzlist"></select>
-            </p>
-            <p>
-              <button class="btn btn-default" ng-click="cruise('start')">启动</button>
-              <button class="btn btn-default" ng-click="cruise('stop')" ng-show="'preset' !== selected">停止</button>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-primary" type="button" ng-click="ok()">关闭</button>
-    </div>
-  </script>
 </div>

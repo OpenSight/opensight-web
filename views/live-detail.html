@@ -1,0 +1,129 @@
+<div class="container-fluid" ng-controller="live-detail">
+  <div class="col-sm-12 page-header page-header-condensed">
+    <h3>
+      <button class="btn btn-default btn-sm" ui-sref="project.live"><i class="fa fa-arrow-left"></i></button>&nbsp;&nbsp;
+      设置活动直播
+    </h3>
+  </div>
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">活动名称</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="info.name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">描述</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="info.desc">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">详细描述</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" rows="6" ng-model="info.long_desc"></textarea>
+      </div>
+    </div>
+      
+      <div class="form-group">
+          <label class="col-sm-2 control-label">录像</label>
+          <div class="col-sm-10">
+              <div class="btn-group btn-group-sm">
+                  <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[info.flags === 1]" title="启用录像" ng-click="enable(true)" ng-disabled="info.state !== 0">启用录像</button>
+                  <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[info.flags === 1]" title="禁止录像" ng-click="enable(false)" ng-disabled="info.state !== 0">禁止录像</button>
+              </div>
+          </div>
+      </div>
+      
+      <div class="form-group">
+          <label class="col-sm-2 control-label">网页链接</label>
+          <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="info.web_url">
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">微信链接</label>
+          <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="info.wechat_url">
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">录像链接</label>
+          <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="info.record_url">
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">活动ID</label>
+          <div class="col-sm-10">
+              <p class="form-control-static">{{info.uuid}}</p>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">项目名称</label>
+          <div class="col-sm-10">
+              <p class="form-control-static">{{info.project_name}}</p>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">起始时间</label>
+          <div class="col-sm-10">
+              <p class="form-control-static">{{(info.start===0)?"":(info.start|date: "yyyy-MM-dd HH:mm:ss")}}</p>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">结束时间</label>
+          <div class="col-sm-10">
+              <p class="form-control-static">{{(info.end===0)?"":(info.end|date: "yyyy-MM-dd HH:mm:ss")}}</p>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">相机ID</label>
+          <div class="col-sm-10">
+              <p class="form-control-static">{{info.camera_uuid}}</p>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">相机名称</label>
+          <div class="col-sm-10">
+              <p class="form-control-static">{{info.camera_name}}</p>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">状态</label>
+          <div class="col-sm-10">
+              <p class="form-control-static">{{info.state|show_state}}</p>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">录像ID</label>
+          <div class="col-sm-10">
+              <p class="form-control-static">{{info.event_record_id}}</p>
+          </div>
+      </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-primary" ng-click="modify()">保存</button>
+        <button class="btn btn-default" ui-sref="project.live">取消</button>
+          <!--<button class="btn btn-primary" ng-click="op('start', '启动')" ng-show="info.state === 0">启动直播</button>-->
+          <!--<button class="btn btn-primary" ng-click="op('stop', '结束')" ng-show="info.state === 1||info.state === 2">结束直播</button>-->
+
+          <!--<button class="btn btn-primary" ng-click="op('pause', '暂停')" ng-show="info.state === 1">暂停直播</button>-->
+          <!--<button class="btn btn-primary" ng-click="op('resume', '继续')" ng-show="info.state === 2">继续直播</button>-->
+          <!---->
+          <!--<button class="btn btn-primary" ng-click="op('restart', '重新启动')" ng-show="info.state === 1||info.state === 2">重新启动直播</button>-->
+          <!--<button class="btn btn-primary" ng-click="op('reset', '重置')" ng-show="info.state === 3">重置直播</button>-->
+
+          <button class="btn btn-primary" ng-click="op('start', '启动')" ng-show="info.state === 0">启动直播</button>
+          <button class="btn btn-primary" ng-click="op('stop', '结束')" ng-show="info.state !== 0" ng-disabled="(info.state === 3)">结束直播</button>
+
+          <button class="btn btn-primary" ng-click="op('pause', '暂停')" ng-show="info.state === 1">暂停直播</button>
+          <button class="btn btn-primary" ng-click="op('resume', '继续')" ng-show="info.state !== 1" ng-disabled="(info.state !== 2)">继续直播</button>
+
+          <button class="btn btn-primary" ng-click="op('restart', '重新启动')" ng-show="info.state !== 3" ng-disabled="(info.state === 3 || info.state === 0)">重新启动直播</button>
+          <button class="btn btn-primary" ng-click="op('reset', '重置')" ng-show="info.state === 3">重置直播</button>
+      </div>
+    </div>
+  </form>
+</div>

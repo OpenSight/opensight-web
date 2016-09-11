@@ -1,164 +1,125 @@
 <div ng-controller="CameraList">
-    <div class="row row-in-tab os-row-no-padding">
-        <div class="col-sm-12 os-table-container" ng-show="cameraListShown">
-            <div class="weui_cell" style="padding-left: 0px;">
-               <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回我的项目" ng-click="cameralist.backProject();">
-                <i  class="fa fa-arrow-left"></i>
+    <!--list-->
+    <div style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.preList">
+
+        <div class="col-sm-12 os-table-container" style="padding-left: 0px;padding-right: 0px;">
+            <div class="weui_cell_hd" style="padding-left: 0px;">
+               <span class="btn-small" style="cursor:pointer;float:left;padding:10px;font-size:16px;" title="返回我的项目" ng-click="cameralist.backProject();">
+                <i  class="fa fa-chevron-left "></i>
+                   返回我的项目
+                </span>
+
+            </div>
+            <div class="weui_cell_ft" style="padding-left: 0px;color:#333;">
+                <span class="btn-small" style="cursor:pointer;float:right;padding:10px;font-size:16px;" title="设置" ng-click="cameralist.setListShow();">
+                <!--<i  class="fa fa-cog "></i>-->
+                &nbsp;&nbsp;设置
                 </span>
             </div>
-            <!--div class="weui_cells_title">{{PName}} 摄像头列表</div>
-            <div class="weui_cells weui_cells_form">
-                <div class="weui_cell" ng-repeat="u in cameralist.data">
-                    <div class="weui_cell_hd"><label class="weui_label" style="width: 12em">{{u.name}}</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <p class="form-control-static">{{u.is_online|online}}</p>
-                    </div>
-                </div>
-            </div-->
-            <div class="container squera-container">
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="item in cameralist.data">
+        </div>
+
+            <div style="padding-left: 0px;padding-right: 0px;">
+                <div style="padding-left: 0px;padding-right: 0px;">
+                    <div class="col-md-3 col-sm-4 col-xs-12" style="padding-left: 0px;padding-right: 0px;" ng-repeat="item in cameralist.data">
 
                         <div class="thumbnail">
-                            <a ng-click="cameralist.showMore(item)"><img src="{{item.preview}}" alt="{{item.name}}"></a>
                             <div class="caption">
                                 <p class="text-name">
                                     <a ng-click="cameralist.showMore(item)">{{item.name}}</a>
                                     <span class="pull-right" ng-class ="{'text-highlight': item.is_online!==0, 'text-danger': item.is_online===0}" >{{item.is_online|online}}</span>
                                 </p>
-                                <p class="text-muted text-desc">{{item.desc}}</p>
-
+                                <p class="text-desc" style="color: #ABAAAA">{{item.desc}}</p>
                             </div>
-                        </div>
-
-                        <!--div class="thumbnail" id="videoPlayerWrapper" ng-show="pic_field[item.uuid]">
-                            <div class="live">
-                                <div class="img-container"><img id="img" src="../img/video.jpg" alt=""></div>
-                                <div class="player-container">
-                                    <div id="videoPlayer">
-                                        <p class="play-tip pull-right">
-                                            <span class="text-highlight" id="playTipSec">10</span>
-                                            秒之后直播开始
-                                        </p>
+                            <a ng-click="cameralist.showMore(item)" ng-show="preShow"><img src="{{item.preview}}" alt="{{item.name}}"></a>
+                            <div class="topimg-container" ng-click="cameralist.showMore(item)" ng-show="preShow"></div>
+                            <div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;margin-bottom: 15px;">
+                                <a ng-click="cameralist.showRec(item)" class="weui_btn_dialog" style="color: #25A8E1;">
+                                    <div style="display: block-inline;height:40px;margin:2px;border-right:solid 1px #ABAAAA;">
+                                        <img src="./img/replay24.png" alt="" />
+                                        <!--<i class="fa fa-film" style="font-size: 22px;color: #000000" aria-hidden="true"></i>-->
+                                        <p class="text-name" style="display: block">回放</p>
                                     </div>
-                                </div>
-                            </div>
-                        </div-->
-
-                    </div>
-                </div>
-                <!--div class="row loading hidden" id="loading">
-                    <span></span>
-                </div>
-                <div class="row" id="lastpage"></div-->
-            </div>
-        </div>
-
-        <div class="col-sm-12 os-table-container" ng-show="!cameraListShown">
-            <div class="weui_cell" style="padding-left: 0px;">
-               <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回摄像头列表" ng-click="cameraListShown=true;Player.destroy();">
-                <i  class="fa fa-arrow-left"></i>
-                </span>
-            </div>
-            <div class="weui_cells_title">摄像头信息</div>
-            <div class="weui_cells weui_cells_form">
-                <div class="container squera-container">
-                    <div class="row">
-                        <div class="col-md-3 col-sm-4 col-xs-12">
-                            <!--div class="thumbnail">
-                                <a ng-click="cameralist.showPlayer(item)"><img src="{{item.preview}}" alt="{{item.name}}"></a>
-                                <div class="caption">
-                                    <p class="text-name">
-                                        <a ng-click="cameralist.showPlayer(item)">{{item.name}}</a>
-                                        <span class="pull-right" ng-class ="{'text-highlight': item.is_online!==0, 'text-danger': item.is_online===0}" >{{item.is_online|online}}</span>
-                                    </p>
-                                    <p class="text-muted text-desc">{{item.desc}}</p>
-                                </div>
-                            </div-->
-
-                            <div class="thumbnail" id="videoPlayerWrapper">
-                                <div class="live">
-                                    <div class="img-container"><a ng-click="cameralist.showPlayer(c)"><img id="img" ng-src="{{c.img}}" alt="" /></a></div>
-                                    <div class="player-container" ng-show="c.tip">
-                                        <div id="videoPlayer">
-                                            <p class="play-tip pull-right" >
-                                                <span class="text-highlight" id="playTipSec">10</span>
-                                                秒之后直播开始
-                                            </p>
-                                        </div>
+                                </a>
+                                <a ng-click="cameralist.showMore(item)" class="weui_btn_dialog" style="color: #25A8E1">
+                                    <div style="display: block-inline;height:40px;margin:2px;">
+                                        <img src="./img/live24.png" alt="" />
+                                        <!--<i class="fa fa-play-circle-o" style="font-size: 24px;color: #000000" aria-hidden="true"></i>-->
+                                        <p class="text-name" style="display: block">实时</p>
                                     </div>
-                                </div>
-                                <div class="caption">
-                                    <p class="text-name">
-                                        <a ng-click="cameralist.showMore(item)">{{c.name}}</a>
-                                        <span class="pull-right" ng-class ="{'text-highlight': c.is_online!==0, 'text-danger': c.is_online===0}" >{{c.is_online|online}}</span>
-                                    </p>
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <!--div class="weui_cells weui_cells_form"-->
                 </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">清晰度</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <div class="btn-group btn-group-xs">
-                            <button ng-repeat="it in c.stearmOptions" class="btn" role="group"  ng-class="{2:'btn-primary',1:'btn-default',0:'btn-invisible'}[it.on]" ng-click="cameralist.checkBtn(it);" role="group" title={{it.title}}>{{it.text}}</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">描述</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <input class="weui_input" value="" placeholder="" ng-model="c.desc" required/>
-                    </div>
-                </div>
-                <!--/div-->
-            <!--div class="container squera-container">
-                <div class="row">
-                    <div class="weui_cells_title">摄像头信息</div>
-                    <div class="weui_cells weui_cells_form">
-                        <div class="weui_cell">
-                            <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" value="" placeholder="" ng-model="c.project_name" required/>
-                            </div>
-                        </div>
-                        <div class="weui_cell">
-                            <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">相机名称</label></div>
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" value="" placeholder="" ng-model="c.name" required/>
-                            </div>
-                        </div>
-
-
-
-                        <div class="weui_cell">
-                            <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">描述</label></div>
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" value="" placeholder="" ng-model="c.desc" required/>
-                            </div>
-                        </div>
-                        <div class="weui_cell">
-                            <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">流类型</label></div>
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <div class="btn-group btn-group-xs">
-                                    <button ng-repeat="it in c.stearmOptions" class="btn" role="group"  ng-class="{true:'btn-primary',false:'btn-default'}[it.on]" ng-click="it.on = !it.on" role="group" title={{it.title}}>{{it.text}}</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="weui_cell">
-                            <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">在线状态</label></div>
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <p class="form-control-static">{{c.is_online|online}}</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div-->
             </div>
-        </div>
     </div>
+<!--end list-->
+
+
+
+    <div style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.setList">
+        <div class="weui_cells_title" style="text-align:right;margin-top: 0px;margin-bottom: 0px;padding-right: 0px;padding-top: 10px;padding-bottom: 10px;">
+                    <span class="btn-small" style="padding: 10px;cursor:pointer;color: #333;font-size:16px;" title="完成设置" ng-click="cameralist.preListShow();">
+                    <!--<i  class="fa fa-cog "></i>-->
+                    完成设置
+                    </span>
+        </div>
+
+
+        <div style="padding-left: 0px;padding-right: 0px;">
+            <div style="padding-left: 0px;padding-right: 0px;">
+                <div class="col-md-3 col-sm-4 col-xs-12" style="padding-left: 0px;padding-right: 0px;" ng-repeat="item in cameralist.data">
+
+                    <div class="thumbnail" style="margin-bottom: 15px;">
+                        <div class="caption">
+                            <p class="text-name">
+                                <a ng-click="cameralist.editConfigShow(item)">{{item.name}}</a>
+                                <span class="pull-right" style="cursor:pointer;color: #25A8E1;" ng-click="cameralist.editConfigShow(item)">
+                                    编辑
+                                    <i  class="fa fa-chevron-right "></i>
+                                </span>
+                            </p>
+                        </div>
+                        <a ng-click="cameralist.editConfigShow(item)" ng-show="preShow"><img src="{{item.preview}}" alt="{{item.name}}"></a>
+                        <div class="topsetimg-container" ng-click="cameralist.editConfigShow(item)" ng-show="preShow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--edit config start-->
+    <div style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.editConfig">
+        <div class="weui_cells_title" style="text-align:right;margin-top: 0px;margin-bottom: 0px;padding-right: 0px;padding-top: 10px;padding-bottom: 10px;">
+                    <span class="btn-small" style="padding: 10px;cursor:pointer;color: #333;font-size:16px;" title="完成编辑" ng-click="cameralist.editSubmit();">
+                    <!--<i  class="fa fa-cog "></i>-->
+                    完成编辑
+                    </span>
+        </div>
+
+
+
+            <div class="weui_cells">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p style="margin-bottom: 0px;">名称</p>
+                    </div>
+                    <div class="weui_cell_ft" style="width: 6em">{{cameralist.editConf.name}}</div>
+                </div>
+            </div>
+
+
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell weui_cell_switch">
+                    <div class="weui_cell_hd weui_cell_primary">允许直播</div>
+                    <div class="weui_cell_ft">
+                        <input class="weui_switch" ng-model="cameralist.editConf.livePerm"  type="checkbox">
+                    </div>
+                </div>
+            </div>
+
+    </div>
+    <!--edit end-->
 </div>

@@ -5,12 +5,12 @@
         <select class="form-control" ng-model="projectlist.seachKey" ng-options="o.key as o.name for o in projectlist.searchKeyOptionsData" ng-change=""></select>
         <input type="text" class="form-control" placeholder="Filter..." ng-model="projectlist.seachValue">
       </div>
-      <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.search()"> <i  class="fa fa-search"></i>
+      <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.search()"> <i class="fa fa-search"></i>
       </span>
-      <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加" ng-click="project.add()"> <i  class="fa fa-plus"></i>
+      <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加" ng-click="project.add()"> <i class="fa fa-plus"></i>
       </span>
       <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.refresh()">
-        <i  class="fa fa-refresh"></i>
+        <i class="fa fa-refresh"></i>
       </span>
     </form>
     <div class="panel os-panel" ng-show="project.addShown">
@@ -103,7 +103,7 @@
         <td colspan="999">
           <uib-tabset>
             <span class="btn-small" style="cursor:pointer;float:left;padding-top:6px;padding-left:10px;padding-right:10px;" title="返回项目列表" ng-click="project.data_mod.showList()">
-              <i  class="fa fa-reply-all"></i>
+              <i class="fa fa-reply-all"></i>
             </span>
             <uib-tab heading="项目信息" active="project.data_mod.tabs[0]" select="project.data_mod.initDetail()">
               <div class="panel os-panel">
@@ -191,13 +191,13 @@
                   <input type="text" class="form-control" placeholder="Filter..." ng-model="project.device.seachValue">
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.device.search()">
-                  <i  class="fa fa-search"></i>
+                  <i class="fa fa-search"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加设备" ng-click="project.device.addShown = !project.device.addShown">
-                  <i  class="fa fa-plus"></i>
+                  <i class="fa fa-plus"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.device.page.pageChanged()">
-                  <i  class="fa fa-refresh"></i>
+                  <i class="fa fa-refresh"></i>
                 </span>
               </form>
               <div class="panel os-panel" ng-show="project.device.addShown">
@@ -217,6 +217,8 @@
                             <input type="radio" ng-model="project.device.data_add.type" value="ivt">IVT</label>
                           <label class="radio-inline">
                             <input type="radio" ng-model="project.device.data_add.type" value="camera">摄像机</label>
+                          <label class="radio-inline">
+                            <input type="radio" ng-model="project.device.data_add.type" value="virtual">虚拟摄像机</label>
                         </p>
                       </div>
                       <div class="form-group hidden">
@@ -499,13 +501,13 @@
                   <input type="text" class="form-control" placeholder="Filter..." ng-model="project.camera.seachValue">
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.camera.search()">
-                  <i  class="fa fa-search"></i>
+                  <i class="fa fa-search"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加摄像机" ng-click="project.camera.showAdd()">
-                  <i  class="fa fa-plus"></i>
+                  <i class="fa fa-plus"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.camera.page.pageChanged()">
-                  <i  class="fa fa-refresh"></i>
+                  <i class="fa fa-refresh"></i>
                 </span>
               </form>
               <div class="panel os-panel" ng-show="project.camera.addShown">
@@ -790,13 +792,13 @@
                   <input type="text" class="form-control" placeholder="Filter..." ng-model="project.userlist.seachValue">
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.user.search()">
-                  <i  class="fa fa-search"></i>
+                  <i class="fa fa-search"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="移入用户" ng-click="project.user.add()">
-                  <i  class="fa fa-plus"></i>
+                  <i class="fa fa-plus"></i>
                 </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.user.initDevices()">
-                  <i  class="fa fa-refresh"></i>
+                  <i class="fa fa-refresh"></i>
                 </span>
               </form>
               <div class="panel os-panel" ng-show="project.user.addShown">
@@ -933,14 +935,14 @@
                 </table>
               </div>
             </uib-tab>
-            <uib-tab heading="直播记录" active="project.data_mod.tabs[4]" select="project.session.init()">
+            <uib-tab heading="直播记录" active="project.data_mod.tabs[4]" select="project.sessionlog.init()">
               <form class="form-inline os-table-toolbar">
                 <div class="form-group">
                   <label>开始时间</label>
                   <span class="input-group">
                     <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="start.dt" is-open="start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                     <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" ng-click="project.session.open(start)">
+                      <button type="button" class="btn btn-default" ng-click="project.sessionlog.open(start)">
                         <i class="fa fa-calendar"></i>
                       </button>
                     </span>
@@ -951,50 +953,50 @@
                   <span class="input-group">
                     <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="end.dt" is-open="end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                     <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" ng-click="project.session.open(end)">
+                      <button type="button" class="btn btn-default" ng-click="project.sessionlog.open(end)">
                         <i class="fa fa-calendar"></i>
                       </button>
                     </span>
                   </span>
                 </div>
-                <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="查询" ng-click="project.session.search()">
-                  <i  class="fa fa-search"></i>
+                <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="查询" ng-click="project.sessionlog.search()">
+                  <i class="fa fa-search"></i>
                 </span>
-                <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="下载" ng-click="project.session.down()">
-                  <i  class="fa fa-download"></i>
+                <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="下载" ng-click="project.sessionlog.down()">
+                  <i class="fa fa-download"></i>
                 </span>
-                <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="统计" ng-click="project.session.sum()">
-                  <i  class="fa fa-calculator"></i>
+                <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="统计" ng-click="project.sessionlog.sum()">
+                  <i class="fa fa-calculator"></i>
                 </span>
-                <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.session.initSession()">
-                  <i  class="fa fa-refresh"></i>
+                <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.sessionlog.initSession()">
+                  <i class="fa fa-refresh"></i>
                 </span>
               </form>
-              <div class="panel os-panel" ng-show="project.session.sumShown">
+              <div class="panel os-panel" ng-show="project.sessionlog.sumShown">
                 <div class="panel-body">
                   <form class="form-horizontal os-form" role="form">
                     <div class="form-group has-error">
                       <label class="col-sm-1 control-label">总计</label>
                       <div class="col-sm-11">
-                        <p class="form-control-static">{{project.session.sumData.total}} 分钟</p>
+                        <p class="form-control-static">{{project.sessionlog.sumData.total}} 分钟</p>
                       </div>
                     </div>
                     <div class="form-group">
                       <label class="col-sm-1 control-label">LD</label>
                       <div class="col-sm-2">
-                        <p class="form-control-static">{{project.session.sumData.per_quality.ld}} 分钟</p>
+                        <p class="form-control-static">{{project.sessionlog.sumData.per_quality.ld}} 分钟</p>
                       </div>
                       <label class="col-sm-1 control-label">SD</label>
                       <div class="col-sm-2">
-                        <p class="form-control-static">{{project.session.sumData.per_quality.sd}} 分钟</p>
+                        <p class="form-control-static">{{project.sessionlog.sumData.per_quality.sd}} 分钟</p>
                       </div>
                       <label class="col-sm-1 control-label">HD</label>
                       <div class="col-sm-2">
-                        <p class="form-control-static">{{project.session.sumData.per_quality.hd}} 分钟</p>
+                        <p class="form-control-static">{{project.sessionlog.sumData.per_quality.hd}} 分钟</p>
                       </div>
                       <label class="col-sm-1 control-label">FHD</label>
                       <div class="col-sm-2">
-                        <p class="form-control-static">{{project.session.sumData.per_quality.fhd}} 分钟</p>
+                        <p class="form-control-static">{{project.sessionlog.sumData.per_quality.fhd}} 分钟</p>
                       </div>
                     </div>
                   </form>
@@ -1016,16 +1018,16 @@
                   </thead>
                   <tbody ng-repeat="u in project.sessionlist.data.list | filter: project.sessionlist.seach">
                     <tr style="cursor:pointer;">
-                      <td ng-click="project.session.data.showDetail(u, $index)">{{u.username}}</td>
-                      <td ng-click="project.session.data.showDetail(u, $index)">{{u.subuser}}</td>
-                      <td ng-click="project.session.data.showDetail(u, $index)">{{u.camera_name}}</td>
-                      <td ng-click="project.session.data.showDetail(u, $index)">{{u.stream_format}}</td>
-                      <td ng-click="project.session.data.showDetail(u, $index)">{{u.stream_quality}}</td>
-                      <td ng-click="project.session.data.showDetail(u, $index)">{{u.start}}</td>
-                      <!--td ng-click="project.session.data.showDetail(u, $index)">{{u.end}}</td-->
-                      <td ng-click="project.session.data.showDetail(u, $index)">{{u.duration}}</td>
+                      <td ng-click="project.sessionlog.data.showDetail(u, $index)">{{u.username}}</td>
+                      <td ng-click="project.sessionlog.data.showDetail(u, $index)">{{u.subuser}}</td>
+                      <td ng-click="project.sessionlog.data.showDetail(u, $index)">{{u.camera_name}}</td>
+                      <td ng-click="project.sessionlog.data.showDetail(u, $index)">{{u.stream_format}}</td>
+                      <td ng-click="project.sessionlog.data.showDetail(u, $index)">{{u.stream_quality}}</td>
+                      <td ng-click="project.sessionlog.data.showDetail(u, $index)">{{u.start}}</td>
+                      <!--td ng-click="project.sessionlog.data.showDetail(u, $index)">{{u.end}}</td-->
+                      <td ng-click="project.sessionlog.data.showDetail(u, $index)">{{u.duration}}</td>
                     </tr>
-                    <tr class="ng-hide" ng-show="project.session.data_mod.bDetailShown[$index]">
+                    <tr class="ng-hide" ng-show="project.sessionlog.data_mod.bDetailShown[$index]">
                       <td colspan="999">
                         <div class="panel os-panel">
                           <div class="panel-body">
@@ -1033,79 +1035,79 @@
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">用户名</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].username}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].username}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">子用户</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].subuser}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].subuser}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">项目名称</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].project_name}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].project_name}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">uuid</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].uuid}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].uuid}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">摄像头id</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].camera_uuid}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].camera_uuid}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">摄像头名称</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].camera_name}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].camera_name}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">起始</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].start}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].start}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">结束</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].end}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].end}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">时长</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].duration}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].duration}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">user_agent</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].user_agent}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].user_agent}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">ip</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].ip}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].ip}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">协议</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].stream_format}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].stream_format}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">画质</label>
                                 <div class="col-sm-4">
-                                  <p class="form-control-static">{{project.session.data_mod.data[$index].stream_quality}}</p>
+                                  <p class="form-control-static">{{project.sessionlog.data_mod.data[$index].stream_quality}}</p>
                                 </div>
                               </div>
                             </form>
@@ -1134,14 +1136,14 @@
                   <input type="text" class="form-control" placeholder="Filter..." ng-model="project.firmwarelist.seachValue">
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="搜索" ng-click="project.firmware.search()">
-        <i  class="fa fa-search"></i>
-      </span>
+                  <i class="fa fa-search"></i>
+                </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="添加" ng-click="project.firmware.add()">
-        <i  class="fa fa-plus"></i>
-      </span>
+                  <i class="fa fa-plus"></i>
+                </span>
                 <span class="btn-small" style="cursor:pointer;float:right;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.firmware.initFirmware()">
-        <i  class="fa fa-refresh"></i>
-      </span>
+                  <i class="fa fa-refresh"></i>
+                </span>
               </form>
               <form class="form-inline os-table-toolbar">
                 <div class="form-group">
@@ -1151,8 +1153,8 @@
                   <input type="text" class="form-control" placeholder="设备硬件..." ng-model="project.firmwarelist.match.hardware_model">
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="匹配" ng-click="project.firmware.match()">
-    <i  class="fa fa-filter"></i>
-  </span>
+                  <i class="fa fa-filter"></i>
+                </span>
               </form>
               <div class="panel os-panel" ng-show="project.firmware.addShown">
                 <div class="panel-body">
@@ -1319,11 +1321,38 @@
                 <div class="col-sm-12 page-header page-header-condensed">
                   <h6>账户概况</h6>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                   <div class="panel panel-primary client-card">
                     <div class="panel-body">
                       <div> <strong>余额：</strong>
                         <span class="text-primary">{{project.bill.account.balance|currency:"￥"}} 元</span>
+                      </div>
+                      <div> <strong>计费信息：</strong>
+                        <span class="text-primary" ng-hide="project.bill.editing">{{project.bill.account.price_info}}</span>
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary btn-xs" title="修改" ng-click="project.bill.showBillModal()">
+                          <i class="fa fa-pencil"></i>
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="billModalLabel" data-backdrop="static" data-keyboard="false">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="取消">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="billModalLabel">计价信息</h4>
+                              </div>
+                              <div class="modal-body">
+                                <textarea class="form-control" ng-model="project.bill.price_info" rows="6"></textarea>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" ng-click="project.bill.saveAccount()">保存</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div> <strong>上次更新时间：</strong>
                         <span>{{project.bill.account.utime|date: "yyyy-MM-dd"}}</span>
@@ -1336,32 +1365,33 @@
                 <div class="form-group">
                   <label>开始时间</label>
                   <span class="input-group">
-        <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.start.dt" is-open="project.bill.start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.start)"> <i class="fa fa-calendar"></i>
-          </button>
-        </span>
+                    <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.start.dt" is-open="project.bill.start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.start)">
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </span>
                   </span>
                 </div>
                 <div class="form-group">
                   <label>结束时间</label>
                   <span class="input-group">
-        <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.end.dt" is-open="project.bill.end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.end)"> <i class="fa fa-calendar"></i>
-          </button>
-        </span>
+                    <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.end.dt" is-open="project.bill.end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.end)"> <i class="fa fa-calendar"></i>
+                      </button>
+                    </span>
                   </span>
                 </div>
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="查询" ng-click="project.bill.query()">
-      <i  class="fa fa-search"></i>
-    </span>
+                  <i class="fa fa-search"></i>
+                </span>
                 <span class="btn-small pull-right" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="添加" ng-click="project.bill.showAdd()">
-      <i  class="fa fa-plus"></i>
-    </span>
+                  <i class="fa fa-plus"></i>
+                </span>
                 <span class="btn-small pull-right" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.bill.refresh()">
-      <i  class="fa fa-refresh"></i>
-    </span>
+                  <i class="fa fa-refresh"></i>
+                </span>
               </form>
               <div class="panel os-panel" ng-show="project.bill.addShown">
                 <div class="panel-body">
@@ -1400,12 +1430,12 @@
                       <label class="col-sm-2 control-label">记费起始时间</label>
                       <div class="col-sm-4">
                         <span class="input-group">
-              <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.data_add.start.dt" is-open="project.bill.data_add.start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.data_add.start)">
-                  <i class="fa fa-calendar"></i>
-                </button>
-              </span>
+                          <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.data_add.start.dt" is-open="project.bill.data_add.start.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.data_add.start)">
+                              <i class="fa fa-calendar"></i>
+                            </button>
+                          </span>
                         </span>
                       </div>
                     </div>
@@ -1413,12 +1443,12 @@
                       <label class="col-sm-2 control-label">记费结束时间</label>
                       <div class="col-sm-4">
                         <span class="input-group">
-              <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.data_add.end.dt" is-open="project.bill.data_add.end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.data_add.end)">
-                  <i class="fa fa-calendar"></i>
-                </button>
-              </span>
+                          <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="project.bill.data_add.end.dt" is-open="project.bill.data_add.end.opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="project.bill.open(project.bill.data_add.end)">
+                              <i class="fa fa-calendar"></i>
+                            </button>
+                          </span>
                         </span>
                       </div>
                     </div>
@@ -1568,8 +1598,8 @@
             <uib-tab heading="会话状态" active="project.data_mod.tabs[7]" select="project.session.init()">
               <form class="form-inline os-table-toolbar">
                 <span class="btn-small" style="cursor:pointer;padding-top:10px;padding-left:10px;" title="刷新" ng-click="project.session.page.pageChanged()">
-      <i  class="fa fa-refresh"></i>
-    </span>
+                  <i class="fa fa-refresh"></i>
+                </span>
               </form>
               <div class="col-sm-12 os-table-container">
                 <table class="table os-table">

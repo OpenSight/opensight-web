@@ -1,5 +1,5 @@
 'use strict';
-var api = 'http://api.opensight.cn/api/ivc/v1/';
+var api = api || 'http://api.opensight.cn/api/ivc/v1/';
 angular.module('app.controller', [])
 
 .controller('header', [
@@ -201,9 +201,11 @@ angular.module('app.controller', [])
       cam.format = format;
       $scope.cam = cam;
       var modalInstance = $uibModal.open({
-        templateUrl: 'sessionModalContent.html',
+        backdrop: 'static', 
+        keyboard: false,
+        templateUrl: path + 'views/sessionModalContent.html',
         controller: 'session',
-        size: 'lg',
+        size: 'lg modal-player',
         resolve: {
           caminfo: function() {
             return $scope.cam;
@@ -235,8 +237,8 @@ angular.module('app.controller', [])
 ])
 
 .controller('camera-detail', [
-  '$scope', '$rootScope', '$http', 'flagFactory',
-  function($scope, $rootScope, $http, flagFactory) {
+  '$scope', '$rootScope', '$http', '$uibModal', 'flagFactory',
+  function($scope, $rootScope, $http, $uibModal, flagFactory) {
     $scope.bFirst = true;
     $scope.bLast = true;
     var project = $rootScope.$stateParams.project;
@@ -252,8 +254,11 @@ angular.module('app.controller', [])
       $scope.info.ability = flags.ability;
       $scope.info.live_ability = flags.live;
       live_ability = flags.live;
-
       $scope.info.ptz_ability = flags.ptz;
+      if (0 !== response.ability.length) {
+        response.quality = response.ability[0].text;
+      }
+
       $scope.info.preview_ability = flags.preview;
       preview_ability = flags.preview;
       $scope.$parent.caminfo = $scope.info;
@@ -261,6 +266,31 @@ angular.module('app.controller', [])
       console.log('error');
     });
 
+    $scope.rtmp_publish_url = undefined;
+    $http.get(url + '/rtmp_publish_url', {}).success(function(response) {
+      $scope.rtmp_publish_url = response.url;
+    }).error(function(response, status) {
+      console.log('error');
+    });
+
+    $scope.enable = function(enabled) {
+      var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
+      if (false === confirm(tip)) {
+        return;
+      }
+      var data = {
+        enable: enabled
+      };
+      var text = enabled ? '禁用' : '启用';
+      $http.post(url + '/stream_toggle', data).success(function(response) {
+        console.log('success');
+        $scope.info.live_ability = enabled;
+        $rootScope.$emit('messagePush', { succ: true, text: text + '直播成功。' });
+      }).error(function(response, status) {
+        $rootScope.$emit('messagePush', { succ: false, text: text + '直播失败。' });
+        console.log('error');
+      });
+    };
     $scope.save = function() {
       var data = {
         flags: $scope.info.flags,
@@ -281,21 +311,23 @@ angular.module('app.controller', [])
       if (live_ability === $scope.info.live_ability) {
         return;
       }
-      var tip = $scope.info.live_ability ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
-      if (false === confirm(tip)) {
-        return;
-      }
-      var data = {
-        enable: $scope.info.live_ability
-      };
-      var text = $scope.info.live_ability ? '禁用' : '启用';
-      $http.post(url + '/stream_toggle', data).success(function(response) {
-        console.log('success');
-        live_ability = $scope.info.live_ability;
-        $rootScope.$emit('messagePush', { succ: true, text: text + '直播成功。' });
-      }).error(function(response, status) {
-        $rootScope.$emit('messagePush', { succ: false, text: text + '直播失败。' });
-        console.log('error');
+      $scope.enable($scope.info.live_ability);
+    };
+
+    $scope.preview = function(cam, format) {
+      cam.format = format;
+      $scope.cam = cam;
+      var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
+        templateUrl: path + 'views/sessionModalContent.html',
+        controller: 'session',
+        size: 'lg modal-player',
+        resolve: {
+          caminfo: function() {
+            return $scope.cam;
+          }
+        }
       });
     };
   }
@@ -316,7 +348,11 @@ angular.module('app.controller', [])
       console.log('error');
     });
 
-    $http.get(api + "projects/" + project + '/record/schedules', {}).success(function(response) {
+    $http.get(api + "projects/" + project + '/record/schedules', {
+      params: {
+        include_global: true
+      }
+    }).success(function(response) {
       $scope.schedules = response;
     }).error(function(response, status) {
       $rootScope.$emit('messageShow', { succ: false, text: '获取录像计划失败' });
@@ -325,7 +361,7 @@ angular.module('app.controller', [])
 
     $scope.save = function() {
       var schedule_id = $scope.info.schedule_id;
-      if ('number' !== typeof schedule_id){
+      if ('number' !== typeof schedule_id) {
         schedule_id = -1;
       }
       var data = {
@@ -346,34 +382,38 @@ angular.module('app.controller', [])
 ])
 
 .controller('camera-replay', [
-  '$scope', '$rootScope', '$http', 'flagFactory',
-  function($scope, $rootScope, $http, flagFactory) {
+  '$scope', '$rootScope', '$http', '$uibModal', 'playerFactory', 'dateFactory',
+  function($scope, $rootScope, $http, $uibModal, playerFactory, dateFactory) {
     $scope.camname = $rootScope.$stateParams.camname;
     var url = api + "projects/" + $rootScope.$stateParams.project + '/cameras/' + $rootScope.$stateParams.camera + '/record/search';
-    $scope.options = {
-      minDate: new Date('2016-01-01'),
-      showWeeks: false
-    };
-    $scope.dt = new Date();
 
-    var search = function(){
-      var tmp = $scope.dt;
-      tmp.setHours(0);
-      tmp.setMinutes(0);
-      tmp.setSeconds(0);
-      tmp.setMilliseconds(0);
-      var start = tmp.getTime();
-      tmp.setHours(23);
-      tmp.setMinutes(59);
-      tmp.setSeconds(59);
-      tmp.setMilliseconds(999);
-      var end = tmp.getTime();
-      $scope.recordlist = [];
+    (function() {
+      $scope.options = {
+        minDate: new Date('2016-01-01'),
+        showWeeks: false
+      };
+      $scope.hidden = true;
+      $scope.dt = new Date();
+      $scope.opened = false;
+
+      $scope.timepicker = {
+        start: '00:00:00',
+        end: '23:59:59'
+      };
+      $scope.timepicker.startdt = dateFactory.str2time($scope.timepicker.start, true);
+      $scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
+      $scope.seglength = '60';
+    })();
+    $scope.timechange = function(time, key) {
+      $scope.timepicker[key] = dateFactory.time2str(time);
+    };
+
+    $scope.query = function() {
       $http.get(url, {
         params: {
-          start: start,
-          end: end,
-          seglength: 60
+          start: dateFactory.getms($scope.dt, $scope.timepicker.startdt),
+          end: dateFactory.getms($scope.dt, $scope.timepicker.enddt),
+          seglength: parseInt($scope.seglength, 10)
         }
       }).success(function(response) {
         $scope.record = response;
@@ -382,37 +422,113 @@ angular.module('app.controller', [])
         console.log('error');
       });
     };
-    $scope.play = function(it){
-      if ('' === document.createElement('video').canPlayType('application/x-mpegURL')) {
-        loadFlash(it.hls);
-      } else {
-        addVideoTag(it.hls);
-      }
-    };
-    var loadFlash = function(hls) {
-      hls = encodeURIComponent(hls);
-      var flashvars = {
-        // src: 'http://www.opensight.cn/hls/camera1.m3u8',
-        src: hls,
-        plugin_hls: "../flashlsOSMF.swf",
-        // scaleMode: 'none',
-        autoPlay: true
-      };
 
-      var params = {
-        allowFullScreen: true,
-        allowScriptAccess: "always",
-        wmode: 'opaque',
-        bgcolor: "#000000"
-      };
-      var attrs = {
-        name: "replayPlayer"
-      };
-
-      swfobject.embedSWF("../GrindPlayer.swf", "replayPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
+    $scope.play = function(it) {
+      it.camname = $scope.camname;
+      $scope.selected = it;
+      var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
+        templateUrl: path + 'views/replayModalContent.html',
+        controller: 'replayModalController',
+        size: 'lg modal-player',
+        resolve: {
+          record: function() {
+            return $scope.selected;
+          }
+        }
+      });
     };
-    var addVideoTag = function(info) {};
-    $scope.$watch('dt', search);
+    $scope.backup = function(it) {
+      it.camname = $scope.camname;
+      it.camera_id = $rootScope.$stateParams.camera;
+      $scope.selected = it;
+      var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
+        templateUrl: 'backupModalContent.html',
+        controller: 'backupModalController',
+        size: 'lg',
+        resolve: {
+          record: function() {
+            return $scope.selected;
+          }
+        }
+      });
+    };
+
+    $scope.merge = function() {
+      var u = api + "projects/" + $rootScope.$stateParams.project + '/cameras/' + $rootScope.$stateParams.camera +
+        '/record/playlist.ts?start=' + $scope.record.segments[0].start +
+        '&end=' + $scope.record.segments[$scope.record.segments.length - 1].start +
+        '&jwt=' + $rootScope.$jwt.get().jwt;
+      window.open(u);
+    };
+
+    $scope.merge_backup = function(){
+      var info = angular.copy($scope.record.segments[0]);
+      info.end = $scope.record.segments[$scope.record.segments.length - 1].end;
+      $scope.backup(info);
+    };
+
+    $scope.query();
+
+    // $scope.download = function(it){
+    //   $http.get(it.ts, {
+    //     timeout: 86400000
+    //   }).success(function(response){
+    //     var blob = new Blob([response], {
+    //       type: 'application/application/x-mpegurl, video/mp2t'
+    //     });
+    //     saveAs(blob, 'aaa.mp4');
+    //   });
+    //   var file = new File(["Hello, world!"], "hello world.txt", {type: "text/plain;charset=utf-8"});
+
+    // };
+  }
+])
+
+.controller('replayModalController', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'playerFactory', 'record',
+  function($scope, $rootScope, $http, $uibModalInstance, playerFactory, record) {
+    var playerId = 'replayPlayer';
+    $scope.ok = function() {
+      playerFactory.stop(playerId);
+      $uibModalInstance.close();
+    };
+
+    $scope.record = record;
+    setTimeout(function() {
+      playerFactory.load(record.hls, playerId);
+    }, 0);
+  }
+])
+
+.controller('backupModalController', [
+  '$scope', '$rootScope', '$http', '$uibModalInstance', 'dateFactory', 'record',
+  function($scope, $rootScope, $http, $uibModalInstance, dateFactory, record) {
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/record/events';
+    $scope.info = {
+      start: record.start,
+      end: record.end,
+      camera_id: record.camera_id,
+      desc: record.camname + dateFactory.format(record.start, '_MMdd'),
+      long_desc: ''
+    };
+    $scope.camname = record.camname;
+    $scope.ok = function() {
+      $uibModalInstance.close();
+    };
+
+    $scope.save = function() {
+      $http.post(url, $scope.info).success(function() {
+        $scope.ok();
+        $rootScope.$emit('messageShow', { succ: true, text: '录像备份成功。' });
+      }).error(function() {
+        /* Act on the event */
+        $rootScope.$emit('messageShow', { succ: false, text: '录像备份失败。' });
+        console.log('error');
+      });;
+    };
   }
 ])
 
@@ -423,7 +539,11 @@ angular.module('app.controller', [])
     var url = api + "projects/" + $scope.project + '/record/schedules';
 
     $scope.query = function() {
-      $http.get(url, {}).success(function(response) {
+      $http.get(url, {
+        params: {
+          include_global: true
+        }
+      }).success(function(response) {
         $scope.schedules = response;
       }).error(function(response, status) {
         $rootScope.$emit('messageShow', { succ: false, text: '获取录像计划失败' });
@@ -431,15 +551,15 @@ angular.module('app.controller', [])
       });
     };
 
-    $scope.remove = function(item, index){
-      if (false === confirm('确认删除录像计划模板 "' +   item.name + '" 吗？')){
+    $scope.remove = function(item, index) {
+      if (false === confirm('确认删除录像计划模板 "' + item.name + '" 吗？')) {
         return;
       }
       $http.delete(url + '/' + item.id, {}).success(function(response) {
         $scope.schedules.list.splice(index, 1);
         $rootScope.$emit('messageShow', { succ: true, text: '删除录像模板成功。' });
       }).error(function(response, status) {
-        $rootScope.$emit('messageShow', { succ: true, text: '删除录像模板失败。' });
+        $rootScope.$emit('messageShow', { succ: false, text: '删除录像模板失败。' });
         console.log('error');
       });
     };
@@ -449,8 +569,8 @@ angular.module('app.controller', [])
 ])
 
 .controller('add-schedule', [
-  '$scope', '$rootScope', '$http',
-  function($scope, $rootScope, $http) {
+  '$scope', '$rootScope', '$http', 'dateFactory',
+  function($scope, $rootScope, $http, dateFactory) {
     var url = api + "projects/" + $rootScope.$stateParams.project + '/record/schedules';
 
     $scope.boolFalse = false;
@@ -461,35 +581,35 @@ angular.module('app.controller', [])
       name: '',
       desc: '',
       long_desc: '',
-      entries:[]
+      entries: []
     };
     $scope.typechange = function(type) {
       $scope.type = type;
       $scope.info.entries = [];
       var l = 'weekday' === type ? 7 : 31;
-      for (var i = 1; i <= l; i++){
+      for (var i = 1; i <= l; i++) {
         $scope.addItem(i);
       }
     };
 
     $scope.weekdays = [
-      {name: '请选择星期', value: 0},
-      {name: '星期一', value: 1},
-      {name: '星期二', value: 2},
-      {name: '星期三', value: 3},
-      {name: '星期四', value: 4},
-      {name: '星期五', value: 5},
-      {name: '星期六', value: 6},
-      {name: '星期天', value: 7}
+      { name: '请选择星期', value: 0 },
+      { name: '星期一', value: 1 },
+      { name: '星期二', value: 2 },
+      { name: '星期三', value: 3 },
+      { name: '星期四', value: 4 },
+      { name: '星期五', value: 5 },
+      { name: '星期六', value: 6 },
+      { name: '星期天', value: 7 }
     ];
     $scope.monthdays = [
-      {name: '请选择日期', value: 0}
+      { name: '请选择日期', value: 0 }
     ];
-    for (var i = 1; i < 32; i++){
-      $scope.monthdays.push({name: i + '日', value: i});
+    for (var i = 1; i < 32; i++) {
+      $scope.monthdays.push({ name: i + '日', value: i });
     }
 
-    $scope.addItem = function(idx){
+    $scope.addItem = function(idx) {
       idx = idx || 1;
       var it = {
         date: '',
@@ -497,33 +617,27 @@ angular.module('app.controller', [])
         monthday: idx,
         start: '00:00:00',
         end: '23:59:59',
-        prerecord: true
+        prerecord: false
       };
-      if ('weekday' !== $scope.type){
+      if ('weekday' !== $scope.type) {
         it.weekday = 0;
       } else {
         it.monthday = 0;
       }
       var s = new Date();
-      
+
 
       $scope.info.entries.push(it);
       $scope.datepicker.push(false);
 
       var t = {
-        start: new Date(),
-        end: new Date()
+        start: dateFactory.str2time(it.start, true),
+        end: dateFactory.str2time(it.end, false)
       };
-      t.start.setHours(0);
-      t.start.setMinutes(0);
-      t.start.setSeconds(0);
-      t.end.setHours(23);
-      t.end.setMinutes(59);
-      t.end.setSeconds(59);
       $scope.timepicker.push(t);
     };
 
-    $scope.removeItem = function(it, index){
+    $scope.removeItem = function(it, index) {
       // if (false ==== confirm('确定要删除此条记录？')){
       //   return;
       // }
@@ -532,9 +646,9 @@ angular.module('app.controller', [])
       $scope.timepicker.splice(index, 1);
     };
 
-    $scope.timechange = function(index, key){
+    $scope.timechange = function(index, key) {
       var d = $scope.timepicker[index][key];
-      $scope.info.entries[index][key] = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+      $scope.timepicker[key] = dateFactory.time2str(d);
     };
 
     $scope.add = function() {
@@ -551,10 +665,10 @@ angular.module('app.controller', [])
 ])
 
 .controller('schedule-detail', [
-  '$scope', '$rootScope', '$http',
-  function($scope, $rootScope, $http) {
+  '$scope', '$rootScope', '$http', 'dateFactory',
+  function($scope, $rootScope, $http, dateFactory) {
     var url = api + "projects/" + $rootScope.$stateParams.project + '/record/schedules/' + $rootScope.$stateParams.schedule;
-    
+
     $scope.boolFalse = false;
     $scope.boolTrue = true;
     $scope.datepicker = [];
@@ -563,36 +677,36 @@ angular.module('app.controller', [])
       name: '',
       desc: '',
       long_desc: '',
-      entries:[]
+      entries: []
     };
     $scope.type = 'weekday';
     $scope.typechange = function(type) {
       $scope.type = type;
       $scope.info.entries = [];
       var l = 'weekday' === type ? 7 : 31;
-      for (var i = 1; i <= l; i++){
+      for (var i = 1; i <= l; i++) {
         $scope.addItem(i);
       }
     };
 
     $scope.weekdays = [
-      {name: '请选择星期', value: 0},
-      {name: '星期一', value: 1},
-      {name: '星期二', value: 2},
-      {name: '星期三', value: 3},
-      {name: '星期四', value: 4},
-      {name: '星期五', value: 5},
-      {name: '星期六', value: 6},
-      {name: '星期天', value: 7}
+      { name: '请选择星期', value: 0 },
+      { name: '星期一', value: 1 },
+      { name: '星期二', value: 2 },
+      { name: '星期三', value: 3 },
+      { name: '星期四', value: 4 },
+      { name: '星期五', value: 5 },
+      { name: '星期六', value: 6 },
+      { name: '星期天', value: 7 }
     ];
     $scope.monthdays = [
-      {name: '请选择日期', value: 0}
+      { name: '请选择日期', value: 0 }
     ];
-    for (var i = 1; i < 32; i++){
-      $scope.monthdays.push({name: i + '日', value: i});
+    for (var i = 1; i < 32; i++) {
+      $scope.monthdays.push({ name: i + '日', value: i });
     }
 
-    $scope.addItem = function(idx){
+    $scope.addItem = function(idx) {
       idx = idx || 1;
       var it = {
         date: '',
@@ -600,33 +714,27 @@ angular.module('app.controller', [])
         monthday: idx,
         start: '00:00:00',
         end: '23:59:59',
-        prerecord: true
+        prerecord: false
       };
-      if ('weekday' !== $scope.type){
+      if ('weekday' !== $scope.type) {
         it.weekday = 0;
       } else {
         it.monthday = 0;
       }
       var s = new Date();
-      
+
 
       $scope.info.entries.push(it);
       $scope.datepicker.push(false);
 
       var t = {
-        start: new Date(),
-        end: new Date()
+        start: dateFactory.str2time(it.start, true),
+        end: dateFactory.str2time(it.end, false)
       };
-      t.start.setHours(0);
-      t.start.setMinutes(0);
-      t.start.setSeconds(0);
-      t.end.setHours(23);
-      t.end.setMinutes(59);
-      t.end.setSeconds(59);
       $scope.timepicker.push(t);
     };
 
-    $scope.removeItem = function(it, index){
+    $scope.removeItem = function(it, index) {
       // if (false ==== confirm('确定要删除此条记录？')){
       //   return;
       // }
@@ -635,9 +743,9 @@ angular.module('app.controller', [])
       $scope.timepicker.splice(index, 1);
     };
 
-    $scope.timechange = function(index, key){
+    $scope.timechange = function(index, key) {
       var d = $scope.timepicker[index][key];
-      $scope.info.entries[index][key] = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+      $scope.timepicker[key] = dateFactory.time2str(d);
     };
 
     $scope.modify = function() {
@@ -650,12 +758,19 @@ angular.module('app.controller', [])
       });
     };
 
-    (function(){
+    (function() {
       $http.get(url, {}).success(function(response) {
         $scope.info = response;
-        if (response.entries.length !== 0 && 
-            (0 === response.entries[0].weekday || null === response.entries[0].weekday)){
+        if (response.entries.length !== 0 &&
+          (0 === response.entries[0].weekday || null === response.entries[0].weekday)) {
           $scope.type = 'monthday';
+        }
+        for (var i = 0, l = $scope.info.entries.length; i < l; i++) {
+          var t = {
+            start: dateFactory.str2time($scope.info.entries[i].start, true),
+            end: dateFactory.str2time($scope.info.entries[i].end, false)
+          };
+          $scope.timepicker.push(t);
         }
       }).error(function(response, status) {
         $rootScope.$emit('messageShow', { succ: false, text: '获取信息失败。' });
@@ -682,6 +797,17 @@ angular.module('app.controller', [])
   $scope.open = function(opts) {
     opts.opened = true;
   };
+
+  $scope.sum = {
+    total: 0,
+    per_quality: {
+      ld: 0,
+      sd: 0,
+      hd: 0,
+      fhd: 0
+    }
+  };
+
   $scope.query = function(opts) {
     $scope.params.start_from = format($scope.start.dt) + 'T00:00:00';
     $scope.params.end_to = format($scope.end.dt) + 'T23:59:59';
@@ -694,6 +820,8 @@ angular.module('app.controller', [])
       $scope.bLast = true;
     });
     $scope.bLast = false;
+
+    sum({ start_from: $scope.params.start_from, end_to: $scope.params.end_to });
   };
 
   $scope.next = function() {
@@ -713,6 +841,47 @@ angular.module('app.controller', [])
       $scope.bFirst = true;
     });
     $scope.bLast = false;
+  };
+
+  var getFileName = function() {
+    var s = format($scope.start.dt);
+    var e = format($scope.end.dt);
+    if (e === s) {
+      return s + '.csv';
+    } else {
+      return s + '_' + e + '.csv';
+    }
+  };
+  $scope.download = function() {
+    $http({
+      url: api + "projects/" + $scope.project + '/session_logs_csv',
+      method: "GET",
+      params: {
+        start_from: $scope.params.start_from,
+        end_to: $scope.params.end_to
+      }
+    }).success(function(response) {
+      var blob = new Blob([response], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+      saveAs(blob, getFileName());
+    }).error(function(response, status) {
+      $rootScope.$emit('messageShow', { succ: false, text: '导出直播记录失败。' });
+      console.log('error');
+    });
+  };
+
+  var sum = function(params) {
+    $http({
+      url: api + "projects/" + $scope.project + '/session_logs_sum',
+      method: "GET",
+      params: params
+    }).success(function(response) {
+      $scope.sum.total = response.total;
+      angular.extend($scope.sum.per_quality, response.per_quality);
+    }).error(function(response, status) {
+      console.log('error');
+    });
   };
 
   var get = function(params, fn) {
@@ -764,6 +933,7 @@ angular.module('app.controller', [])
   $scope.old_password = '';
   $scope.new_password = '';
   $scope.repeat_password = '';
+  $scope.salt = "opensight.cn";
 
   $scope.save = function() {
     if ($scope.new_password !== $scope.repeat_password) {
@@ -771,8 +941,8 @@ angular.module('app.controller', [])
       return false;
     }
     var data = {
-      old_password: $scope.old_password,
-      new_password: $scope.new_password
+      old_password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2($scope.old_password, $scope.salt, 10000)),
+      new_password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2($scope.new_password, $scope.salt, 10000))
     }
     $http.put(api + "users/" + $scope.username + '/password', data).success(function(response) {
       console.log('success');
@@ -816,6 +986,8 @@ angular.module('app.controller', [])
     $scope.open = function(key_id) {
       $scope.key_id = key_id;
       var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
         templateUrl: 'secretModalContent.html',
         controller: 'secret',
         resolve: {
@@ -909,8 +1081,9 @@ angular.module('app.controller', [])
   };
 }])
 
-.controller('session', ['$scope', '$rootScope', '$http', '$uibModalInstance', '$timeout', '$interval', 'caminfo',
-  function($scope, $rootScope, $http, $uibModalInstance, $timeout, $interval, caminfo) {
+.controller('session', [
+  '$scope', '$rootScope', '$http', '$uibModalInstance', '$timeout', '$interval', 'playerFactory', 'caminfo',
+  function($scope, $rootScope, $http, $uibModalInstance, $timeout, $interval, playerFactory, caminfo) {
     $scope.cam = caminfo;
     $scope.sec = 10;
 
@@ -919,15 +1092,17 @@ angular.module('app.controller', [])
     var url = api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/sessions';
     var tiptimer = undefined;
     var alivetimer = undefined;
+    var playerId = 'videoPlayer';
 
     var create = function() {
-      $http.post(url, { format: caminfo.format.toLowerCase(), quality: caminfo.quality.toLowerCase(), create: true, user: user }).success(function(response) {
+      $http.post(url, {
+        format: caminfo.format.toLowerCase(),
+        quality: caminfo.quality.toLowerCase(),
+        create: true,
+        user: user
+      }).success(function(response) {
         $scope.id = response.session_id;
-        if ('' === document.createElement('video').canPlayType('application/x-mpegURL')) {
-          loadFlash(response);
-        } else {
-          addVideoTag(response);
-        }
+        playerFactory.load(response.url, playerId);
         keepalive(response);
         if (tiptimer) {
           $interval.cancel(tiptimer);
@@ -937,37 +1112,18 @@ angular.module('app.controller', [])
         console.log('error');
       });
     };
-    var loadFlash = function(info) {
-      var flashvars = {
-        // src: 'http://www.opensight.cn/hls/camera1.m3u8',
-        src: info.url,
-        plugin_hls: "../flashlsOSMF.swf",
-        // scaleMode: 'none',
-        autoPlay: true
-      };
 
-      var params = {
-        allowFullScreen: true,
-        allowScriptAccess: "always",
-        wmode: 'opaque',
-        bgcolor: "#000000"
-      };
-      var attrs = {
-        name: "videoPlayer"
-      };
-
-      swfobject.embedSWF("../GrindPlayer.swf", "videoPlayer", "100%", "100%", "10.2", null, flashvars, params, attrs);
-    };
-    var addVideoTag = function(info) {};
     var keepalive = function(info) {
       if (undefined !== alivetimer) {
         $interval.cancel(alivetimer);
         alivetimer = undefined;
       }
-      var count = 1440;
+      var duration = 2 * 60 * 60 * 1000;
+      var intrvl = 20 * 1000;
+      var count = duration / intrvl;
       alivetimer = $interval(function() {
         if (0 === count) {
-          stop();
+          $scope.ok();
           return;
         } else {
           count--;
@@ -977,9 +1133,10 @@ angular.module('app.controller', [])
         }).error(function(response, status) {
           console.log('error');
         });
-      }, 30000);
+      }, intrvl);
     };
     var stop = function() {
+      playerFactory.stop(playerId);
       if (undefined !== alivetimer) {
         $interval.cancel(alivetimer);
         alivetimer = undefined;
@@ -1000,6 +1157,8 @@ angular.module('app.controller', [])
         // $scope.$apply();
       }, 1000);
     };
+    create();
+    updateTip();
 
     $scope.speed = 50;
     $scope.options = {
@@ -1040,7 +1199,7 @@ angular.module('app.controller', [])
 
       var init = function(list) {
         $scope.ptzlist = list;
-        if (0 !== $scope.ptzlist.length) {
+        if (list instanceof Array && 0 !== $scope.ptzlist.length) {
           $scope.token = $scope.ptzlist[0].token;
         } else {
           $scope.token = undefined;
@@ -1083,11 +1242,51 @@ angular.module('app.controller', [])
       }
     })();
 
+    (function() {
+      var url = api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/record/manual';
+      $scope.recording = caminfo.record_state === 2;
+      $scope.startRecord = function(duration) {
+        $http.post(api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/record/manual', {
+          duration: duration
+        }).success(function(response) {
+          $scope.recording = true;
+        }).error(function(response, status) {
+          $rootScope.$emit('messageShow', { succ: false, text: '启动手动录像失败' });
+          console.log('error');
+        });
+      };
 
-    create();
-    updateTip();
+      $scope.stopRecord = function() {
+        $http.delete(api + 'projects/' + project + '/cameras/' + caminfo.uuid + '/record/manual', {}).success(function(response) {
+          $rootScope.$emit('messageShow', { succ: true, text: '停止手动录像成功' });
+          getRecordStatus();
+        }).error(function(response, status) {
+          $rootScope.$emit('messageShow', { succ: false, text: '停止手动录像失败' });
+          console.log('error');
+        });
+        $scope.recording = false;
+      };
+
+      var getRecordStatus = function() {
+        $http.get(api + 'projects/' + project + '/cameras/' + caminfo.uuid, {}).success(function(response) {
+          $scope.recording = response.record_state === 2;
+        }).error(function(response, status) {
+          console.log('error');
+        });
+      };
+
+      var timer = $interval(function() {
+        getRecordStatus();
+      }, 10000);
+
+      $scope.stopGetRecordStatus = function() {
+        $interval.cancel(timer);
+      };
+    })();
+
     $scope.ok = function() {
       stop();
+      $scope.stopGetRecordStatus();
       $uibModalInstance.close();
     };
   }
@@ -1236,4 +1435,307 @@ angular.module('app.controller', [])
 
     $scope.query();
   }
-]);
+])
+
+.controller('bill-detail', [
+  '$scope', '$rootScope', '$http',
+  function($scope, $rootScope, $http) {
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/bills/' + $rootScope.$stateParams.bill;
+
+    $scope.boolFalse = false;
+    $scope.boolTrue = true;
+
+    (function() {
+      $http.get(url, {}).success(function(response) {
+        $scope.info = response;
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: false, text: '获取账单信息失败。' });
+        console.log('error');
+      });
+    })();
+  }
+])
+
+.controller('record-event', [
+  '$scope', '$rootScope', '$http', '$uibModal', 'pageFactory',
+  function($scope, $rootScope, $http, $uibModal, pageFactory) {
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/record/events';
+
+    $scope.events = {
+      start: 0,
+      total: 10,
+      list: []
+    };
+    var query = function(params) {
+      $http.get(url, {
+        params: params
+      }).success(function(response) {
+        $scope.events = response;
+        pageFactory.set(response, params);
+      }).error(function(response, status) {
+        pageFactory.set($scope.events, params);
+        $rootScope.$emit('messageShow', { succ: false, text: '获取备份录像列表失败。' });
+        console.log('error');
+      });
+    };
+    $scope.page = pageFactory.init({
+      query: query,
+      jumperror: function() {
+        alert('页码输入不正确。');
+      }
+    });
+    $scope.query = function() {
+      var params = {
+        start: 0,
+        limit: $scope.page.limit
+      };
+      query(params);
+    };
+
+    $scope.play = function(it) {
+      $scope.selected = angular.copy(it);
+      $scope.selected.camname = it.camera_name;
+      var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
+        templateUrl: path + 'views/replayModalContent.html',
+        controller: 'replayModalController',
+        size: 'lg modal-player',
+        resolve: {
+          record: function() {
+            return $scope.selected;
+          }
+        }
+      });
+    };
+
+    $scope.remove = function(item, index) {
+      if (false === confirm('确认删除备份录像 "' + item.desc + '" 吗？')) {
+        return;
+      }
+      $http.delete(url + '/' + item.event_id, {}).success(function(response) {
+        $scope.events.list.splice(index, 1);
+        $rootScope.$emit('messageShow', { succ: true, text: '删除备份录像成功。' });
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: false, text: '删除备份录像失败。' });
+        console.log('error');
+      });
+    };
+
+    $scope.query();
+  }
+])
+
+.controller('record-event-detail', [
+  '$scope', '$rootScope', '$http', '$uibModal',
+  function($scope, $rootScope, $http, $uibModal) {
+    var url = api + "projects/" + $rootScope.$stateParams.project + '/record/events/' + $rootScope.$stateParams.event;
+
+    $http.get(url, {}).success(function(response) {
+      $scope.info = response;
+    }).error(function(response, status) {
+      $rootScope.$emit('messageShow', { succ: false, text: '获取备份录像信息失败。' });
+      console.log('error');
+    });
+
+    $scope.save = function() {
+      var data = {
+        desc: $scope.info.desc,
+        long_desc: $scope.info.long_desc
+      };
+      $http.put(url, data).success(function(response) {
+        $rootScope.$emit('messageShow', { succ: true, text: '修改备份录像信息成功。' });
+        console.log('success');
+      }).error(function(response, status) {
+        $rootScope.$emit('messageShow', { succ: false, text: '修改备份录像信息失败。' });
+        console.log('error');
+      });
+    };
+
+    $scope.play = function(info) {
+      $scope.selected = angular.copy(info);
+      $scope.selected.camname = info.camera_name;
+      var modalInstance = $uibModal.open({
+        backdrop: 'static', 
+        keyboard: false,
+        templateUrl: path + 'views/replayModalContent.html',
+        controller: 'replayModalController',
+        size: 'lg modal-player',
+        resolve: {
+          record: function() {
+            return $scope.selected;
+          }
+        }
+      });
+    };
+  }
+])
+
+
+.controller('live', [
+    '$scope', '$rootScope', '$http', '$uibModal', 'flagFactory', 'pageFactory',
+        function($scope, $rootScope, $http, $uibModal, flagFactory, pageFactory) {
+            $scope.project = $rootScope.$stateParams.project;
+
+            $scope.camera = {
+                start: 0,
+                total: 10,
+                list: []
+            };
+
+            $scope.params = {
+                filter_key: 'name',
+                filter_value: ''
+            };
+
+            var query = function(params) {
+                $http.get(api + "projects/" + $scope.project + '/live_shows', {
+                    params: params
+                }).success(function(response) {
+                        $scope.live = response;
+                        pageFactory.set(response, params);
+                    }).error(function(response, status) {
+                        console.log('error');
+                    });
+            };
+
+            $scope.page = pageFactory.init({
+                query: query,
+                jumperror: function() {
+                    alert('页码输入不正确。');
+                }
+            });
+
+            $scope.query = function() {
+                var params = {
+                    start: 0,
+                    limit: $scope.page.limit
+                };
+                if (undefined !== $scope.params.filter_value && '' !== $scope.params.filter_value) {
+                    params.filter_key = $scope.params.filter_key;
+                    params.filter_value = $scope.params.filter_value;
+                }
+                query(params);
+            };
+
+            $scope.remove = function(item, index) {
+                if (false === confirm('确认移除活动直播 "' + item.name + '" 吗？')) {
+                    return;
+                }
+                $http.delete(api + "projects/" + $scope.project + '/live_shows' + '/' + item.uuid , {}).success(function(response) {
+                    $scope.live.list.splice(index, 1);
+                    $rootScope.$emit('messageShow', { succ: true, text: '删除活动直播成功。' });
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '删除活动直播失败。' });
+                        console.log('error');
+                    });
+            };
+            $scope.query();
+        }
+    ])
+
+    .controller('add-live', [
+        '$scope', '$rootScope', '$http', 'dateFactory',
+        function($scope, $rootScope, $http, dateFactory) {
+            var url = api + "projects/" + $rootScope.$stateParams.project + '/live_shows';
+            var curl = api + "projects/" + $rootScope.$stateParams.project + '/cameras';
+//            $scope.flags = true;
+
+            $scope.info = {
+                name: '',
+                desc: '',
+                long_desc: '',
+                camera_id: '',
+                flags: 1,
+                web_url: '',
+                wechat_url: ''
+            };
+
+            $scope.add = function() {
+//                if ($scope.flags === true)  $scope.info.flags = 1;else $scope.info.flags = 0;
+                $http.post(url, $scope.info).success(function(response) {
+                    $rootScope.$emit('messageShow', { succ: true, text: '新建成功。' });
+                    $rootScope.$state.go('project.live');
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '新建失败。' });
+                        console.log('error');
+                    });
+            };
+
+            $scope.enable = function(enabled) {
+                if (enabled === true) enabled = 1; else enabled = 0;
+                $scope.info.flags = enabled;
+            };
+
+            (function() {
+                $http.get(curl, {}).success(function(response) {
+                    $scope.cameras = response.list;
+
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '获取相机信息失败。' });
+                        console.log('error');
+                    });
+            })();
+        }
+    ])
+
+    .controller('live-detail', [
+        '$scope', '$rootScope', '$http', 'dateFactory',
+        function($scope, $rootScope, $http, dateFactory) {
+            var url = api + "projects/" + $rootScope.$stateParams.project + '/live_shows/'+ $rootScope.$stateParams.showid;
+
+
+            $scope.modify = function() {
+                $scope.subinfo = {
+                    name: $scope.info.name,
+                    desc: $scope.info.desc,
+                    long_desc: $scope.info.long_desc,
+                    flags: $scope.info.flags,
+                    web_url: $scope.info.web_url,
+                    wechat_url: $scope.info.wechat_url,
+                    record_url: $scope.info.record_url
+                };
+                $http.put(url, $scope.subinfo).success(function(response) {
+                    $rootScope.$emit('messageShow', { succ: true, text: '设置成功。' });
+
+                    // $scope.typechange('weekday');
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '设置失败。' });
+                        console.log('error');
+                    });
+            };
+
+            $scope.op = function(operation, mes) {
+                var tip = "确认要 " + mes + " 活动直播吗？";
+                if (false === confirm(tip)) {
+                    return false;
+                }
+                $scope.act = {
+                  op: operation
+                };
+                $http.post(url, $scope.act).success(function(response) {
+                    $rootScope.$emit('messageShow', { succ: true, text: '操作成功。' });
+                    $scope.getLiveDetail();
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '操作失败。' });
+                        console.log('error');
+                    });
+            };
+
+            $scope.enable = function(enabled) {
+                if (enabled === true) enabled = 1; else enabled = 0;
+                $scope.info.flags = enabled;
+            };
+
+            $scope.getLiveDetail = function() {
+                $http.get(url, {}).success(function(response) {
+                    $scope.info = response;
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '获取信息失败。' });
+                        console.log('error');
+                    });
+            };
+            $scope.getLiveDetail();
+        }
+    ]);
+

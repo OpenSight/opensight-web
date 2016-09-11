@@ -3,6 +3,8 @@ var HlsVideo = function(opts){
   this.api = 'http://www.opensight.cn/api/ivc/v1/projects/';
   this.project = opts.project_name;
   this.uuid = opts.uuid;
+  this.alivetimer = undefined;
+  this.player = undefined;
   this.playStream = opts.playStream;
   this.init();
 };
@@ -51,18 +53,20 @@ HlsVideo.prototype = {
   */
   addVideoTag: function(info){
     var id = 'videoPlayer';
-    var html = '<video id="' + id + '" class="video" controls preload autoplay="autoplay" width="100%" height="100%">' +
-      '<source src = "' + info.url + '" type = "application/x-mpegURL">' +
+    var html = '<video id="' + id + '" class="video" controls preload autoplay="autoplay" webkit-playsinline="" width="100%" height="100%">' +
+      '<source src = "' + info.url + '" type = "application/x-mpegURL" />' +
     '</video>';
     var el = $('#' + id).parent().html(html);
-    var player = document.getElementById(id);
-    player.play();
-    player.pause();
+
+      this.player = document.getElementById(id);
+      this.player.play();
+      this.player.pause();
     var u = window.navigator.userAgent.toLowerCase();
     if (-1 === u.indexOf('windows') && -1 !== u.indexOf('android')) {
-      player.load();
+        this.player.load();
     }
-    player.play();
+      this.player.play();
+
   },
   getCameraInfo: function(){
     var _this = this;
@@ -145,6 +149,8 @@ HlsVideo.prototype = {
       }
     });
   },
+
+    /*
   keepalive: function(sessionid){
     var _this = this;
       this.keeptimer = setInterval(function(){
@@ -158,6 +164,65 @@ HlsVideo.prototype = {
       });
     }, 30000);
   },
+    */
+
+    keepalive: function(sessionid){
+        this.session_id = sessionid;
+        var _this = this;
+        if (undefined !== _this.alivetimer){
+            clearInterval(_this.alivetimer);
+            _this.alivetimer = undefined;
+        }
+        var count = 40*3;//20*3min
+        _this.alivetimer = setInterval(function(){
+            if (0 === count){
+                $('#ToastTxt').html("查看时间过长，休息一下吧！");
+                $('#loadingToast').show();
+                setTimeout(function () {
+                    $('#loadingToast').hide();
+                }, 2000);
+                //_this.destroy();
+                window.history.back();
+                return;
+            } else {
+                count--;
+            }
+            $.ajax({
+                url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + _this.session_id,
+                cache: true,
+                headers: { // 添加请求头
+                    "Authorization": "Bearer " + $.cookie('jwt')
+                },
+                type: 'POST'
+            });
+        }, 30000);
+    },
+
+  stop: function(){
+        var _this = this;
+        if (undefined !== _this.alivetimer){
+            clearInterval(_this.alivetimer);
+            _this.alivetimer = undefined;
+        }
+
+        if (this.player!==undefined){
+//            this.player.stop();
+        }
+
+        if (undefined === _this.session_id){
+            return;
+        }
+
+        $.ajax({
+            url: _this.api + _this.project + '/cameras/' + _this.uuid + '/sessions/' + _this.session_id,
+            cache: true,
+            headers: { // 添加请求头
+                "Authorization": "Bearer " + $.cookie('jwt')
+            },
+            type: 'DELETE'
+        });
+  },
+
   updateTip: function(){
     var _this = this;
     var sec = 10;
@@ -171,6 +236,7 @@ HlsVideo.prototype = {
       $('#playTipSec').text(sec);
     }, 1000);
   },
+
   error: function(){
     if (undefined !== this.tiptimer){
       clearInterval(this.tiptimer);
@@ -178,7 +244,10 @@ HlsVideo.prototype = {
     }
     alert('启动实况失败，请刷新页面重试。');
   },
+
     destroy: function(){
+        if (this.destroyed === true) return;
+        this.stop();
         var id = 'videoPlayer';
         if($("#playTipSec").length>0){
             clearInterval(this.tiptimer);
@@ -186,8 +255,11 @@ HlsVideo.prototype = {
         }else{
             var player = document.getElementById(id);
             if (player!==null && player.currentTime){
+
                 player.currentTime = 0;
                 player.pause();
+                player.src="movie.ogg";
+                player.load();
             }
         }
         clearInterval(this.keeptimer);
@@ -201,13 +273,5 @@ HlsVideo.prototype = {
 
         var el = $('#' + id).parent().html(html);
         this.destroyed = true;
-
     }
 };
-
-/*
-$(function(){
-//  var params = parseUrl();
-  new HlsVideo(params);
-});
-    */

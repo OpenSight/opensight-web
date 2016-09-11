@@ -1,0 +1,63 @@
+<div class="container-fluid" ng-controller="add-live">
+  <div class="col-sm-12 page-header page-header-condensed">
+    <h3>
+      <button class="btn btn-default btn-sm" ui-sref="project.live"><i class="fa fa-arrow-left"></i></button>&nbsp;&nbsp;
+      新建活动直播
+    </h3>
+  </div>
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">活动名称</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="info.name">
+      </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">关联相机</label>
+        <div class="col-sm-10">
+            <select class="form-control" ng-model="info.camera_id" ng-options="it.uuid as it.name for it in cameras">
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">描述</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="info.desc">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">详细描述</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" rows="6" ng-model="info.long_desc"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+          <label class="col-sm-2 control-label">录像</label>
+          <div class="col-sm-10">
+              <div class="btn-group btn-group-sm">
+                  <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[info.flags === 1]" title="启用录像" ng-click="enable(true)">启用录像</button>
+                  <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[info.flags === 1]" title="禁止录像" ng-click="enable(false)">禁止录像</button>
+              </div>
+          </div>
+    </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">网页链接</label>
+          <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="info.web_url">
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-sm-2 control-label">微信链接</label>
+          <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="info.wechat_url">
+          </div>
+      </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-primary" ng-click="add()">保存</button>
+        <button class="btn btn-default" ui-sref="project.live">取消</button>
+      </div>
+    </div>
+  </form>
+</div>

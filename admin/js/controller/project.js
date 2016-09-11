@@ -631,7 +631,7 @@ app.register.controller('Project', [
             vendor: device.detail[index].vendor,
             media_channel_num: device.detail[index].media_channel_num,
             longitude: device.detail[index].longitude,
-            login_passwd: device.detail[index].login_passwd,
+            // login_passwd: device.detail[index].login_passwd,
             latitude: device.detail[index].latitude,
             altitude: device.detail[index].altitude
           };
@@ -975,13 +975,13 @@ app.register.controller('Project', [
       };
     };
 
-    $scope.project.session = (function() {
+    $scope.project.sessionlog = (function() {
       return {
         init: function() {
           $scope.project.sessionlist.params = { limit: 50 };
           $scope.project.sessionlist.bFirst = true;
           $scope.project.sessionlist.bLast = true;
-          $scope.project.session.sumShown = false;
+          $scope.project.sessionlog.sumShown = false;
           $scope.project.sessionlist.data = {};
           $scope.start = {
             dt: new Date(),
@@ -993,10 +993,10 @@ app.register.controller('Project', [
           };
         },
         initSum: function() {
-          $scope.project.session.sumShown = true;
-          $scope.project.session.sumData = {};
-          $scope.project.session.sumData.total = 0;
-          $scope.project.session.sumData.per_quality = {
+          $scope.project.sessionlog.sumShown = true;
+          $scope.project.sessionlog.sumData = {};
+          $scope.project.sessionlog.sumData.total = 0;
+          $scope.project.sessionlog.sumData.per_quality = {
             "ld": 0,
             "sd": 0,
             "hd": 0,
@@ -1007,7 +1007,7 @@ app.register.controller('Project', [
           opts.opened = true;
         },
         search: function() {
-          $scope.project.session.initSession();
+          $scope.project.sessionlog.initSession();
         },
         down: function() {
           if ($scope.project.data_mod.bDetailShown !== true) return;
@@ -1043,8 +1043,8 @@ app.register.controller('Project', [
         },
         sum: function() {
           if ($scope.project.data_mod.bDetailShown !== true) return;
-          if ($scope.project.session.sumShown === true) {
-            $scope.project.session.sumShown = false;
+          if ($scope.project.sessionlog.sumShown === true) {
+            $scope.project.sessionlog.sumShown = false;
             return;
           }
           $scope.aborter = $q.defer(),
@@ -1058,18 +1058,18 @@ app.register.controller('Project', [
                    */
 
               }).success(function(response) {
-              $scope.project.session.initSum();
+              $scope.project.sessionlog.initSum();
               if (response.total !== undefined)
-                $scope.project.session.sumData.total = response.total;
+                $scope.project.sessionlog.sumData.total = response.total;
               if (response.per_quality !== undefined) {
                 if (response.per_quality.ld !== undefined)
-                  $scope.project.session.sumData.per_quality.ld = response.per_quality.ld;
+                  $scope.project.sessionlog.sumData.per_quality.ld = response.per_quality.ld;
                 if (response.per_quality.sd !== undefined)
-                  $scope.project.session.sumData.per_quality.sd = response.per_quality.sd;
+                  $scope.project.sessionlog.sumData.per_quality.sd = response.per_quality.sd;
                 if (response.per_quality.hd !== undefined)
-                  $scope.project.session.sumData.per_quality.hd = response.per_quality.hd;
+                  $scope.project.sessionlog.sumData.per_quality.hd = response.per_quality.hd;
                 if (response.per_quality.fhd !== undefined)
-                  $scope.project.session.sumData.per_quality.fhd = response.per_quality.fhd;
+                  $scope.project.sessionlog.sumData.per_quality.fhd = response.per_quality.fhd;
               }
             }).error(function(response, status) {
               var tmpMsg = {};
@@ -1090,32 +1090,32 @@ app.register.controller('Project', [
         },
         initSession: function() {
           if ($scope.project.sessionlist.data !== undefined && $scope.project.sessionlist.data.list !== undefined) {
-            $scope.project.session.refresh();
+            $scope.project.sessionlog.refresh();
           } else {
             $scope.destroy();
-            $scope.project.session.sumShown = false;
+            $scope.project.sessionlog.sumShown = false;
             $scope.project.sessionlist.get();
           }
         },
 
         refresh: function() {
           angular.forEach($scope.project.sessionlist.data.list, function(item, index, array) {
-            if ($scope.project.session.data_mod.bDetailShown && $scope.project.session.data_mod.bDetailShown[index] !== undefined)
-              $scope.project.session.data_mod.bDetailShown[index] = false;
+            if ($scope.project.sessionlog.data_mod.bDetailShown && $scope.project.sessionlog.data_mod.bDetailShown[index] !== undefined)
+              $scope.project.sessionlog.data_mod.bDetailShown[index] = false;
           });
           $scope.project.sessionlist.data = {};
-          $scope.project.session.initSession();
+          $scope.project.sessionlog.initSession();
         },
 
         data: (function() {
           return {
             showDetail: function(item, index) {
-              if ($scope.project.session.data_mod.bDetailShown === undefined) $scope.project.session.data_mod.bDetailShown = [];
-              if ($scope.project.session.data_mod.bDetailShown[index] === undefined) $scope.project.session.data_mod.bDetailShown[index] = false;
-              $scope.project.session.data_mod.bDetailShown[index] = !(true === $scope.project.session.data_mod.bDetailShown[index]);
+              if ($scope.project.sessionlog.data_mod.bDetailShown === undefined) $scope.project.sessionlog.data_mod.bDetailShown = [];
+              if ($scope.project.sessionlog.data_mod.bDetailShown[index] === undefined) $scope.project.sessionlog.data_mod.bDetailShown[index] = false;
+              $scope.project.sessionlog.data_mod.bDetailShown[index] = !(true === $scope.project.sessionlog.data_mod.bDetailShown[index]);
 
-              if ($scope.project.session.data_mod.bDetailShown[index] === true) { //开
-                $scope.project.session.data_mod.initDetail(item, index);
+              if ($scope.project.sessionlog.data_mod.bDetailShown[index] === true) { //开
+                $scope.project.sessionlog.data_mod.initDetail(item, index);
               } else {
 
               }
@@ -1126,15 +1126,15 @@ app.register.controller('Project', [
         data_mod: (function() {
           return {
             initData: function(item, index) {
-              if ($scope.project.session.data_mod.bDetailShown[index] === true) {
-                if ($scope.project.session.data_mod.data === undefined)
-                  $scope.project.session.data_mod.data = [];
-                $scope.project.session.data_mod.data[index] = item;
+              if ($scope.project.sessionlog.data_mod.bDetailShown[index] === true) {
+                if ($scope.project.sessionlog.data_mod.data === undefined)
+                  $scope.project.sessionlog.data_mod.data = [];
+                $scope.project.sessionlog.data_mod.data[index] = item;
               }
             },
 
             initDetail: function(item, index) {
-              if ($scope.project.session.data_mod.bDetailShown[index] === undefined || $scope.project.session.data_mod.bDetailShown[index] === false)
+              if ($scope.project.sessionlog.data_mod.bDetailShown[index] === undefined || $scope.project.sessionlog.data_mod.bDetailShown[index] === false)
                 return;
 
               $scope.aborter = $q.defer(),
@@ -1146,7 +1146,7 @@ app.register.controller('Project', [
                      }
                      */
                 }).success(function(response) {
-                  $scope.project.session.data_mod.initData(response, index);
+                  $scope.project.sessionlog.data_mod.initData(response, index);
                 }).error(function(response, status) {
                   var tmpMsg = {};
                   tmpMsg.Label = "错误";
@@ -1154,7 +1154,7 @@ app.register.controller('Project', [
                   tmpMsg.ErrorContentDetail = response;
                   tmpMsg.SingleButtonShown = true;
                   tmpMsg.MutiButtonShown = false;
-                  //tmpMsg.Token =  $scope.project.session.data_mod.addHotSpToken;
+                  //tmpMsg.Token =  $scope.project.sessionlog.data_mod.addHotSpToken;
                   tmpMsg.Callback = "modMdCallBack";
                   if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
                     //$scope.$emit("Logout", tmpMsg);
@@ -1162,12 +1162,12 @@ app.register.controller('Project', [
                   } else
                     $scope.$emit("Ctr1ModalShow", tmpMsg);
 
-                  //$scope.project.session.data_mod.hotRefresh(item, index);
+                  //$scope.project.sessionlog.data_mod.hotRefresh(item, index);
                 });
             },
 
             reset: function(item, index) {
-              $scope.project.session.data_mod.initDetail(item, index);
+              $scope.project.sessionlog.data_mod.initDetail(item, index);
             },
 
             destroy: function() {}
@@ -1990,6 +1990,7 @@ app.register.controller('Project', [
         },
         get: function(params) {
           $scope.project.bill.getAccount();
+
           $http.get("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/bills', {
             params: params
               // timeout: $scope.aborter.promise
@@ -2029,11 +2030,44 @@ app.register.controller('Project', [
         getAccount: function() {
           $http.get("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/account', {}).success(function(response) {
             $scope.project.bill.account = response;
+            $scope.project.bill.editing = false;
+            $scope.project.bill.price_info = $scope.project.bill.account.price_info;
             // $scope.page = page($scope.bills.start, $scope.bills.total, params.limit, 2);
           }).error(function(response, status) {
             var tmpMsg = {};
             tmpMsg.Label = "错误";
             tmpMsg.ErrorContent = "获取账户信息失败";
+            tmpMsg.ErrorContentDetail = response;
+            tmpMsg.SingleButtonShown = true;
+            tmpMsg.MutiButtonShown = false;
+            //tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
+            // tmpMsg.Callback = "firmware.show";
+            if (status === 403 || (response !== undefined && response !== null && response.info !== undefined && response.info.indexOf("Token ") >= 0)) {
+              //$scope.$emit("Logout", tmpMsg);
+              $state.go('logOut', {
+                info: response.info,
+                traceback: response.traceback
+              });
+            } else{
+              $scope.$emit("Ctr1ModalShow", tmpMsg);
+            }
+          });
+        },
+        showBillModal: function(){
+          $scope.project.bill.price_info = $scope.project.bill.account.price_info;
+          $('#billModal').modal('show');
+        },
+        saveAccount: function(){
+          $http.put("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + '/account', {
+            price_info: $scope.project.bill.price_info
+          }).success(function(response) {
+            $scope.project.bill.editing = false;
+            $scope.project.bill.account.price_info = $scope.project.bill.price_info;
+            $('#billModal').modal('hide');
+          }).error(function(response, status) {
+            var tmpMsg = {};
+            tmpMsg.Label = "错误";
+            tmpMsg.ErrorContent = "修改账户信息失败";
             tmpMsg.ErrorContentDetail = response;
             tmpMsg.SingleButtonShown = true;
             tmpMsg.MutiButtonShown = false;

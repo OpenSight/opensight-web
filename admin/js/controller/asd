@@ -1,104 +1,149 @@
-app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, $http, $q){
-    $scope.customer = (function () {
+
+$scope.project.firmware = (function () {
         return {
-            show: function () {
-                $scope.destroy();
-                $scope.authToken = G_token;
-                $scope.customerlist.get();
-                return true;
+            initFirmware: function () {
+                if ($scope.project.firmwarelist.data!==undefined && $scope.project.firmwarelist.data.list!==undefined){
+                    $scope.project.firmware.refresh();
+                }else{
+                    $scope.destroy();
+                    $scope.project.firmware.addShown = false;
+                    $scope.project.firmwarelist.searchKeyOptionsData = [
+                                            {
+                                                name: "项目名称",
+                                                key: "project_name"
+                                            },
+                                            {
+                                                name: "固件ID",
+                                                key: "uuid"
+                                            },
+                                            {
+                                                name: "详细描述",
+                                                key: "long_desc"
+                                            },
+                                            {
+                                                name: "描述",
+                                                key: "desc"
+                                            },
+                                            {
+                                                name: "设备厂家",
+                                                key: "vendor"
+                                            },
+                                            {
+                                                name: "设备硬件",
+                                                key: "hardware_model"
+                                            },
+                                            {
+                                                name: "设备固件",
+                                                key: "firmware_model"
+                                            }
+                    ];
+                    $scope.project.firmwarelist.seachKey = $scope.project.firmwarelist.searchKeyOptionsData[0].key;
+                    $scope.project.firmwarelist.seachValue = "";
+                    $scope.project.firmwarelist.get();
+                }
             },
+            search: function () {//clean input,close add div
+                if ($scope.project.data_mod.bDetailShown !== true) return;
+                $scope.project.firmware.data_add.clean_data();
 
+                $scope.aborter = $q.defer(),
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/"
+                        +$scope.project.data_mod.selectItem.name+ "/firmwares?filter_key="
+                        +$scope.project.firmwarelist.seachKey+"&filter_value="+$scope.project.firmwarelist.seachValue+
+                        "&start=0&limit=100", {
+                        timeout: $scope.aborter.promise
+                    }).success(function (response) {
+                            $scope.project.firmwarelist.data = response;
+                        }).error(function (response,status) {
+                            var tmpMsg = {};
+                            tmpMsg.Label = "错误";
+                            tmpMsg.ErrorContent = "获取固件列表失败";
+                            tmpMsg.ErrorContentDetail = response;
+                            tmpMsg.SingleButtonShown = true;
+                            tmpMsg.MutiButtonShown = false;
+                            //tmpMsg.Token =  $scope.camera.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "firmware.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
+                            }else
+                                $scope.$emit("Ctr1ModalShow", tmpMsg);
+
+                        });
+
+            },
             refresh: function () {
-                angular.forEach($scope.customerlist.data.list, function (item, index, array) {
-                    if ($scope.customer.data_mod.bDetailShown && $scope.customer.data_mod.bDetailShown[index] !== undefined)
-                        $scope.customer.data_mod.bDetailShown[index]  = false;
+                angular.forEach($scope.project.firmwarelist.data.list, function (item, index, array) {
+                    if ($scope.project.firmware.data_mod.bDetailShown && $scope.project.firmware.data_mod.bDetailShown[index] !== undefined)
+                        $scope.project.firmware.data_mod.bDetailShown[index]  = false;
                 });
-
-                $scope.customer.show();
+                $scope.project.firmwarelist.data = {};
+                $scope.project.firmware.initFirmware();
             },
 
             add: function () {
-                if ($scope.customer.addShown === undefined) $scope.customer.addShown = false;
-                $scope.customer.addShown = !$scope.customer.addShown;
-                if ($scope.customer.addShown === true)
-                    $scope.customer.data_add.init();
-            },
-
-            encryptPasswd: function (passwd) {
-                return sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(passwd, G_salt, 100000));
-                //return sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2("password", "salt", 1));
+                if ($scope.project.firmware.addShown === undefined) $scope.project.firmware.addShown = false;
+                $scope.project.firmware.addShown = !$scope.project.firmware.addShown;
+                if ($scope.project.firmware.addShown === true)
+                    $scope.project.firmware.data_add.init();
             },
 
             data_add: (function () {
                 return {
                     clean_data: function () {//clean add field
-                        if ($scope.customer.data_add === undefined)
-                            $scope.customer.data_add = {};
-                        $scope.customer.data_add.username = "";
-                        $scope.customer.data_add.password = "";
-                        $scope.customer.data_add.is_privilege = false;
-                        $scope.customer.data_add.title = "";
-                        $scope.customer.data_add.flags = 0;
-                        $scope.customer.data_add.cellphone = "";
-                        $scope.customer.data_add.email = "";
-                        $scope.customer.data_add.desc = "";
-                        $scope.customer.data_add.long_desc = "";
+                        if ($scope.project.firmware.data_add === undefined)
+                            $scope.project.firmware.data_add = {};
+                            $scope.project.firmware.data_add.vendor = "";
+                            $scope.project.firmware.data_add.hardware_model = "";
+                            $scope.project.firmware.data_add.firmware_model = "";
+                            $scope.project.firmware.data_add.firmware_url = "";
+                            $scope.project.firmware.data_add.project_name = "";
+                            $scope.project.firmware.data_add.desc = "";
+                            $scope.project.firmware.data_add.long_desc = "";                        
                     },
 
-                    submitForm: function () {//add one customer
+                    submitForm: function () {//add one firmware
                         var postData = {
-                            username: $scope.customer.data_add.username,
-                            title: $scope.customer.data_add.title,
-                            password: $scope.customer.encryptPasswd($scope.customer.data_add.password),
-                            is_privilege: $scope.customer.data_add.is_privilege,
-                            desc: $scope.customer.data_add.desc,
-                            long_desc: $scope.customer.data_add.long_desc,
-                            flags: $scope.customer.data_add.flags,
-                            cellphone: $scope.customer.data_add.cellphone,
-                            email: $scope.customer.data_add.email
+                            vendor: $scope.project.firmware.data_add.vendor,
+                            hardware_model: $scope.project.firmware.data_add.hardware_model,
+                            firmware_model: $scope.project.firmware.data_add.firmware_model,
+                            desc: $scope.project.firmware.data_add.desc,
+                            long_desc: $scope.project.firmware.data_add.long_desc,
+                            project_name: $scope.project.firmware.data_add.project_name,
+                            firmware_url: $scope.project.firmware.data_add.firmware_url                            
                         };
 
-                        $scope.customer.data_add.token = Math.random();
+                        $scope.project.firmware.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/users", postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                            $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+$scope.project.data_mod.selectItem.name+"/firmwares", postData, {
+                                timeout: $scope.aborter.promise
                             }).success(function (response) {
-                                    $scope.customer.refresh();
-                                }).error(function (response,status) {
-                                    //response.ErrorContent = "添加customer失败";
-                                    //$scope.$emit("errorEmit",response);
-                                    //bendichuliweimiao
-
+                                    $scope.project.firmware.refresh();
+                                }).error(function (response,status) {                                    
                                     var tmpMsg = {};
 
                                     tmpMsg.Label = "错误";
-                                    tmpMsg.ErrorContent = "添加用户失败";
+                                    tmpMsg.ErrorContent = "加入固件失败";
                                     tmpMsg.ErrorContentDetail = response;
                                     tmpMsg.SingleButtonShown = true;
                                     tmpMsg.MutiButtonShown = false;
-                                    tmpMsg.Token =  $scope.customer.data_add.token;
-                                    tmpMsg.Callback = "addMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
-                                        $scope.$emit("Logout", tmpMsg);
+                                    tmpMsg.Token =  $scope.project.firmware.data_add.token;
+                                    //tmpMsg.Callback = "addMdCallBack";
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                        //$scope.$emit("Logout", tmpMsg);
+                                        $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
                                         $scope.$emit("Ctr1ModalShow", tmpMsg);
-
-                                    // $scope.customer.refresh();
+                                   
                                 });
                     },
 
-                    close: function () {//clean input,close add div
-                        //$scope.customer.data_add.clean_data();
-                        //$scope.customer.addShown = false;
-                        $scope.customer.add();
+                    close: function () {//clean input,close add div                        
+                        $scope.project.firmware.add();
                     },
 
                     init: function () {
-                        $scope.customer.data_add.clean_data();
+                        $scope.project.firmware.data_add.clean_data();
                     },
 
                     addMdCallBack:function (event, msg) {
@@ -108,30 +153,29 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
             })(),
 
             delete_one: function (item) {
-                $scope.customer.data.delOneToken = Math.random();
+                var r=confirm("确认删除firmware "+ item.uuid +"吗？");
+                if (r===false) return;
+                $scope.project.firmware.data.delOneToken = Math.random();
                 $scope.aborter = $q.defer(),
-                    $http.delete("http://121.41.72.231:5001/api/ivc/v1/users/"+item.username, {
-                        timeout: $scope.aborter.promise,
-                        headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                    $http.delete("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/firmwares/"+item.uuid, {
+                        timeout: $scope.aborter.promise                        
                     }).success(function (response) {
-                            $scope.customer.refresh();
+                            $scope.project.firmware.refresh();
                         }).error(function (response,status) {
                             var tmpMsg = {};
                             tmpMsg.Label = "错误";
-                            tmpMsg.ErrorContent = "删除用户"+ item.username +"失败";
+                            tmpMsg.ErrorContent = "删除固件"+ item.firmwarename +"失败";
                             tmpMsg.ErrorContentDetail = response;
                             tmpMsg.SingleButtonShown = true;
                             tmpMsg.MutiButtonShown = false;
-                            tmpMsg.Token =  $scope.customer.data.delOneToken;
-                            tmpMsg.Callback = "delMdCallBack";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
-                                $scope.$emit("Logout", tmpMsg);
+                            tmpMsg.Token =  $scope.project.firmware.data.delOneToken;
+                            //tmpMsg.Callback = "delMdCallBack";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
                                 $scope.$emit("Ctr1ModalShow", tmpMsg);
-                            //$scope.customer.refresh();
+                            //$scope.project.firmware.refresh();
                         });
             },
 
@@ -142,17 +186,12 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
             data: (function () {
                 return {
                     showDetail: function (item, index) {
-                        if ($scope.customer.data_mod.bDetailShown === undefined) $scope.customer.data_mod.bDetailShown = [];
-                        if ($scope.customer.data_mod.bDetailShown[index] === undefined) $scope.customer.data_mod.bDetailShown[index] = false;
-                        $scope.customer.data_mod.bDetailShown[index] = !(true === $scope.customer.data_mod.bDetailShown[index]);
-                        if ($scope.customer.data_mod.bDetailShown[index] === true) {//开
-                            $scope.customer.data_mod.selectItem = item;
-                            /*
-                            if ($scope.customer.data_mod.tabs===undefined)
-                                $scope.customer.data_mod.tabs = [];
-                            $scope.customer.data_mod.tabs[0] = true;
-                            */
-                            $scope.customer.data_mod.initDetail(item, index);
+                        if ($scope.project.firmware.data_mod.bDetailShown === undefined) $scope.project.firmware.data_mod.bDetailShown = [];
+                        if ($scope.project.firmware.data_mod.bDetailShown[index] === undefined) $scope.project.firmware.data_mod.bDetailShown[index] = false;
+                        $scope.project.firmware.data_mod.bDetailShown[index] = !(true === $scope.project.firmware.data_mod.bDetailShown[index]);
+
+                        if ($scope.project.firmware.data_mod.bDetailShown[index] === true) {//开
+                            $scope.project.firmware.data_mod.initDetail(item, index);
                         } else {
 
                         }
@@ -162,191 +201,124 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
 
             data_mod: (function () {
                 return {
-                    initData: function(item, index) {
-                        if ($scope.customer.data_mod.bDetailShown[index] === true) {
-                            if ($scope.customer.data_mod.data === undefined)
-                                $scope.customer.data_mod.data = [];
-                            $scope.customer.data_mod.data[index] = item;
+                    initData: function(item,index) {
+                        if ($scope.project.firmware.data_mod.bDetailShown[index] === true) {
+                            if ($scope.project.firmware.data_mod.data === undefined)
+                                $scope.project.firmware.data_mod.data = [];
+                            $scope.project.firmware.data_mod.data[index] = item;
                         }
                     },
 
-                    initDetail: function (item, index) {
-                        if ($scope.customer.data_mod.bDetailShown[index] === undefined
-                            || $scope.customer.data_mod.bDetailShown[index] === false)
+                    initDetail: function (item,index) {
+                        if ($scope.project.firmware.data_mod.bDetailShown[index] === undefined
+                            || $scope.project.firmware.data_mod.bDetailShown[index] === false)
                             return;
 
                         $scope.aborter = $q.defer(),
-                            $http.get("http://121.41.72.231:5001/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                            $http.get("http://api.opensight.cn/api/ivc/v1/projects/"+ $scope.project.data_mod.selectItem.name +"/firmwares/"+item.uuid, {
+                                timeout: $scope.aborter.promise
+                                
                             }).success(function (response) {
-                                    $scope.customer.data_mod.initData(response, index);
+                                    $scope.project.firmware.data_mod.initData(response,index);
                                 }).error(function (response,status) {
                                     var tmpMsg = {};
                                     tmpMsg.Label = "错误";
-                                    tmpMsg.ErrorContent = "用户"+ $scope.customer.data_mod.selectItem.username +"详细信息get失败";
+                                    tmpMsg.ErrorContent = "固件"+ item.uuid +"get失败";
                                     tmpMsg.ErrorContentDetail = response;
                                     tmpMsg.SingleButtonShown = true;
                                     tmpMsg.MutiButtonShown = false;
-                                    tmpMsg.Token =  $scope.customer.data_mod.addHotSpToken;
+                                    //tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
                                     tmpMsg.Callback = "modMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
-                                        $scope.$emit("Logout", tmpMsg);
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                        //$scope.$emit("Logout", tmpMsg);
+                                        $state.go('logOut',{info: response.info,traceback: response.traceback});
                                     }else
                                         $scope.$emit("Ctr1ModalShow", tmpMsg);
 
-                                    //$scope.customer.data_mod.refresh(item, index);
+                                    //$scope.project.firmware.data_mod.hotRefresh(item, index);
                                 });
                     },
 
                     submitForm: function (item, index) {
                         var postData =  {
-                            cellphone: $scope.customer.data_mod.data[index].cellphone,
-                            title: $scope.customer.data_mod.data[index].title,
-                            desc: $scope.customer.data_mod.data[index].desc,
-                            long_desc: $scope.customer.data_mod.data[index].long_desc,
-                            email: $scope.customer.data_mod.data[index].email
+                            firmware_model: $scope.project.firmware.data_mod.data[index].firmware_model,
+                            firmware_url: $scope.project.firmware.data_mod.data[index].firmware_url,
+                            desc: $scope.project.firmware.data_mod.data[index].desc,
+                            long_desc: $scope.project.firmware.data_mod.data[index].long_desc
                         };
 
-                        $scope.customer.data_mod.updateCustomers = Math.random();
+                        $scope.project.firmware.data_mod.updateCustomers = Math.random();
                         $scope.aborter = $q.defer(),
-                            $http.put("http://121.41.72.231:5001/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username, postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
+                            $http.put("http://api.opensight.cn/api/ivc/v1/firmwares/"+item.uuid, postData, {
+                                timeout: $scope.aborter.promise
                             }).success(function (response) {
-                                    $scope.customer.refresh();
+                                    $scope.project.firmware.refresh();
                                 }).error(function (response,status) {
                                     var tmpMsg = {};
                                     tmpMsg.Label = "错误";
-                                    tmpMsg.ErrorContent = "用户"+ $scope.customer.data_mod.name+"更新用户失败";
+                                    tmpMsg.ErrorContent = "固件"+ item.uuid  +"更新固件失败";
                                     tmpMsg.ErrorContentDetail = response;
                                     tmpMsg.SingleButtonShown = true;
                                     tmpMsg.MutiButtonShown = false;
-                                    tmpMsg.Token =  $scope.customer.data_mod.addHotSpToken;
+                                    tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
                                     tmpMsg.Callback = "modMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                    if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
                                         $scope.$emit("Logout", tmpMsg);
                                     }else
                                         $scope.$emit("Ctr1ModalShow", tmpMsg);
 
-                                    // $scope.customer.data_mod.refresh(item, index);
+                                    // $scope.project.firmware.data_mod.refresh(item, index);
                                 });
                     },
                     close: function (item, index) {
-                        $scope.customer.data_mod.initDetail(item, index);
-                    },
-                    passwdReset:function (item, index) {
-                        var postData =  {
-                            new_password: $scope.customer.encryptPasswd($scope.customer.data_mod.data[index].new_password)
-                        };
-
-                        //$scope.customer.data_mod.updateCustomers = Math.random();
-                        $scope.aborter = $q.defer(),
-                            $http.post("http://121.41.72.231:5001/api/ivc/v1/users/"+$scope.customer.data_mod.selectItem.username+"/password_reset", postData, {
-                                timeout: $scope.aborter.promise,
-                                headers:  {
-                                    "Authorization" : "Bearer "+$scope.authToken,
-                                    "Content-Type": "application/json"
-                                }
-                            }).success(function (response) {
-                                    //$scope.customer.data_mod.refresh(item, index);
-                                }).error(function (response,status) {
-                                    var tmpMsg = {};
-                                    tmpMsg.Label = "错误";
-                                    tmpMsg.ErrorContent = "用户"+ $scope.customer.data_mod.selectItem.username+"重置用户密码失败";
-                                    tmpMsg.ErrorContentDetail = response;
-                                    tmpMsg.SingleButtonShown = true;
-                                    tmpMsg.MutiButtonShown = false;
-                                    tmpMsg.Token =  $scope.customer.data_mod.addHotSpToken;
-                                    tmpMsg.Callback = "modMdCallBack";
-                                    if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
-                                        $scope.$emit("Logout", tmpMsg);
-                                    }else
-                                        $scope.$emit("Ctr1ModalShow", tmpMsg);
-
-                                    // $scope.customer.data_mod.refresh(item, index);
-                                });
-
-                    },
-                    modMdCallBack:function (event, msg) {
-
-                    },
+                        $scope.project.firmware.data_mod.initDetail(item, index);
+                    },                    
 
                     destroy: function () {
                     }
                 };
             })()
 
+
+
         }
     })();
 
-    $scope.customerlist = (function () {
+    $scope.project.firmwarelist = (function () {
         return {
             get: function () {//clean input,close add div
-                $scope.customer.data_add.clean_data();
-                //$scope.customer.addShown = false;
+                if ($scope.project.data_mod.bDetailShown !== true) return;
+                $scope.project.firmware.data_add.clean_data();
+                //$scope.project.firmware.addShown = false;
                 $scope.aborter = $q.defer(),
-                    $http.get("http://121.41.72.231:5001/api/ivc/v1/users?start=0&limit=100", {
-                        timeout: $scope.aborter.promise,
+                    $http.get("http://api.opensight.cn/api/ivc/v1/projects/" +$scope.project.data_mod.selectItem.name+ "/firmwares?start=0&limit=100", {
+                        timeout: $scope.aborter.promise
+                        /*                       
                         headers:  {
-                            "Authorization" : "Bearer "+$scope.authToken,
-                            "Content-Type": "application/json"
-                        }
+                         "Authorization" : "Bearer "+$scope.authToken,
+                         "Content-Type": "application/json"
+                         }
+                         */
 
                     }).success(function (response) {
-                            $scope.customerlist.data = response;
+                            $scope.project.firmwarelist.data = response;
                         }).error(function (response,status) {
                             var tmpMsg = {};
                             tmpMsg.Label = "错误";
-                            tmpMsg.ErrorContent = "获取用户列表失败";
+                            tmpMsg.ErrorContent = "获取项目内固件列表失败";
                             tmpMsg.ErrorContentDetail = response;
                             tmpMsg.SingleButtonShown = true;
                             tmpMsg.MutiButtonShown = false;
-                            //tmpMsg.Token =  $scope.customer.data_mod.addHotSpToken;
-                            tmpMsg.Callback = "customer.show";
-                            if (status === 403 || (response!==undefined && response.info!==undefined && response.info.indexOf("Token ")>=0)){
-                                $scope.$emit("Logout", tmpMsg);
+                            //tmpMsg.Token =  $scope.project.firmware.data_mod.addHotSpToken;
+                            tmpMsg.Callback = "firmware.show";
+                            if (status === 403 || (response!==undefined && response!==null && response.info!==undefined && response.info.indexOf("Token ")>=0)){
+                                //$scope.$emit("Logout", tmpMsg);
+                                $state.go('logOut',{info: response.info,traceback: response.traceback});
                             }else
                                 $scope.$emit("Ctr1ModalShow", tmpMsg);
 
                         });
 
-            },
-            getKey: function (event, newkey) {
-                $scope.authToken = newkey;
             }
-
-
         };
     })();
-
-    $scope.destroy = function () {
-        if (undefined !== $scope.aborter) {
-            $scope.aborter.resolve();
-            delete $scope.aborter;
-        }
-    };
-
-    $scope.$on('$destroy', $scope.destroy);
-    $scope.$on("newToken",$scope.customerlist.getKey);
-    /*
-    $scope.$on("customer.show",$scope.customer.show);
-
-
-//add all callback
-    $scope.$on('modMdCallBack', $scope.customer.data_mod.modMdCallBack);
-    $scope.$on('addMdCallBack', $scope.customer.data_add.addMdCallBack);
-    $scope.$on('delMdCallBack', $scope.customer.delMdCallBack);
-     */
-    $scope.customer.show();
-
-//init customer list
-    //$scope.$emit("freshToken","customer.show");
-
-}]);

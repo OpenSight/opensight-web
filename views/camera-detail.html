@@ -2,89 +2,128 @@
   <uib-tabset active="0">
     <i class="fa fa-arrow-left pull-left tab-icon" ui-sref="project.camera"></i>
     <uib-tab index="0" heading="详细信息">
-      <form ng-controller="camera-detail" name="camera-detail">
-        <div class="col-sm-6">
+      <form class="form-horizontal" ng-controller="camera-detail" name="camera-detail">
+        <div class="col-sm-7">
           <div class="form-group">
-            <label>
-              摄像机名称
-            </label>
-            <input type="text" class="form-control" ng-model="info.name">
+            <label class="col-sm-3 control-label">摄像机名称</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{info.name}}</p>
+            </div>
           </div>
           <div class="form-group">
-            <label>状态</label>
-            <p class="form-control-static">{{info.is_online|online}}</p>
+            <label class="col-sm-3 control-label">id</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{info.uuid}}</p>
+            </div>
           </div>
           <div class="form-group">
-            <label>摄像头标志位</label>
-            <div class="checkbox">
-              <div class="btn-group btn-group-xs">
-                <button ng-repeat="it in info.ability" class="btn btn-primary" role="group" title={{it.title}}>{{it.text}}</button>
+            <label class="col-sm-3 control-label">状态</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{info.is_online|online}}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">直播</label>
+            <div class="col-sm-9">
+              <div class="btn-group btn-group-sm">
+                <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[info.live_ability]" title="允许直播" ng-click="enable(true)">允许直播</button>
+                <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[info.live_ability]" title="禁止直播" ng-click="enable(false)">禁止直播</button>
               </div>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <label>
-                <input type="checkbox" ng-model="info.live_ability">直播</label>
-              &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">画面质量</label>
+            <div class="col-sm-9">
+              <div class="btn-group btn-group-sm">
+                <button ng-repeat="it in info.ability" class="btn btn-default" role="group" ng-class="{'btn-primary': it.text === info.quality}" title={{it.title}} ng-click="info.quality = it.text">{{it.title}}</button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="(!info.live_ability) || (!info.is_online)">
+                  预览
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="pointer" ng-click="preview(info, 'rtmp')">RTMP</a></li>
+                  <li><a class="pointer" ng-click="preview(info, 'hls')">HLS</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">摄像头标志位</label>
+            <div class="checkbox col-sm-9">
+              <!-- <label ng-repeat="it in info.ability">
+                <input type="checkbox" checked disabled>{{it.title}}&nbsp;&nbsp;
+              </label> -->
               <label>
                 <input type="checkbox" ng-model="info.preview_ability" disabled>预览图</label>
-              &nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;
               <label>
                 <input type="checkbox" ng-model="info.ptz_ability" disabled>云台</label>
             </div>
           </div>
-          <div class="form-group">
-            <label>简述</label>
-            <input type="text" class="form-control" ng-model="info.desc">
+          <div class="form-group" ng-show="undefined !== rtmp_publish_url">
+            <label class="col-sm-3 control-label">推流地址</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{rtmp_publish_url}}</p>
+            </div>
           </div>
           <div class="form-group">
-            <label>详细描述</label>
-            <textarea class="form-control" rows="6" ng-model="info.long_desc"></textarea>
+            <label class="col-sm-3 control-label">简述</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{info.desc}}</p>
+            </div>
           </div>
           <div class="form-group">
-            <label>经度</label>
-            <input type="text" class="form-control" ng-model="info.longitude">
+            <label class="col-sm-3 control-label">详细描述</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{info.long_desc}}</p>
+            </div>
           </div>
           <div class="form-group">
-            <label>纬度</label>
-            <input type="text" class="form-control" ng-model="info.latitude">
+            <label class="col-sm-3 control-label">项目名称</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{info.project_name}}</p>
+            </div>
           </div>
           <div class="form-group">
-            <label>海拔</label>
-            <input type="text" class="form-control" ng-model="info.altitude">
+            <label class="col-sm-3 control-label">设备id</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{info.device_uuid}}</p>
+            </div>
           </div>
-          <p>
-            <button type="submit" class="btn btn-primary" ng-click="save()">保存</button>
-            <button type="submit" class="btn btn-default" ui-sref="project.camera">取消</button>
-          </p>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">通道索引</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{info.channel_index}}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">位置</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">
+                经度 {{info.longitude}}&nbsp;&nbsp; 纬度 {{info.latitude}}&nbsp;&nbsp; 海拔 {{info.altitude}}&nbsp;&nbsp;
+              </p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">创建时间</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{info.ctime|date: "yyyy-MM-dd HH:mm:ss"}}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">更新时间</label>
+            <div class="col-sm-9">
+              <p class="form-control-static">{{info.utime|date: "yyyy-MM-dd HH:mm:ss"}}</p>
+            </div>
+          </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-5">
           <div class="form-group">
             <p class="form-control-static">
-              <img ng-src="{{info.preview}}" alt="预览图">
+              <img ng-src="{{info.preview}}" alt="预览图" style="width: 100%;max-width: 360px;">
             </p>
-          </div>
-          <div class="form-group">
-            <label>所属项目</label>
-            <p class="form-control-static">{{info.project_name}}</p>
-          </div>
-          <div class="form-group">
-            <label>id</label>
-            <p class="form-control-static">{{info.uuid}}</p>
-          </div>
-          <div class="form-group">
-            <label>设备id</label>
-            <p class="form-control-static">{{info.device_uuid}}</p>
-          </div>
-          <div class="form-group">
-            <label>通道索引</label>
-            <p class="form-control-static">{{info.channel_index}}</p>
-          </div>
-          <div class="form-group">
-            <label>创建时间</label>
-            <p class="form-control-static">{{info.ctime}}</p>
-          </div>
-          <div class="form-group">
-            <label>更新时间</label>
-            <p class="form-control-static">{{info.utime}}</p>
           </div>
         </div>
       </form>
@@ -111,9 +150,9 @@
         </div>
         <div class="form-group">
           <label>手动录像</label>
-          <p class="form-control-static">{{info.mannual_enabled|mannual_enabled}}</p>
+          <p class="form-control-static">{{info.manual_enabled|manual_enabled}}</p>
         </div>
-        <div class="form-group" ng-show="info.mannual_enabled">
+        <div class="form-group" ng-show="info.manual_enabled">
           <label>手动录像结束时间</label>
           <p class="form-control-static">{{info.stop_time}}</p>
         </div>

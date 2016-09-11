@@ -38,7 +38,7 @@ angular.module('app.filter', []).filter('online', [function() {
   };
 }])
 
-.filter('mannual_enabled', [function() {
+.filter('manual_enabled', [function() {
   return function(enabled) {
     if (true === enabled){
       return '启动';
@@ -126,4 +126,35 @@ angular.module('app.filter', []).filter('online', [function() {
     return s;
   };
 })
+
+.filter('listlength', function() {
+  return function(length) {
+    return 0 === length ? '无' : '有';
+  };
+})
+
+.filter('event_state', function() {
+  return function(state) {
+    var states = ['备份中', '正常', '异常'];
+    return states[state];
+  };
+})
+
+
+.filter('show_state', [function() {
+    return function(state) {
+        if (0 === state){
+            return '未启动';
+        }else if (1 === state){
+            return '进行中';
+        }else if (2 === state){
+            return '暂停';
+        }else if (3 === state){
+            return '已结束';
+        } else {
+            return '未知';
+        }
+    };
+}])
+
 ;

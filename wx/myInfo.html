@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN" ng-app="app">
 <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
-<script src="./js/base64.min.js"></script>
+<script src="//cdn.bootcss.com/Base64/0.3.0/base64.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 
@@ -196,8 +196,20 @@
             </div>
 
             <div class="weui_cells_title">解除绑定</div>
-            <div class="weui_btn_area">
-                <a class="weui_btn weui_btn_warn" ng-click="unbind();">确认解绑</a>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_btn_area">
+                    <a class="weui_btn weui_btn_warn" ng-click="unbind();">确认解绑</a>
+                </div>
+            </div>
+
+            <div class="weui_cells_title">设定</div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell weui_cell_switch">
+                    <div class="weui_cell_hd weui_cell_primary">缩略图</div>
+                    <div class="weui_cell_ft">
+                        <input class="weui_switch"  ng-model="preShow" ng-change="userinfo.data_mod.setPreCookie();" type="checkbox"/>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -231,7 +243,7 @@
 <script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
 <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
-<script src="js/sjcl.js"></script>
+<script src="//cdn.bootcss.com/sjcl/1.0.0/sjcl.min.js"></script>
 <!--script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script-->
 <script src="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
 <script src="js/app/myInfoApp.js"></script>
