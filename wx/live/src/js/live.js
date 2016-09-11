@@ -28,6 +28,13 @@ var parseStr = function (str, sp) {
   return data;
 };
 
+var getPath = function () {
+  var pathname = window.location.pathname;
+  var last = pathname.lastIndexOf('/');
+  var path = pathname.substr(0, pathname.lastIndexOf('/') + 1);
+  return window.location.origin + path;
+};
+
 var params = getUrlParams();
 
 (function () {
@@ -362,7 +369,7 @@ Session.prototype = {
 var Record = function (id) {
   this.id = 'video-player';
   this.container = 'video-container';
-  
+
   this.hideLiveInfo();
   this.get(id);
   return this;
@@ -378,7 +385,7 @@ Record.prototype = {
       context: this
     });
   },
-  hideLiveInfo: function () { 
+  hideLiveInfo: function () {
     $('.live-tip').addClass('visibility-hidden');
     return this;
   },
@@ -523,11 +530,12 @@ Share.prototype = {
   },
   onMenuShare: function () {
     var _t = this;
+    var imgUrl = getPath() + 'img/play-logo.png';
     wx.onMenuShareAppMessage({
       title: this.title, // 分享标题
       desc: this.desc, // 分享描述
       link: this.url, // 分享链接
-      imgUrl: 'http://www.opensight.cn/img/play-logo.png', // 分享图标
+      imgUrl: imgUrl, // 分享图标
       success: function () {
         // 用户确认分享后执行的回调函数
         _t.hideTip();
@@ -540,7 +548,7 @@ Share.prototype = {
     wx.onMenuShareTimeline({
       title: this.title, // 分享标题
       link: this.url, // 分享链接
-      imgUrl: 'http://www.opensight.cn/img/play-logo.png', // 分享图标
+      imgUrl: imgUrl, // 分享图标
       success: function () {
         // 用户确认分享后执行的回调函数
         _t.hideTip();
