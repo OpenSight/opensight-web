@@ -20,7 +20,6 @@
     "tests"
   ],
   "dependencies": {
-    "font-awesome": "~4.5.0",
     "jquery.cookie": "~1.4.1",
     "js-base64": "~2.1.9",
     "angular-ui-router": "~0.2.17",
