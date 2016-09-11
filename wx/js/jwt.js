@@ -1,75 +1,82 @@
-var Jwt = function(urlname){
-      this.url = urlname;
-      this.init();
-      this.keepalive();
+var Jwt = function (urlname) {
+  this.url = urlname;
+  this.init();
+  this.keepalive();
 };
 
 Jwt.prototype = {
-  init: function(){
-  //    if (Base64 === undefined) alert("Base64 not load well!");
-      this.jwt = $.cookie('jwt');
-      this.binding_id = $.cookie('binding_id');
-      this.api = "http://api.opensight.cn/api/ivc/v1/wechat/";
-      this.bindUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-          "appid=wxd5bc8eb5c47795d6&redirect_uri=http%3A%2F%2Fwww.opensight.cn%2Fwx%2F" +
-          "bind.html&response_type=code&scope=snsapi_userinfo&state=" + this.url +
-          "#wechat_redirect";
+  init: function () {
+    // if (Base64 === undefined) alert("Base64 not load well!");
+    this.jwt = $.cookie('jwt');
+    this.binding_id = $.cookie('binding_id');
+    this.api = "http://api.opensight.cn/api/ivc/v1/wechat/";
+    this.bindUrl = this.getUrl('bind', this.url);
 
-        if (0 >= this.check()){
-          this.jump();
-        }
-/*
-        var claim = this.parse();
-        if (undefined !== claim.aud){
-          this.aud = claim.aud;
-        } else {
-          this.jump();
-        }
-        */
+    if (0 >= this.check()) {
+      this.jump();
+    }
+    /*
+            var claim = this.parse();
+            if (undefined !== claim.aud){
+              this.aud = claim.aud;
+            } else {
+              this.jump();
+            }
+            */
+  },
+  getUrl: function (file, state) {
+    var pathname = window.location.pathname;
+    var path = pathname.substr(0, pathname.lastIndexOf('/') + 1);
+    var href = window.location.origin + window.location.path + file + '.html';
+    href = encodeURIComponent(href);
+    return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd5bc8eb5c47795d6&response_type=code&scope=snsapi_userinfo" +
+      "&state=" + state + "&redirect_uri=" + href + "#wechat_redirect";
+  }
+  check: function () {
+    if (undefined === this.jwt || this.binding_id === undefined) { //must have two cookies
+      return -1;
+    }
+    var claim = this.parse();
+    if (undefined === claim.exp || undefined === claim.aud) {
+      return -1;
+    }
+    this.aud = claim.aud;
+    var t = Math.ceil((new Date().getTime()) / 1000)
+    return (claim.exp - t);
   },
 
-  check: function(){
-      if (undefined === this.jwt || this.binding_id === undefined){//must have two cookies
-          return -1;
-      }
-      var claim = this.parse();
-      if (undefined === claim.exp || undefined === claim.aud){
-          return -1;
-      }
-      this.aud = claim.aud;
-      var t = Math.ceil((new Date().getTime()) / 1000)
-      return (claim.exp - t);
-  },
-
-  update: function(){
-    if (true === this.updateing){
+  update: function () {
+    if (true === this.updateing) {
       return false;
     }
     this.updateing = true;
-    var d = new Date ();
+    var d = new Date();
     d.setHours(d.getHours() + 1);
     var e = Math.ceil(d.getTime() / 1000);
 
     var _this = this;
-      $.ajax({
-          url: _this.api + 'binding_login',
-          data: {binding_id: this.binding_id, expired: e},
-          type: 'POST',
-          cache:false,
-          success: function(json){
-              _this.jwt = json.jwt;
-              $.cookie('jwt', json.jwt);
-              //_this.setJqueryHeader();
-              _this.updateing = false;
-          },
-          error: function() {
-              window.location.replace(_this.bindUrl);
-              _this.updateing = false;
-          }
-      });
+    $.ajax({
+      url: _this.api + 'binding_login',
+      data: {
+        binding_id: this.binding_id,
+        expired: e
+      },
+      type: 'POST',
+      cache: false,
+      success: function (json) {
+        _this.jwt = json.jwt;
+        $.cookie('jwt', json.jwt);
+        //_this.setJqueryHeader();
+        _this.updateing = false;
+      },
+      error: function () {
+        window.location.replace(_this.bindUrl);
+        _this.updateing = false;
+      }
+    });
 
   },
-  getJwt: function(days) {
+  getJwt: function (days) {
     if (true === this.updateing) {
       return false;
     }
@@ -81,17 +88,20 @@ Jwt.prototype = {
     var _this = this;
     $.ajax({
       url: _this.api + 'binding_login',
-      data: { binding_id: this.binding_id, expired: e },
+      data: {
+        binding_id: this.binding_id,
+        expired: e
+      },
       type: 'POST',
       cache: false,
       async: false,
-      success: function(json) {
+      success: function (json) {
         _this.jwt = json.jwt;
         $.cookie('jwt', json.jwt);
         //_this.setJqueryHeader();
         _this.updateing = false;
       },
-      error: function() {
+      error: function () {
         window.location.replace(_this.bindUrl);
         _this.updateing = false;
       }
@@ -131,7 +141,7 @@ Jwt.prototype = {
   },
 */
 
-  parse: function() {
+  parse: function () {
     /*
     var a = this.jwt.split(".");
     var uClaim = b64utos(a[1]);
@@ -151,25 +161,25 @@ Jwt.prototype = {
     return obj;
   },
 
-  jump: function() {
+  jump: function () {
     if (this.binding_id !== undefined && this.binding_id !== null && this.binding_id !== "") {
       this.update();
     } else
       window.location.replace(this.bindUrl);
   },
 
-  keepalive: function() {
+  keepalive: function () {
     var _this = this;
     var interval = 10 * 60 * 1000;
     //_this.setJqueryHeader();
-    setInterval(function() {
+    setInterval(function () {
       if (interval > _this.check()) {
         _this.update();
       }
     }, interval);
   },
 
-  logout: function() {
+  logout: function () {
       $.removeCookie('jwt');
       this.jump();
     }
@@ -183,5 +193,3 @@ Jwt.prototype = {
       }
       */
 };
-
-
