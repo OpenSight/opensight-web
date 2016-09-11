@@ -31,7 +31,7 @@ Jwt.prototype = {
     href = encodeURIComponent(href);
     return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd5bc8eb5c47795d6&response_type=code&scope=snsapi_userinfo" +
       "&state=" + state + "&redirect_uri=" + href + "#wechat_redirect";
-  }
+  },
   check: function () {
     if (undefined === this.jwt || this.binding_id === undefined) { //must have two cookies
       return -1;
