@@ -27,7 +27,7 @@ Jwt.prototype = {
   getUrl: function (file, state) {
     var pathname = window.location.pathname;
     var path = pathname.substr(0, pathname.lastIndexOf('/') + 1);
-    var href = window.location.origin + window.location.path + file + '.html';
+    var href = window.location.origin + path + file + '.html';
     href = encodeURIComponent(href);
     return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd5bc8eb5c47795d6&response_type=code&scope=snsapi_userinfo" +
       "&state=" + state + "&redirect_uri=" + href + "#wechat_redirect";
