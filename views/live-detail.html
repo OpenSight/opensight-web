@@ -3,6 +3,9 @@
     <h3>
       <button class="btn btn-default btn-sm" ui-sref="project.live"><i class="fa fa-arrow-left"></i></button>&nbsp;&nbsp;
       设置活动直播
+        <button class="btn btn-default pull-right" ng-click="refresh()">
+            <i class="glyphicon glyphicon-refresh pointer"></i>
+        </button>
     </h3>
   </div>
   <form class="form-horizontal">
@@ -49,8 +52,13 @@
       </div>
       <div class="form-group">
           <label class="col-sm-2 control-label">录像链接</label>
-          <div class="col-sm-10">
+          <div class="col-sm-8">
               <input type="text" class="form-control" ng-model="info.record_url">
+          </div>
+          <div class="btn-group btn-group-sm">
+              <button type="button" class="btn btn-primary" ng-click="recview(info)"  ng-disabled="(info.record_url === '')">
+                  回放
+              </button>
           </div>
       </div>
       <div class="form-group">
@@ -106,6 +114,15 @@
       <div class="col-sm-offset-2 col-sm-10">
         <button class="btn btn-primary" ng-click="modify()">保存</button>
         <button class="btn btn-default" ui-sref="project.live">取消</button>
+
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="(!camera.live) || (!camera.is_online)">
+              预览
+              <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+              <li><a class="pointer" ng-click="preview(camera, 'rtmp')">RTMP</a></li>
+              <li><a class="pointer" ng-click="preview(camera, 'hls')">HLS</a></li>
+          </ul>
           <!--<button class="btn btn-primary" ng-click="op('start', '启动')" ng-show="info.state === 0">启动直播</button>-->
           <!--<button class="btn btn-primary" ng-click="op('stop', '结束')" ng-show="info.state === 1||info.state === 2">结束直播</button>-->
 

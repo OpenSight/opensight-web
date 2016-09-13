@@ -503,6 +503,22 @@ angular.module('app.controller', [])
   }
 ])
 
+
+    .controller('showReplayModalController', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'playerFactory', 'record',
+        function($scope, $rootScope, $http, $uibModalInstance, playerFactory, record) {
+            var playerId = 'replayPlayer';
+            $scope.ok = function() {
+                playerFactory.stop(playerId);
+                $uibModalInstance.close();
+            };
+
+            $scope.record = record;
+            setTimeout(function() {
+                playerFactory.load(record.record_url, playerId);
+            }, 0);
+        }
+    ])
+
 .controller('backupModalController', [
   '$scope', '$rootScope', '$http', '$uibModalInstance', 'dateFactory', 'record',
   function($scope, $rootScope, $http, $uibModalInstance, dateFactory, record) {
@@ -1680,8 +1696,8 @@ angular.module('app.controller', [])
     ])
 
     .controller('live-detail', [
-        '$scope', '$rootScope', '$http', 'dateFactory',
-        function($scope, $rootScope, $http, dateFactory) {
+        '$scope', '$rootScope', '$http', 'dateFactory','$uibModal',
+        function($scope, $rootScope, $http, dateFactory, $uibModal) {
             var url = api + "projects/" + $rootScope.$stateParams.project + '/live_shows/'+ $rootScope.$stateParams.showid;
 
 
@@ -1727,15 +1743,75 @@ angular.module('app.controller', [])
                 $scope.info.flags = enabled;
             };
 
+            $scope.refresh = function() {
+                $scope.getLiveDetail();
+            };
+//
+//            var project = $rootScope.$stateParams.project;
+//            $scope.camera = $rootScope.$stateParams.camera;
+//            var url = api + "projects/" + project + '/cameras/' + $scope.camera;
+//            var live_ability, preview_ability;
+//
+//            $http.get(url, {}).success(function(response) {
+//                $scope.info = response;
+//                $scope.info.preview += '?_=' + new Date().getTime();
+//                var bitmap = flagFactory.getBitmap(response.flags, 8);
+//                var flags = flagFactory.parseCamera(bitmap);
+//                $scope.info.ability = flags.ability;
+//                $scope.info.live_ability = flags.live;
+//                live_ability = flags.live;
+//                $scope.info.ptz_ability = flags.ptz;
+//                if (0 !== response.ability.length) {
+//                    response.quality = response.ability[0].text;
+//                }
+//
+//                $scope.info.preview_ability = flags.preview;
+//                preview_ability = flags.preview;
+//                $scope.$parent.caminfo = $scope.info;
+//            }).error(function(response, status) {
+//                    console.log('error');
+//                });
+
+
+
+            $scope.recview = function(it) {
+                $scope.selected = it;
+                var modalInstance = $uibModal.open({
+                    backdrop: 'static',
+                    keyboard: false,
+                    templateUrl: path + 'views/showReplayModalContent.html',
+                    controller: 'showReplayModalController',
+                    size: 'lg modal-player',
+                    resolve: {
+                        record: function() {
+                            return $scope.selected;
+                        }
+                    }
+                });
+            };
+
+            $scope.getCameraInfo = function() {
+                $http.get(url, {}).success(function(response) {
+                    $scope.camera = response;
+                }).error(function(response, status) {
+                        $rootScope.$emit('messageShow', { succ: false, text: '获取相机信息失败。' });
+                        console.log('error');
+                    });
+            };
+
             $scope.getLiveDetail = function() {
                 $http.get(url, {}).success(function(response) {
                     $scope.info = response;
+                    if ($scope.info.camera_id !== ""){
+                        $scope.getCameraInfo();
+                    }
                 }).error(function(response, status) {
-                        $rootScope.$emit('messageShow', { succ: false, text: '获取信息失败。' });
+                        $rootScope.$emit('messageShow', { succ: false, text: '获取活动信息失败。' });
                         console.log('error');
                     });
             };
             $scope.getLiveDetail();
+
         }
     ]);
 
