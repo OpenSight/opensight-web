@@ -8,8 +8,8 @@ var Login = function () {
     params.state = "myInfo";
   }
   this.url += params.state;
-  this.codeLoginUrl = this.geturl(params.state, params.state);
-  this.bindUrl = this.geturl('bind', params.state);
+  this.codeLoginUrl = this.getUrl(params.state, params.state);
+  this.bindUrl = this.getUrl('bind', params.state);
 
   if (undefined === params.code || null === params.code || "" === params.code) {
     alert("wrong code!");
