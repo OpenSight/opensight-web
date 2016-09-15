@@ -503,6 +503,22 @@ angular.module('app.controller', [])
   }
 ])
 
+
+    .controller('showReplayModalController', ['$scope', '$rootScope', '$http', '$uibModalInstance', 'playerFactory', 'record',
+        function($scope, $rootScope, $http, $uibModalInstance, playerFactory, record) {
+            var playerId = 'replayPlayer';
+            $scope.ok = function() {
+                playerFactory.stop(playerId);
+                $uibModalInstance.close();
+            };
+
+            $scope.record = record;
+            setTimeout(function() {
+                playerFactory.load(record.record_url, playerId);
+            }, 0);
+        }
+    ])
+
 .controller('backupModalController', [
   '$scope', '$rootScope', '$http', '$uibModalInstance', 'dateFactory', 'record',
   function($scope, $rootScope, $http, $uibModalInstance, dateFactory, record) {
@@ -1680,8 +1696,8 @@ angular.module('app.controller', [])
     ])
 
     .controller('live-detail', [
-        '$scope', '$rootScope', '$http', 'dateFactory',
-        function($scope, $rootScope, $http, dateFactory) {
+        '$scope', '$rootScope', '$http', 'dateFactory', 'flagFactory', '$uibModal',
+        function($scope, $rootScope, $http, dateFactory, flagFactory, $uibModal) {
             var url = api + "projects/" + $rootScope.$stateParams.project + '/live_shows/'+ $rootScope.$stateParams.showid;
 
 
@@ -1727,11 +1743,77 @@ angular.module('app.controller', [])
                 $scope.info.flags = enabled;
             };
 
+            $scope.refresh = function() {
+                $scope.getLiveDetail();
+            };
+
+
+
+            $scope.preview = function(cam, format) {
+                    $scope.cam =  $scope.cInfo;
+                    $scope.cam.format = format;
+                    var modalInstance = $uibModal.open({
+                        backdrop: 'static',
+                        keyboard: false,
+                        templateUrl: path + 'views/sessionModalContent.html',
+                        controller: 'session',
+                        size: 'lg modal-player',
+                        resolve: {
+                            caminfo: function() {
+                                return $scope.cam;
+                            }
+                        }
+                    });
+
+            };
+
+
+            $scope.recview = function(it) {
+                $scope.selected = it;
+                var modalInstance = $uibModal.open({
+                    backdrop: 'static',
+                    keyboard: false,
+                    templateUrl: path + 'views/showReplayModalContent.html',
+                    controller: 'showReplayModalController',
+                    size: 'lg modal-player',
+                    resolve: {
+                        record: function() {
+                            return $scope.selected;
+                        }
+                    }
+                });
+            };
+
+            $scope.getCameraInfo = function(cid) {
+                var myurl = api + "projects/" + $rootScope.$stateParams.project + '/cameras/'+ cid;
+                var live_ability, preview_ability;
+
+                $http.get(myurl, {}).success(function(response) {
+                    $scope.cInfo = response;
+                    $scope.cInfo.preview += '?_=' + new Date().getTime();
+                    var bitmap = flagFactory.getBitmap(response.flags, 8);
+                    var flags = flagFactory.parseCamera(bitmap);
+                    $scope.cInfo.ability = flags.ability;
+                    $scope.cInfo.live_ability = flags.live;
+                    live_ability = flags.live;
+                    $scope.cInfo.ptz_ability = flags.ptz;
+                    if (0 !== response.ability.length) {
+                        response.quality = response.ability[0].text;
+                    }
+                    $scope.cInfo.preview_ability = flags.preview;
+                }).error(function(response, status) {
+                        console.log('error');
+                    });
+            };
+
             $scope.getLiveDetail = function() {
                 $http.get(url, {}).success(function(response) {
                     $scope.info = response;
+                    if ($scope.info.camera_uuid !== ""){
+                        $scope.getCameraInfo($scope.info.camera_uuid);
+                    }
                 }).error(function(response, status) {
-                        $rootScope.$emit('messageShow', { succ: false, text: '获取信息失败。' });
+                        $rootScope.$emit('messageShow', { succ: false, text: '获取活动信息失败。' });
                         console.log('error');
                     });
             };
