@@ -94,7 +94,7 @@ $(function () {
         return;
       }
 
-      sh.onShare(info.name, info.long_desc);
+      sh.onShare('趣观微直播|' + info.name, info.long_desc);
     },
     error: function () {
       showState(0)
