@@ -246,32 +246,34 @@ angular.module('app.controller', [])
     var url = api + "projects/" + project + '/cameras/' + $scope.camera;
     var live_ability, preview_ability;
 
-    $http.get(url, {}).success(function(response) {
-      $scope.info = response;
-      $scope.info.preview += '?_=' + new Date().getTime();
-      var bitmap = flagFactory.getBitmap(response.flags, 8);
-      var flags = flagFactory.parseCamera(bitmap);
-      $scope.info.ability = flags.ability;
-      $scope.info.live_ability = flags.live;
-      live_ability = flags.live;
-      $scope.info.ptz_ability = flags.ptz;
-      if (0 !== response.ability.length) {
-        response.quality = response.ability[0].text;
-      }
+    $scope.refresh = function(enabled) {
+        $http.get(url, {}).success(function(response) {
+          $scope.info = response;
+          $scope.info.preview += '?_=' + new Date().getTime();
+          var bitmap = flagFactory.getBitmap(response.flags, 8);
+          var flags = flagFactory.parseCamera(bitmap);
+          $scope.info.ability = flags.ability;
+          $scope.info.live_ability = flags.live;
+          live_ability = flags.live;
+          $scope.info.ptz_ability = flags.ptz;
+          if (0 !== response.ability.length) {
+            response.quality = response.ability[0].text;
+          }
 
-      $scope.info.preview_ability = flags.preview;
-      preview_ability = flags.preview;
-      $scope.$parent.caminfo = $scope.info;
-    }).error(function(response, status) {
-      console.log('error');
-    });
+          $scope.info.preview_ability = flags.preview;
+          preview_ability = flags.preview;
+          $scope.$parent.caminfo = $scope.info;
+        }).error(function(response, status) {
+          console.log('error');
+        });
 
-    $scope.rtmp_publish_url = undefined;
-    $http.get(url + '/rtmp_publish_url', {}).success(function(response) {
-      $scope.rtmp_publish_url = response.url;
-    }).error(function(response, status) {
-      console.log('error');
-    });
+        $scope.rtmp_publish_url = undefined;
+        $http.get(url + '/rtmp_publish_url', {}).success(function(response) {
+          $scope.rtmp_publish_url = response.url;
+        }).error(function(response, status) {
+          console.log('error');
+        });
+    };
 
     $scope.enable = function(enabled) {
       var tip = enabled ? '允许直播后可以远程观看直播，是否继续？' : '禁止直播后无法远程观看，同时会停止正在播放的直播，是否继续？';
@@ -291,6 +293,7 @@ angular.module('app.controller', [])
         console.log('error');
       });
     };
+
     $scope.save = function() {
       var data = {
         flags: $scope.info.flags,
@@ -330,6 +333,8 @@ angular.module('app.controller', [])
         }
       });
     };
+
+    $scope.refresh();
   }
 ])
 
@@ -342,11 +347,13 @@ angular.module('app.controller', [])
     $scope.camera = $rootScope.$stateParams.camera;
     var url = api + "projects/" + project + '/cameras/' + $scope.camera + '/record/configure';
 
-    $http.get(url, {}).success(function(response) {
-      $scope.info = response;
-    }).error(function(response, status) {
-      console.log('error');
-    });
+    $scope.refresh = function() {
+        $http.get(url, {}).success(function(response) {
+          $scope.info = response;
+        }).error(function(response, status) {
+          console.log('error');
+        });
+    };
 
     $http.get(api + "projects/" + project + '/record/schedules', {
       params: {
@@ -378,6 +385,42 @@ angular.module('app.controller', [])
         $rootScope.$emit('messagePush', { succ: false, text: '修改摄像机录像计划失败。' });
       });
     };
+
+      $scope.startRec = function(duration) {
+          if (duration === 0){
+              $scope.modShow = true;
+              $scope.recTime = "";
+          }
+          else if (duration === -1){
+              if ($scope.recTime <= 0){
+                  $rootScope.$emit('messageShow', { succ: false, text: '录像时间请填写大于0的正整数' });
+                  return;
+              }
+              $scope.startRec($scope.recTime);
+          }
+          else{
+              $scope.modShow = false;
+              $http.post(api + 'projects/' + project + '/cameras/' + $scope.camera + '/record/manual', {
+                  duration: duration
+              }).success(function(response) {
+                      $scope.refresh();
+                  }).error(function(response, status) {
+                      $rootScope.$emit('messageShow', { succ: false, text: '启动手动录像失败' });
+                      console.log('error');
+                  });
+          }
+      };
+
+      $scope.stopRec = function() {
+          $http.delete(api + 'projects/' + project + '/cameras/' + $scope.camera + '/record/manual', {}).success(function(response) {
+              $rootScope.$emit('messageShow', { succ: true, text: '停止手动录像成功' });
+              $scope.refresh();
+          }).error(function(response, status) {
+                  $rootScope.$emit('messageShow', { succ: false, text: '停止手动录像失败' });
+                  console.log('error');
+              });
+      };
+      $scope.refresh();
   }
 ])
 
