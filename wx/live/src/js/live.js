@@ -107,11 +107,12 @@ $(function () {
 
 var showState = function (state) {
   state = state || 0;
-  var text = ['活动未启动。', '', '活动暂停中。', ''][state];
+  var text = ['活动未开始。', '', '活动暂停中。', ''][state];
   if ('' === text) {
     return this;
   }
-  $('#video-container').html('<p class="text-highlight state">' + text + '</p>');
+  $('#state-container').addClass('state-container-show');
+  $('#state-text').text(text);
   return;
 };
 

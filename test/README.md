@@ -11,6 +11,6 @@
 
 
 # 直播
-1. [opensight_internal](../wx/live/src/index.html?project=opensight_internal&live_show=qJm5lWxYReWcu6ebARlkUw)
+1. [未启动](../wx/live/src/index.html?project=opensight_internal&live_show=g365caAFTHyO8iy7N7PL0A)
 
 2. [yige_demo](../wx/live//src/index.html?project=yige_demo&live_show=xO5i2_RuSNyH4GuKISTtPQ)
