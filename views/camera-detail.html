@@ -161,7 +161,7 @@
           <button type="submit" class="btn btn-primary" ng-click="save()">保存</button>
           <button type="submit" class="btn btn-default" ui-sref="project.camera">取消</button>
 
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="info.manual_enabled === true">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-show="info.manual_enabled === false">
               开始录像
               <span class="caret"></span>
           </button>
@@ -171,12 +171,12 @@
               <li><a class="pointer" ng-click="startRec(60)">1小时</a></li>
               <li><a class="pointer" ng-click="startRec(0)">自定义</a></li>
           </ul>
-          <button class="btn btn-default" type="button" ng-click="stopRec()" ng-disabled="info.manual_enabled === false">停止录像</button>
+          <button class="btn btn-default" type="button" ng-click="stopRec()" ng-show="info.manual_enabled === true">停止录像</button>
         </div>
 
           <div class="form-group" ng-show="modShow">
-              <div class="col-sm-6" style="padding-left: 0px">
-                  <input type="number" class="form-control" ng-model="recTime" >
+              <div class="col-sm-3" style="padding-left: 0px">
+                  <input type="number" class="form-control"  ng-model="recTime" placeholder="分钟">
               </div>
               <div class="btn-group btn-group-sm">
                   <button type="submit" class="btn btn-primary" ng-click="startRec(-1)" ng-show="modShow">确定</button>

@@ -116,9 +116,9 @@ angular.module('app.controller', [])
         media_server: $scope.info.media_server,
         is_public: $scope.info.is_public,
         desc: $scope.info.desc,
-        long_desc: $scope.info.long_desc,
+        long_desc: $scope.info.long_desc
       };
-      $http.put(api + "projects/" + $scope.project, data).success(function(response) {
+      $http.put(api + "projects/" + $scope.project, data).success(function() {
         console.log('success');
       }).error(function(response, status) {
         console.log('error');
@@ -1754,6 +1754,14 @@ angular.module('app.controller', [])
                     wechat_url: $scope.info.wechat_url,
                     record_url: $scope.info.record_url
                 };
+                if ($scope.subinfo.name === $scope.old.name) delete $scope.subinfo.name;
+                if ($scope.subinfo.desc === $scope.old.desc) delete $scope.subinfo.desc;
+                if ($scope.subinfo.long_desc === $scope.old.long_desc) delete $scope.subinfo.long_desc;
+                if ($scope.subinfo.flags === $scope.old.flags) delete $scope.subinfo.flags;
+                if ($scope.subinfo.web_url === $scope.old.web_url) delete $scope.subinfo.web_url;
+                if ($scope.subinfo.wechat_url === $scope.old.wechat_url) delete $scope.subinfo.wechat_url;
+                if ($scope.subinfo.record_url === $scope.old.record_url) delete $scope.subinfo.record_url;
+//                if ($scope.subinfo === null) return;
                 $http.put(url, $scope.subinfo).success(function(response) {
                     $rootScope.$emit('messageShow', { succ: true, text: '设置成功。' });
 
@@ -1852,6 +1860,8 @@ angular.module('app.controller', [])
             $scope.getLiveDetail = function() {
                 $http.get(url, {}).success(function(response) {
                     $scope.info = response;
+                    $scope.old = angular.copy(response);
+
                     if ($scope.info.camera_uuid !== ""){
                         $scope.getCameraInfo($scope.info.camera_uuid);
                     }

@@ -90,16 +90,16 @@
           <div class="col-sm-6">
               <p class="form-control-static">{{info.camera_uuid}}</p>
           </div>
-          <div class="btn-group btn-group-sm">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="(!cInfo.live_ability) || (!cInfo.is_online)">
-                  预览
-                  <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                  <li><a class="pointer" ng-click="preview(info, 'rtmp')">RTMP</a></li>
-                  <li><a class="pointer" ng-click="preview(info, 'hls')">HLS</a></li>
-              </ul>
-          </div>
+          <!--<div class="btn-group btn-group-sm">-->
+              <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="(!cInfo.live_ability) || (!cInfo.is_online)">-->
+                  <!--预览-->
+                  <!--<span class="caret"></span>-->
+              <!--</button>-->
+              <!--<ul class="dropdown-menu">-->
+                  <!--<li><a class="pointer" ng-click="preview(info, 'rtmp')">RTMP</a></li>-->
+                  <!--<li><a class="pointer" ng-click="preview(info, 'hls')">HLS</a></li>-->
+              <!--</ul>-->
+          <!--</div>-->
       </div>
       <div class="form-group">
           <label class="col-sm-2 control-label">相机名称</label>
@@ -144,6 +144,16 @@
 
           <button class="btn btn-primary" ng-click="op('restart', '重新启动')" ng-show="info.state !== 3" ng-disabled="(info.state === 3 || info.state === 0)">重新启动直播</button>
           <button class="btn btn-primary" ng-click="op('reset', '重置')" ng-show="info.state === 3">重置直播</button>
+          <div class="btn-group dropup">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="(!cInfo.live_ability) || (!cInfo.is_online)">
+                  预览
+                  <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                  <li><a class="pointer" ng-click="preview(info, 'rtmp')">RTMP</a></li>
+                  <li><a class="pointer" ng-click="preview(info, 'hls')">HLS</a></li>
+              </ul>
+          </div>
       </div>
     </div>
   </form>
