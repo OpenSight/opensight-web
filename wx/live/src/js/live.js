@@ -134,7 +134,15 @@ HlsVideo.prototype = {
       id: 'play-tip-sec',
       container: this.container
     });
+    this.showLiveInfo();
     this.getCamInfo();
+    return this;
+  },
+  showLiveInfo: function () {
+    $('.live-tip').removeClass('visibility-hidden');
+    // $('#switch-replay').removeClass('visibility-hidden');
+    // $('#friends').removeClass('visibility-hidden');
+    // $('#session').removeClass('visibility-hidden');
     return this;
   },
   on: function () {
@@ -391,21 +399,19 @@ Record.prototype = {
     });
   },
   hideLiveInfo: function () {
-    // $('.live-tip').addClass('visibility-hidden');
-    $('#switch-replay').addClass('hidden');
-    $('#friends').addClass('hidden');
-    $('#switch-live').addClass('visibility-hidden').removeClass('hidden');
+    $('.live-tip').addClass('visibility-hidden');
     return this;
   },
   on: function () {
+    var _t = this;
     $('#switch-live').click(function () {
-      $('#switch-live').addClass('visibility-hidden');
+      $('#switch-replay').addClass('visibility-hidden');
       _t.play(_t.hls);
     });
 
     $('#record-event-container').on('click', '.record', function () {
-      $('#switch-live').removeClass('visibility-hidden');
-      var hls = $(this).attr('hls');
+      $('#switch-replay').removeClass('visibility-hidden');
+      var hls = $(this).attr('data-hls');
       _t.play(hls);
     });
     return this;
@@ -472,7 +478,7 @@ RecordEvent.prototype = {
     return this;
   },
   render: function(item){
-    var str = '<li>' +
+    var str = '<li class="record" data-hls="' + item.hls + '">' +
       '<a href="#" class="item-link item-content">' +
         '<div class="item-media">' +
           '<img src="img/video-player.png" width="48">' +
