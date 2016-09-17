@@ -33,7 +33,7 @@ body{
   .live-card .card-content{
     position: relative;
   }
-  
+
   .video-backgroud{
     position: absolute;
   }
@@ -54,7 +54,7 @@ body{
   .live-card .card-content{
     position: static;
   }
-  
+
   .video-backgroud{
     position: fixed;
   }
@@ -80,7 +80,7 @@ body{
   color: #25A8E1;
 }
 .icon-caret-270{
-  -moz-transform:rotate(270deg); 
+  -moz-transform:rotate(270deg);
   -webkit-transform:rotate(270deg);
   transform: rotate(270deg);
 }
@@ -103,6 +103,33 @@ body{
 .state{
   padding-left: 10px;
 }
+.state-container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: rgba(0,0,0,.5);
+  display: none;
+  visibility: hidden;
+}
+.state-container .state{
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  margin-top: -12px;
+  text-align: center;
+  color: #fff;
+  font-size: .8rem;
+}
+.state-container-show{
+  visibility: visible;
+  display: block;
+}
+.power-by{
+  font-weight: normal;
+}
 /*#SOHUCS #cy-cbox-wrapper{
   display: none;
 }*/
@@ -118,4 +145,3 @@ body{
 #SOHUCS .cy-newlogin-wap .cy-newlogin-wrapper .cy-newlogin-footer.login-wrap-wap h4{
   display: none;
 }
-

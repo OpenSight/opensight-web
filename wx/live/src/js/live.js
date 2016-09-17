@@ -87,12 +87,14 @@ $(function () {
       } else if (3 === info.state) {
         //直播状态停止直接播放事件录像
         new Record(info.event_record_id);
+        //获取精彩片段列表
+        new RecordEvent(info.camera_uuid, info.start, info.event_record_id);
       } else {
         showState(info.state);
         return;
       }
 
-      sh.onShare(info.name, info.long_desc);
+      sh.onShare('趣观微直播|' + info.name, info.long_desc);
     },
     error: function () {
       showState(0)
@@ -105,11 +107,12 @@ $(function () {
 
 var showState = function (state) {
   state = state || 0;
-  var text = ['活动未启动。', '', '活动暂停中。', ''][state];
+  var text = ['活动未开始。', '', '活动暂停中。', ''][state];
   if ('' === text) {
     return this;
   }
-  $('#video-container').html('<p class="text-highlight state">' + text + '</p>');
+  $('#state-container').addClass('state-container-show');
+  $('#state-text').text(text);
   return;
 };
 
@@ -131,7 +134,15 @@ HlsVideo.prototype = {
       id: 'play-tip-sec',
       container: this.container
     });
+    this.showLiveInfo();
     this.getCamInfo();
+    return this;
+  },
+  showLiveInfo: function () {
+    $('.live-tip').removeClass('visibility-hidden');
+    // $('#switch-replay').removeClass('visibility-hidden');
+    // $('#friends').removeClass('visibility-hidden');
+    // $('#session').removeClass('visibility-hidden');
     return this;
   },
   on: function () {
@@ -372,6 +383,7 @@ var Record = function (id) {
 
   this.hideLiveInfo();
   this.get(id);
+  this.on();
   return this;
 };
 Record.prototype = {
@@ -380,7 +392,8 @@ Record.prototype = {
       url: api + '/record/events/' + id,
       type: 'GET',
       success: function (info) {
-        this.play(info.hls);
+        this.hls = info.hls;
+        this.play(this.hls);
       },
       context: this
     });
@@ -389,7 +402,25 @@ Record.prototype = {
     $('.live-tip').addClass('visibility-hidden');
     return this;
   },
+  on: function () {
+    var _t = this;
+    $('#switch-live').click(function () {
+      $('#switch-replay').addClass('visibility-hidden');
+      _t.play(_t.hls);
+    });
+
+    $('#record-event-container').on('click', '.record', function () {
+      $('#switch-replay').removeClass('visibility-hidden');
+      var hls = $(this).attr('data-hls');
+      _t.play(hls);
+    });
+    return this;
+  },
   play: function (hls) {
+    if (undefined === hls){
+      showState(11);
+      return;
+    };
     var el = $('#' + this.container).html('<video id="' +
       this.id +
       '" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' +
@@ -403,9 +434,10 @@ Record.prototype = {
   }
 };
 
-var RecordEvent = function (camera, start_from) {
+var RecordEvent = function (camera, start_from, event_record_id) {
   this.camera = camera;
   this.start_from = start_from;
+  this.event_record_id = event_record_id;
   this.id = 'record-event-container';
 
   this.remove();
@@ -429,10 +461,39 @@ RecordEvent.prototype = {
       context: this
     });
   },
-  add: function () { },
-  remove: function () {
-    $('#' + this.id).html();
+  add: function (info) {
+    var html = [];
+    for (var i = 0, l = info.list.length; i < l; i++){
+      if (this.event_record_id === info.list[i].event_id){
+        continue;
+      }
+      html.push(this.render(info.list[i]));
+    }
+    html = html.join('');
+    $('#record-event-container').append(html);
     return this;
+  },
+  remove: function () {
+    $('#record-event-container').html('');
+    return this;
+  },
+  render: function(item){
+    var str = '<li class="record" data-hls="' + item.hls + '">' +
+      '<a href="#" class="item-link item-content">' +
+        '<div class="item-media">' +
+          '<img src="img/video-player.png" width="48">' +
+        '</div>' +
+        '<div class="item-inner">' +
+          '<div class="item-title-row">' +
+            '<div class="item-title">' + item.desc + '</div>' +
+            '<div class="item-after">' + item.start + '</div>' +
+          '</div>' +
+          // '<div class="item-subtitle">标题</div>' +
+          '<div class="item-text">' + item.start  + '</div>' +
+        '</div>' +
+      '</a>' +
+    '</li>';
+    return str;
   }
 };
 
