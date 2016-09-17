@@ -130,6 +130,15 @@ body{
 .power-by{
   font-weight: normal;
 }
+.record-list{
+  margin-top: 10px;
+}
+.record-list .item-text{
+  height: auto;
+}
+.record-list ul{
+  background-color: #f7f9fe;
+}
 /*#SOHUCS #cy-cbox-wrapper{
   display: none;
 }*/

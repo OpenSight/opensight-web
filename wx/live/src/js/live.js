@@ -84,6 +84,9 @@ $(function () {
 
         //获取精彩片段列表
         new RecordEvent(info.camera_uuid, info.start);
+      } else if (2 === info.state) {
+        showState(info.state);
+        new RecordEvent(info.camera_uuid, info.start, info.event_record_id);
       } else if (3 === info.state) {
         //直播状态停止直接播放事件录像
         new Record(info.event_record_id);
@@ -197,12 +200,31 @@ HlsVideo.prototype = {
     return this;
   },
   parse: function (bitmap) {
-    var camera_ab = [
-      { value: 'ld', text: 'LD', title: '流畅', cls: '', idx: 0 },
-      { value: 'sd', text: 'SD', title: '标清', cls: '', idx: 1 },
-      { value: 'hd', text: 'HD', title: '高清', cls: '', idx: 2 },
-      { value: 'fhd', text: 'FHD', title: '超清', cls: '', idx: 3 }
-    ];
+    var camera_ab = [{
+      value: 'ld',
+      text: 'LD',
+      title: '流畅',
+      cls: '',
+      idx: 0
+    }, {
+      value: 'sd',
+      text: 'SD',
+      title: '标清',
+      cls: '',
+      idx: 1
+    }, {
+      value: 'hd',
+      text: 'HD',
+      title: '高清',
+      cls: '',
+      idx: 2
+    }, {
+      value: 'fhd',
+      text: 'FHD',
+      title: '超清',
+      cls: '',
+      idx: 3
+    }];
     var t = [];
     for (var i = 0, l = camera_ab.length; i < l; i++) {
       if (1 === bitmap[camera_ab[i].idx]) {
@@ -228,7 +250,12 @@ HlsVideo.prototype = {
   create: function () {
     $.ajax({
       url: api + '/cameras/' + this.camera + '/sessions',
-      data: { format: this.format, quality: this.quality, create: true, user: this.user },
+      data: {
+        format: this.format,
+        quality: this.quality,
+        create: true,
+        user: this.user
+      },
       type: 'POST',
       success: function (info) {
         this.tip.stop();
@@ -417,7 +444,7 @@ Record.prototype = {
     return this;
   },
   play: function (hls) {
-    if (undefined === hls){
+    if (undefined === hls) {
       showState(11);
       return;
     };
@@ -463,8 +490,8 @@ RecordEvent.prototype = {
   },
   add: function (info) {
     var html = [];
-    for (var i = 0, l = info.list.length; i < l; i++){
-      if (this.event_record_id === info.list[i].event_id){
+    for (var i = 0, l = info.list.length; i < l; i++) {
+      if (this.event_record_id === info.list[i].event_id) {
         continue;
       }
       html.push(this.render(info.list[i]));
@@ -477,23 +504,64 @@ RecordEvent.prototype = {
     $('#record-event-container').html('');
     return this;
   },
-  render: function(item){
+  render: function (item) {
     var str = '<li class="record" data-hls="' + item.hls + '">' +
       '<a href="#" class="item-link item-content">' +
-        '<div class="item-media">' +
-          '<img src="img/video-player.png" width="48">' +
-        '</div>' +
-        '<div class="item-inner">' +
-          '<div class="item-title-row">' +
-            '<div class="item-title">' + item.desc + '</div>' +
-            '<div class="item-after">' + item.start + '</div>' +
-          '</div>' +
-          // '<div class="item-subtitle">标题</div>' +
-          '<div class="item-text">' + item.start  + '</div>' +
-        '</div>' +
+      '<div class="item-media">' +
+      '<img src="img/video-player.png" width="48">' +
+      '</div>' +
+      '<div class="item-inner">' +
+      '<div class="item-title-row">' +
+      '<div class="item-title">' + item.desc + '</div>' +
+      '<div class="item-after">' + this.duration(item.end - item.start) + '</div>' +
+      '</div>' +
+      // '<div class="item-subtitle">标题</div>' +
+      '<div class="item-text">' + this.format(item.start) + '</div>' +
+      '</div>' +
       '</a>' +
-    '</li>';
+      '</li>';
     return str;
+  },
+  format: function (dt, fmt) {
+    if (!(dt instanceof Date)) {
+      dt = new Date(dt);
+    }
+    fmt = fmt || 'MM-dd HH:mm';
+    var padding = function(n) {
+      if (10 > n) {
+        return '0' + n;
+      }
+      return n.toString();
+    };
+    return fmt
+      .replace('yyyy', dt.getFullYear())
+      .replace('MM', padding(dt.getMonth() + 1))
+      .replace('dd', padding(dt.getDate()))
+      .replace('HH', padding(dt.getHours()))
+      .replace('mm', padding(dt.getMinutes()))
+      .replace('ss', padding(dt.getSeconds()));
+  },
+  duration: function (dur) {
+    var a = [{
+      t: '分',
+      v: 60
+    }, {
+      t: '时',
+      v: 60
+    }, {
+      t: '天',
+      v: 24
+    }];
+    var s = '';
+    dur = Math.floor(dur / (1000 * 60));
+    for (var i = 0, l = a.length; i < l; i++) {
+      s = dur % a[i].v + a[i].t + s;
+      dur = Math.floor(dur / a[i].v);
+      if (0 === dur) {
+        break;
+      }
+    }
+    return s;
   }
 };
 
