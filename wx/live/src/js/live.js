@@ -464,9 +464,9 @@ RecordEvent.prototype = {
   add: function (info) {
     var html = [];
     for (var i = 0, l = info.list.length; i < l; i++){
-      // if (this.event_record_id === info.list[i].event_id){
-      //   continue;
-      // }
+      if (this.event_record_id === info.list[i].event_id){
+        continue;
+      }
       html.push(this.render(info.list[i]));
     }
     html = html.join('');
