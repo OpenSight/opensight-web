@@ -86,7 +86,8 @@ $(function () {
         new RecordEvent(info.camera_uuid, info.start);
       } else if (2 === info.state) {
         showState(info.state);
-        new RecordEvent(info.camera_uuid, info.start, info.event_record_id);
+        var re = new RecordEvent(info.camera_uuid, info.start, info.event_record_id);
+        re.on();
       } else if (3 === info.state) {
         //直播状态停止直接播放事件录像
         new Record(info.event_record_id);
@@ -110,13 +111,16 @@ $(function () {
 
 var showState = function (state) {
   state = state || 0;
-  var text = ['活动未开始。', '', '活动暂停中。', ''][state];
+  var text = ['活动未开始。', '', '活动暂停中。', '','录像异常'][state];
   if ('' === text) {
     return this;
   }
   $('#state-container').addClass('state-container-show');
   $('#state-text').text(text);
   return;
+};
+var hideState = function(){
+  $('#state-container').removeClass('state-container-show');
 };
 
 var HlsVideo = function (camera, start_from) {
@@ -165,11 +169,15 @@ HlsVideo.prototype = {
     });
 
     $('#record-event-container').on('click', '.record', function () {
+      var el = $(this);
+      if (el.hasClass('disabled')){
+        return;
+      }
       $('#switch-replay').addClass('hidden');
       $('#switch-live').removeClass('hidden');
       _t.stop();
 
-      var hls = $(this).attr('hls');
+      var hls = el.attr('data-hls');
       _t.play(hls);
     });
 
@@ -269,12 +277,9 @@ HlsVideo.prototype = {
     });
   },
   play: function (hls) {
-    var el = $('#' + this.container).html('<video id="' +
-      this.id +
-      '" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' +
-      hls +
-      '" type="application/x-mpegURL"></video>');
-    var player = document.getElementById(this.id);
+    hideState();
+    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+    var player = document.getElementById('video-player');
     player.play();
     player.pause();
     player.play();
@@ -316,11 +321,11 @@ HlsVideo.prototype = {
     }
     if (undefined !== this.session_id) {
       $.ajax({
-        url: api + '/cameras/' + _t.camera + '/sessions/' + session_id,
+        url: api + '/cameras/' + this.camera + '/sessions/' + this.session_id,
         type: 'DELETE',
         async: false
       });
-      this.session_id = session_id;
+      this.session_id = undefined;
     }
     return this;
   }
@@ -431,29 +436,30 @@ Record.prototype = {
   },
   on: function () {
     var _t = this;
-    $('#switch-live').click(function () {
+    $('#switch-replay').click(function () {
       $('#switch-replay').addClass('visibility-hidden');
       _t.play(_t.hls);
     });
 
     $('#record-event-container').on('click', '.record', function () {
+      var el = $(this);
+      if (el.hasClass('disabled')){
+        return;
+      }
       $('#switch-replay').removeClass('visibility-hidden');
-      var hls = $(this).attr('data-hls');
+      var hls = el.attr('data-hls');
       _t.play(hls);
     });
     return this;
   },
   play: function (hls) {
     if (undefined === hls) {
-      showState(11);
+      showState(4);
       return;
     };
-    var el = $('#' + this.container).html('<video id="' +
-      this.id +
-      '" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' +
-      hls +
-      '" type="application/x-mpegURL"></video>');
-    var player = document.getElementById(this.id);
+    hideState();
+    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+    var player = document.getElementById('video-player');
     player.play();
     player.pause();
     player.play();
@@ -505,7 +511,9 @@ RecordEvent.prototype = {
     return this;
   },
   render: function (item) {
-    var str = '<li class="record" data-hls="' + item.hls + '">' +
+    var cls = 1 !== item.state ? ' disabled' : '';
+    var text = ['备份中', this.duration(item.end - item.start), '异常'];
+    var str = '<li class="record' + cls + '" data-hls="' + item.hls + '">' +
       '<a href="#" class="item-link item-content">' +
       '<div class="item-media">' +
       '<img src="img/video-player.png" width="48">' +
@@ -562,6 +570,31 @@ RecordEvent.prototype = {
       }
     }
     return s;
+  },
+  on: function(){
+    var _t = this;
+    $('#record-event-container').on('click', '.record', function () {
+      var el = $(this);
+      if (el.hasClass('disabled')){
+        return;
+      }
+      var hls = el.attr('data-hls');
+      _t.play(hls);
+    });
+    return this;
+  },
+  play: function (hls) {
+    if (undefined === hls) {
+      showState(4);
+      return;
+    };
+    hideState();
+    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+    var player = document.getElementById('video-player');
+    player.play();
+    player.pause();
+    player.play();
+    return this;
   }
 };
 
