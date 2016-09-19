@@ -136,8 +136,12 @@ body{
 .record-list .item-text{
   height: auto;
 }
-.record-list ul{
+.record-list .record.disabled{
   background-color: #f7f9fe;
+  color: #c8c9cb;
+}
+.record-list .record.disabled .item-text{
+  color: #c8c9cb;
 }
 /*#SOHUCS #cy-cbox-wrapper{
   display: none;
