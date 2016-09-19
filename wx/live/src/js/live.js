@@ -321,11 +321,11 @@ HlsVideo.prototype = {
     }
     if (undefined !== this.session_id) {
       $.ajax({
-        url: api + '/cameras/' + _t.camera + '/sessions/' + session_id,
+        url: api + '/cameras/' + this.camera + '/sessions/' + this.session_id,
         type: 'DELETE',
         async: false
       });
-      this.session_id = session_id;
+      this.session_id = undefined;
     }
     return this;
   }
@@ -436,7 +436,7 @@ Record.prototype = {
   },
   on: function () {
     var _t = this;
-    $('#switch-live').click(function () {
+    $('#switch-replay').click(function () {
       $('#switch-replay').addClass('visibility-hidden');
       _t.play(_t.hls);
     });
