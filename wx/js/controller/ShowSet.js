@@ -39,19 +39,20 @@ app.register.controller('ShowSet', ['$rootScope', '$scope', '$http', '$q', '$win
             op: operation
         };
         $http.post($scope.showFun.url, act).success(function(response) {
+            $scope.showFun.refresh();
             $('#ToastTxt').html("操作成功");
             $('#loadingToast').show();
             setTimeout(function () {
                 $('#loadingToast').hide();
             }, 2000);
-            $scope.showFun.refresh();
         }).error(function(response, status) {
+                $scope.showFun.refresh();
                 $('#ToastTxt').html("操作失败");
                 $('#loadingToast').show();
                 setTimeout(function () {
                     $('#loadingToast').hide();
                 }, 2000);
-                $scope.showFun.refresh();
+
                 console.log('error');
             });
     },
@@ -65,19 +66,19 @@ app.register.controller('ShowSet', ['$rootScope', '$scope', '$http', '$q', '$win
        };
 
         $http.put($scope.showFun.url, modInfo).success(function(response) {
+            $scope.showFun.refresh();
             $('#ToastTxt').html("设置成功");
             $('#loadingToast').show();
             setTimeout(function () {
                 $('#loadingToast').hide();
             }, 2000);
-            $scope.showFun.refresh();
         }).error(function(response, status) {
+                $scope.showFun.refresh();
                 $('#ToastTxt').html("设置失败");
                 $('#loadingToast').show();
                 setTimeout(function () {
                     $('#loadingToast').hide();
                 }, 2000);
-                $scope.showFun.refresh();
             });
     },
 

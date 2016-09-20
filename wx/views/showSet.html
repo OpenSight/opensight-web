@@ -56,8 +56,14 @@
                     <p class="form-control-static">{{showSet.camera_name}}</p>
                 </div>
             </div>
+            <div class="weui_cell" ng-show="showSet.state !== 0">
+                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">录像状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p class="form-control-static">{{(showSet.flags === 1)?'启动':'禁用'}}</p>
+                </div>
+            </div>
             <div class="weui_cells weui_cells_form">
-                <div class="weui_cell weui_cell_switch">
+                <div class="weui_cell weui_cell_switch" ng-show="showSet.state === 0">
                     <div class="weui_cell_hd weui_cell_primary">启用录像</div>
                     <div class="weui_cell_ft">
                         <input class="weui_switch"  ng-model="recState" ng-change="showFun.enableRec();" type="checkbox"/>
