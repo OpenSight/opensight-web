@@ -1,0 +1,101 @@
+<div ng-controller="ShowSet">
+  <div style="padding-left: 0px;padding-right: 0px;">
+    <div class="col-sm-12 os-table-container" style="padding-left: 0px;padding-right: 0px;">
+      <div class="weui_cell" style="padding-left: 0px;">
+        <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回活动列表" ng-click="showFun.backToLiveShowSwiper();">
+          <i class="fa fa-chevron-left "></i> 返回活动列表
+        </span>
+      </div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">活动名称</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p class="form-control-static">{{showSet.name}}</p>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">描述</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" value="" placeholder="" ng-model="showSet.desc" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">详细描述</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea class="weui_textarea" placeholder="" ng-model="showSet.long_desc" rows="3"></textarea>
+                    <!--div class="weui_textarea_counter"><span>0</span>/200</div-->
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p class="form-control-static">{{showSet.state|show_state}}</p>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p class="form-control-static">{{showSet.project_name}}</p>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">起始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p class="form-control-static">{{(showSet.start===0)?"":(info.start|date: "yyyy-MM-dd HH:mm:ss")}}</p>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">结束时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p class="form-control-static">{{(showSet.end===0)?"":(info.end|date: "yyyy-MM-dd HH:mm:ss")}}</p>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">相机名称</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p class="form-control-static">{{showSet.camera_name}}</p>
+                </div>
+            </div>
+            <div class="weui_cell" ng-show="showSet.state !== 0">
+                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">录像状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p class="form-control-static">{{(showSet.flags === 1)?'启动':'禁用'}}</p>
+                </div>
+            </div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell weui_cell_switch" ng-show="showSet.state === 0">
+                    <div class="weui_cell_hd weui_cell_primary">启用录像</div>
+                    <div class="weui_cell_ft">
+                        <input class="weui_switch"  ng-model="recState" ng-change="showFun.enableRec();" type="checkbox"/>
+                    </div>
+                </div>
+
+                <div class="weui_btn_area" ng-show="showSet.state === 0">
+                    <a class="weui_btn weui_btn_primary" ng-click="showFun.op('start', '启动')">启动直播</a>
+                </div>
+                <div class="weui_btn_area" ng-show="(showSet.state === 1 || showSet.state === 2)">
+                    <a class="weui_btn weui_btn_warn" ng-click="showFun.op('stop', '结束')" >结束直播</a>
+                </div>
+
+                <div class="weui_btn_area" ng-show="showSet.state === 1">
+                    <a class="weui_btn weui_btn_warn" ng-click="showFun.op('pause', '暂停')">暂停直播</a>
+                </div>
+                <div class="weui_btn_area" ng-show="showSet.state === 2">
+                    <a class="weui_btn weui_btn_primary" ng-click="showFun.op('resume', '继续')" >继续直播</a>
+                </div>
+
+                <div class="weui_btn_area" ng-show="(showSet.state === 1 || showSet.state === 2)">
+                    <a class="weui_btn weui_btn_warn"  ng-click="showFun.op('restart', '重新启动')">重新启动直播</a>
+                </div>
+                <div class="weui_btn_area" ng-show="showSet.state === 3">
+                    <a class="weui_btn weui_btn_warn" ng-click="showFun.op('reset', '重置')">重置直播</a>
+                </div>
+
+                <div class="weui_btn_area" ng-show="showSet.web_url !== ''">
+                    <a class="weui_btn weui_btn_primary"  ng-click="showFun.web_go(showSet.web_url)">转到活动页面</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
