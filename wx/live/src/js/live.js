@@ -95,7 +95,6 @@ $(function () {
         new RecordEvent(info.camera_uuid, info.start, info.event_record_id);
       } else {
         showState(info.state);
-        return;
       }
 
       sh.onShare('趣观微直播|' + info.name, info.long_desc);
