@@ -74,6 +74,8 @@ $(function () {
       $('title').html(info.name);
       $('#show-name').html(info.desc);
       $('#show-desc').html(info.long_desc);
+      var cover_url = '' === info.cover_url ? 'http://www.opensight.cn/wx/live/src/img/play-logo.png' : info.cover_url;
+      $('.video-backgroud').css('background-image', 'url(' + cover_url + ')');
 
       if (1 === info.state) {
         //启动直播
