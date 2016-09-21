@@ -9,7 +9,7 @@
 
 2. [我的项目](../wx/myProject.html)
 
-2. [我的活动](../wx/myLiveShow.html)
+3. [我的活动](../wx/myLiveShow.html)
 
 
 # 直播
