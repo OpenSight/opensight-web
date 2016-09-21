@@ -9,6 +9,8 @@
 
 2. [我的项目](../wx/myProject.html)
 
+2. [我的活动](../wx/myLiveShow.html)
+
 
 # 直播
 1. [未启动](../wx/live/src/index.html?project=opensight_internal&live_show=g365caAFTHyO8iy7N7PL0A)
