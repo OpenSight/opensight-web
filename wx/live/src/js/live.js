@@ -74,7 +74,12 @@ $(function () {
       $('title').html(info.name);
       $('#show-name').html(info.desc);
       $('#show-desc').html(info.long_desc);
-
+      if ('' === info.cover_url || 'http://www.opensight.cn/wx/live/src/img/play-logo.png' === info.cover_url){
+        $('.video-backgroud').css('background-image', 'url("http://www.opensight.cn/wx/live/src/img/play-logo.png")');
+      } else {
+        $('.card-content').append('<img class="backgroud-img" src=' + info.cover_url + '>')
+      }
+      
       if (1 === info.state) {
         //启动直播
         new HlsVideo(info.camera_uuid, info.start);
@@ -97,7 +102,7 @@ $(function () {
         showState(info.state);
       }
 
-      sh.onShare('趣观微直播|' + info.name, info.long_desc);
+      sh.onShare('【趣观微直播】' + info.name, info.long_desc + '-正在直播');
     },
     error: function () {
       showState(0)
