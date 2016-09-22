@@ -83,7 +83,7 @@ app.register.controller('ShowSet', ['$rootScope', '$scope', '$http', '$q', '$win
     },
 
     web_go: function(wechat_url) {
-         window.location.href(wechat_url);
+         window.location.href = wechat_url;
     },
 
     refresh: function() {
