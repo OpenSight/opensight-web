@@ -74,12 +74,11 @@ $(function () {
       $('title').html(info.name);
       $('#show-name').html(info.desc);
       $('#show-desc').html(info.long_desc);
-      if ('' === info.cover_url || 'http://www.opensight.cn/wx/live/src/img/play-logo.png' === info.cover_url){
-        $('.video-backgroud').css('background-image', 'url("http://www.opensight.cn/wx/live/src/img/play-logo.png")');
-      } else {
-        $('.card-content').append('<img class="backgroud-img" src=' + info.cover_url + '>')
+      $('.video-backgroud').css('background-image', 'url("' + info.cover_url + '")');
+      if ('http://www.opensight.cn/wx/live/src/img/play-logo.png' !== info.cover_url){
+        $('.video-backgroud').css('background-size', '100% 100%');
       }
-      
+
       if (1 === info.state) {
         //启动直播
         new HlsVideo(info.camera_uuid, info.start);
