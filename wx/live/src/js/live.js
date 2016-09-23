@@ -197,14 +197,14 @@ HlsVideo.prototype = {
         var bitmap = this.getBitmap(info.flags, 8);
         var qa = this.parse(bitmap);
         if (0 === qa.length) {
-          showState(0)
+          showState(2)
           return;
         }
         this.quality = qa[qa.length - 1].value;
         this.create();
       },
       error: function () {
-        showState(0)
+        showState(2)
       },
       context: this
     });
@@ -274,7 +274,8 @@ HlsVideo.prototype = {
         this.keepalive(info.session_id);
       },
       error: function () {
-        showState(0)
+        this.tip.stop();
+        showState(2)
       },
       context: this
     });
@@ -299,7 +300,7 @@ HlsVideo.prototype = {
         this.play(info.hls);
       },
       error: function () {
-        showState(0)
+        showState(4)
       },
       context: this
     });
