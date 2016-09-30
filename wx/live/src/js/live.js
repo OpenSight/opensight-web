@@ -44,11 +44,40 @@ var params = getUrlParams();
   $('#SOHUCS').attr('sid', params.live_show);
 })();
 
+var play = function (hls, autoplay) {
+  hideState();
+  var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+  var player = document.getElementById('video-player');
+  if (false !== autoplay){
+    $(player).attr('autoplay', 'autoplay');
+    player.play();
+    player.pause();
+    player.play();
+  }
+};
+
+var replay = function(camera_uuid, start_from){
+  $.ajax({
+    url: api + '/cameras/' + camera_uuid + '/record/hls_url',
+    type: 'GET',
+    data: {
+      start: start_from
+    },
+    success: function (recordinfo) {
+      play(recordinfo.hls);
+    },
+    error: function () {
+      showState(4);
+    }
+  });
+};
+
 var api = 'http://api.opensight.cn/api/ivc/v1/projects/' + params.project;
 
 $(function () {
   if (undefined === params.live_show) {
-    showState(0)
+    showState(0);
+    showCover();
     return;
   }
 
@@ -74,10 +103,7 @@ $(function () {
       $('title').html(info.name);
       $('#show-name').html(info.desc);
       $('#show-desc').html(info.long_desc);
-      $('.video-backgroud').css('background-image', 'url("' + info.cover_url + '")');
-      if ('http://www.opensight.cn/wx/live/src/img/play-logo.png' !== info.cover_url){
-        $('.video-backgroud').css('background-size', '100% 100%');
-      }
+      showCover(info.cover_url);
 
       if (1 === info.state) {
         //启动直播
@@ -92,6 +118,14 @@ $(function () {
         showState(info.state);
         var re = new RecordEvent(info.camera_uuid, info.start, info.event_record_id);
         re.on();
+        $('#switch-replay').removeClass('visibility-hidden').on('click', function(){
+          $('#switch-back').removeClass('hidden');
+          replay(info.camera_uuid, info.start);
+        });
+        $('#switch-back').on('click', function(){
+          $('#switch-replay').removeClass('hidden');
+          showState(info.state);
+        });
       } else if (3 === info.state) {
         //直播状态停止直接播放事件录像
         new Record(info.event_record_id);
@@ -104,8 +138,13 @@ $(function () {
       sh.onShare('【趣观微直播】' + info.name, info.long_desc + '-正在直播');
     },
     error: function () {
-      showState(0)
+      showState(0);
+      showCover();
     }
+  });
+
+  $('.status-switch').on('click', function(){
+    $(this).addClass('hidden');
   });
 
   //初始化评论框
@@ -120,10 +159,23 @@ var showState = function (state) {
   }
   $('#state-container').addClass('state-container-show');
   $('#state-text').text(text);
+  $('#video-container').html('');
   return;
 };
 var hideState = function(){
   $('#state-container').removeClass('state-container-show');
+};
+
+var showCover = function(cover_url){
+  // cover_url = 'http://public.opensight.cn/shows/shanderuixi/goutongdeyishu.jpg';
+  var opsi = 'http://www.opensight.cn/wx/live/src/img/play-logo.png';
+  if (undefined === cover_url || '' === cover_url){
+    cover_url = opsi;
+  }
+  $('.video-backgroud').css('background-image', 'url("' + cover_url + '")');
+  if (opsi !== cover_url){
+    $('.video-backgroud').addClass('background-size');
+  }
 };
 
 var HlsVideo = function (camera, start_from) {
@@ -158,7 +210,6 @@ HlsVideo.prototype = {
   on: function () {
     var _t = this;
     $('#switch-replay').click(function () {
-      $('#switch-replay').addClass('hidden');
       $('#switch-live').removeClass('hidden');
       _t.stop();
 
@@ -166,7 +217,6 @@ HlsVideo.prototype = {
     });
 
     $('#switch-live').click(function () {
-      $('#switch-live').addClass('hidden');
       $('#switch-replay').removeClass('hidden');
       _t.create();
     });
@@ -197,14 +247,16 @@ HlsVideo.prototype = {
         var bitmap = this.getBitmap(info.flags, 8);
         var qa = this.parse(bitmap);
         if (0 === qa.length) {
-          showState(2)
+          this.tip.hide();
+          showState(2);
           return;
         }
         this.quality = qa[qa.length - 1].value;
         this.create();
       },
       error: function () {
-        showState(2)
+        this.tip.hide();
+        showState(2);
       },
       context: this
     });
@@ -275,7 +327,8 @@ HlsVideo.prototype = {
       },
       error: function () {
         this.tip.stop();
-        showState(2)
+        showState(2);
+        this.tip.hide();
       },
       context: this
     });
@@ -372,6 +425,10 @@ Tip.prototype = {
     clearInterval(this.timer);
     this.timer = undefined;
     return this;
+  },
+  hide: function(){
+    $('#' + this.container).html('');
+    return this;
   }
 };
 
@@ -429,7 +486,7 @@ Record.prototype = {
       type: 'GET',
       success: function (info) {
         this.hls = info.hls;
-        this.play(this.hls);
+        this.play(this.hls, false);
       },
       context: this
     });
@@ -456,17 +513,20 @@ Record.prototype = {
     });
     return this;
   },
-  play: function (hls) {
+  play: function (hls, autoplay) {
     if (undefined === hls) {
       showState(4);
       return;
     };
     hideState();
-    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+    var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
     var player = document.getElementById('video-player');
-    player.play();
-    player.pause();
-    player.play();
+    if (false !== autoplay){
+      $(player).attr('autoplay', 'autoplay');
+      player.play();
+      player.pause();
+      player.play();
+    }
     return this;
   }
 };
@@ -582,6 +642,8 @@ RecordEvent.prototype = {
       if (el.hasClass('disabled')){
         return;
       }
+      $('#switch-replay').addClass('hidden');
+      $('#switch-back').removeClass('hidden');
       var hls = el.attr('data-hls');
       _t.play(hls);
     });

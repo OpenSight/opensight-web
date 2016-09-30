@@ -1,0 +1,28 @@
+{
+  "name": "opsi-web",
+  "version": "1.0.0",
+  "description": "open sight web",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --progress --colors --display-error-details -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenSight/opsi-basic.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OpenSight/opsi-basic/issues"
+  },
+  "homepage": "https://github.com/OpenSight/opsi-basic#readme",
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "css-loader": "^0.24.0",
+    "optimist": "^0.6.1",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.2"
+  }
+}
