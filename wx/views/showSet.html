@@ -16,14 +16,10 @@
             <div class="weui_cell">
                 <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">描述</label></div>
                 <div class="weui_cell_bd weui_cell_primary">
-                    <input class="weui_input" value="" placeholder="" ng-model="showSet.desc" />
-                </div>
-            </div>
-            <div class="weui_cell">
-                <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">详细描述</label></div>
-                <div class="weui_cell_bd weui_cell_primary">
-                    <textarea class="weui_textarea" placeholder="" ng-model="showSet.long_desc" rows="3"></textarea>
-                    <!--div class="weui_textarea_counter"><span>0</span>/200</div-->
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea class="weui_textarea" placeholder="" ng-model="showSet.desc" rows="{{descRow}}"></textarea>
+                        <!--div class="weui_textarea_counter"><span>0</span>/200</div-->
+                    </div>
                 </div>
             </div>
             <div class="weui_cell">
@@ -41,13 +37,13 @@
             <div class="weui_cell">
                 <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">起始时间</label></div>
                 <div class="weui_cell_bd weui_cell_primary">
-                    <p class="form-control-static">{{(showSet.start===0)?"":(info.start|date: "yyyy-MM-dd HH:mm:ss")}}</p>
+                    <p class="form-control-static">{{(showSet.start===0)?"":(showSet.start|date: "yyyy-MM-dd HH:mm:ss")}}</p>
                 </div>
             </div>
             <div class="weui_cell">
                 <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">结束时间</label></div>
                 <div class="weui_cell_bd weui_cell_primary">
-                    <p class="form-control-static">{{(showSet.end===0)?"":(info.end|date: "yyyy-MM-dd HH:mm:ss")}}</p>
+                    <p class="form-control-static">{{(showSet.end===0)?"":(showSet.end|date: "yyyy-MM-dd HH:mm:ss")}}</p>
                 </div>
             </div>
             <div class="weui_cell">
@@ -60,6 +56,14 @@
                 <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">录像状态</label></div>
                 <div class="weui_cell_bd weui_cell_primary">
                     <p class="form-control-static">{{(showSet.flags === 1)?'启动':'禁用'}}</p>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <p class="weui_media_desc" style="color: #ABAAAA">{{showSet.long_desc}}</p>
+                <!--<div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">详细描述</label></div>-->
+                <!--<div class="weui_cell_bd weui_cell_primary">-->
+                    <!--<textarea class="weui_textarea" placeholder="" ng-model="showSet.long_desc" rows="{{detailRow}}"></textarea>-->
+                    <!--&lt;!&ndash;div class="weui_textarea_counter"><span>0</span>/200</div&ndash;&gt;-->
                 </div>
             </div>
             <div class="weui_cells weui_cells_form">
@@ -91,8 +95,8 @@
                     <a class="weui_btn weui_btn_warn" ng-click="showFun.op('reset', '重置')">重置直播</a>
                 </div>
 
-                <div class="weui_btn_area" ng-show="showSet.wechat_url !== ''">
-                    <a class="weui_btn weui_btn_primary"  ng-click="showFun.web_go(showSet.wechat_url)">预览</a>
+                <div class="weui_btn_area" ng-show="showSet.web_url !== ''">
+                    <a class="weui_btn weui_btn_primary"  ng-click="showFun.web_go(showSet.web_url)">转到活动页面</a>
                 </div>
             </div>
         </div>

@@ -19,8 +19,8 @@ Auth.prototype = {
       href = window.location.origin + path + 'bind.html';
     }
     href = encodeURIComponent(href);
-    return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd5bc8eb5c47795d6&response_type=code&scope=snsapi_userinfo" +
-      "&state=" + url + "&redirect_uri=" + href + "#wechat_redirect";
+    return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd5bc8eb5c47795d6"+ "&redirect_uri=" + href +  "&response_type=code&scope=snsapi_userinfo" +
+      "&state=" + url + "#wechat_redirect";
   },
   getUrlParam: function (name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象

@@ -16,6 +16,7 @@ app.register.controller('LiveShowSwiper',['$rootScope', '$scope', '$http', '$q',
                     onSlideChangeStart: function(swiper){
                         //            alert(mySwiper.activeIndex);
                         $rootScope.PName = $scope.projectlist.data[mySwiper.activeIndex].name;
+//                        $rootScope.PTitle = $scope.projectlist.data[mySwiper.activeIndex].title;
                         $scope.liveshowlist.get($rootScope.PName);
                     },
                     // 如果需要前进后退按钮
@@ -82,6 +83,10 @@ app.register.controller('LiveShowSwiper',['$rootScope', '$scope', '$http', '$q',
                             //$scope.liveShowListShown = true;
                             $scope.liveshowlist.data = [];
                             $scope.liveshowlist.data = response.list;
+                            for (var i in $scope.liveshowlist.data){
+                                $scope.liveshowlist.data[i].clickChange = "weui_panel_bd";
+                            }
+
                             $('#loadingToast').hide();
                         }).error(function (response,status) {
                             $('#ToastTxt').html("获取活动列表失败");
@@ -95,6 +100,7 @@ app.register.controller('LiveShowSwiper',['$rootScope', '$scope', '$http', '$q',
             },
 
             showMore: function (item) {
+                item.clickChange = "modal-backdrop  in"
                 $rootScope.pShow = item;
                 $state.go('showSet');
             }
