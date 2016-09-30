@@ -1,3 +1,6 @@
+var href = window.location.protocol + '//' + window.location.host + window.location.pathname+ window.location.hash;
+window.history.replaceState({} , '', href);
+
 var app = angular.module('app', ['ui.router', 'oc.lazyLoad', 'angular-loading-bar', 'ngAnimate', 'ui.bootstrap']);
 
 app

@@ -73,7 +73,7 @@ app.register.controller('LiveShowSwiper',['$rootScope', '$scope', '$http', '$q',
                     alert("网络有点小卡哦，请尝试刷新！");
 
                 }
-                $('#ToastTxt').html("获取摄像头列表中");
+                $('#ToastTxt').html("获取活动列表中");
                 $('#loadingToast').show();
 
                 $scope.aborter = $q.defer(),
