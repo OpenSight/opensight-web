@@ -1,2 +1,4 @@
 *.db
 .vscode
+node_modules
+bower_components

@@ -166,12 +166,13 @@ var hideState = function(){
 };
 
 var showCover = function(cover_url){
+  // cover_url = 'http://public.opensight.cn/shows/shanderuixi/goutongdeyishu.jpg';
   var opsi = 'http://www.opensight.cn/wx/live/src/img/play-logo.png';
   if (undefined === cover_url || '' === cover_url){
     cover_url = opsi;
   }
   $('.video-backgroud').css('background-image', 'url("' + cover_url + '")');
-  if (opsi !== info.cover_url){
+  if (opsi !== cover_url){
     $('.video-backgroud').addClass('background-size');
   }
 };
@@ -224,6 +225,7 @@ HlsVideo.prototype = {
       if (el.hasClass('disabled')){
         return;
       }
+      $('#switch-replay').addClass('hidden');
       $('#switch-live').removeClass('hidden');
       _t.stop();
 
@@ -244,14 +246,16 @@ HlsVideo.prototype = {
         var bitmap = this.getBitmap(info.flags, 8);
         var qa = this.parse(bitmap);
         if (0 === qa.length) {
-          showState(2)
+          this.tip.hide();
+          showState(2);
           return;
         }
         this.quality = qa[qa.length - 1].value;
         this.create();
       },
       error: function () {
-        showState(2)
+        this.tip.hide();
+        showState(2);
       },
       context: this
     });
@@ -323,7 +327,7 @@ HlsVideo.prototype = {
       error: function () {
         this.tip.stop();
         showState(2);
-
+        this.tip.hide();
       },
       context: this
     });
@@ -419,6 +423,10 @@ Tip.prototype = {
     }
     clearInterval(this.timer);
     this.timer = undefined;
+    return this;
+  },
+  hide: function(){
+    $('#' + this.container).html('');
     return this;
   }
 };
@@ -633,6 +641,8 @@ RecordEvent.prototype = {
       if (el.hasClass('disabled')){
         return;
       }
+      $('#switch-replay').addClass('hidden');
+      $('#switch-back').removeClass('hidden');
       var hls = el.attr('data-hls');
       _t.play(hls);
     });
