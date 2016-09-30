@@ -159,6 +159,7 @@ var showState = function (state) {
   }
   $('#state-container').addClass('state-container-show');
   $('#state-text').text(text);
+  $('#video-container').html('');
   return;
 };
 var hideState = function(){
