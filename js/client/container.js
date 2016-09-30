@@ -1636,7 +1636,7 @@ angular.module('app.controller', [])
         function($scope, $rootScope, $http, $uibModal, flagFactory, pageFactory) {
             $scope.project = $rootScope.$stateParams.project;
 
-            $scope.camera = {
+            $scope.live = {
                 start: 0,
                 total: 10,
                 list: []
@@ -1707,7 +1707,9 @@ angular.module('app.controller', [])
                 camera_id: '',
                 flags: 1,
                 web_url: '',
-                wechat_url: ''
+                wechat_url: '',
+                cover_url: '',
+                comment: ''
             };
 
             $scope.add = function() {
@@ -1752,7 +1754,9 @@ angular.module('app.controller', [])
                     flags: $scope.info.flags,
                     web_url: $scope.info.web_url,
                     wechat_url: $scope.info.wechat_url,
-                    record_url: $scope.info.record_url
+                    record_url: $scope.info.record_url,
+                    cover_url: $scope.info.cover_url,
+                    comment: $scope.info.comment
                 };
                 if ($scope.subinfo.name === $scope.old.name) delete $scope.subinfo.name;
                 if ($scope.subinfo.desc === $scope.old.desc) delete $scope.subinfo.desc;
@@ -1761,6 +1765,8 @@ angular.module('app.controller', [])
                 if ($scope.subinfo.web_url === $scope.old.web_url) delete $scope.subinfo.web_url;
                 if ($scope.subinfo.wechat_url === $scope.old.wechat_url) delete $scope.subinfo.wechat_url;
                 if ($scope.subinfo.record_url === $scope.old.record_url) delete $scope.subinfo.record_url;
+                if ($scope.subinfo.cover_url === $scope.old.cover_url) delete $scope.subinfo.cover_url;
+                if ($scope.subinfo.comment === $scope.old.comment) delete $scope.subinfo.comment;
 //                if ($scope.subinfo === null) return;
                 $http.put(url, $scope.subinfo).success(function(response) {
                     $rootScope.$emit('messageShow', { succ: true, text: '设置成功。' });
