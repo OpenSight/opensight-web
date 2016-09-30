@@ -9,22 +9,45 @@
                                 <div class="weui_cell">
                                     <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>
                                     <div class="weui_cell_bd weui_cell_primary">
-                                        <p class="form-control-static">{{u.name}}</p>
+                                        <p class="form-control-static">{{u.title}}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="weui_panel weui_panel_access" ng-repeat="item in liveshowlist.data">
-                        <div class="weui_panel_bd" ng-click="liveshowlist.showMore(item)">
-                            <div class="weui_media_box weui_media_text">
-                                <h4 class="weui_media_title">{{item.name}}</h4>
-                                活动{{item.state|show_state}}
-                                <p class="weui_media_desc">{{item.desc}}</p>
+                    <div class="weui_panel weui_panel_access showBox" ng-repeat="item in liveshowlist.data">
+                        <div ng-class="item.clickChange" ng-click="liveshowlist.showMore(item)">
+                            <div class="weui_media_box weui_media_text" style="padding: 5px">
+                                <div class="caption" style="border-bottom: 1px solid #E2E4E6;">
+                                    <p class="text-name">
+                                        <a ng-click="liveshowlist.showMore(item)">{{item.name|show_name}}</a>
+                                        <span class="pull-right" ng-class ="{'text-highlight': item.state===1, 'text-danger': item.state!==1}" >{{item.state|show_state}}</span>
+                                    </p>
+                                    <p class="weui_media_desc" style="color: #ABAAAA">{{item.desc}}</p>
+                                </div>
+                                <div class="caption">
+                                    <p class="text-name">
+                                        活动时间 ：
+                                        <span>{{(item.start===0)?"":(item.start|date: "yyyy-MM-dd  HH:mm:ss")}} - {{(item.end===0)?"":(item.end|date: "HH:mm:ss")}}</span>
+                                    </p>
+                                    <p class="weui_media_desc" style="color: #ABAAAA">{{(item.flags === 1)?'录像：启动':'录像：禁止'}}</p>
+                                </div>
+
                             </div>
                         </div>
                     </div>
+
+                    <div style="min-height: 420px" ng-show="liveshowlist.data===undefined || liveshowlist.data[0] === undefined">
+                        <div class="weui_panel_bd">
+                            <div class="weui_media_box weui_media_text">
+                                <h4 class="weui_media_title" style="text-align: center">～～空～～</h4>
+
+                                <!--<p class="weui_media_desc">{{item.desc}}</p>-->
+                            </div>
+                        </div>
+                    </div>
+
                     <!--<div style="padding-left: 0px;padding-right: 0px;">-->
                         <!--<div style="padding-left: 0px;padding-right: 0px;">-->
                             <!--<div class="col-md-3 col-sm-4 col-xs-12" style="padding-left: 0px;padding-right: 0px;" ng-repeat="item in liveshowlist.data">-->

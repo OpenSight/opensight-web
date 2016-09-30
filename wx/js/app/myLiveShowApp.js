@@ -1,9 +1,7 @@
-var href = window.location.protocol + '//' + window.location.host + window.location.pathname+ window.location.hash;
-window.history.replaceState({} , '', href);
-
 var app = angular.module('app', ['ui.router', 'oc.lazyLoad', 'angular-loading-bar', 'ngAnimate', 'ui.bootstrap']);
 
-app.config(function ($controllerProvider, $compileProvider, $filterProvider, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $provide) {
+app
+  .config(function($controllerProvider, $compileProvider, $filterProvider, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $provide) {
     app.register = {
       controller: $controllerProvider.register,
       directive: $compileProvider.directive,
@@ -11,8 +9,8 @@ app.config(function ($controllerProvider, $compileProvider, $filterProvider, $st
       factory: $provide.factory,
       service: $provide.service
     };
-    app.asyncjs = function (js) {
-      return ['$ocLazyLoad', function ($ocLazyLoad) {
+    app.asyncjs = function(js) {
+      return ['$ocLazyLoad', function($ocLazyLoad) {
         return $ocLazyLoad.load(js);
       }];
     };
@@ -25,76 +23,73 @@ app.config(function ($controllerProvider, $compileProvider, $filterProvider, $st
       .state('liveShow', {
         url: '/liveShow',
         templateUrl: './views/liveShowSwiper.html',
-        params: {
-          projectName: null,
-          info: null
-        },
+        params: { projectName: null, info: null },
         resolve: {
           load: app.asyncjs(["./js/controller/liveShowSwiper.js", "./js/video.js", "./css/square.css"])
         }
       })
 
-    .state('showSet', {
-        url: '/showSet',
-        templateUrl: './views/showSet.html',
-        resolve: {
-          load: app.asyncjs(["./js/controller/ShowSet.js"])
-        }
+      .state('showSet', {
+            url: '/showSet',
+            templateUrl: './views/showSet.html',
+            resolve: {
+                load: app.asyncjs(["./js/controller/ShowSet.js"])
+            }
       })
-      /*
-          .state('plive', {
-            url: '/plive',
-            templateUrl: './views/pLive.html',
-            resolve: {
-              load: app.asyncjs(["./js/controller/PLive.js"])
-            }
-          })
+/*
+    .state('plive', {
+      url: '/plive',
+      templateUrl: './views/pLive.html',
+      resolve: {
+        load: app.asyncjs(["./js/controller/PLive.js"])
+      }
+    })
 
-          .state('prec', {
-            url: '/prec',
-            templateUrl: './views/pRec.html',
-            resolve: {
-              load: app.asyncjs(["./js/controller/PRec.js"])
-            }
-          })
+    .state('prec', {
+      url: '/prec',
+      templateUrl: './views/pRec.html',
+      resolve: {
+        load: app.asyncjs(["./js/controller/PRec.js"])
+      }
+    })
 
-          .state('precplay', {
-            url: '/precplay',
-            templateUrl: './views/pRecPlay.html',
-            resolve: {
-              load: app.asyncjs(["./js/controller/PRecPlay.js"])
-            }
-          })
+    .state('precplay', {
+      url: '/precplay',
+      templateUrl: './views/pRecPlay.html',
+      resolve: {
+        load: app.asyncjs(["./js/controller/PRecPlay.js"])
+      }
+    })
 
-          .state('backup', {
-            url: '/backup',
-            templateUrl: './views/backup.html',
-            params: { projectName: null, info: null },
-            resolve: {
-              load: app.asyncjs(["./js/controller/backup.js"])
-            }
-          })
+    .state('backup', {
+      url: '/backup',
+      templateUrl: './views/backup.html',
+      params: { projectName: null, info: null },
+      resolve: {
+        load: app.asyncjs(["./js/controller/backup.js"])
+      }
+    })
 
-          .state('backuprecord', {
-            url: '/backuprecord',
-            templateUrl: './views/backup-record.html',
-            params: { projectName: null, info: null },
-            resolve: {
-              load: app.asyncjs(["./js/controller/backup-record.js"])
-            }
-          })
-        */
-
-  })
-  .config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.interceptors.push(function ($q, $rootScope) {
+    .state('backuprecord', {
+      url: '/backuprecord',
+      templateUrl: './views/backup-record.html',
+      params: { projectName: null, info: null },
+      resolve: {
+        load: app.asyncjs(["./js/controller/backup-record.js"])
+      }
+    }) 
+  */
+        
+    })
+  .config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push(function($q, $rootScope) {
       return {
-        request: function (config) {
+        request: function(config) {
           config.headers.Authorization = "Bearer " + jwt.jwt;
           config.headers['Content-Type'] = 'application/json';
           return config;
         },
-        responseError: function (rejection, response, status) {
+        responseError: function(rejection, response, status) {
           $rootScope.$emit('responseErrorStart', rejection);
           return $q.reject(rejection);
         }
@@ -102,8 +97,8 @@ app.config(function ($controllerProvider, $compileProvider, $filterProvider, $st
     });
   }]);
 
-app.controller('MyLiveShow', ['$rootScope', '$scope', '$http', '$q', '$window', '$state', function ($rootScope, $scope, $http, $q, $window, $state) {
-  (function () {
+app.controller('MyLiveShow', ['$rootScope', '$scope', '$http', '$q', '$window', '$state', function($rootScope, $scope, $http, $q, $window, $state) {
+  (function() {
     var binding_id = $.cookie('binding_id');
     var timestamp = Math.round(new Date().getTime() / 1000);
     var noncestr = binding_id + new Date().getTime().toString();
@@ -112,7 +107,7 @@ app.controller('MyLiveShow', ['$rootScope', '$scope', '$http', '$q', '$window', 
       timestamp: timestamp,
       noncestr: noncestr,
       url: url
-    }).success(function (res) {
+    }).success(function(res) {
       wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: res.appid, // 必填，公众号的唯一标识
@@ -123,7 +118,7 @@ app.controller('MyLiveShow', ['$rootScope', '$scope', '$http', '$q', '$window', 
       });
     });
   })();
-  $scope.destroy = function () {
+  $scope.destroy = function() {
     if (undefined !== $scope.aborter) {
       $scope.aborter.resolve();
       delete $scope.aborter;
@@ -131,8 +126,9 @@ app.controller('MyLiveShow', ['$rootScope', '$scope', '$http', '$q', '$window', 
   };
 
   $scope.$on('$destroy', $scope.destroy);
-  //stop player run background
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+  $rootScope.PName = "我的项目";
+//stop player run background
+  $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
     if (fromState.name === 'plive' || fromState.name === 'prec' || fromState.name === 'precplay') {
       if ($rootScope.Player !== undefined) $rootScope.Player.destroy();
       var player = $rootScope.RecPlayer;
@@ -146,95 +142,94 @@ app.controller('MyLiveShow', ['$rootScope', '$scope', '$http', '$q', '$window', 
   });
 }]);
 
-app.filter('show_state', [function () {
-    return function (state) {
-      if (0 === state) {
-        return '未启动';
-      } else if (1 === state) {
-        return '进行中';
-      } else if (2 === state) {
-        return '暂停';
-      } else if (3 === state) {
-        return '已结束';
-      } else {
-        return '未知';
+app.filter('show_state', [function() {
+        return function(state) {
+            if (0 === state){
+                return '未启动';
+            }else if (1 === state){
+                return '进行中';
+            }else if (2 === state){
+                return '暂停';
+            }else if (3 === state){
+                return '已结束';
+            } else {
+                return '未知';
+            }
+        };
+}]).filter('online', [function() {
+  return function(is_online) {
+    if (1 === is_online) {
+      return '在线';
+    } else if (2 === is_online) {
+      return '工作中';
+    } else {
+      return '离线';
+    }
+  };
+}]).filter('show_name', [function() {
+        return function(text) {
+            if (text.length > 10) {
+                return (text.substr(0,8) + '...');
+            } else {
+                return text;
+            }
+        };
+}]).filter('publicattribute', [function() {
+  return function(bBublic) {
+    if (true === bBublic) {
+      return '公开';
+    } else {
+      return '私有';
+    }
+  };
+}]).filter('key_type', [function() {
+  return function(type) {
+    if (1 === type) {
+      return '管理员';
+    } else {
+      return '操作员';
+    }
+  };
+}]).filter('key_enabled', [function() {
+  return function(enabled) {
+    if (true === enabled) {
+      return '启用';
+    } else {
+      return '停用';
+    }
+  };
+}]).filter('getLink', [function() {
+  return function(item) {
+    if (0 === item.status) {
+      return '#';
+    }
+    return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
+  };
+}])
+.filter('duration', function() {
+  var a = [{ t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
+  return function(dur, ms) {
+    var s = '';
+    dur = Math.floor(dur / (1000 * 60));
+    for (var i = 0, l = a.length; i < l; i++) {
+      s = dur % a[i].v + a[i].t + s;
+      dur = Math.floor(dur / a[i].v);
+      if (0 === dur) {
+        break;
       }
-    };
-  }]).filter('online', [function () {
-    return function (is_online) {
-      if (1 === is_online) {
-        return '在线';
-      } else if (2 === is_online) {
-        return '工作中';
-      } else {
-        return '离线';
-      }
-    };
-  }]).filter('publicattribute', [function () {
-    return function (bBublic) {
-      if (true === bBublic) {
-        return '公开';
-      } else {
-        return '私有';
-      }
-    };
-  }]).filter('key_type', [function () {
-    return function (type) {
-      if (1 === type) {
-        return '管理员';
-      } else {
-        return '操作员';
-      }
-    };
-  }]).filter('key_enabled', [function () {
-    return function (enabled) {
-      if (true === enabled) {
-        return '启用';
-      } else {
-        return '停用';
-      }
-    };
-  }]).filter('getLink', [function () {
-    return function (item) {
-      if (0 === item.status) {
-        return '#';
-      }
-      return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
-    };
-  }])
-  .filter('duration', function () {
-    var a = [{
-      t: '分',
-      v: 60
-    }, {
-      t: '时',
-      v: 60
-    }, {
-      t: '天',
-      v: 24
-    }];
-    return function (dur, ms) {
-      var s = '';
-      dur = Math.floor(dur / (1000 * 60));
-      for (var i = 0, l = a.length; i < l; i++) {
-        s = dur % a[i].v + a[i].t + s;
-        dur = Math.floor(dur / a[i].v);
-        if (0 === dur) {
-          break;
-        }
-      }
-      return s;
-    };
-  });
+    }
+    return s;
+  };
+});
 
-app.factory('dateFactory', function () {
-  var padding = function (n) {
+app.factory('dateFactory', function() {
+  var padding = function(n) {
     if (10 > n) {
       return '0' + n;
     }
     return n.toString();
   };
-  var getDate = function (dt) {
+  var getDate = function(dt) {
     return [
       dt.getFullYear(),
       padding(dt.getMonth() + 1),
@@ -242,16 +237,16 @@ app.factory('dateFactory', function () {
     ].join('-');
   };
   return {
-    getStart: function (dt) {
+    getStart: function(dt) {
       return getDate(dt) + 'T00:00:00';
     },
-    getEnd: function (dt) {
+    getEnd: function(dt) {
       return getDate(dt) + 'T23:59:59';
     },
-    time2str: function (dt) {
+    time2str: function(dt) {
       return padding(dt.getHours()) + ':' + padding(dt.getMinutes()) + ':' + padding(dt.getSeconds());
     },
-    str2time: function (str, bstart) {
+    str2time: function(str, bstart) {
       var a = str.split(':');
       var dt = new Date();
       dt.setHours(a[0]);
@@ -264,7 +259,7 @@ app.factory('dateFactory', function () {
       }
       return dt;
     },
-    getms: function (dt, tm) {
+    getms: function(dt, tm) {
       var tmp = tm;
       tmp.setFullYear(dt.getFullYear(), dt.getMonth(), dt.getDate());
       return tmp.getTime();

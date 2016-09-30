@@ -113,11 +113,6 @@ a:hover{
     visibility: hidden;
 }
 
-// html, body{
-//   font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
-//   height: 100%;
-//   background-color: #eee;
-// }
 .weui_cells_os h4.weui_media_title{
   margin-top: 0;
   margin-bottom: 5px;
@@ -174,4 +169,17 @@ a:hover{
 .hidden-player-container > video{
   visibility: hidden;
   display: none;
+}
+
+.showBox{
+    border: 1px solid #cccccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;-webkit-box-shadow: #666 0px 0px 6px;
+    -moz-box-shadow: #666 0px 0px 6px;
+    box-shadow: #666 0px 0px 6px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left:10px;
+    margin-right:10px
 }
