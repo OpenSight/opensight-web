@@ -92,6 +92,10 @@ $(function () {
     }
   });
 
+  $('.status-switch').on('click', function(){
+    $(this).addClass('hidden');
+  });
+
   //初始化分享功能
   var sh = new Share();
 
@@ -141,10 +145,6 @@ $(function () {
       showState(0);
       showCover();
     }
-  });
-
-  $('.status-switch').on('click', function(){
-    $(this).addClass('hidden');
   });
 
   //初始化评论框
@@ -497,8 +497,8 @@ Record.prototype = {
   },
   on: function () {
     var _t = this;
-    $('#switch-replay').click(function () {
-      $('#switch-replay').addClass('visibility-hidden');
+    $('#switch-replay').removeClass('visibility-hidden');
+    $('#switch-replay').off('click').click(function () {
       _t.play(_t.hls);
     });
 
@@ -507,7 +507,7 @@ Record.prototype = {
       if (el.hasClass('disabled')){
         return;
       }
-      $('#switch-replay').removeClass('visibility-hidden');
+
       var hls = el.attr('data-hls');
       _t.play(hls);
     });
