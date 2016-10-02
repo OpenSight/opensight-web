@@ -209,6 +209,7 @@ HlsVideo.prototype = {
   },
   on: function () {
     var _t = this;
+    $('#switch-replay').removeClass('visibility-hidden');
     $('#switch-replay').click(function () {
       $('#switch-live').removeClass('hidden');
       _t.stop();
