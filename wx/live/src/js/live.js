@@ -46,7 +46,7 @@ var params = getUrlParams();
 
 var play = function (hls, autoplay) {
   hideState();
-  var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+  var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" src="' + hls + '" type="application/x-mpegURL"></video>');
   var player = document.getElementById('video-player');
   if (false !== autoplay){
     $(player).attr('autoplay', 'autoplay');
@@ -90,6 +90,10 @@ $(function () {
         request.setRequestHeader('Authorization', "Bearer " + params.jwt);
       }
     }
+  });
+
+  $('.status-switch').on('click', function(){
+    $(this).addClass('hidden');
   });
 
   //初始化分享功能
@@ -141,10 +145,6 @@ $(function () {
       showState(0);
       showCover();
     }
-  });
-
-  $('.status-switch').on('click', function(){
-    $(this).addClass('hidden');
   });
 
   //初始化评论框
@@ -209,6 +209,7 @@ HlsVideo.prototype = {
   },
   on: function () {
     var _t = this;
+    $('#switch-replay').removeClass('visibility-hidden');
     $('#switch-replay').click(function () {
       $('#switch-live').removeClass('hidden');
       _t.stop();
@@ -335,7 +336,7 @@ HlsVideo.prototype = {
   },
   play: function (hls) {
     hideState();
-    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" src="' + hls + '" type="application/x-mpegURL"></video>');
     var player = document.getElementById('video-player');
     player.play();
     player.pause();
@@ -497,8 +498,8 @@ Record.prototype = {
   },
   on: function () {
     var _t = this;
-    $('#switch-replay').click(function () {
-      $('#switch-replay').addClass('visibility-hidden');
+    $('#switch-replay').removeClass('visibility-hidden');
+    $('#switch-replay').off('click').click(function () {
       _t.play(_t.hls);
     });
 
@@ -507,7 +508,7 @@ Record.prototype = {
       if (el.hasClass('disabled')){
         return;
       }
-      $('#switch-replay').removeClass('visibility-hidden');
+
       var hls = el.attr('data-hls');
       _t.play(hls);
     });
@@ -519,7 +520,7 @@ Record.prototype = {
       return;
     };
     hideState();
-    var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+    var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" src="' + hls + '" type="application/x-mpegURL"></video>');
     var player = document.getElementById('video-player');
     if (false !== autoplay){
       $(player).attr('autoplay', 'autoplay');
@@ -655,7 +656,7 @@ RecordEvent.prototype = {
       return;
     };
     hideState();
-    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" src="' + hls + '" type="application/x-mpegURL"></video>');
     var player = document.getElementById('video-player');
     player.play();
     player.pause();

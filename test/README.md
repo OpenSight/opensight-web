@@ -13,8 +13,12 @@
 
 
 # 直播
-1. [未启动](../wx/live/src/index.html?project=opensight_internal&live_show=g365caAFTHyO8iy7N7PL0A)
+1. [测试状态--未启动](../wx/live/src/index.html?project=opensight_internal&live_show=Bv3jfV6BR_u_R8w5_adddQ)
 
-2. [yige_demo](../wx/live/src/index.html?project=yige_demo&live_show=xO5i2_RuSNyH4GuKISTtPQ)
+1. [测试状态--直播中](../wx/live/src/index.html?project=opensight_internal&live_show=JCpIvxfzQmmPvFU5ak1vdA)
 
-3. [直播中](../wx/live/src/index.html?project=opensight_internal&live_show=M3vbpyKtSLCT4i9j0LhkeA)
+1. [测试状态--暂停中](../wx/live/src/index.html?project=opensight_internal&live_show=Bxa6k6XwQGSc29vNLJDrdw)
+
+1. [测试状态--直播时摄像机离线](../wx/live/src/index.html?project=opensight_internal&live_show=flcQvaxzSPC3bIZNF80KIw)
+
+1. [测试状态--已结束](../wx/live/src/index.html?project=opensight_internal&live_show=Kaq_YsHjQP6ESm2eaTvSZw)
