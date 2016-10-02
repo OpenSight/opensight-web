@@ -46,7 +46,7 @@ var params = getUrlParams();
 
 var play = function (hls, autoplay) {
   hideState();
-  var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+  var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" src="' + hls + '" type="application/x-mpegURL"></video>');
   var player = document.getElementById('video-player');
   if (false !== autoplay){
     $(player).attr('autoplay', 'autoplay');
@@ -335,7 +335,7 @@ HlsVideo.prototype = {
   },
   play: function (hls) {
     hideState();
-    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" src="' + hls + '" type="application/x-mpegURL"></video>');
     var player = document.getElementById('video-player');
     player.play();
     player.pause();
@@ -519,7 +519,7 @@ Record.prototype = {
       return;
     };
     hideState();
-    var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+    var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" src="' + hls + '" type="application/x-mpegURL"></video>');
     var player = document.getElementById('video-player');
     if (false !== autoplay){
       $(player).attr('autoplay', 'autoplay');
@@ -655,7 +655,7 @@ RecordEvent.prototype = {
       return;
     };
     hideState();
-    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" width="100%" height="100%" src="' + hls + '" type="application/x-mpegURL"></video>');
+    var el = $('#video-container').html('<video id="video-player" controls autoplay="autoplay" webkit-playsinline="" src="' + hls + '" type="application/x-mpegURL"></video>');
     var player = document.getElementById('video-player');
     player.play();
     player.pause();
