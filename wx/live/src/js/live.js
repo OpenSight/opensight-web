@@ -135,6 +135,7 @@ $(function () {
         new Record(info.event_record_id);
         //获取精彩片段列表
         new RecordEvent(info.camera_uuid, info.start, info.event_record_id);
+        showState(info.state);
       } else {
         showState(info.state);
       }
@@ -153,7 +154,7 @@ $(function () {
 
 var showState = function (state) {
   state = state || 0;
-  var text = ['活动未开始。', '', '活动暂停中。', '','录像异常'][state];
+  var text = ['活动未开始。', '', '活动暂停中。', '活动已结束。','录像异常'][state];
   if ('' === text) {
     return this;
   }
@@ -487,7 +488,6 @@ Record.prototype = {
       type: 'GET',
       success: function (info) {
         this.hls = info.hls;
-        this.play(this.hls, false);
       },
       context: this
     });
@@ -498,8 +498,8 @@ Record.prototype = {
   },
   on: function () {
     var _t = this;
-    $('#switch-replay').removeClass('visibility-hidden');
-    $('#switch-replay').off('click').click(function () {
+    $('#switch-replay').addClass('hidden');
+    $('#switch-allreplay').removeClass('hidden').click(function () {
       _t.play(_t.hls);
     });
 
@@ -512,6 +512,10 @@ Record.prototype = {
       var hls = el.attr('data-hls');
       _t.play(hls);
     });
+
+    $('#state-container').addClass('play').click(function () {
+      _t.play(_t.hls);
+    });
     return this;
   },
   play: function (hls, autoplay) {
@@ -522,6 +526,7 @@ Record.prototype = {
     hideState();
     var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" src="' + hls + '" type="application/x-mpegURL"></video>');
     var player = document.getElementById('video-player');
+    // $(player).attr('poster', 'http://public.opensight.cn/shows/shanderuixi/goutongdeyishu.jpg');
     if (false !== autoplay){
       $(player).attr('autoplay', 'autoplay');
       player.play();

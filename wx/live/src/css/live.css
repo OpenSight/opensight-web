@@ -138,6 +138,14 @@ body{
   visibility: visible;
   display: block;
 }
+.play{
+  background-image: url(../img/play.png);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.play .state{
+  margin-top: -60px;
+}
 .power-by{
   font-weight: normal;
 }
