@@ -157,7 +157,7 @@ angular.module('app.controller', [])
       }).success(function (response) {
         hideTip();
         $scope.id = response.session_id;
-        var bufferTime = parseInt(config.get($scope.type), 10);
+        var bufferTime = parseFloat(config.get($scope.type), 10);
         playerFactory.load(response.url, playerId, bufferTime);
         keepalive(response);
       }).error(function (response, status) {

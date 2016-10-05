@@ -213,7 +213,7 @@ angular.module('app.services', [])
   };
   var video = {
     load: function(src, id, bufferTime) {
-      bufferTime = parseInt(bufferTime || 4.0, 10);
+      bufferTime = parseFloat(bufferTime || 4.0, 10);
       src = encodeURIComponent(src);
       var flashvars = {
         src: src,
