@@ -1,0 +1,42 @@
+<div class="container-fluid live" ng-controller="live">
+  <div class="row">
+    <div class="col-md-9 col-sm-8 col-xs-12">
+      <div class="live">
+        <div class="img-container">
+          <img id="img" src="img/video.jpg" alt="">
+        </div>
+        <div class="player-container">
+          <div id="videoPlayer">
+            <p class="play-tip pull-right">
+              <span class="text-primary" id="playTipSec">{{sec}}</span>秒之后直播开始
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-4 col-xs-12 cam-info">
+      <p>
+        <div class="text-primary">名称</div>
+        <div>{{caminfo.name}}</div>
+      </p>
+      <p>
+        <div class="text-primary">描述</div>
+        <div>{{caminfo.desc}}</div>
+      </p>
+      <p>
+        <div class="text-primary">详细信息</div>
+        <div>{{caminfo.long_desc}}</div>
+      </p>
+    </div>
+    <div class="col-xs-12" id="changyan-container">
+      <div id="SOHUCS" sid="{{caminfo.uuid}}"></div>
+      <script charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/changyan.js"></script>
+      <!-- <script type="text/javascript">
+        window.changyan.api.config({
+          appid: 'cysz4Q4lo',
+          conf: 'prod_4193b6bf7521a984e9ed89e4407582cc'
+        });
+      </script> -->
+    </div>
+  </div>
+</div>
