@@ -133,3 +133,6 @@ body {
 .changyan-container>#SOHUCS{
   background-color: #fff;
 }
+.btn-save{
+  min-width: 100px;
+}

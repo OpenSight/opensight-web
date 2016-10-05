@@ -74,19 +74,13 @@ angular.module('app.controller', [])
     $scope.classroom = config.get('classroom');
     $scope.desktop = config.get('desktop');
 
-    $scope.change = function (key) {
-      var res = config.set(key, $scope[key]);
-      if (true === res) {
-        $rootScope.$emit('messageShow', {
-          succ: true,
-          text: '保存成功。'
-        });
-      } else {
-        $rootScope.$emit('messageShow', {
-          succ: false,
-          text: '保存失败。'
-        });
-      }
+    $scope.save = function(){
+      config.set('classroom', $scope.classroom);
+      config.set('desktop', $scope.desktop);
+      $rootScope.$emit('messageShow', {
+        succ: true,
+        text: '保存成功。'
+      });
     };
   }
 ])

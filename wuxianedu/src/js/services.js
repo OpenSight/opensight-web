@@ -219,7 +219,8 @@ angular.module('app.services', [])
         src: src,
         plugin_hls: "../flashlsOSMF.swf",
         autoPlay: true,
-        bufferTime: bufferTime
+        bufferTime: bufferTime,
+        haltOnError: true
       };
 
       var params = {
