@@ -182,7 +182,7 @@ angular.module('app.services', [])
 
 .factory('playerFactory', function() {
   var flash = {
-    load: function(src, id) {
+    load: function(src, id, bufferTime) {
       src = encodeURIComponent(src);
       var flashvars = {
         src: src,
@@ -204,16 +204,22 @@ angular.module('app.services', [])
     },
     stop: function(id) {
       var player = document.getElementById(id);
-      player.stop2();
+      try {
+        player.stop2();
+      } catch (e) {
+
+      }
     }
   };
   var video = {
-    load: function(src, id) {
+    load: function(src, id, bufferTime) {
+      bufferTime = parseInt(bufferTime || 4.0, 10);
       src = encodeURIComponent(src);
       var flashvars = {
         src: src,
         plugin_hls: "../flashlsOSMF.swf",
-        autoPlay: true
+        autoPlay: true,
+        bufferTime: bufferTime
       };
 
       var params = {
@@ -238,8 +244,8 @@ angular.module('app.services', [])
     return '' === document.createElement('video').canPlayType('application/x-mpegURL') ? flash : video;
   };
   return {
-    load: function(src, id) {
-      getObj().load(src, id);
+    load: function(src, id, bufferTime) {
+      getObj().load(src, id, bufferTime);
     },
     stop: function(id){
       getObj().stop(id);

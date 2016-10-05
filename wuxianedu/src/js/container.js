@@ -120,6 +120,12 @@ angular.module('app.controller', [])
     var alivetimer = undefined;
     var playerId = 'videoPlayer';
 
+    $scope.change = function(quality){
+      $scope.quality = quality;
+      create();
+      showTip();
+    };
+
     var init = function () {
       $scope.caminfo = get();
       var bitmap = flagFactory.getBitmap($scope.caminfo.flags, 8);
@@ -155,13 +161,11 @@ angular.module('app.controller', [])
         create: true,
         user: 'demo'
       }).success(function (response) {
+        hideTip();
         $scope.id = response.session_id;
-        playerFactory.load(response.url, playerId);
+        var bufferTime = parseInt(config.get($scope.type), 10);
+        playerFactory.load(response.url, playerId, bufferTime);
         keepalive(response);
-        if (tiptimer) {
-          $interval.cancel(tiptimer);
-          tiptimer = undefined;
-        }
       }).error(function (response, status) {
         console.log('error');
       });
@@ -176,12 +180,6 @@ angular.module('app.controller', [])
       var intrvl = 20 * 1000;
       var count = duration / intrvl;
       alivetimer = $interval(function () {
-        if (0 === count) {
-          $scope.ok();
-          return;
-        } else {
-          count--;
-        }
         $http.post(url + '/' + info.session_id, {}).success(function (response) {
 
         }).error(function (response, status) {
@@ -202,19 +200,28 @@ angular.module('app.controller', [])
       $http.delete(url + '/' + $scope.id, {});
     };
 
-    var updateTip = function () {
+    var showTip = function(){
+      $scope.sec = 10;
+      $scope.tipshow = true;
       tiptimer = $interval(function () {
-        if (1 === $scope.sec && undefined !== tiptimer) {
+        if (1 === $scope.sec) {
           $interval.cancel(tiptimer);
           tiptimer = undefined;
           return;
         }
         $scope.sec--;
-        // $scope.$apply();
       }, 1000);
+    };
+    var hideTip = function(){
+      if (undefined !== tiptimer) {
+        $interval.cancel(tiptimer);
+        tiptimer = undefined;
+      }
+      $scope.tipshow = false;
     };
 
     var initChangyan = function () {
+      $('#changyan-container').html('<div id="SOHUCS" sid="' + uuid + '"></div><script charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/changyan.js" ></script>');
       setTimeout(function(){
         window.changyan.api.config({
           appid: 'cysz4Q4lo',
@@ -227,7 +234,15 @@ angular.module('app.controller', [])
 
     create();
 
-    updateTip();
+    showTip();
+
+    $rootScope.$on('$locationChangeStart', function(event, newUrl, oldUrl){
+      if (-1 === oldUrl.search(/#\/live\/[a-z\dA-Z\-]+$/)){
+        return;
+      }
+      hideTip();
+      stop();
+    })
 
     initChangyan();
   }

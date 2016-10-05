@@ -7,30 +7,36 @@
         </div>
         <div class="player-container">
           <div id="videoPlayer">
-            <p class="play-tip pull-right">
-              <span class="text-primary" id="playTipSec">{{sec}}</span>秒之后直播开始
-            </p>
           </div>
+          <p class="play-tip pull-right tip" ng-show="tipshow">
+            <span class="text-primary" id="playTipSec">{{sec}}</span>&nbsp;秒之后直播开始
+          </p>
         </div>
       </div>
     </div>
     <div class="col-md-3 col-sm-4 col-xs-12 cam-info">
       <p>
         <div class="text-primary">名称</div>
-        <div>{{caminfo.name}}</div>
+        <div class="camera-desc">{{caminfo.name}}</div>
       </p>
       <p>
         <div class="text-primary">描述</div>
-        <div>{{caminfo.desc}}</div>
+        <div class="camera-desc">{{caminfo.desc}}</div>
       </p>
       <p>
         <div class="text-primary">详细信息</div>
-        <div>{{caminfo.long_desc}}</div>
+        <div class="camera-desc">{{caminfo.long_desc}}</div>
+      </p>
+      <p>
+        <div class="text-primary">切换清晰度</div>
+        <div class="btn-group btn-group-sm">
+          <button ng-repeat="it in ability" class="btn btn-default" role="group" ng-class="{'btn-primary': it.text === quality}" title={{it.title}} ng-click="change(it.text)">{{it.title}}</button>
+        </div>
       </p>
     </div>
-    <div class="col-xs-12" id="changyan-container">
-      <div id="SOHUCS" sid="{{caminfo.uuid}}"></div>
-      <script charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/changyan.js"></script>
+    <div class="col-xs-12 changyan-container" id="changyan-container">
+      <!-- <div id="SOHUCS" sid="{{caminfo.uuid}}"></div>
+      <script charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/changyan.js"></script> -->
       <!-- <script type="text/javascript">
         window.changyan.api.config({
           appid: 'cysz4Q4lo',
