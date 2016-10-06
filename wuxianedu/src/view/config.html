@@ -1,0 +1,40 @@
+<div class="container" ng-controller="config">
+  <div class="col-sm-12 page-header page-header-condensed">
+    <h3>播放器缓存配置</h3>
+  </div>
+  <form>
+    <div class="form-group">
+      <label>教室直播缓存时间</label>
+      <select class="form-control" ng-model="classroom">
+        <option value="0">实时</option>
+        <option value="1">1秒</option>
+        <option value="2">2秒</option>
+        <option value="3">3秒</option>
+        <option value="4">4秒</option>
+        <option value="5">5秒</option>
+        <option value="6">6秒</option>
+        <option value="7">7秒</option>
+        <option value="8">8秒</option>
+        <option value="9">9秒</option>
+        <option value="10">10秒</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>电脑桌面缓存时间</label>
+      <select class="form-control" ng-model="desktop">
+        <option value="0">实时</option>
+        <option value="1">1秒</option>
+        <option value="2">2秒</option>
+        <option value="3">3秒</option>
+        <option value="4">4秒</option>
+        <option value="5">5秒</option>
+        <option value="6">6秒</option>
+        <option value="7">7秒</option>
+        <option value="8">8秒</option>
+        <option value="9">9秒</option>
+        <option value="10">10秒</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary btn-save" ng-click="save()">保存</button>
+  </form>
+</div>
