@@ -88,8 +88,8 @@ angular.module('app.controller', [])
 .controller('square', [
   '$scope', '$rootScope', '$http',
   function ($scope, $rootScope, $http) {
-    $scope.classroom = project.get().classroom;
-    $scope.desktop = project.get().desktop;
+    $scope.classroom = project.classroom();
+    $scope.desktop = project.desktop();
 
     $scope.click = function (it) {
       if (1 !== it.is_online && 2 !== it.is_online) {
@@ -107,9 +107,8 @@ angular.module('app.controller', [])
   function ($scope, $rootScope, $http, flagFactory, $timeout, $interval, playerFactory) {
     var uuid = $rootScope.$state.params.camera_uuid;
     $scope.sec = 10;
+    var sessions_url = window.location.protocol + '//' + window.location.host + '/api/ivc/v1/projects/' + project.getName() + '/cameras/' + uuid + '/sessions';
 
-    var url = $rootScope.$project + '/cameras/' + uuid + '/sessions';
-    url = 'http://api.opensight.cn/api/ivc/v1/projects/demo/cameras/8e9afacb-c0b7-4e22-b7c1-9468ff9adc22/sessions';
     var tiptimer = undefined;
     var alivetimer = undefined;
     var playerId = 'videoPlayer';
@@ -149,7 +148,7 @@ angular.module('app.controller', [])
     };
 
     var create = function () {
-      $http.post(url, {
+      $http.post(sessions_url, {
         format: 'rtmp',
         quality: $scope.quality.toLowerCase(),
         create: true,
@@ -157,10 +156,15 @@ angular.module('app.controller', [])
       }).success(function (response) {
         hideTip();
         $scope.id = response.session_id;
-        var bufferTime = parseFloat(config.get($scope.type), 10);
+        var bufferTime = config.get($scope.type);
         playerFactory.load(response.url, playerId, bufferTime);
         keepalive(response);
       }).error(function (response, status) {
+        hideTip();
+        $rootScope.$emit('messageShow', {
+          succ: false,
+          text: '直播启动失败。'
+        });
         console.log('error');
       });
     };
@@ -174,7 +178,7 @@ angular.module('app.controller', [])
       var intrvl = 20 * 1000;
       var count = duration / intrvl;
       alivetimer = $interval(function () {
-        $http.post(url + '/' + info.session_id, {}).success(function (response) {
+        $http.post(sessions_url + '/' + info.session_id, {}).success(function (response) {
 
         }).error(function (response, status) {
           console.log('error');

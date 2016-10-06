@@ -3,8 +3,8 @@ var api = api || 'http://api.opensight.cn/api/ivc/v1/';
 
 var config = (function () {
   var def = {
-    classroom: '1',
-    desktop: '1'
+    classroom: '3',
+    desktop: '2'
   };
   var c = {
     get: function (key) {
@@ -29,15 +29,34 @@ var config = (function () {
 })();
 
 var project = (function () {
-  var data = {};
+  var project_name = 'wuxianedu';
+  var data = {
+    classroom: [],
+    desktop: []
+  };
+
+  var isVirtual = function(f){
+    f = Math.floor(f / Math.pow(2, 7));
+    return 1 === f % 2;
+  };
   var p = {
     init: function () {
       $.ajax({
-        url: 'json/project.json',
+        url: api + 'projects/' + project_name + '/cameras',
         type: 'GET',
         async: false,
+        data: {
+          start: 0,
+          limit: 100
+        },
         success: function(json) {
-          data = json;
+          for (var i = 0, l = json.list.length; i < l; i++){
+            if (isVirtual(json.list[i].flags)){
+              data.desktop.push(json.list[i]);
+            } else {
+              data.classroom.push(json.list[i]);
+            }
+          }
         },
         error: function() {
           /* Act on the event */
@@ -45,8 +64,17 @@ var project = (function () {
         }
       });
     },
+    desktop: function(){
+      return $.extend(true, {}, data.desktop);
+    },
+    classroom: function(){
+      return $.extend(true, {}, data.classroom);
+    },
     get: function () {
       return $.extend(true, {}, data);
+    },
+    getName: function(){
+      return project_name;
     }
   };
   return p;
@@ -59,9 +87,9 @@ var app = angular.module('wuxianedu', [
   'ui.bootstrap',
   'app.controller',
   'app.filter',
-  'app.services',
+  'app.services'
   // 'angular-loading-bar',
-  'angularAwesomeSlider'
+  // 'angularAwesomeSlider'
 ])
 
 .run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
@@ -72,7 +100,7 @@ var app = angular.module('wuxianedu', [
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
   project.init();
-  $rootScope.$project = api + 'projects/' + project.get().project_name;
+  $rootScope.$project = api + 'projects/' + project.getName();
 }])
 
 .config([

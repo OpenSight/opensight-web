@@ -183,11 +183,13 @@ angular.module('app.services', [])
 .factory('playerFactory', function() {
   var flash = {
     load: function(src, id, bufferTime) {
+      bufferTime = parseFloat(bufferTime || 4.0, 10);
       src = encodeURIComponent(src);
       var flashvars = {
         src: src,
-        plugin_hls: "swf/flashlsOSMF.swf",
-        autoPlay: true
+        plugin_hls: "../flashlsOSMF.swf",
+        autoPlay: true,
+        bufferTime: bufferTime
       };
 
       var params = {
@@ -219,8 +221,7 @@ angular.module('app.services', [])
         src: src,
         plugin_hls: "../flashlsOSMF.swf",
         autoPlay: true,
-        bufferTime: bufferTime,
-        haltOnError: true
+        bufferTime: bufferTime
       };
 
       var params = {
