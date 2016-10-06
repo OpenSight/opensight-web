@@ -48,7 +48,7 @@ var play = function (hls, autoplay) {
   hideState();
   var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" src="' + hls + '" type="application/x-mpegURL"></video>');
   var player = document.getElementById('video-player');
-  if (false !== autoplay){
+  if (false !== autoplay) {
     $(player).attr('autoplay', 'autoplay');
     player.play();
     player.pause();
@@ -56,7 +56,7 @@ var play = function (hls, autoplay) {
   }
 };
 
-var replay = function(camera_uuid, start_from){
+var replay = function (camera_uuid, start_from) {
   $.ajax({
     url: api + '/cameras/' + camera_uuid + '/record/hls_url',
     type: 'GET',
@@ -71,6 +71,30 @@ var replay = function(camera_uuid, start_from){
     }
   });
 };
+
+var pause = (function () {
+  var hls = '';
+  return {
+    get: function (camera_uuid, start_from) {
+      $.ajax({
+        url: api + '/cameras/' + camera_uuid + '/record/hls_url',
+        type: 'GET',
+        data: {
+          start: start_from
+        },
+        success: function (recordinfo) {
+          hls = recordinfo.hls;
+        },
+        error: function () {
+          showState(4);
+        }
+      });
+    },
+    play: function () {
+      play(hls);
+    }
+  };
+})();
 
 var api = 'http://api.opensight.cn/api/ivc/v1/projects/' + params.project;
 
@@ -92,7 +116,7 @@ $(function () {
     }
   });
 
-  $('.status-switch').on('click', function(){
+  $('.status-switch').on('click', function () {
     $(this).addClass('hidden');
   });
 
@@ -122,11 +146,12 @@ $(function () {
         showState(info.state);
         var re = new RecordEvent(info.camera_uuid, info.start, info.event_record_id);
         re.on();
-        $('#switch-replay').removeClass('visibility-hidden').on('click', function(){
+        pause.get(info.camera_uuid, info.start);
+        $('#switch-replay').removeClass('visibility-hidden').on('click', function () {
           $('#switch-back').removeClass('hidden');
-          replay(info.camera_uuid, info.start);
+          pause.play();
         });
-        $('#switch-back').on('click', function(){
+        $('#switch-back').on('click', function () {
           $('#switch-replay').removeClass('hidden');
           showState(info.state);
         });
@@ -154,7 +179,7 @@ $(function () {
 
 var showState = function (state) {
   state = state || 0;
-  var text = ['活动未开始。', '', '活动暂停中。', '活动已结束。','录像异常'][state];
+  var text = ['活动未开始。', '', '活动暂停中。', '活动已结束。', '录像异常'][state];
   if ('' === text) {
     return this;
   }
@@ -163,18 +188,18 @@ var showState = function (state) {
   $('#video-container').html('');
   return;
 };
-var hideState = function(){
+var hideState = function () {
   $('#state-container').removeClass('state-container-show');
 };
 
-var showCover = function(cover_url){
+var showCover = function (cover_url) {
   // cover_url = 'http://public.opensight.cn/shows/shanderuixi/goutongdeyishu.jpg';
   var opsi = 'http://www.opensight.cn/wx/live/src/img/play-logo.png';
-  if (undefined === cover_url || '' === cover_url){
+  if (undefined === cover_url || '' === cover_url) {
     cover_url = opsi;
   }
   $('.video-backgroud').css('background-image', 'url("' + cover_url + '")');
-  if (opsi !== cover_url){
+  if (opsi !== cover_url) {
     $('.video-backgroud').addClass('background-size');
   }
 };
@@ -225,7 +250,7 @@ HlsVideo.prototype = {
 
     $('#record-event-container').on('click', '.record', function () {
       var el = $(this);
-      if (el.hasClass('disabled')){
+      if (el.hasClass('disabled')) {
         return;
       }
       $('#switch-replay').addClass('hidden');
@@ -428,7 +453,7 @@ Tip.prototype = {
     this.timer = undefined;
     return this;
   },
-  hide: function(){
+  hide: function () {
     $('#' + this.container).html('');
     return this;
   }
@@ -505,7 +530,7 @@ Record.prototype = {
 
     $('#record-event-container').on('click', '.record', function () {
       var el = $(this);
-      if (el.hasClass('disabled')){
+      if (el.hasClass('disabled')) {
         return;
       }
 
@@ -527,7 +552,7 @@ Record.prototype = {
     var el = $('#video-container').html('<video id="video-player" controls webkit-playsinline="" src="' + hls + '" type="application/x-mpegURL"></video>');
     var player = document.getElementById('video-player');
     // $(player).attr('poster', 'http://public.opensight.cn/shows/shanderuixi/goutongdeyishu.jpg');
-    if (false !== autoplay){
+    if (false !== autoplay) {
       $(player).attr('autoplay', 'autoplay');
       player.play();
       player.pause();
@@ -605,7 +630,7 @@ RecordEvent.prototype = {
       dt = new Date(dt);
     }
     fmt = fmt || 'MM-dd HH:mm';
-    var padding = function(n) {
+    var padding = function (n) {
       if (10 > n) {
         return '0' + n;
       }
@@ -641,11 +666,11 @@ RecordEvent.prototype = {
     }
     return s;
   },
-  on: function(){
+  on: function () {
     var _t = this;
     $('#record-event-container').on('click', '.record', function () {
       var el = $(this);
-      if (el.hasClass('disabled')){
+      if (el.hasClass('disabled')) {
         return;
       }
       $('#switch-replay').addClass('hidden');

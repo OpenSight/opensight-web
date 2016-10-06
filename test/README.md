@@ -22,3 +22,7 @@
 1. [测试状态--直播时摄像机离线](../wx/live/src/index.html?project=opensight_internal&live_show=flcQvaxzSPC3bIZNF80KIw)
 
 1. [测试状态--已结束](../wx/live/src/index.html?project=opensight_internal&live_show=Kaq_YsHjQP6ESm2eaTvSZw)
+
+
+# 无限互联
+1. [无线互联](../wuxianedu/src/index.html)
