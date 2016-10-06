@@ -235,7 +235,7 @@ angular.module('app.controller', [])
     showTip();
 
     $rootScope.$on('$locationChangeStart', function(event, newUrl, oldUrl){
-      if (-1 === oldUrl.search(/#\/live\/[a-z\dA-Z\-]+$/)){
+      if (-1 === oldUrl.search(/#\/live\//)){
         return;
       }
       hideTip();
