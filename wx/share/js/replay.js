@@ -170,7 +170,24 @@ Replay.prototype = {
           return;
         }
         var player = play(json.segments[0].hls);
-        player.currentTime = parseFloat(_t.opts.current_time, 10);
+        // alert('000');
+        // $(player).on('loadedmetadata', function(){
+        //   alert('000');
+        //   player.currentTime = parseInt(_t.opts.current_time, 10);
+        // });
+        //for android
+        $(player).one('playing', function(){
+          $(player).one('playing', function(){
+            // alert('1111');
+            player.currentTime = parseInt(_t.opts.current_time, 10);
+          });
+        });
+
+        // $(player).on('loadeddata', function(){
+        //   alert('222');
+        //   player.currentTime = parseInt(_t.opts.current_time, 10);
+        // });
+
       },
       error: function() {
         /* Act on the event */
