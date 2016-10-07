@@ -170,7 +170,7 @@ Replay.prototype = {
           return;
         }
         var player = play(json.segments[0].hls);
-        player.currentTime = _t.opts.current_time;
+        player.currentTime = parseFloat(_t.opts.current_time, 10);
       },
       error: function() {
         /* Act on the event */
