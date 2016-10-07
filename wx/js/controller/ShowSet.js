@@ -2,10 +2,16 @@ app.register.controller('ShowSet', ['$rootScope', '$scope', '$http', '$q', '$win
   $scope.showFun = (function () {
     return {
       init: function(){
-        var item = $rootScope.pShow;
-        $scope.showFun.url = "http://api.opensight.cn/api/ivc/v1/projects/" + item.project_name + '/live_shows/' + item.uuid;
-        
+        if ($rootScope.pShow === "" || $rootScope.pShow === undefined || $rootScope.pShow === null){
+           var str = $.cookie('ProTemp');
+           $rootScope.pShow = JSON.parse(str);
+           $rootScope.PName = $rootScope.pShow.project_name;
+           $.removeCookie('ProTemp');
+        }
+          var item = $rootScope.pShow;
+          $scope.showFun.url = "http://api.opensight.cn/api/ivc/v1/projects/" + item.project_name + '/live_shows/' + item.uuid;
       },
+
       query: function() {
         $('#ToastTxt').html("正在获取活动信息");
         $('#loadingToast').show();
@@ -88,6 +94,8 @@ app.register.controller('ShowSet', ['$rootScope', '$scope', '$http', '$q', '$win
 
     web_go: function (wechat_url) {
         window.location.href = wechat_url;
+        var str = JSON.stringify($rootScope.pShow);
+        $.cookie('ProTemp', str);
     },
 
     refresh: function() {

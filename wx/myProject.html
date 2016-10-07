@@ -4,18 +4,30 @@
 <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="//cdn.bootcss.com/Base64/0.3.0/base64.min.js"></script>
 <!--script src="../bower_components/juicer/juicer-min.js"></script-->
-<script src="./js/auth.js"></script>
-<script src="./js/jwt.js"></script>
+<!--<script src="./js/auth.js"></script>-->
+<!--<script src="./js/jwt.js"></script>-->
+<!--<script>-->
+<!--var flag = true;-->
+<!--if (auth === undefined) alert("auth.js not load well！");-->
+<!--flag = auth.init('myProject');-->
+<!--if (flag === false) alert("auth error");-->
+<!--</script>-->
+<!--<script>-->
+<!--if (flag === true)-->
+  <!--var jwt = new Jwt('myProject');-->
+<!--if (jwt === undefined) alert("jwt.js not load well！");-->
+<!--</script>-->
+
+<script src="js/new_auth.js"></script>
 <script>
-var flag = true;
-if (auth === undefined) alert("auth.js not load well！");
-flag = auth.init('myProject');
-if (flag === false) alert("auth error");
-</script>
-<script>
-if (flag === true)
-  var jwt = new Jwt('myProject');
-if (jwt === undefined) alert("jwt.js not load well！");
+    var jwt = new Jwt('myProject');
+    var flag = false;
+    if (jwt === undefined) {
+        alert("jwt.js not load well！");
+    }else{
+        flag = true;
+        PnameTemp = $.cookie('PnameTemp');
+    }
 </script>
 
 <head>
