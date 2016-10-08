@@ -261,7 +261,7 @@ HlsVideo.prototype = {
       _t.play(hls);
     });
 
-    $(window).bind('beforeunload', function () {
+    $(window).bind('unload', function () {
       _t.stop();
     });
     return this;
