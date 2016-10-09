@@ -179,7 +179,7 @@ $(function () {
 
 var showState = function (state) {
   state = state || 0;
-  var text = ['活动未开始。', '', '活动暂停中。', '活动已结束。', '录像异常'][state];
+  var text = ['活动未开始', '', '活动暂停中', '活动已结束', '录像异常'][state];
   if ('' === text) {
     return this;
   }
