@@ -17,7 +17,6 @@
         <!--var jwt = new Jwt('myCamera');-->
     <!--if (jwt === undefined) alert("jwt.js not load well！");-->
 <!--</script>-->
-
 <script src="js/new_auth.js"></script>
 <script>
     var jwt = new Jwt('myCamera');
@@ -31,165 +30,58 @@
 </script>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>我的摄像头</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.3/style/weui.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/Swiper/3.3.1/css/swiper.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css">
-    <link rel="stylesheet" href="css/square.css">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>我的摄像头</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.3/style/weui.min.css">
+  <link rel="stylesheet" href="//cdn.bootcss.com/Swiper/3.3.1/css/swiper.min.css">
+  <link rel="stylesheet" href="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css">
+  <link rel="stylesheet" href="css/square.css">
 </head>
+
 <body ng-controller="MyCamera" style="background-color: #eee;">
-<div ui-view style="padding-left:0px;padding-right:0px;height: 100%">
+  <div ui-view style="padding-left:0px;padding-right:0px;height: 100%">
 
-</div>
-
-<!--<div class="container-fluid container-compact os-tab-container">-->
-    <!--<div class="swiper-container" ng-show="cameraListShown">-->
-
-        <!--<div class="swiper-wrapper">-->
-            <!--<div class="swiper-slide" ng-repeat="u in projectlist.data">-->
-                <!--<div class="weui_tab" >-->
-                    <!--<div class="weui_tab_bd">-->
-                        <!--<div class="weui_cells_title">当前项目</div>-->
-                        <!--<div class="weui_cells weui_cells_form">-->
-                            <!--<div class="weui_cell">-->
-                                <!--<div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>-->
-                                <!--<div class="weui_cell_bd weui_cell_primary">-->
-                                    <!--<p class="form-control-static">{{u.name}}</p>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="row row-in-tab os-row-no-padding" ng-show="cameraListShown">-->
-                                <!--<div class="container squera-container">-->
-                                    <!--<div>-->
-                                        <!--<div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="item in cameralist.data">-->
-
-                                            <!--<div class="thumbnail">-->
-                                                <!--<a ng-click="cameralist.showMore(item)"><img src="{{item.preview}}" alt="{{item.name}}"></a>-->
-                                                <!--<div class="caption">-->
-                                                    <!--<p class="text-name">-->
-                                                        <!--<a ng-click="cameralist.showMore(item)">{{item.name}}</a>-->
-                                                        <!--<span class="pull-right" ng-class ="{'text-highlight': item.is_online!==0, 'text-danger': item.is_online===0}" >{{item.is_online|online}}</span>-->
-                                                    <!--</p>-->
-                                                    <!--<p class="text-muted text-desc">{{item.desc}}</p>-->
-
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-
-                    <!--</div>-->
-
-                <!--</div>-->
-
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="swiper-pagination"></div>-->
-    <!--</div>-->
-
-    <!--<div ng-show="!cameraListShown">-->
-        <!--<div class="weui_cell" >-->
-               <!--<span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回摄像头列表" ng-click="cameraListShown=true;Player.destroy();">-->
-                <!--<i  class="fa fa-chevron-left"></i>-->
-                <!--</span>-->
-        <!--</div>-->
-
-        <!--<div class="container squera-container">-->
-            <!--<div class="row">-->
-                <!--<div class="weui_cells weui_cells_form">-->
-                    <!--<div class="weui_cell">-->
-                        <!--<div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">项目名称</label></div>-->
-                        <!--<div class="weui_cell_bd weui_cell_primary">-->
-                            <!--<input class="weui_input" value="" placeholder="" ng-model="c.project_name" required/>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-3 col-sm-4 col-xs-12">-->
-                        <!--<div class="thumbnail" id="videoPlayerWrapper">-->
-                            <!--<div class="live">-->
-                                <!--<div class="img-container"><a ng-click="cameralist.showPlayer(c)"><img id="img" ng-src="{{c.img}}" alt="" /></a></div>-->
-                                <!--<div class="player-container" ng-show="c.tip">-->
-                                    <!--<div id="videoPlayer">-->
-                                        <!--<p class="play-tip pull-right" >-->
-                                            <!--<span class="text-highlight" id="playTipSec">10</span>-->
-                                            <!--秒之后直播开始-->
-                                        <!--</p>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="caption">-->
-                                <!--<p class="text-name">-->
-                                    <!--<a ng-click="cameralist.showMore(item)">{{c.name}}</a>-->
-                                    <!--<span class="pull-right" ng-class ="{'text-highlight': c.is_online!==0, 'text-danger': c.is_online===0}" >{{c.is_online|online}}</span>-->
-                                <!--</p>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="weui_cell">-->
-                        <!--<div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">清晰度</label></div>-->
-                        <!--<div class="weui_cell_bd weui_cell_primary">-->
-                            <!--<div class="btn-group btn-group-xs">-->
-                                <!--<button ng-repeat="it in c.stearmOptions" class="btn" role="group"  ng-class="{2:'btn-primary',1:'btn-default',0:'btn-invisible'}[it.on]" ng-click="cameralist.checkBtn(it);" role="group" title={{it.title}}>{{it.text}}</button>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="weui_cell">-->
-                        <!--<div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">描述</label></div>-->
-                        <!--<div class="weui_cell_bd weui_cell_primary">-->
-                            <!--<input class="weui_input" value="" placeholder="" ng-model="c.desc" required/>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
+  </div>
+  <!-- loading toast -->
+  <div id="loadingToast" class="weui_loading_toast" style="display:none;">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+      <div class="weui_loading">
+        <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+        <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+        <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+        <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+        <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+        <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+        <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+        <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+        <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+        <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+        <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+        <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+      </div>
+      <p class="weui_toast_content" id="ToastTxt"></p>
+    </div>
+  </div>
 
 
 
-        <!-- loading toast -->
-        <div id="loadingToast" class="weui_loading_toast" style="display:none;">
-            <div class="weui_mask_transparent"></div>
-            <div class="weui_toast">
-                <div class="weui_loading">
-                    <div class="weui_loading_leaf weui_loading_leaf_0"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_1"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_2"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_3"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_4"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_5"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_6"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_7"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_8"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_9"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_10"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_11"></div>
-                </div>
-                <p class="weui_toast_content" id="ToastTxt"></p>
-            </div>
-        </div>
-
-
-
-<script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
-<script src="//cdn.bootcss.com/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
-<script src="//cdn.bootcss.com/angular-ui-bootstrap/1.3.3/ui-bootstrap.min.js"></script>
-<script src="//cdn.bootcss.com/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
-<script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
-<script src="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
-<script src="//cdn.bootcss.com/oclazyload/1.0.9/ocLazyLoad.min.js"></script>
-<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script src="js/app/myCameraApp.js"></script>
+  <script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
+  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
+  <script src="//cdn.bootcss.com/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
+  <script src="//cdn.bootcss.com/angular-ui-bootstrap/1.3.3/ui-bootstrap.min.js"></script>
+  <script src="//cdn.bootcss.com/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
+  <script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
+  <script src="//cdn.bootcss.com/oclazyload/1.0.9/ocLazyLoad.min.js"></script>
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <script src="js/app/myCameraApp.js"></script>
 </body>
+
 </html>
