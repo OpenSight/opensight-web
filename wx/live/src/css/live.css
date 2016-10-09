@@ -146,6 +146,16 @@ body{
 .play .state{
   margin-top: -60px;
 }
+.about{
+  text-align: right;
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+  display: none;
+}
+.play .state{
+  display: block;
+}
 .power-by{
   font-weight: normal;
 }
