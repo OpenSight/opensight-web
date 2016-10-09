@@ -3,7 +3,7 @@ var Login = function () {
   this.api = 'http://api.opensight.cn/api/ivc/v1/wechat/';
 
   var params = this.getUrlParams();
-  if (undefined === params.state || null === params.state || "" === params.state) {
+  if (params === undefined || undefined === params.state || null === params.state || "" === params.state) {
     alert("unknown from url!");
     params.state = "myInfo";
   }
@@ -36,16 +36,15 @@ Login.prototype = {
       url: _this.api + 'binding_login',
       data: data,
       type: 'POST',
+      async: false,
       success: function (json) {
-        $.cookie('jwt', json.jwt, {
-          expires: 30
-        });
+        $.cookie('jwt', json.jwt);
         $('#loadingTxt').val("登录成功");
         setTimeout(function () {
           $('#loadingToast').hide();
         }, 2000);
         //_this.logining = false;
-        window.location.replace(_this.url + ".html");
+        window.location.replace(_this.codeLoginUrl);
       },
       error: function (err) {
         $('#loadingTxt').val("登录失败");
@@ -56,7 +55,7 @@ Login.prototype = {
         //_this.logining = false;
         $.removeCookie('jwt');
         $.removeCookie('binding_id');
-        window.location.replace(_this.codeLoginUrl);
+        //window.location.replace(_this.codeLoginUrl);
       }
     });
   },
@@ -85,23 +84,25 @@ Login.prototype = {
       url: _this.api + 'bindings',
       data: data,
       type: 'POST',
+      async: false,
       success: function (json) {
-        $.cookie('binding_id', json.binding_id, {
-          expires: 90 * 1440
-        });
-        //_this.logining = false;
+        $.cookie('binding_id', json.binding_id);
         _this.bindLogin(json.binding_id);
       },
       error: function (err) {
         $('#loadingToast').hide();
-        if (err.responseText.indexOf("Wechat Binding Already exists") >= 0) {
+
+        if (err === undefined || err.responseText === undefined){
+              alert("bind error!");
+        }
+        else if (err.responseText.indexOf("Wechat Binding Already exists") >= 0) {
           alert("bind error!err info: " + err.responseText);
           // _this.logining = false;
-          window.location.replace(_this.codeLoginUrl);
+          //window.location.replace(_this.codeLoginUrl);
         } else {
           alert("bind error!");
           //_this.logining = false;
-          window.location.replace(_this.codeLoginUrl);
+          //window.location.replace(_this.codeLoginUrl);
         }
 
       }
@@ -115,55 +116,13 @@ Login.prototype = {
     if (undefined === p || "" === p) {
       return false;
     }
-    /*
-            if (true === this.logining){
-              return false;
-            }
 
-            this.logining = true;*/
     $('#loadingTxt').val("正在进行绑定");
     $('#loadingToast').show();
 
-    /*   var d = new Date ();
-       d.setTime(d.getTime()+90*24*3600*1000);
-       var e = Math.ceil(d.getTime() / 1000);
-       var data = {};
-       var _this = this;
-       */
-    //setTimeout(this.goBind(u, p), 3000);
+
     this.goBind(u, p);
-    /*
-            var xe = new Date ();
-            var xeT = Math.ceil(xe.getTime() / 1000);
 
-            var xp = new Date ();
-            var xpT = Math.ceil(xp.getTime() / 1000);
-            alert("100000test---->before:"+xeT+" now:"+xpT+ "time="+(xpT-xeT));
-    */
-    /*   var _this = this;
-        $.ajax({
-          url: _this.api + 'bindings',
-          data: data,
-          type: 'POST',
-          success: function(json){
-              $.cookie('binding_id', json.binding_id, {expires: 90*1440});
-              _this.bindLogin(json.binding_id);
-          },
-          error: function(err) {
-              $('#loadingToast').hide();
-              if (err.responseText.indexOf("already")>=0){
-                  alert("bind error!err info: "+err.responseText);
-                  _this.logining = false;
-                  window.location.replace(_this.codeLoginUrl);
-              }else{
-                  alert("bind error!err info: "+err.responseText);
-                  _this.logining = false;
-                  window.location.replace(_this.bindUrl);
-              }
-
-          }
-        });
-*/
     return false;
   },
 

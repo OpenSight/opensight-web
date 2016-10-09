@@ -67,7 +67,7 @@ Jwt.prototype = {
                 return true;
             },
             error: function (err) {
-                if (err.responseText.indexOf("Wechat Binding") >= 0) {
+                if (err === undefined || err.responseText === undefined || err.responseText.indexOf("Wechat Binding") >= 0) {
                     window.location.replace(_this.bindUrl);
                     return false;
                 } else {
