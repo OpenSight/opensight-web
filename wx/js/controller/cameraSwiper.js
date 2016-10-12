@@ -161,7 +161,7 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
 
                 // $scope.userinfo.data_mod.modUserInfoToken = Math.random();
                 $scope.aborter = $q.defer(),
-                    $http.put("http://api.opensight.cn/api/ivc/v1/projects/"+G_ProjectName+"/cameras/"+item.uuid, postData, {
+                    $http.put("http://api.opensight.cn/api/ivc/v1/projects/"+$rootScope.PName+"/cameras/"+item.uuid, postData, {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
                             $scope.cameralist.preListShow();
@@ -183,7 +183,7 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
 
                 // $scope.userinfo.data_mod.modUserInfoToken = Math.random();
                 $scope.aborter = $q.defer(),
-                    $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+G_ProjectName+"/cameras/"+item.uuid+"/stream_toggle", postData, {
+                    $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+$rootScope.PName+"/cameras/"+item.uuid+"/stream_toggle", postData, {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
 //                            $('#ToastTxt').html("直播状态设置成功");
