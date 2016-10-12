@@ -64,6 +64,7 @@ Jwt.prototype = {
                 $.cookie('binding_id', json.binding_id);
                 _this.aud = json.username;
                 _this.jwt = json.jwt;
+                _this.binding_id = json.binding_id;
                 return true;
             },
             error: function (err) {
