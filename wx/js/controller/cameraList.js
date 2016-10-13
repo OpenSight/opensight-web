@@ -112,7 +112,7 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
 
                 // $scope.userinfo.data_mod.modUserInfoToken = Math.random();
                 $scope.aborter = $q.defer(),
-                    $http.put("http://api.opensight.cn/api/ivc/v1/projects/"+G_ProjectName+"/cameras/"+item.uuid, postData, {
+                    $http.put("http://api.opensight.cn/api/ivc/v1/projects/"+G_ProjectName+"/cameras/"+item.uuid+"/basic_info", postData, {
                         timeout: $scope.aborter.promise
                     }).success(function (response) {
                          $scope.cameralist.preListShow();
