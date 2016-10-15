@@ -73,6 +73,7 @@ var HlsVideo = function(opts) {
   this.uuid = opts.camera_id;
   this.jwt = opts.jwt;
 
+  this.share = new Share();
   this.init();
 };
 
@@ -130,6 +131,7 @@ HlsVideo.prototype = {
       success: function(info) {
         // $('#img').attr('src', info.preview);
         _this.showCameraInfo(info);
+        this.share.onShare(info.name, info.desc);
       },
       error: function() {
         _this.error();
@@ -232,3 +234,116 @@ $(function() {
   }
   new HlsVideo(params);
 });
+
+
+var Share = function () {
+  this.url = window.location.href;
+  this.inited = undefined;
+  this.title = undefined;
+
+  this.init();
+  // this.on();
+
+  return this;
+};
+Share.prototype = {
+  init: function () {
+    var timestamp = Math.round(new Date().getTime() / 1000);
+    var noncestr = this.url + new Date().getTime().toString();
+    $.ajax({
+      url: 'http://api.opensight.cn/api/ivc/v1/wechat/jsapi_signature',
+      type: 'POST',
+      async: false,
+      data: {
+        timestamp: timestamp,
+        noncestr: noncestr,
+        url: this.url
+      },
+      success: function (info) {
+        wx.config({
+          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: info.appid, // 必填，公众号的唯一标识
+          timestamp: timestamp, // 必填，生成签名的时间戳
+          nonceStr: noncestr, // 必填，生成签名的随机串
+          signature: info.signature, // 必填，签名，见附录1
+          jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+        var _t = this;
+        wx.ready(function () {
+          _t.inited = true;
+          if (undefined !== _t.title) {
+            _t.onMenuShare();
+          }
+        });
+      },
+      context: this
+    });
+    return this;
+  },
+  on: function () {
+    var _t = this;
+    $('#share').click(function () {
+      _t.showTip();
+    });
+    $('#overlay').click(function () {
+      _t.hideTip();
+    });
+    return this;
+  },
+  onMenuShare: function () {
+    var _t = this;
+    var imgUrl = this.getPath() + '../img/play-logo.png';
+    wx.onMenuShareAppMessage({
+      title: this.title, // 分享标题
+      desc: this.desc, // 分享描述
+      link: this.url, // 分享链接
+      imgUrl: imgUrl, // 分享图标
+      success: function () {
+        // 用户确认分享后执行的回调函数
+        _t.hideTip();
+      },
+      cancel: function () {
+        // 用户取消分享后执行的回调函数
+        _t.hideTip();
+      }
+    });
+    wx.onMenuShareTimeline({
+      title: this.title, // 分享标题
+      link: this.url, // 分享链接
+      imgUrl: imgUrl, // 分享图标
+      success: function () {
+        // 用户确认分享后执行的回调函数
+        _t.hideTip();
+      },
+      cancel: function () {
+        // 用户取消分享后执行的回调函数
+        _t.hideTip();
+      }
+    });
+    return this;
+  },
+  onShare: function (title, desc) {
+    this.title = title;
+    this.desc = desc;
+    if (true === this.inited) {
+      this.onMenuShare();
+    }
+    return this;
+  },
+  showTip: function () {
+    $('#overlay').addClass('modal-overlay-visible');
+    $('#video-container').hide();
+    return this;
+  },
+  hideTip: function () {
+    $('#overlay').removeClass('modal-overlay-visible');
+    $('#video-container').show();
+    return this;
+  },
+  getPath: function () {
+    var pathname = window.location.pathname;
+    var last = pathname.lastIndexOf('/');
+    var path = pathname.substr(0, pathname.lastIndexOf('/') + 1);
+    return window.location.origin + path;
+  }
+};
