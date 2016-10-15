@@ -32,6 +32,8 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                 $scope.cameralist.editConf = item;
                 $scope.cameralist.editConfOld = {};
                 $scope.cameralist.editConfOld.livePerm = item.livePerm;
+                $scope.cameralist.editConfOld.name = item.name;
+                $scope.cameralist.editConfOld.desc = item.desc;
                 $scope.cameralist.editConfig = true;
             },
             init:function(){
@@ -96,7 +98,34 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
             editSubmit: function () {
                 if ($scope.cameralist.editConf.livePerm !== $scope.cameralist.editConfOld.livePerm){
                     $scope.cameralist.setLive($scope.cameralist.editConf);
-                }else $scope.cameralist.setListShow();
+                }else if(($scope.cameralist.editConf.name !== $scope.cameralist.editConfOld.name) ||
+                    ($scope.cameralist.editConf.desc !== $scope.cameralist.editConfOld.desc)){
+                    $scope.cameralist.setConfig($scope.cameralist.editConf);
+                }
+                else $scope.cameralist.preListShow();
+            },
+            setConfig: function (item) {
+                var postData =  {
+                    desc: item.desc,
+                    name: item.name
+                };
+
+                // $scope.userinfo.data_mod.modUserInfoToken = Math.random();
+                $scope.aborter = $q.defer(),
+                    $http.put("http://api.opensight.cn/api/ivc/v1/projects/"+G_ProjectName+"/cameras/"+item.uuid+"/basic_info", postData, {
+                        timeout: $scope.aborter.promise
+                    }).success(function (response) {
+                         $scope.cameralist.preListShow();
+                        }).error(function (response,status) {
+                            $('#ToastTxt').html("摄像机设置失败");
+                            $('#loadingToast').show();
+                            setTimeout(function () {
+                                $('#loadingToast').hide();
+                            }, 2000);
+                            $scope.cameralist.editConf.desc = $scope.cameralist.editConfOld.desc;
+                            $scope.cameralist.editConf.name = $scope.cameralist.editConfOld.name;
+                            console.log("edit camera err, err info: "+ response);
+                        });
             },
             setLive: function (item) {
                 var postData =  {
@@ -113,7 +142,11 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
 //                            setTimeout(function () {
 //                                $('#loadingToast').hide();
 //                            }, 2000);
-                            $scope.cameralist.setListShow();
+                            if(($scope.cameralist.editConf.name !== $scope.cameralist.editConfOld.name) ||
+                                ($scope.cameralist.editConf.desc !== $scope.cameralist.editConfOld.desc)){
+
+                            }
+                            else $scope.cameralist.preListShow();
                         }).error(function (response,status) {
                             $('#ToastTxt').html("直播状态设置失败");
                             $('#loadingToast').show();

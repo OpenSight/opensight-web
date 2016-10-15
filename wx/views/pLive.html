@@ -1,11 +1,6 @@
-<div ng-controller="PLive">
+<div id = "pContainer" ng-controller="PLive">
   <div style="padding-left: 0px;padding-right: 0px;">
     <div class="col-sm-12 os-table-container" style="padding-left: 0px;padding-right: 0px;">
-      <!-- <div class="weui_cell" style="padding-left: 0px;">
-        <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回摄像头列表" ng-click="plive.backToCameraList();">
-          <i class="fa fa-chevron-left "></i> 返回摄像头列表
-        </span>
-      </div> -->
       <label class="weui_cell weui_normal_label" for="x12">
         <div class="weui_cell_bd weui_cell_primary">
           <span class="btn-small" style="cursor:pointer;" title="返回" ng-click="plive.backToCameraList();">
@@ -17,7 +12,7 @@
           <i class="fa fa-share-alt" aria-hidden="true"></i>
         </div>
       </label>
-      <!--<div class="weui_cells_title">摄像头信息</div>-->
+
       <div class="weui_cells weui_cells_form">
         <div style="padding-left: 0px;padding-right: 0px;">
           <div style="padding-left: 0px;padding-right: 0px;">
@@ -46,29 +41,38 @@
             </div>
           </div>
         </div>
-        <div class="weui_cell">
-          <div class="weui_cell_hd">
-            <label for="" class="weui_label" style="width:4em">清晰度</label>
-          </div>
-          <div class="weui_cell_bd weui_cell_primary">
-            <div class="btn-group btn-group-xs">
-              <button ng-repeat="it in c.stearmOptions" class="btn" role="group" ng-class="{2:'btn-primary',1:'btn-default',0:'btn-invisible'}[it.on]" ng-click="plive.checkBtn(it);" role="group" title={{it.title}}>{{it.text}}
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="weui_cell">
-          <div class="weui_cell_hd">
-            <label for="" class="weui_label" style="width:4em">描述</label>
-          </div>
-          <div class="weui_cell_bd weui_cell_primary">
-            <input class="weui_input" value="" placeholder="" ng-model="c.desc" required/>
-          </div>
-        </div>
+
       </div>
+        <div class="weui_cells weui_cells_form" style="border-top:1px soild #fff;margin-top: 0px;">
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label for="" class="weui_label" style="width:4em">描述</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" value="" placeholder="" ng-model="c.desc" required/>
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells weui_cells_access" style="border-top:1px soild #fff;margin-top: 0px;">
+            <a id="showActionSheet" class="weui_cell" href="javascript:;" ng-click="actionShow();">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <label for="" class="weui_label" style="width:4em">清晰度</label>
+                </div>
+                <div class="weui_cell_ft">{{c.playTitle}}</div>
+            </a>
+        </div>
     </div>
     <div class="weui_mask_transition weui_fade_toggle" ng-click="plive.showShareTip = false" ng-class="{true: 'show', false: ''}[plive.showShareTip]">
       <div class="share_tip"></div>
+    </div>
+    <div id="actionSheet_wrap">
+      <div class="weui_mask_transition" id="mask"></div>
+        <div class="weui_actionsheet" id="weui_actionsheet">
+          <div class="weui_actionsheet_menu">
+            <div class="weui_actionsheet_cell" ng-repeat="it in c.stearmOptions" ng-show="(it.on === 0?false:true)" ng-click="plive.checkBtn(it);">{{it.title}}</div>
+
+          </div>
+        </div>
     </div>
   </div>
 </div>

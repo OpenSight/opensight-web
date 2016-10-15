@@ -64,10 +64,11 @@ Jwt.prototype = {
                 $.cookie('binding_id', json.binding_id);
                 _this.aud = json.username;
                 _this.jwt = json.jwt;
+                _this.binding_id = json.binding_id;
                 return true;
             },
             error: function (err) {
-                if (err.responseText.indexOf("Wechat Binding") >= 0) {
+                if (err === undefined || err.responseText === undefined || err.responseText.indexOf("Wechat Binding") >= 0) {
                     window.location.replace(_this.bindUrl);
                     return false;
                 } else {

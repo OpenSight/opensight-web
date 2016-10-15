@@ -12,6 +12,7 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
             },
             init: function(activeIndex){
                 $scope.cameralist.initPreShow();
+                $scope.cameralist.preListShow();
                 $rootScope.PName = $scope.projectlist.data[activeIndex].name;
 
                 var mySwiper = new Swiper ('.swiper-container', {
@@ -106,7 +107,6 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
                         });
 
             },
-
             showMore: function (item) {
                 $rootScope.pCamera = item;
                 $state.go('plive');
@@ -114,6 +114,97 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
             showRec: function (item) {
                 $rootScope.pCamera = item;
                 $state.go('prec');
+            },
+
+            //for edit
+            preListShow:function(){
+                $scope.cameralist.swiperShow = true;
+                $scope.cameralist.setList = false;
+                $scope.cameralist.editConfig = false;
+            },
+            setListShow:function(){
+                $scope.cameralist.swiperShow = false;
+                $scope.cameralist.setList = true;
+                $scope.cameralist.editConfig = false;
+            },
+            editConfigShow:function(item){
+                $scope.cameralist.swiperShow = false;
+                $scope.cameralist.setList = false;
+                $scope.cameralist.editConf = {};
+//                $scope.cameralist.editConf.name = item.name;
+//                $scope.cameralist.editConf.livePerm = item.livePerm;
+//                $scope.cameralist.editConf.uuid = item.uuid;
+                $scope.cameralist.editConf = item;
+                $scope.cameralist.editConfOld = {};
+                $scope.cameralist.editConfOld.livePerm = item.livePerm;
+                $scope.cameralist.editConfOld.name = item.name;
+                $scope.cameralist.editConfOld.desc = item.desc;
+                $scope.cameralist.editConfig = true;
+            },
+            editCancel: function () {
+                $scope.cameralist.setListShow();
+            },
+            editSubmit: function () {
+                if ($scope.cameralist.editConf.livePerm !== $scope.cameralist.editConfOld.livePerm){
+                    $scope.cameralist.setLive($scope.cameralist.editConf);
+                }else if(($scope.cameralist.editConf.name !== $scope.cameralist.editConfOld.name) ||
+                    ($scope.cameralist.editConf.desc !== $scope.cameralist.editConfOld.desc)){
+                    $scope.cameralist.setConfig($scope.cameralist.editConf);
+                }
+                else $scope.cameralist.preListShow();
+            },
+            setConfig: function (item) {
+                var postData =  {
+                    desc: item.desc,
+                    name: item.name
+                };
+
+                // $scope.userinfo.data_mod.modUserInfoToken = Math.random();
+                $scope.aborter = $q.defer(),
+                    $http.put("http://api.opensight.cn/api/ivc/v1/projects/"+$rootScope.PName+"/cameras/"+item.uuid+"/basic_info", postData, {
+                        timeout: $scope.aborter.promise
+                    }).success(function (response) {
+                            $scope.cameralist.preListShow();
+                        }).error(function (response,status) {
+                            $('#ToastTxt').html("摄像机设置失败");
+                            $('#loadingToast').show();
+                            setTimeout(function () {
+                                $('#loadingToast').hide();
+                            }, 2000);
+                            $scope.cameralist.editConf.desc = $scope.cameralist.editConfOld.desc;
+                            $scope.cameralist.editConf.name = $scope.cameralist.editConfOld.name;
+                            console.log("edit camera err, err info: "+ response);
+                        });
+            },
+            setLive: function (item) {
+                var postData =  {
+                    enable: item.livePerm
+                };
+
+                // $scope.userinfo.data_mod.modUserInfoToken = Math.random();
+                $scope.aborter = $q.defer(),
+                    $http.post("http://api.opensight.cn/api/ivc/v1/projects/"+$rootScope.PName+"/cameras/"+item.uuid+"/stream_toggle", postData, {
+                        timeout: $scope.aborter.promise
+                    }).success(function (response) {
+//                            $('#ToastTxt').html("直播状态设置成功");
+//                            $('#loadingToast').show();
+//                            setTimeout(function () {
+//                                $('#loadingToast').hide();
+//                            }, 2000);
+                            if(($scope.cameralist.editConf.name !== $scope.cameralist.editConfOld.name) ||
+                                ($scope.cameralist.editConf.desc !== $scope.cameralist.editConfOld.desc)){
+
+                            }
+                            else $scope.cameralist.preListShow();
+                        }).error(function (response,status) {
+                            $('#ToastTxt').html("直播状态设置失败");
+                            $('#loadingToast').show();
+                            setTimeout(function () {
+                                $('#loadingToast').hide();
+                            }, 2000);
+                            $scope.cameralist.editConf.livePerm = $scope.cameralist.editConfOld.livePerm;
+                            console.log("edit camera err, err info: "+ response);
+                        });
             }
         };
     })();

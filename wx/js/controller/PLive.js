@@ -45,11 +45,13 @@ app.register.controller('PLive', ['$rootScope', '$scope', '$http', '$q', '$windo
         if ($scope.c.stearmOptions[stream].on !== 0) {
           $scope.c.stearmOptions[stream].on = 2;
           item.playStream = $scope.c.stearmOptions[stream].text.toLowerCase();
+          $scope.c.playTitle =  $scope.c.stearmOptions[stream].title
         } else {
           for (var i in $scope.c.stearmOptions) {
             if ($scope.c.stearmOptions[i].on !== 0) {
               $scope.c.stearmOptions[i].on = 2;
               item.playStream = $scope.c.stearmOptions[i].text.toLowerCase();
+              $scope.c.playTitle =  $scope.c.stearmOptions[i].title
               break;
             }
           }
@@ -102,8 +104,11 @@ app.register.controller('PLive', ['$rootScope', '$scope', '$http', '$q', '$windo
           it.on = 2;
           $scope.Player.destroy();
           $scope.c.playStream = it.text.toLowerCase();
+          $scope.c.playTitle =  it.title
           $scope.Player = new HlsVideo($scope.c);
         } else it.on = 1;
+
+          $scope.actionNoShow();
       },
       backToCameraList: function () {
         if ($scope.Player !== undefined)
@@ -122,7 +127,33 @@ app.register.controller('PLive', ['$rootScope', '$scope', '$http', '$q', '$windo
     }
   };
 
+  $scope.actionNoShow = function(){
+    var mask = $('#mask');
+    var weuiActionsheet = $('#weui_actionsheet');
+
+    weuiActionsheet.removeClass('weui_actionsheet_toggle');
+    mask.removeClass('weui_fade_toggle');
+    mask.on('transitionend', function () {
+      mask.hide();
+    }).on('webkitTransitionEnd', function () {
+      mask.hide();
+    })
+  };
+
+  $scope.actionShow = function(){
+    var mask = $('#mask');
+    var weuiActionsheet = $('#weui_actionsheet');
+    weuiActionsheet.addClass('weui_actionsheet_toggle');
+    mask.show()
+        .focus()//加focus是为了触发一次页面的重排(reflow or layout thrashing),使mask的transition动画得以正常触发
+        .addClass('weui_fade_toggle').one('click', function () {
+            $scope.actionNoShow();
+        });
+      mask.unbind('transitionend').unbind('webkitTransitionEnd')
+    };
+
   $scope.$on('$destroy', $scope.destroy);
   $scope.plive.init();
+
 
 }]);
