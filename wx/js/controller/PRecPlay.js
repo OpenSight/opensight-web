@@ -67,13 +67,17 @@ app.register.controller('PRecPlay', [
             return url + '&project_name=' + encodeURI($scope.recInfo.project_name) + '&event_id=' + encodeURI($scope.recInfo.event_id);
           }
           debugger;
-          return url + '&project_name=' + encodeURI($scope.pCamera.project_name) + '&camera_id=' + encodeURI($rootScope.pCamera.uuid) + '&start=' + encodeURI($scope.recInfo.start) + '&end=' + encodeURI($scope.recInfo.end) + '&current_time=' + document.getElementById("replayPlayer").currentTime;
+          curtime = parseInt(curtime, 10);
+          var start = $scope.recInfo.start + (curtime - 10) * 1000;
+          start = start > $scope.recInfo.start ? start : $scope.recInfo.start;
+          var end = $scope.recInfo.start + (curtime + 5 * 60) * 1000;
+          return url + '&project_name=' + encodeURI($scope.pCamera.project_name) + '&camera_id=' + encodeURI($rootScope.pCamera.uuid) + '&start=' + encodeURI(start) + '&end=' + encodeURI(end) + '&current_time=' + document.getElementById("replayPlayer").currentTime;
         },
         getMsgDesc: function () {
           var start = new Date($scope.recInfo.start);
           var desc = '开始时间: ' + padding(start.getMonth() + 1, 2) + '-' + padding(start.getDate(), 2) + ' ' + padding(start.getHours(), 2) + ':' + padding(start.getMinutes(), 2) + '    ' +
-            '时长: ' + getDuration($scope.recInfo.end - $scope.recInfo.start);
-          if (undefined !== $scope.recInfo.event_id) {
+            '时长: ' + getDuration($scope.recInfo.duration);
+          if (undefined === $scope.recInfo.event_id) {
             return desc;
           } else {
             return '摄像机: ' + $rootScope.pCamera.name + '    ' + desc;

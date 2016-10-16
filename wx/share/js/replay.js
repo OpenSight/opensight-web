@@ -180,13 +180,13 @@ Replay.prototype = {
           return;
         }
         var player = play(json.segments[0].hls);
-        $(player).one('playing', function(){
-          $(player).one('playing', function(){
-            setTimeout(function(){
-              player.currentTime = parseInt(_t.opts.current_time, 10);
-            }, 2000);
-          });
-        });
+        // $(player).one('playing', function(){
+        //   $(player).one('playing', function(){
+        //     setTimeout(function(){
+        //       player.currentTime = parseInt(_t.opts.current_time, 10);
+        //     }, 2000);
+        //   });
+        // });
 
         var desc = '开始时间: ' + format(json.segments[0].start) + '  ' +
           '时长: ' + getDuration(json.segments[0].duration);
