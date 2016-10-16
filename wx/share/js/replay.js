@@ -153,7 +153,8 @@ Replay.prototype = {
       error: function() {
         /* Act on the event */
         showErrorMsg();
-      }
+      },
+      context: this
     });
   },
   getRecordInfo: function() {
@@ -183,7 +184,7 @@ Replay.prototype = {
           $(player).one('playing', function(){
             setTimeout(function(){
               player.currentTime = parseInt(_t.opts.current_time, 10);
-            }, 1000);
+            }, 2000);
           });
         });
 
@@ -194,31 +195,11 @@ Replay.prototype = {
       error: function() {
         /* Act on the event */
         showErrorMsg();
-      }
+      },
+      context: this
     });
   }
 };
-
-$(function() {
-  $('#weui_dialog_alert').on('click', '.weui_btn_dialog', function() {
-    $('#weui_dialog_alert').hide();
-  });
-
-  var params = getUrlParams();
-  if (undefined === params.jwt) {
-    showErrorMsg();
-    return;
-  }
-
-  if (undefined !== params.event_id) {
-    new Backup(params);
-  } else if (undefined !== params.current_time) {
-    new Replay(params);
-  } else {
-    showErrorMsg();
-  }
-});
-
 
 var Share = function () {
   this.url = window.location.href;
@@ -331,3 +312,23 @@ Share.prototype = {
     return window.location.origin + path;
   }
 };
+
+$(function() {
+  $('#weui_dialog_alert').on('click', '.weui_btn_dialog', function() {
+    $('#weui_dialog_alert').hide();
+  });
+
+  var params = getUrlParams();
+  if (undefined === params.jwt) {
+    showErrorMsg();
+    return;
+  }
+
+  if (undefined !== params.event_id) {
+    new Backup(params);
+  } else if (undefined !== params.current_time) {
+    new Replay(params);
+  } else {
+    showErrorMsg();
+  }
+});

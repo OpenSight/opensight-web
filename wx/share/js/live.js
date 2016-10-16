@@ -135,7 +135,8 @@ HlsVideo.prototype = {
       },
       error: function() {
         _this.error();
-      }
+      },
+      context: this
     });
   },
   showCameraInfo: function(info) {
