@@ -230,7 +230,9 @@ angular.module('app.services', [])
     },
     stop: function(id) {
       var player = document.getElementById(id);
-      player.stop2();
+      try {
+        player.stop2();
+      } catch(e){}
     }
   };
 
