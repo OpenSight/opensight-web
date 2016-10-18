@@ -326,7 +326,7 @@ $(function() {
 
   if (undefined !== params.event_id) {
     new Backup(params);
-  } else if (undefined !== params.current_time) {
+  } else if (undefined !== params.start) {
     new Replay(params);
   } else {
     showErrorMsg();
