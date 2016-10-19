@@ -87,7 +87,7 @@ app.register.controller('PRecPlay', [
         getMsgLink: function(params){
           var page = window.location.href.match(/^[^?#]+/)[0];
           var url = page.substr(0, page.lastIndexOf('/'));
-          url += '/share/replay.html?jwt=' + jwt.getJwt(7);
+          url += '/share/replay.html?jwt=' + jwt.getJwt();
           for (var key in params){
             url += '&' + key + '=' + params[key];
           }

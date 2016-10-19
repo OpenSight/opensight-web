@@ -64,7 +64,7 @@ app.register.controller('PLive', ['$rootScope', '$scope', '$http', '$q', '$windo
       },
       on: function () {
         var _live = $scope.plive;
-        var url = window.location.href.substr(0, window.location.href.lastIndexOf('/', window.location.href.indexOf('?'))) + '/share/live.html?jwt=' + jwt.getJwt(7) + '&project_name=' + encodeURI($scope.c.project_name) + '&camera_id=' + encodeURI($scope.c.uuid) + '&quality=' + encodeURI($scope.c.playStream);
+        var url = window.location.href.substr(0, window.location.href.lastIndexOf('/', window.location.href.indexOf('?'))) + '/share/live.html?jwt=' + jwt.getJwt() + '&project_name=' + encodeURI($scope.c.project_name) + '&camera_id=' + encodeURI($scope.c.uuid) + '&quality=' + encodeURI($scope.c.playStream);
         wx.onMenuShareAppMessage({
           title: $scope.c.name, // 分享标题
           desc: $scope.c.desc, // 分享描述
