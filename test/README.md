@@ -11,6 +11,8 @@
 
 3. [我的活动](../wx/myLiveShow.html)
 
+4. [我的信息](../wx/myInfo.html)
+
 
 # 直播
 1. [测试状态--未启动](../wx/live/src/index.html?project=opensight_internal&live_show=Bv3jfV6BR_u_R8w5_adddQ)

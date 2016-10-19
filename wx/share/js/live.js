@@ -71,6 +71,7 @@ var HlsVideo = function(opts) {
   this.api = 'http://api.opensight.cn/api/ivc/v1/projects/';
   this.project = opts.project_name;
   this.uuid = opts.camera_id;
+  this.quality = opts.quality.toLowerCase();
   this.jwt = opts.jwt;
 
   this.share = new Share();
@@ -139,9 +140,19 @@ HlsVideo.prototype = {
       context: this
     });
   },
+  getQualityText: function(quality){
+    var map = {
+      ld: '流畅',
+      sd: '标清',
+      hd: '高清',
+      fhd: '超清'
+    };
+    return map[quality];
+  },
   showCameraInfo: function(info) {
     $('title').html(info.name);
     $('#camera_name').html(info.name);
+    $('#quality').html(this.getQualityText(this.quality));
     $('#desc').html(info.desc);
     $('#long_desc').html(info.long_desc);
 
@@ -150,13 +161,13 @@ HlsVideo.prototype = {
       this.error();
       return;
     }
-    var html = '';
-    for (var i = 0, l = qa.length; i < l; i++) {
-      html += '<div class="weui_navbar_item" id="' + qa[i].value + '">' + qa[i].title + '</div>';
-    }
-    $('#flags').html(html);
-    this.quality = qa[qa.length - 1].value;
-    $('#' + this.quality).addClass('weui_bar_item_on');
+    // var html = '';
+    // for (var i = 0, l = qa.length; i < l; i++) {
+    //   html += '<div class="weui_navbar_item" id="' + qa[i].value + '">' + qa[i].title + '</div>';
+    // }
+    // $('#flags').html(html);
+    // this.quality = qa[qa.length - 1].value;
+    // $('#' + this.quality).addClass('weui_bar_item_on');
 
     this.createSession();
   },
