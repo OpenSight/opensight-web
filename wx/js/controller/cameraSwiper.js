@@ -193,7 +193,7 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
 //                            }, 2000);
                             if(($scope.cameralist.editConf.name !== $scope.cameralist.editConfOld.name) ||
                                 ($scope.cameralist.editConf.desc !== $scope.cameralist.editConfOld.desc)){
-
+                                $scope.cameralist.setConfig($scope.cameralist.editConf);
                             }
                             else $scope.cameralist.preListShow();
                         }).error(function (response,status) {
