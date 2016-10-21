@@ -59,7 +59,6 @@ app.register.controller('PRecPlay', [
           }, 10 * 1000);
         },
         onRecordShare: function(){
-          debugger;
           var title = $rootScope.pCamera.name;
 
           var curtime = parseInt(document.getElementById("replayPlayer").currentTime, 10);
@@ -154,7 +153,6 @@ app.register.controller('PRecPlay', [
           }
         },
         unload: function(){
-          debugger;
           $scope.precplay.sotpInterval();
           $scope.precplay.stopRec();
         },
