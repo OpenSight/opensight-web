@@ -131,7 +131,6 @@ Replay.prototype = {
     $('.replay').removeClass('hidden');
 
     this.getCameraInfo();
-    this.getRecordInfo();
   },
   getCameraInfo: function() {
     var _t = this;
@@ -149,6 +148,11 @@ Replay.prototype = {
         $('title').html(json.name);
         $('#desc').html(json.name);
         this.name = json.name;
+        if (0 !== json.flags & 0x100){
+          showErrorMsg();
+          return;
+        }
+        this.getRecordInfo();
       },
       error: function() {
         /* Act on the event */

@@ -161,6 +161,10 @@ HlsVideo.prototype = {
       this.error();
       return;
     }
+    if (0 !== info.flags & 0x100){
+      this.error();
+      return;
+    }
     // var html = '';
     // for (var i = 0, l = qa.length; i < l; i++) {
     //   html += '<div class="weui_navbar_item" id="' + qa[i].value + '">' + qa[i].title + '</div>';

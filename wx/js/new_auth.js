@@ -89,7 +89,7 @@ Jwt.prototype = {
             $.removeCookie('jwt');
             $.removeCookie('binding_id');
             //jamken advice go bind let's check
-//            window.location.replace(this.selfUrl);
+          //  window.location.replace(this.selfUrl);
             window.location.replace(this.bindUrl);
             return false;
         }
@@ -142,14 +142,16 @@ Jwt.prototype = {
     });
   },
 
-  getJwt: function (days) {
+  getJwt: function () {
     if (true === this.updateing) {
       return false;
     }
     this.updateing = true;
+
+    var timeeffect = $.cookie('timeeffect') || '86400000';
+    timeeffect = parseInt(timeeffect, 10);
     var d = new Date();
-    d.setHours(d.getHours() + days * 24 * 60 * 60);
-    var e = Math.ceil(d.getTime() / 1000);
+    var e = Math.ceil((d.getTime() + timeeffect) / 1000);
 
     var _this = this;
     $.ajax({
@@ -213,5 +215,3 @@ Jwt.prototype = {
       this.jump();
     }
 };
-
-
