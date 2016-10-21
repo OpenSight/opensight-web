@@ -155,7 +155,7 @@ app.register.controller('PLive', ['$rootScope', '$scope', '$http', '$q', '$windo
       longitude: $scope.c.longitude,
       latitude: $scope.c.latitude,
       altitude: $scope.c.altitude,
-      disable_share: $scope.share_status
+      disable_share: !$scope.share_status
     }).success(function(response) {
       $('#loadingToast').hide();
     }).error(function (response,status) {
