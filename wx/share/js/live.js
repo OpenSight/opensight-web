@@ -132,6 +132,12 @@ HlsVideo.prototype = {
       success: function(info) {
         // $('#img').attr('src', info.preview);
         _this.showCameraInfo(info);
+        debugger;
+        if (0 !== (info.flags & 0x100)){
+          this.error();
+          return;
+        }
+        this.createSession();
         this.share.onShare(info.name, info.desc);
       },
       error: function() {
@@ -155,16 +161,6 @@ HlsVideo.prototype = {
     $('#quality').html(this.getQualityText(this.quality));
     $('#desc').html(info.desc);
     $('#long_desc').html(info.long_desc);
-
-    var qa = quality(getBitmap(info.flags, 8));
-    if (0 === qa.length) {
-      this.error();
-      return;
-    }
-    if (0 !== info.flags & 0x100){
-      this.error();
-      return;
-    }
     // var html = '';
     // for (var i = 0, l = qa.length; i < l; i++) {
     //   html += '<div class="weui_navbar_item" id="' + qa[i].value + '">' + qa[i].title + '</div>';
@@ -172,8 +168,6 @@ HlsVideo.prototype = {
     // $('#flags').html(html);
     // this.quality = qa[qa.length - 1].value;
     // $('#' + this.quality).addClass('weui_bar_item_on');
-
-    this.createSession();
   },
   createSession: function() {
     var _this = this;
