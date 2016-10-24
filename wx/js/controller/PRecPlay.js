@@ -48,39 +48,59 @@ app.register.controller('PRecPlay', [
           $scope.precplay.on();
         },
         on: function () {
-          var title = $scope.precplay.getMsgTitle();
-          var link = $scope.precplay.getMsgLink();
-          var desc = $scope.precplay.getMsgDesc();
-
-          $scope.precplay.setShareMessage(title, desc, link);
+          if (undefined !== $scope.recInfo.event_id) {
+            $scope.precplay.onBackupShare();
+            return;
+          }
+          $scope.precplay.onRecordShare();
           $scope.precplay.sotpInterval();
           $scope.precplay.interval = $interval(function(){
-            var link = $scope.precplay.getMsgLink();
-            $scope.precplay.setShareMessage(title, desc, link);
+            $scope.precplay.onRecordShare();
           }, 10 * 1000);
+        },
+        onRecordShare: function(){
+          var title = $rootScope.pCamera.name;
 
+          var curtime = parseInt(document.getElementById("replayPlayer").currentTime, 10);
+          var start = $scope.recInfo.start + (curtime - 10) * 1000;
+          start = start > $scope.recInfo.start ? start : $scope.recInfo.start;
+          var end = $scope.recInfo.start + (curtime + 5 * 60) * 1000;
+          end = end < $scope.recInfo.end ? end : $scope.recInfo.end;
+
+          var link = $scope.precplay.getMsgLink({
+            project_name: $scope.pCamera.project_name,
+            camera_id: $rootScope.pCamera.uuid,
+            start: start,
+            end: end
+          });
+
+          var desc = $scope.precplay.getMsgDesc(start, end - start);
+          $scope.precplay.setShareMessage(title, desc, link);
         },
-        getMsgLink: function (curtime) {
-          var url = window.location.href.substr(0, window.location.href.lastIndexOf('/', window.location.href.indexOf('?')));
-          url += '/share/replay.html?jwt=' + jwt.getJwt(7);
-          if (undefined !== $scope.recInfo.event_id) {
-            return url + '&project_name=' + encodeURI($scope.recInfo.project_name) + '&event_id=' + encodeURI($scope.recInfo.event_id);
+        onBackupShare: function(){
+          var title = $scope.recInfo.desc;
+          var link = $scope.precplay.getMsgLink({event_id: $scope.recInfo.event_id});
+          var desc = '摄像机：' + $rootScope.pCamera.name + ' ' + $scope.precplay.getMsgDesc($scope.recInfo.start, $scope.recInfo.duration);
+          $scope.precplay.setShareMessage(title, desc, link);
+        },
+        getMsgLink: function(params){
+          var page = window.location.href.match(/^[^?#]+/)[0];
+          var url = page.substr(0, page.lastIndexOf('/'));
+          url += '/share/replay.html?jwt=' + jwt.getJwt();
+          for (var key in params){
+            url += '&' + key + '=' + params[key];
           }
-          debugger;
-          return url + '&project_name=' + encodeURI($scope.pCamera.project_name) + '&camera_id=' + encodeURI($rootScope.pCamera.uuid) + '&start=' + encodeURI($scope.recInfo.start) + '&end=' + encodeURI($scope.recInfo.end) + '&current_time=' + document.getElementById("replayPlayer").currentTime;
+          return url;
         },
-        getMsgDesc: function () {
-          var start = new Date($scope.recInfo.start);
-          var desc = '开始时间: ' + padding(start.getMonth() + 1, 2) + '-' + padding(start.getDate(), 2) + ' ' + padding(start.getHours(), 2) + ':' + padding(start.getMinutes(), 2) + '    ' +
-            '时长: ' + getDuration($scope.recInfo.end - $scope.recInfo.start);
-          if (undefined !== $scope.recInfo.event_id) {
-            return desc;
-          } else {
-            return '摄像机: ' + $rootScope.pCamera.name + '    ' + desc;
-          }
-        },
-        getMsgTitle: function () {
-          return undefined === $scope.recInfo.event_id ? $rootScope.pCamera.name : $scope.recInfo.desc;
+        getMsgDesc: function (start, duration) {
+          start = new Date(start);
+          var desc = '开始时间：' +
+            padding(start.getMonth() + 1, 2) + '-' +
+            padding(start.getDate(), 2) + ' ' +
+            padding(start.getHours(), 2) + ':' +
+            padding(start.getMinutes(), 2) +
+            ' 时长：' + getDuration(duration);
+          return desc;
         },
         setShareMessage: function (title, desc, link) {
           var s = $scope;
@@ -133,7 +153,6 @@ app.register.controller('PRecPlay', [
           }
         },
         unload: function(){
-          debugger;
           $scope.precplay.sotpInterval();
           $scope.precplay.stopRec();
         },

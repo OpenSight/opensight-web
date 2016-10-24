@@ -7,47 +7,48 @@
 <!--<script src="./js/jwt.js"></script>-->
 
 <!--<script>-->
-    <!--var flag = true;-->
-    <!--if (auth === undefined) alert("auth.js not load well！");-->
-    <!--flag = auth.init('myInfo');-->
-    <!--if (flag === false) alert("auth error");-->
+<!--var flag = true;-->
+<!--if (auth === undefined) alert("auth.js not load well！");-->
+<!--flag = auth.init('myInfo');-->
+<!--if (flag === false) alert("auth error");-->
 <!--</script>-->
 
 <!--<script>-->
-    <!--if (flag === true)-->
-        <!--var jwt = new Jwt('myInfo');-->
-    <!--if (jwt === undefined) alert("jwt.js not load well！");-->
+<!--if (flag === true)-->
+<!--var jwt = new Jwt('myInfo');-->
+<!--if (jwt === undefined) alert("jwt.js not load well！");-->
 <!--</script>-->
 <script src="js/new_auth.js"></script>
 <script>
-    var jwt = new Jwt('myInfo');
-    var flag = false;
-    if (jwt === undefined) {
-        alert("jwt.js not load well！");
-    }else{
-        flag = true;
-        PnameTemp = $.cookie('PnameTemp');
-    }
+  var jwt = new Jwt('myInfo');
+  var flag = false;
+  if (jwt === undefined) {
+    alert("jwt.js not load well！");
+  } else {
+    flag = true;
+    PnameTemp = $.cookie('PnameTemp');
+  }
 </script>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>个人信息</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.0/style/weui.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>个人信息</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.bootcss.com/weui/0.4.0/style/weui.min.css">
+  <link rel="stylesheet" href="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.css">
 
 </head>
-<body ng-controller="MyInfo">
-<div class="container-fluid container-compact os-tab-container" >
-    <div class="row row-in-tab os-row-no-padding">
-        <div class="col-sm-12 os-table-container">
 
-            <!--div class="weui_cells_title">{{Acc}} 详细信息</div>
+<body ng-controller="MyInfo">
+  <div class="container-fluid container-compact os-tab-container">
+    <div class="row row-in-tab os-row-no-padding">
+      <div class="col-sm-12 os-table-container">
+
+        <!--div class="weui_cells_title">{{Acc}} 详细信息</div>
             <div class="weui_cells">
                 <div class="weui_cell weui_cell_select weui_select_before">
                     <div class="weui_cell_hd">
@@ -106,158 +107,198 @@
                 </div>
             </div-->
 
-            <div class="weui_cells_title">详细信息</div>
-            <div class="weui_cells weui_cells_form">
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">用户名</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <p class="form-control-static">{{userinfo.data_mod.data.username}}</p>
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">别名</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <input class="weui_input" value="" placeholder="" ng-model="userinfo.data_mod.data.title" required/>
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">描述</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <input class="weui_input" value="" placeholder="" ng-model="userinfo.data_mod.data.desc" required/>
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">详细描述</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <textarea class="weui_textarea" placeholder="请输入描述" ng-model="userinfo.data_mod.data.long_desc" rows="3"></textarea>
-                        <!--div class="weui_textarea_counter"><span>0</span>/200</div-->
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">标志位</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <p class="form-control-static">{{userinfo.data_mod.data.flags}}</p>
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">手机号</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <input class="weui_input" value="" placeholder="" ng-model="userinfo.data_mod.data.cellphone" required/>
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">电子邮箱</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <input class="weui_input" value="" placeholder="" ng-model="userinfo.data_mod.data.email" required/>
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">类型</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <p class="form-control-static">{{userinfo.data_mod.data.user_type}}</p>
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">生成时间</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <p class="form-control-static">{{userinfo.data_mod.data.ctime}}</p>
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">更新时间</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <p class="form-control-static">{{userinfo.data_mod.data.utime}}</p>
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">最后心跳时间</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <p class="form-control-static">{{userinfo.data_mod.data.ltime}}</p>
-                    </div>
-                </div>
-                <div class="weui_btn_area">
-                    <a class="weui_btn weui_btn_primary" ng-click="userinfo.data_mod.submitForm()">确定</a>
-                </div>
+        <div class="weui_cells_title">详细信息</div>
+        <div class="weui_cells weui_cells_form">
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label for="" class="weui_label" style="width:4em">用户名</label>
             </div>
-
-            <div class="weui_cells_title">修改密码</div>
-            <div class="weui_cells weui_cells_form">
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label class="weui_label" style="width: 4em">旧密码</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <input type="password" class="weui_input"  ng-model="userinfo.data_mod.old_password" placeholder="请输入旧密码" required />
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label class="weui_label" style="width: 4em">新密码</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <input type="password" class="weui_input" placeholder="请输入新密码" ng-model="userinfo.data_mod.new_password" required />
-                    </div>
-                </div>
-                <div class="weui_cell">
-                    <div class="weui_cell_hd"><label class="weui_label" style="width: 5em">确认密码</label></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <input type="password" class="weui_input" placeholder="请确认密码" ng-model="userinfo.data_mod.new_password_confirm" required />
-                    </div>
-                </div>
-                <div class="weui_btn_area">
-                    <a class="weui_btn weui_btn_primary" ng-click="userinfo.data_mod.modPasswd()">确定</a>
-                </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <p class="form-control-static">{{userinfo.data_mod.data.username}}</p>
             </div>
-
-            <div class="weui_cells_title">解除绑定</div>
-            <div class="weui_cells weui_cells_form">
-                <div class="weui_btn_area">
-                    <a class="weui_btn weui_btn_warn" ng-click="unbind();">确认解绑</a>
-                </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label for="" class="weui_label" style="width:4em">别名</label>
             </div>
-
-            <div class="weui_cells_title">设定</div>
-            <div class="weui_cells weui_cells_form">
-                <div class="weui_cell weui_cell_switch">
-                    <div class="weui_cell_hd weui_cell_primary">缩略图</div>
-                    <div class="weui_cell_ft">
-                        <input class="weui_switch"  ng-model="preShow" ng-change="userinfo.data_mod.setPreCookie();" type="checkbox"/>
-                    </div>
-                </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <input class="weui_input" value="" placeholder="" ng-model="userinfo.data_mod.data.title" required/>
             </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label for="" class="weui_label" style="width:4em">描述</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <input class="weui_input" value="" placeholder="" ng-model="userinfo.data_mod.data.desc" required/>
+            </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label for="" class="weui_label" style="width:5em">详细描述</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <textarea class="weui_textarea" placeholder="请输入描述" ng-model="userinfo.data_mod.data.long_desc" rows="3"></textarea>
+              <!--div class="weui_textarea_counter"><span>0</span>/200</div-->
+            </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label for="" class="weui_label" style="width:4em">标志位</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <p class="form-control-static">{{userinfo.data_mod.data.flags}}</p>
+            </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label for="" class="weui_label" style="width:4em">手机号</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <input class="weui_input" value="" placeholder="" ng-model="userinfo.data_mod.data.cellphone" required/>
+            </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label for="" class="weui_label" style="width:5em">电子邮箱</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <input class="weui_input" value="" placeholder="" ng-model="userinfo.data_mod.data.email" required/>
+            </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label for="" class="weui_label" style="width:4em">类型</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <p class="form-control-static">{{userinfo.data_mod.data.user_type}}</p>
+            </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label for="" class="weui_label" style="width:5em">生成时间</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <p class="form-control-static">{{userinfo.data_mod.data.ctime}}</p>
+            </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label for="" class="weui_label" style="width:5em">更新时间</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <p class="form-control-static">{{userinfo.data_mod.data.utime}}</p>
+            </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label for="" class="weui_label" style="width:5em">最后心跳时间</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <p class="form-control-static">{{userinfo.data_mod.data.ltime}}</p>
+            </div>
+          </div>
+          <div class="weui_btn_area">
+            <a class="weui_btn weui_btn_primary" ng-click="userinfo.data_mod.submitForm()">确定</a>
+          </div>
         </div>
 
-
-
-        <!-- loading toast -->
-        <div id="loadingToast" class="weui_loading_toast" style="display:none;">
-            <div class="weui_mask_transparent"></div>
-            <div class="weui_toast">
-                <div class="weui_loading">
-                    <div class="weui_loading_leaf weui_loading_leaf_0"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_1"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_2"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_3"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_4"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_5"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_6"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_7"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_8"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_9"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_10"></div>
-                    <div class="weui_loading_leaf weui_loading_leaf_11"></div>
-                </div>
-                <p class="weui_toast_content">{{ToastTxt}}</p>
+        <div class="weui_cells_title">修改密码</div>
+        <div class="weui_cells weui_cells_form">
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label class="weui_label" style="width: 4em">旧密码</label>
             </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <input type="password" class="weui_input" ng-model="userinfo.data_mod.old_password" placeholder="请输入旧密码" required />
+            </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label class="weui_label" style="width: 4em">新密码</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <input type="password" class="weui_input" placeholder="请输入新密码" ng-model="userinfo.data_mod.new_password" required />
+            </div>
+          </div>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <label class="weui_label" style="width: 5em">确认密码</label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <input type="password" class="weui_input" placeholder="请确认密码" ng-model="userinfo.data_mod.new_password_confirm" required />
+            </div>
+          </div>
+          <div class="weui_btn_area">
+            <a class="weui_btn weui_btn_primary" ng-click="userinfo.data_mod.modPasswd()">确定</a>
+          </div>
         </div>
+
+        <div class="weui_cells_title">解除绑定</div>
+        <div class="weui_cells weui_cells_form">
+          <div class="weui_btn_area">
+            <a class="weui_btn weui_btn_warn" ng-click="unbind();">确认解绑</a>
+          </div>
+        </div>
+
+        <div class="weui_cells_title">设定</div>
+        <div class="weui_cells weui_cells_form">
+          <div class="weui_cell weui_cell_switch">
+            <div class="weui_cell_hd weui_cell_primary">缩略图</div>
+            <div class="weui_cell_ft">
+              <input class="weui_switch" ng-model="preShow" ng-change="userinfo.data_mod.setPreCookie();" type="checkbox" />
+            </div>
+          </div>
+          <div class="weui_cell weui_cell_select weui_select_after">
+            <div class="weui_cell_hd">分享时效</div>
+            <div class="weui_cell_bd weui_cell_primary">
+              <select class="weui_select" ng-model="timeeffect" ng-change="userinfo.data_mod.setTimeeffect();">
+                <option value="21600000">6小时</option>
+                <option value="43200000">12小时</option>
+                <option value="86400000">1天</option>
+                <option value="604800000">1周</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- loading toast -->
+      <div id="loadingToast" class="weui_loading_toast" style="display:none;">
+        <div class="weui_mask_transparent"></div>
+        <div class="weui_toast">
+          <div class="weui_loading">
+            <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+          </div>
+          <p class="weui_toast_content">{{ToastTxt}}</p>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 
 
-<script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
-<script src="//cdn.bootcss.com/sjcl/1.0.0/sjcl.min.js"></script>
-<!--script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script-->
-<script src="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
-<script src="js/app/myInfoApp.js"></script>
-<script src="js/controller/myInfo.js"></script>
+  <script src="//cdn.bootcss.com/angular.js/1.4.9/angular.min.js"></script>
+  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="//cdn.bootcss.com/angular.js/1.4.9/angular-animate.min.js"></script>
+  <script src="//cdn.bootcss.com/sjcl/1.0.0/sjcl.min.js"></script>
+  <!--script src="//cdn.bootcss.com/Swiper/3.3.1/js/swiper.jquery.min.js"></script-->
+  <script src="//cdn.bootcss.com/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
+  <script src="js/app/myInfoApp.js"></script>
+  <script src="js/controller/myInfo.js"></script>
 
 </body>
+
 </html>

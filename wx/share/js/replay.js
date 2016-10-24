@@ -131,7 +131,6 @@ Replay.prototype = {
     $('.replay').removeClass('hidden');
 
     this.getCameraInfo();
-    this.getRecordInfo();
   },
   getCameraInfo: function() {
     var _t = this;
@@ -149,6 +148,11 @@ Replay.prototype = {
         $('title').html(json.name);
         $('#desc').html(json.name);
         this.name = json.name;
+        if (0 !== (json.flags & 0x100)){
+          showErrorMsg();
+          return;
+        }
+        this.getRecordInfo();
       },
       error: function() {
         /* Act on the event */
@@ -180,13 +184,13 @@ Replay.prototype = {
           return;
         }
         var player = play(json.segments[0].hls);
-        $(player).one('playing', function(){
-          $(player).one('playing', function(){
-            setTimeout(function(){
-              player.currentTime = parseInt(_t.opts.current_time, 10);
-            }, 2000);
-          });
-        });
+        // $(player).one('playing', function(){
+        //   $(player).one('playing', function(){
+        //     setTimeout(function(){
+        //       player.currentTime = parseInt(_t.opts.current_time, 10);
+        //     }, 2000);
+        //   });
+        // });
 
         var desc = '开始时间: ' + format(json.segments[0].start) + '  ' +
           '时长: ' + getDuration(json.segments[0].duration);
@@ -326,7 +330,7 @@ $(function() {
 
   if (undefined !== params.event_id) {
     new Backup(params);
-  } else if (undefined !== params.current_time) {
+  } else if (undefined !== params.start) {
     new Replay(params);
   } else {
     showErrorMsg();

@@ -61,6 +61,7 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window', function ($scope, 
           initData: function (item) {
             $scope.userinfo.data_mod.data = item;
             $scope.userinfo.data_mod.initPreShow();
+
           },
           initPreShow: function () {
             var preShow = $.cookie('preShow');
@@ -70,6 +71,11 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window', function ($scope, 
           },
           setPreCookie: function () {
             $.cookie('preShow', $scope.preShow, {
+              expires: 1440 * 360
+            });
+          },
+          setTimeeffect: function(){
+            $.cookie('timeeffect', $scope.timeeffect, {
               expires: 1440 * 360
             });
           },
@@ -101,6 +107,9 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window', function ($scope, 
                 }, 2000);
                 $window.location.replace($scope.codeLoginUrl);
               });
+
+            var timeeffect = $.cookie('timeeffect');
+            $scope.timeeffect = timeeffect || "86400000";
           },
 
           submitForm: function () {

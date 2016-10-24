@@ -1,4 +1,4 @@
-<div id = "pContainer" ng-controller="PLive">
+<div id="pContainer" ng-controller="PLive">
   <div style="padding-left: 0px;padding-right: 0px;">
     <div class="col-sm-12 os-table-container" style="padding-left: 0px;padding-right: 0px;">
       <label class="weui_cell weui_normal_label" for="x12">
@@ -43,36 +43,46 @@
         </div>
 
       </div>
-        <div class="weui_cells weui_cells_form" style="border-top:1px soild #fff;margin-top: 0px;">
-            <div class="weui_cell">
-                <div class="weui_cell_hd">
-                    <label for="" class="weui_label" style="width:4em">描述</label>
-                </div>
-                <div class="weui_cell_bd weui_cell_primary">
-                    <input class="weui_input" value="" placeholder="" ng-model="c.desc" required/>
-                </div>
-            </div>
+      <div class="weui_cells weui_cells_form" style="border-top:1px soild #fff;margin-top: 0px;">
+        <div class="weui_cell">
+          <div class="weui_cell_hd">
+            <label for="" class="weui_label" style="width:4em">描述</label>
+          </div>
+          <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" value="" placeholder="" ng-model="c.desc" required/>
+          </div>
         </div>
-        <div class="weui_cells weui_cells_access" style="border-top:1px soild #fff;margin-top: 0px;">
-            <a id="showActionSheet" class="weui_cell" href="javascript:;" ng-click="actionShow();">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <label for="" class="weui_label" style="width:4em">清晰度</label>
-                </div>
-                <div class="weui_cell_ft">{{c.playTitle}}</div>
-            </a>
+      </div>
+      <div class="weui_cells weui_cells_access" style="border-top:1px soild #fff;margin-top: 0px;">
+        <a id="showActionSheet" class="weui_cell" href="javascript:;" ng-click="actionShow();">
+          <div class="weui_cell_bd weui_cell_primary">
+            <label for="" class="weui_label" style="width:4em">清晰度</label>
+          </div>
+          <div class="weui_cell_ft">{{c.playTitle}}</div>
+        </a>
+      </div>
+      <div class="weui_cells weui_cells_access" style="border-top:1px soild #fff;margin-top: 0px;">
+        <div class="weui_cell weui_cell_switch">
+          <div class="weui_cell_hd weui_cell_primary">
+            <label for="" class="weui_label">允许分享</label>
+          </div>
+          <div class="weui_cell_bd">
+            <input class="weui_switch" ng-model="share_status" ng-change="setShareStatus();" type="checkbox" />
+          </div>
         </div>
+      </div>
     </div>
     <div class="weui_mask_transition weui_fade_toggle" ng-click="plive.showShareTip = false" ng-class="{true: 'show', false: ''}[plive.showShareTip]">
       <div class="share_tip"></div>
     </div>
     <div id="actionSheet_wrap">
       <div class="weui_mask_transition" id="mask"></div>
-        <div class="weui_actionsheet" id="weui_actionsheet">
-          <div class="weui_actionsheet_menu">
-            <div class="weui_actionsheet_cell" ng-repeat="it in c.stearmOptions" ng-show="(it.on === 0?false:true)" ng-click="plive.checkBtn(it);">{{it.title}}</div>
+      <div class="weui_actionsheet" id="weui_actionsheet">
+        <div class="weui_actionsheet_menu">
+          <div class="weui_actionsheet_cell" ng-repeat="it in c.stearmOptions" ng-show="(it.on === 0?false:true)" ng-click="plive.checkBtn(it);">{{it.title}}</div>
 
-          </div>
         </div>
+      </div>
     </div>
   </div>
 </div>

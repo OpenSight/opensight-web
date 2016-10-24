@@ -201,7 +201,7 @@ angular.module('app.controller', [])
       cam.format = format;
       $scope.cam = cam;
       var modalInstance = $uibModal.open({
-        backdrop: 'static', 
+        backdrop: 'static',
         keyboard: false,
         templateUrl: path + 'views/sessionModalContent.html',
         controller: 'session',
@@ -321,7 +321,7 @@ angular.module('app.controller', [])
       cam.format = format;
       $scope.cam = cam;
       var modalInstance = $uibModal.open({
-        backdrop: 'static', 
+        backdrop: 'static',
         keyboard: false,
         templateUrl: path + 'views/sessionModalContent.html',
         controller: 'session',
@@ -470,7 +470,7 @@ angular.module('app.controller', [])
       it.camname = $scope.camname;
       $scope.selected = it;
       var modalInstance = $uibModal.open({
-        backdrop: 'static', 
+        backdrop: 'static',
         keyboard: false,
         templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
@@ -487,7 +487,7 @@ angular.module('app.controller', [])
       it.camera_id = $rootScope.$stateParams.camera;
       $scope.selected = it;
       var modalInstance = $uibModal.open({
-        backdrop: 'static', 
+        backdrop: 'static',
         keyboard: false,
         templateUrl: 'backupModalContent.html',
         controller: 'backupModalController',
@@ -1045,7 +1045,7 @@ angular.module('app.controller', [])
     $scope.open = function(key_id) {
       $scope.key_id = key_id;
       var modalInstance = $uibModal.open({
-        backdrop: 'static', 
+        backdrop: 'static',
         keyboard: false,
         templateUrl: 'secretModalContent.html',
         controller: 'secret',
@@ -1160,6 +1160,10 @@ angular.module('app.controller', [])
         create: true,
         user: user
       }).success(function(response) {
+        if (undefined === response.url || '' === response.url){
+          return;
+        }
+        $scope.url = response.url;
         $scope.id = response.session_id;
         playerFactory.load(response.url, playerId);
         keepalive(response);
@@ -1195,7 +1199,9 @@ angular.module('app.controller', [])
       }, intrvl);
     };
     var stop = function() {
-      playerFactory.stop(playerId);
+      if (undefined !== $scope.url){
+        playerFactory.stop(playerId);
+      }
       if (undefined !== alivetimer) {
         $interval.cancel(alivetimer);
         alivetimer = undefined;
@@ -1555,7 +1561,7 @@ angular.module('app.controller', [])
       $scope.selected = angular.copy(it);
       $scope.selected.camname = it.camera_name;
       var modalInstance = $uibModal.open({
-        backdrop: 'static', 
+        backdrop: 'static',
         keyboard: false,
         templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
@@ -1615,7 +1621,7 @@ angular.module('app.controller', [])
       $scope.selected = angular.copy(info);
       $scope.selected.camname = info.camera_name;
       var modalInstance = $uibModal.open({
-        backdrop: 'static', 
+        backdrop: 'static',
         keyboard: false,
         templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
@@ -1879,4 +1885,3 @@ angular.module('app.controller', [])
             $scope.getLiveDetail();
         }
     ]);
-

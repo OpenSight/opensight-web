@@ -81,7 +81,7 @@
             <label for="" class="weui_label" style="width:5em">时长</label>
           </div>
           <div class="weui_cell_bd weui_cell_primary">
-            <p class="form-control-static">{{recInfo.end - recInfo.start|duration}}</p>
+            <p class="form-control-static">{{recInfo.duration|duration}}</p>
           </div>
         </div>
         <div class="weui_btn_area" ng-show="undefined === recInfo.event_id">

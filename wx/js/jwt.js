@@ -76,14 +76,15 @@ Jwt.prototype = {
     });
 
   },
-  getJwt: function (days) {
+  getJwt: function () {
     if (true === this.updateing) {
       return false;
     }
+    var timeeffect = $.cookie('timeeffect') || '86400000';
+    timeeffect = parseInt(timeeffect, 10);
     this.updateing = true;
     var d = new Date();
-    d.setHours(d.getHours() + days * 24 * 60 * 60);
-    var e = Math.ceil(d.getTime() / 1000);
+    var e = Math.ceil((d.getTime() + timeeffect) / 1000);
 
     var _this = this;
     $.ajax({
