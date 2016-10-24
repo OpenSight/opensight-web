@@ -148,7 +148,7 @@ Jwt.prototype = {
     }
     this.updateing = true;
 
-    var timeeffect = $.cookie('timeeffect') || '86400000';
+    var timeeffect = $.cookie('timeeffect') || '3600000';
     timeeffect = parseInt(timeeffect, 10);
     var d = new Date();
     var e = Math.ceil((d.getTime() + timeeffect) / 1000);
