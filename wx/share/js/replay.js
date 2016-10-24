@@ -148,10 +148,6 @@ Replay.prototype = {
         $('title').html(json.name);
         $('#desc').html(json.name);
         this.name = json.name;
-        if (0 !== (json.flags & 0x100)){
-          showErrorMsg();
-          return;
-        }
         this.getRecordInfo();
       },
       error: function() {

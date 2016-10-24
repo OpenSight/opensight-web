@@ -109,7 +109,7 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window', function ($scope, 
               });
 
             var timeeffect = $.cookie('timeeffect');
-            $scope.timeeffect = timeeffect || "86400000";
+            $scope.timeeffect = timeeffect || "3600000";
           },
 
           submitForm: function () {
