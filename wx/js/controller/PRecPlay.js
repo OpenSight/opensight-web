@@ -80,7 +80,7 @@ app.register.controller('PRecPlay', [
         onBackupShare: function(){
           var title = $scope.recInfo.desc;
           var link = $scope.precplay.getMsgLink({event_id: $scope.recInfo.event_id});
-          var desc = '摄像机：' + $rootScope.pCamera.name + ' ' + $scope.precplay.getMsgDesc($scope.recInfo.start, $scope.recInfo.duration);
+          var desc = '摄像机：' + $rootScope.pRecInfo.camera_name + ' ' + $scope.precplay.getMsgDesc($scope.recInfo.start, $scope.recInfo.duration);
           $scope.precplay.setShareMessage(title, desc, link);
         },
         getMsgLink: function(params){
