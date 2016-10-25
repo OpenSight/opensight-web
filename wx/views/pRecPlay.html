@@ -65,7 +65,7 @@
             <label for="" class="weui_label" style="width:5em">开始时间</label>
           </div>
           <div class="weui_cell_bd weui_cell_primary">
-            <p class="form-control-static">{{recInfo.start|date: "yyyy-MM-dd HH:mm:ss"}}</p>
+            <p class="form-control-static">{{recInfo.start|date: "yyyy-MM-dd HH:mm"}}</p>
           </div>
         </div>
         <div class="weui_cell" ng-show="undefined === recInfo.event_id">
@@ -73,7 +73,7 @@
             <label for="" class="weui_label" style="width:5em">结束时间</label>
           </div>
           <div class="weui_cell_bd weui_cell_primary">
-            <p class="form-control-static">{{recInfo.end|date: "yyyy-MM-dd HH:mm:ss"}}</p>
+            <p class="form-control-static">{{recInfo.end|date: "yyyy-MM-dd HH:mm"}}</p>
           </div>
         </div>
         <div class="weui_cell" ng-show="undefined !== recInfo.event_id">
@@ -82,6 +82,18 @@
           </div>
           <div class="weui_cell_bd weui_cell_primary">
             <p class="form-control-static">{{recInfo.duration|duration}}</p>
+          </div>
+        </div>
+        <div class="weui_cell weui_cell_select weui_select_after" ng-show="undefined === recInfo.event_id">
+          <div class="weui_cell_hd" style="margin-bottom: 0px;">
+            <label for="" class="weui_label" style="width:5em">分享时长</label>
+          </div>
+          <div class="weui_cell_bd weui_cell_primary">
+            <select class="weui_select" ng-model="precplay.shareDuration" ng-change="precplay.onRecordShare();">
+              <option value="60000">1分钟</option>
+              <option value="300000">5分钟</option>
+              <option value="600000">10分钟</option>
+            </select>
           </div>
         </div>
         <div class="weui_btn_area" ng-show="undefined === recInfo.event_id">

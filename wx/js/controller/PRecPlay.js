@@ -38,6 +38,7 @@ app.register.controller('PRecPlay', [
       };
       return {
         showShareTip: false,
+        shareDuration: '300000',
         init: function () {
           $scope.recInfo = $rootScope.pRecInfo;
           var player = document.getElementById("replayPlayer");
@@ -64,7 +65,7 @@ app.register.controller('PRecPlay', [
           var curtime = parseInt(document.getElementById("replayPlayer").currentTime, 10);
           var start = $scope.recInfo.start + (curtime - 10) * 1000;
           start = start > $scope.recInfo.start ? start : $scope.recInfo.start;
-          var end = $scope.recInfo.start + (curtime + 5 * 60) * 1000;
+          var end = $scope.recInfo.start + curtime * 1000 + parseInt($scope.precplay.shareDuration, 10);
           end = end < $scope.recInfo.end ? end : $scope.recInfo.end;
 
           var link = $scope.precplay.getMsgLink({
@@ -80,7 +81,7 @@ app.register.controller('PRecPlay', [
         onBackupShare: function(){
           var title = $scope.recInfo.desc;
           var link = $scope.precplay.getMsgLink({event_id: $scope.recInfo.event_id});
-          var desc = '摄像机：' + $rootScope.pCamera.name + ' ' + $scope.precplay.getMsgDesc($scope.recInfo.start, $scope.recInfo.duration);
+          var desc = '摄像机：' + $rootScope.pRecInfo.camera_name + ' ' + $scope.precplay.getMsgDesc($scope.recInfo.start, $scope.recInfo.duration);
           $scope.precplay.setShareMessage(title, desc, link);
         },
         getMsgLink: function(params){
