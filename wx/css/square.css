@@ -68,6 +68,7 @@ a:hover{
     width: 100%;
     background:  url(../img/play.png) no-repeat center;
 }
+
 .topimg-container1{
     position: absolute;
     top: 0;
@@ -182,4 +183,10 @@ a:hover{
     margin-top: 20px;
     margin-left:10px;
     margin-right:10px
+}
+.maginB15{
+    margin-bottom: 15px;
+}
+.maginB0{
+    margin-bottom: 0px;
 }
