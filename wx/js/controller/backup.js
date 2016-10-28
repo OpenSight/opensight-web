@@ -28,6 +28,9 @@ app.register.controller('Backup', [
           });
         },
         play: function(item) {
+          if (0 === item.state){
+            return;
+          }
           $rootScope.pRecInfo = item;
           $state.go('precplay');
         },
