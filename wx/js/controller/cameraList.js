@@ -22,9 +22,20 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                 $scope.cameralist.setList = true;
                 $scope.cameralist.editConfig = false;
             },
+            showEdit:function(item){
+                if ($scope.editView === undefined) $scope.editView = [];
+                if ($scope.editView[item.uuid] === undefined)
+                    $scope.editView[item.uuid] = true;
+                else $scope.editView[item.uuid] = !$scope.editView[item.uuid];
+
+                if ($scope.editView[item.uuid] === true)
+                    $scope.editMargin[item.uuid] = "maginB0";
+                else $scope.editMargin[item.uuid] = "maginB15";
+            },
             editConfigShow:function(item){
                 $scope.cameralist.preList = false;
                 $scope.cameralist.setList = false;
+                $scope.editView[item.uuid] = false;
                 $scope.cameralist.editConf = {};
 //                $scope.cameralist.editConf.name = item.name;
 //                $scope.cameralist.editConf.livePerm = item.livePerm;
@@ -41,6 +52,8 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                 if (preShow === "" || preShow === undefined || preShow === "true"){
                     $scope.preShow = true;
                 }else $scope.preShow = false;
+                $scope.editView = [];
+                $scope.editMargin = [];
 //                initLive*************************************
                 $scope.cameralist.preListShow();
             },
@@ -64,6 +77,8 @@ app.register.controller('CameraList',['$rootScope', '$scope', '$http', '$q', '$w
                                 if ($scope.preShow === false)
                                     $scope.cameralist.data[i].preview = "";
                                 $scope.cameralist.data[i].livePerm = (($scope.cameralist.data[i].flags & 0x20) === 0);
+                                $scope.editView[$scope.cameralist.data[i].uuid] = false;
+                                $scope.editMargin[$scope.cameralist.data[i].uuid] = "maginB15";
                             }
 
                             setTimeout(function () {

@@ -13,6 +13,8 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
             init: function(activeIndex){
                 $scope.cameralist.initPreShow();
                 $scope.cameralist.preListShow();
+                $scope.editView = [];
+                $scope.editMargin = [];
                 $rootScope.PName = $scope.projectlist.data[activeIndex].name;
 
                 var mySwiper = new Swiper ('.swiper-container', {
@@ -95,6 +97,8 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
                                 if ($scope.preShow === false)
                                     $scope.cameralist.data[i].preview = "";
                                 $scope.cameralist.data[i].livePerm = (($scope.cameralist.data[i].flags & 0x20) === 0);
+                                $scope.editView[$scope.cameralist.data[i].uuid] = false;
+                                $scope.editMargin[$scope.cameralist.data[i].uuid] = "maginB15";
                             }
                             $('#loadingToast').hide();
                         }).error(function (response,status) {
@@ -106,6 +110,16 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
 
                         });
 
+            },
+            showEdit:function(item){
+                if ($scope.editView === undefined) $scope.editView = [];
+                if ($scope.editView[item.uuid] === undefined)
+                    $scope.editView[item.uuid] = true;
+                else $scope.editView[item.uuid] = !$scope.editView[item.uuid];
+
+                if ($scope.editView[item.uuid] === true)
+                    $scope.editMargin[item.uuid] = "maginB0";
+                else $scope.editMargin[item.uuid] = "maginB15";
             },
             showMore: function (item) {
                 $rootScope.pCamera = item;
@@ -130,6 +144,7 @@ app.register.controller('CameraSwiper',['$rootScope', '$scope', '$http', '$q', '
             editConfigShow:function(item){
                 $scope.cameralist.swiperShow = false;
                 $scope.cameralist.setList = false;
+                $scope.editView[item.uuid] = false;
                 $scope.cameralist.editConf = {};
 //                $scope.cameralist.editConf.name = item.name;
 //                $scope.cameralist.editConf.livePerm = item.livePerm;

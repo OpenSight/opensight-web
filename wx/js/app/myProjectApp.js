@@ -220,6 +220,18 @@ app.filter('online', [function() {
   };
 })
 
+.filter('record_state', function() {
+        return function(state) {
+            var list = [
+                '未启动',
+                '预录中',
+                '录像中',
+                '异常'
+            ];
+            return list[state];
+        };
+ })
+
 // .filter('duration', function() {
 //   var a = [{ t: '秒', v: 60 }, { t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
 //   return function(dur, ms) {

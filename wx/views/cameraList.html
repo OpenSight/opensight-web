@@ -9,12 +9,12 @@
           返回我的项目
         </span>
       </div>
-      <div class="weui_cell_ft" style="padding-left: 0px;color:#333;">
-        <span class="btn-small" style="cursor:pointer;float:right;padding:10px;font-size:16px;" title="设置" ng-click="cameralist.setListShow();">
-          <!--<i  class="fa fa-cog "></i>-->
-          &nbsp;&nbsp;设置
-        </span>
-      </div>
+      <!--<div class="weui_cell_ft" style="padding-left: 0px;color:#333;">-->
+        <!--<span class="btn-small" style="cursor:pointer;float:right;padding:10px;font-size:16px;" title="设置" ng-click="cameralist.setListShow();">-->
+          <!--&lt;!&ndash;<i  class="fa fa-cog "></i>&ndash;&gt;-->
+          <!--&nbsp;&nbsp;设置-->
+        <!--</span>-->
+      <!--</div>-->
     </div>
 
     <div style="padding-left: 0px;padding-right: 0px;">
@@ -28,9 +28,14 @@
               </p>
               <p class="text-desc" style="color: #ABAAAA">{{item.desc}}</p>
             </div>
-            <a ng-click="cameralist.showMore(item)" ng-show="preShow"><img style="min-height: 120px;" ng-src="{{item.preview}}" alt="{{item.name}}"></a>
+            <a ng-click="cameralist.showMore(item)" ng-show="preShow"><img style="width:100%;min-height: 120px;" ng-src="{{item.preview}}" alt="{{item.name}}"></a>
             <div class="topimg-container" ng-click="cameralist.showMore(item)" ng-show="preShow"></div>
-            <div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;margin-bottom: 15px;">
+            <div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;" ng-class="editMargin[item.uuid]">
+              <div ng-click="cameralist.showEdit(item)" style="display: block-inline;height:40px;margin:2px;border-right:solid 1px #ABAAAA;color: #25A8E1;" class="weui_btn_dialog">
+                    <div style="margin:10px" >
+                        <img src="./img/article_16px.png" alt="" />
+                    </div>
+              </div>
               <a ng-click="cameralist.showRec(item)" class="weui_btn_dialog" style="color: #25A8E1;">
                 <div style="display: block-inline;height:40px;margin:2px;border-right:solid 1px #ABAAAA;">
                   <img src="./img/replay24.png" alt="" />
@@ -44,6 +49,14 @@
                 </div>
               </a>
             </div>
+            <div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;margin-bottom: 15px;" ng-show="editView[item.uuid]">
+                  <a ng-click="cameralist.editConfigShow(item)" class="weui_btn_dialog" style="color: #25A8E1;">
+                      <div style="display: block-inline;height:40px;margin:2px;">
+                          <img src="./img/config_24px.png" alt="" />
+                          <p class="text-name" style="display: block">编辑</p>
+                      </div>
+                  </a>
+            </div>
           </div>
         </div>
       </div>
@@ -53,37 +66,37 @@
 
 
 
-  <div style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.setList">
-    <div class="weui_cells_title" style="text-align:right;margin-top: 0px;margin-bottom: 0px;padding-right: 0px;padding-top: 10px;padding-bottom: 10px;">
-      <span class="btn-small" style="padding: 10px;cursor:pointer;color: #333;font-size:16px;" title="完成设置" ng-click="cameralist.preListShow();">
-        <!--<i  class="fa fa-cog "></i>-->
-        完成设置
-      </span>
-    </div>
+  <!--<div style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.setList">-->
+    <!--<div class="weui_cells_title" style="text-align:right;margin-top: 0px;margin-bottom: 0px;padding-right: 0px;padding-top: 10px;padding-bottom: 10px;">-->
+      <!--<span class="btn-small" style="padding: 10px;cursor:pointer;color: #333;font-size:16px;" title="完成设置" ng-click="cameralist.preListShow();">-->
+        <!--&lt;!&ndash;<i  class="fa fa-cog "></i>&ndash;&gt;-->
+        <!--完成设置-->
+      <!--</span>-->
+    <!--</div>-->
 
 
-    <div style="padding-left: 0px;padding-right: 0px;">
-      <div style="padding-left: 0px;padding-right: 0px;">
-        <div class="col-md-3 col-sm-4 col-xs-12" style="padding-left: 0px;padding-right: 0px;" ng-repeat="item in cameralist.data">
-          <div class="thumbnail" style="margin-bottom: 15px;">
-            <div class="caption" ng-click="cameralist.editConfigShow(item)">
-              <p class="text-name">
-                <a ng-click="cameralist.editConfigShow(item)">{{item.name}}</a>
-                <span class="pull-right" style="cursor:pointer;color: #25A8E1;" ng-click="cameralist.editConfigShow(item)">
-                  编辑
-                  <i class="fa fa-chevron-right "></i>
-                </span>
-              </p>
-              <p class="text-desc" style="color: #ABAAAA">{{item.desc}}</p>
-            </div>
-            <a ng-click="cameralist.editConfigShow(item)" ng-show="preShow"><img ng-src="{{item.preview}}" alt="{{item.name}}"></a>
-            <div class="topsetimg-container" ng-click="cameralist.editConfigShow(item)" ng-show="preShow"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!--<div style="padding-left: 0px;padding-right: 0px;">-->
+      <!--<div style="padding-left: 0px;padding-right: 0px;">-->
+        <!--<div class="col-md-3 col-sm-4 col-xs-12" style="padding-left: 0px;padding-right: 0px;" ng-repeat="item in cameralist.data">-->
+          <!--<div class="thumbnail" style="margin-bottom: 15px;">-->
+            <!--<div class="caption" ng-click="cameralist.editConfigShow(item)">-->
+              <!--<p class="text-name">-->
+                <!--<a ng-click="cameralist.editConfigShow(item)">{{item.name}}</a>-->
+                <!--<span class="pull-right" style="cursor:pointer;color: #25A8E1;" ng-click="cameralist.editConfigShow(item)">-->
+                  <!--编辑-->
+                  <!--<i class="fa fa-chevron-right "></i>-->
+                <!--</span>-->
+              <!--</p>-->
+              <!--<p class="text-desc" style="color: #ABAAAA">{{item.desc}}</p>-->
+            <!--</div>-->
+            <!--<a ng-click="cameralist.editConfigShow(item)" ng-show="preShow"><img ng-src="{{item.preview}}" alt="{{item.name}}"></a>-->
+            <!--<div class="topsetimg-container" ng-click="cameralist.editConfigShow(item)" ng-show="preShow"></div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
 
-  </div>
+  <!--</div>-->
 
 
   <!--edit config start-->
@@ -106,6 +119,12 @@
               <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">描述</label></div>
               <div class="weui_cell_bd weui_cell_primary">
                   <input class="weui_input" value="" placeholder="" ng-model="cameralist.editConf.desc" />
+              </div>
+          </div>
+          <div class="weui_cell">
+              <div class="weui_cell_hd"><label for="" class="weui_label" style="width:5em">录像状态</label></div>
+              <div class="weui_cell_bd weui_cell_primary">
+                  <p class="form-control-static">{{cameralist.editConf.record_state|record_state}}</p>
               </div>
           </div>
       </div>

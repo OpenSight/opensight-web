@@ -174,6 +174,17 @@ app.filter('online', [function() {
     return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
   };
 }])
+.filter('record_state', function() {
+        return function(state) {
+            var list = [
+                '未启动',
+                '预录中',
+                '录像中',
+                '异常'
+            ];
+            return list[state];
+        };
+})
 .filter('duration', function() {
   var a = [{ t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
   return function(dur, ms) {
