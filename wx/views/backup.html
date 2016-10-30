@@ -7,11 +7,11 @@
         </span>
       </div>
       <div class="weui_cells weui_cells_access weui_cells_os" style="margin-top: 0px">
-        <div class="weui_cell" href="javascript:;" ng-repeat="item in filelist.list" ng-click="backup.play(item);">
+        <div class="weui_cell" href="javascript:;" ng-repeat="item in filelist.list" ng-click="backup.play(item);" ng-disabled="0 === item.state">
           <div class="weui_media_hd">
             <img class="weui_media_appmsg_thumb" src="images/video-player.png" alt="">
           </div>
-          <div class="weui_cell_bd weui_cell_primary">
+          <div class="weui_cell_bd weui_cell_primary" ng-class="{0: 'weui_cell_disabled'}[item.state]">
             <h4 class="weui_media_title">
               {{item.desc}}
             </h4>

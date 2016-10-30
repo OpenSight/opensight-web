@@ -184,9 +184,12 @@ a:hover{
     margin-left:10px;
     margin-right:10px
 }
+.weui_cell_disabled{
+  color: #888;
+}
 .maginB15{
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 .maginB0{
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
