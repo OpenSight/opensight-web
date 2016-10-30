@@ -1,27 +1,69 @@
 <div ng-controller="Backup">
   <div style="padding-left: 0px;padding-right: 0px;">
     <div class="col-sm-12 os-table-container" style="padding-left: 0px;padding-right: 0px;">
-      <div class="weui_cell" style="padding-left: 0px;">
-        <span class="btn-small" style="cursor:pointer;float:left;padding-top:10px;padding-left:10px;" title="返回我的项目" ng-click="backup.backProject();">
-          <i class="fa fa-chevron-left "></i> 返回我的项目
-        </span>
+      <div class="weui_cells_title">
+        <button class="weui_btn weui_btn_plain_default weui_btn_mini weui_btn_opsi_nobordered" ng-click="backup.backProject();">
+          <i class="fa fa-chevron-left"></i> 返回
+        </button>
+        <button class="weui_btn weui_btn_plain_default weui_btn_mini weui_btn_opsi_nobordered pull-right" ng-hide="backup.bDel" ng-click="backup.bDel = true">
+          <i class="fa fa-trash"></i> 删除
+        </button>
+        <button class="weui_btn weui_btn_mini weui_btn_primary pull-right" ng-show="backup.bDel" ng-click="backup.bDel = false">
+          完成
+        </button>
       </div>
-      <div class="weui_cells weui_cells_access weui_cells_os" style="margin-top: 0px">
-        <div class="weui_cell" href="javascript:;" ng-repeat="item in filelist.list" ng-click="backup.play(item);" ng-disabled="0 === item.state">
-          <div class="weui_media_hd">
-            <img class="weui_media_appmsg_thumb" src="images/video-player.png" alt="">
+      <div class="weui_cells weui_cells_checkbox" ng-class="{true: 'weui_cells_opsi_with_footer', false: ''}[backup.bDel]">
+        <label class="weui_cell weui_check_label weui_check_label_opsi" ng-repeat="item in filelist.list" ng-click="backup.play(item, backup.bDel);"
+          ng-disabled="0 === item.state">
+          <div class="weui_cell_hd" ng-show="backup.bDel">
+            <input type="checkbox" class="weui_check" ng-disabled="!backup.bDel" ng-model="item.checked" ng-click="backup.checkeItem(item)">
+            <i class="weui_icon_checked"></i>
           </div>
-          <div class="weui_cell_bd weui_cell_primary" ng-class="{0: 'weui_cell_disabled'}[item.state]">
-            <h4 class="weui_media_title">
-              {{item.desc}}
-            </h4>
-            <p class="weui_media_desc">
-              {{item.start|date: "MM-dd HH:mm"}}
+          <div class="weui_cell_bd weui_cell_primary">
+            <p>{{item.desc}}</p>
+            <p class="weui_cell_opsi_desc">
+              <span>{{item.start|date: "MM-dd HH:mm"}}</span>
               <span class="pull-right">{{item.end - item.start|duration}}</span>
             </p>
+          </div>
+        </label>
+      </div>
+      <div class="weui_cells weui_cells_checkbox weui_cells_opsi_footer" ng-show="backup.bDel">
+        <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary">
+            <label class="weui_check_label weui_check_label_opsi">
+              <input type="checkbox" class="weui_check" ng-click="backup.checkeAll(filelist.list)" ng-model="backup.all_checked">
+              <i class="weui_icon_checked weui_icon_checked_opsi"></i>
+              <span class="weui_checkbox_opsi_text">全选</span>
+            </label>
+            <button class="weui_btn weui_btn_warn weui_btn_mini pull-right" ng-click="backup.del()">
+              <i class="fa fa-trash"></i> 删除
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="weui_dialog_confirm" ng-show="backup.confirm_shown">
+        <div class="weui_mask"></div>
+        <div class="weui_dialog">
+          <div class="weui_dialog_hd"><strong class="weui_dialog_title">提示</strong></div>
+          <div class="weui_dialog_bd">已选择{{backup.checked_num}}段录像，确认要删除吗？</div>
+          <div class="weui_dialog_ft">
+            <a href="javascript:;" class="weui_btn_dialog default" ng-click="backup.confirm_shown = false">取消</a>
+            <a href="javascript:;" class="weui_btn_dialog primary" ng-click="backup.delItems()">确定</a>
+          </div>
+        </div>
+      </div>
+      <div class="weui_dialog_alert" ng-show="backup.alert_shown">
+        <div class="weui_mask"></div>
+        <div class="weui_dialog">
+          <div class="weui_dialog_hd"><strong class="weui_dialog_title">提示</strong></div>
+          <div class="weui_dialog_bd">请选择需要删除的录像</div>
+          <div class="weui_dialog_ft">
+            <a href="javascript:;" class="weui_btn_dialog primary" ng-click="backup.alert_shown = false">确定</a>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
