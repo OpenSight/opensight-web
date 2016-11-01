@@ -184,9 +184,6 @@ a:hover{
     margin-left:10px;
     margin-right:10px
 }
-.weui_cell_disabled{
-  color: #888;
-}
 .maginB15{
   margin-bottom: 15px;
 }
@@ -212,6 +209,10 @@ button.weui_btn_opsi_nobordered{
 }
 .weui_cell_opsi_desc{
   color: #888;
+}
+.weui_cell_opsi_disabled,
+.weui_cell_opsi_disabled .weui_cell_opsi_desc{
+  color: #AAA;
 }
 .weui_cells_opsi_with_footer{
   margin-bottom: 65px;

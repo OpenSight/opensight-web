@@ -14,7 +14,7 @@
       </div>
       <div class="weui_cells weui_cells_checkbox" ng-class="{true: 'weui_cells_opsi_with_footer', false: ''}[backup.bDel]">
         <label class="weui_cell weui_check_label weui_check_label_opsi" ng-repeat="item in filelist.list" ng-click="backup.play(item, backup.bDel);"
-          ng-disabled="0 === item.state">
+          ng-class="{0: 'weui_cell_opsi_disabled'}[item.state]">
           <div class="weui_cell_hd" ng-show="backup.bDel">
             <input type="checkbox" class="weui_check" ng-disabled="!backup.bDel" ng-model="item.checked" ng-click="backup.checkeItem(item)">
             <i class="weui_icon_checked"></i>
@@ -23,7 +23,8 @@
             <p>{{item.desc}}</p>
             <p class="weui_cell_opsi_desc">
               <span>{{item.start|date: "MM-dd HH:mm"}}</span>
-              <span class="pull-right">{{item.end - item.start|duration}}</span>
+              <span class="pull-right" ng-hide="0 === item.state">{{item.end - item.start|duration}}</span>
+              <span class="pull-right" ng-show="0 === item.state">备份中</span>
             </p>
           </div>
         </label>
