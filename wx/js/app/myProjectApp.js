@@ -3,7 +3,7 @@ var G_ProjectName = "";
 
 var app = angular.module('app', ['ui.router', 'oc.lazyLoad', 'angular-loading-bar', 'ngAnimate', 'ui.bootstrap']);
 
-app.config(function($controllerProvider, $compileProvider, $filterProvider, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $provide) {
+app.config(function ($controllerProvider, $compileProvider, $filterProvider, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $provide) {
   app.register = {
     controller: $controllerProvider.register,
     directive: $compileProvider.directive,
@@ -12,8 +12,8 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
     service: $provide.service
   };
 
-  app.asyncjs = function(js) {
-    return ['$ocLazyLoad', function($ocLazyLoad) {
+  app.asyncjs = function (js) {
+    return ['$ocLazyLoad', function ($ocLazyLoad) {
       return $ocLazyLoad.load(js);
     }];
   };
@@ -32,7 +32,7 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
       }
     })
 
-  .state('camera', {
+    .state('camera', {
       url: '/camera',
       templateUrl: './views/cameraList.html',
       params: { projectName: null, info: null },
@@ -57,60 +57,60 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $sta
       }
     })
 
-  .state('plive', {
-    url: '/plive',
-    templateUrl: './views/pLive.html',
-    resolve: {
-      load: app.asyncjs(["./js/controller/PLive.js?_=1471563671720"])
-    }
-  })
+    .state('plive', {
+      url: '/plive',
+      templateUrl: './views/pLive.html',
+      resolve: {
+        load: app.asyncjs(["./js/controller/PLive.js?_=1471563671720"])
+      }
+    })
 
-  .state('prec', {
-    url: '/prec',
-    templateUrl: './views/pRec.html',
-    resolve: {
-      load: app.asyncjs(["./js/controller/PRec.js?_=1471563671720"])
-    }
-  })
+    .state('prec', {
+      url: '/prec',
+      templateUrl: './views/pRec.html',
+      resolve: {
+        load: app.asyncjs(["./js/controller/PRec.js?_=1471563671720"])
+      }
+    })
 
-  .state('precplay', {
-    url: '/precplay',
-    templateUrl: './views/pRecPlay.html',
-    resolve: {
-      load: app.asyncjs(["./js/controller/PRecPlay.js?_=1471563671720"])
-    }
-  })
+    .state('precplay', {
+      url: '/precplay',
+      templateUrl: './views/pRecPlay.html',
+      resolve: {
+        load: app.asyncjs(["./js/controller/PRecPlay.js?_=1471563671720"])
+      }
+    })
 
-  .state('bill', {
-    url: '/bill',
-    templateUrl: './views/billList.html',
-    params: { projectName: null, info: null },
-    resolve: {
-      load: app.asyncjs("./js/controller/billList.js")
-    }
-  });
+    .state('bill', {
+      url: '/bill',
+      templateUrl: './views/billList.html',
+      params: { projectName: null, info: null },
+      resolve: {
+        load: app.asyncjs("./js/controller/billList.js")
+      }
+    });
 
 
 })
 
-.config(['$httpProvider', function($httpProvider) {
-  $httpProvider.interceptors.push(function($q, $rootScope) {
-    return {
-      request: function(config) {
-        config.headers.Authorization = "Bearer " + jwt.jwt;
-        config.headers['Content-Type'] = 'application/json';
-        return config;
-      },
-      responseError: function(rejection, response, status) {
-        $rootScope.$emit('responseErrorStart', rejection);
-        return $q.reject(rejection);
-      }
-    };
-  });
-}]);
+  .config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.interceptors.push(function ($q, $rootScope) {
+      return {
+        request: function (config) {
+          config.headers.Authorization = "Bearer " + jwt.jwt;
+          config.headers['Content-Type'] = 'application/json';
+          return config;
+        },
+        responseError: function (rejection, response, status) {
+          $rootScope.$emit('responseErrorStart', rejection);
+          return $q.reject(rejection);
+        }
+      };
+    });
+  }]);
 
-app.controller('MyProject', ['$rootScope', '$scope', '$http', '$q', '$window', '$state', function($rootScope, $scope, $http, $q, $window, $state) {
-  (function() {
+app.controller('MyProject', ['$rootScope', '$scope', '$http', '$q', '$window', '$state', function ($rootScope, $scope, $http, $q, $window, $state) {
+  (function () {
     var binding_id = $.cookie('binding_id');
     var timestamp = Math.round(new Date().getTime() / 1000);
     var noncestr = binding_id + new Date().getTime().toString();
@@ -119,7 +119,7 @@ app.controller('MyProject', ['$rootScope', '$scope', '$http', '$q', '$window', '
       timestamp: timestamp,
       noncestr: noncestr,
       url: url
-    }).success(function(res) {
+    }).success(function (res) {
       wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: res.appid, // 必填，公众号的唯一标识
@@ -130,7 +130,7 @@ app.controller('MyProject', ['$rootScope', '$scope', '$http', '$q', '$window', '
       });
     });
   })();
-  $scope.destroy = function() {
+  $scope.destroy = function () {
     if (undefined !== $scope.aborter) {
       $scope.aborter.resolve();
       delete $scope.aborter;
@@ -139,7 +139,7 @@ app.controller('MyProject', ['$rootScope', '$scope', '$http', '$q', '$window', '
 
   $scope.$on('$destroy', $scope.destroy);
 
-  $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
     if (fromState.name === 'plive' || fromState.name === 'prec' || fromState.name === 'precplay') {
       if ($rootScope.Player !== undefined) $rootScope.Player.destroy();
       var player = $rootScope.RecPlayer;
@@ -153,8 +153,8 @@ app.controller('MyProject', ['$rootScope', '$scope', '$http', '$q', '$window', '
   });
 }]);
 
-app.filter('online', [function() {
-  return function(is_online) {
+app.filter('online', [function () {
+  return function (is_online) {
     if (1 === is_online) {
       return '在线';
     } else if (2 === is_online) {
@@ -165,100 +165,116 @@ app.filter('online', [function() {
   };
 }])
 
-.filter('publicattribute', [function() {
-  return function(bBublic) {
-    if (true === bBublic) {
-      return '公开';
-    } else {
-      return '私有';
-    }
-  };
-}])
-
-.filter('key_type', [function() {
-  return function(type) {
-    if (1 === type) {
-      return '管理员';
-    } else {
-      return '操作员';
-    }
-  };
-}])
-
-.filter('key_enabled', [function() {
-  return function(enabled) {
-    if (true === enabled) {
-      return '启用';
-    } else {
-      return '停用';
-    }
-  };
-}])
-
-.filter('getLink', [function() {
-  return function(item) {
-    if (0 === item.status) {
-      return '#';
-    }
-    return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
-  };
-}])
-
-.filter('duration', function() {
-  var a = [{ t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
-  return function(dur, ms) {
-    var s = '';
-    dur = Math.floor(dur / (1000 * 60));
-    for (var i = 0, l = a.length; i < l; i++) {
-      s = dur % a[i].v + a[i].t + s;
-      dur = Math.floor(dur / a[i].v);
-      if (0 === dur) {
-        break;
+  .filter('publicattribute', [function () {
+    return function (bBublic) {
+      if (true === bBublic) {
+        return '公开';
+      } else {
+        return '私有';
       }
-    }
-    return s;
-  };
-})
+    };
+  }])
 
-.filter('record_state', function() {
-        return function(state) {
-            var list = [
-                '未启动',
-                '预录中',
-                '录像中',
-                '异常'
-            ];
-            return list[state];
-        };
- })
+  .filter('key_type', [function () {
+    return function (type) {
+      if (1 === type) {
+        return '管理员';
+      } else {
+        return '操作员';
+      }
+    };
+  }])
 
-// .filter('duration', function() {
-//   var a = [{ t: '秒', v: 60 }, { t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
-//   return function(dur, ms) {
-//     var s = '';
-//     if (true === ms) {
-//       dur = Math.floor(dur / 1000);
-//     }
-//     for (var i = 0, l = a.length; i < l; i++) {
-//       s = dur % a[i].v + a[i].t + s;
-//       dur = Math.floor(dur / a[i].v);
-//       if (0 === dur) {
-//         break;
-//       }
-//     }
-//     return s;
-//   };
-// })
-;
+  .filter('key_enabled', [function () {
+    return function (enabled) {
+      if (true === enabled) {
+        return '启用';
+      } else {
+        return '停用';
+      }
+    };
+  }])
 
-app.factory('dateFactory', function() {
-  var padding = function(n) {
+  .filter('getLink', [function () {
+    return function (item) {
+      if (0 === item.status) {
+        return '#';
+      }
+      return '../video.html?uuid=' + item.uuid + '&project=' + G_ProjectName;
+    };
+  }])
+
+  .filter('duration', function () {
+    var a = [{ t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
+    return function (dur, ms) {
+      var s = '';
+      dur = Math.floor(dur / (1000 * 60));
+      for (var i = 0, l = a.length; i < l; i++) {
+        s = dur % a[i].v + a[i].t + s;
+        dur = Math.floor(dur / a[i].v);
+        if (0 === dur) {
+          break;
+        }
+      }
+      return s;
+    };
+  })
+
+  .filter('record_state', function () {
+    return function (state) {
+      var list = [
+        '未启动',
+        '预录中',
+        '录像中',
+        '异常'
+      ];
+      return list[state];
+    };
+  })
+
+  .filter('record_size', function () {
+    return function (size) {
+      var step = 1024;
+      var unit = [' B', ' K', ' M', ' G', ' T'];
+
+      var str = '';
+      for (var i = 0, l = unit.length; i < l; i++){
+        if (size < step){
+          str = Math.round(size * 10) / 10 + unit[i];
+          break;
+        }
+        size = size / step;
+      }
+      return str;
+    };
+  })
+  // .filter('duration', function() {
+  //   var a = [{ t: '秒', v: 60 }, { t: '分', v: 60 }, { t: '时', v: 60 }, { t: '天', v: 24 }];
+  //   return function(dur, ms) {
+  //     var s = '';
+  //     if (true === ms) {
+  //       dur = Math.floor(dur / 1000);
+  //     }
+  //     for (var i = 0, l = a.length; i < l; i++) {
+  //       s = dur % a[i].v + a[i].t + s;
+  //       dur = Math.floor(dur / a[i].v);
+  //       if (0 === dur) {
+  //         break;
+  //       }
+  //     }
+  //     return s;
+  //   };
+  // })
+  ;
+
+app.factory('dateFactory', function () {
+  var padding = function (n) {
     if (10 > n) {
       return '0' + n;
     }
     return n.toString();
   };
-  var getDate = function(dt) {
+  var getDate = function (dt) {
     return [
       dt.getFullYear(),
       padding(dt.getMonth() + 1),
@@ -266,16 +282,16 @@ app.factory('dateFactory', function() {
     ].join('-');
   };
   return {
-    getStart: function(dt) {
+    getStart: function (dt) {
       return getDate(dt) + 'T00:00:00';
     },
-    getEnd: function(dt) {
+    getEnd: function (dt) {
       return getDate(dt) + 'T23:59:59';
     },
-    time2str: function(dt) {
+    time2str: function (dt) {
       return padding(dt.getHours()) + ':' + padding(dt.getMinutes()) + ':' + padding(dt.getSeconds());
     },
-    str2time: function(str, bstart) {
+    str2time: function (str, bstart) {
       var a = str.split(':');
       var dt = new Date();
       dt.setHours(a[0]);
@@ -288,7 +304,7 @@ app.factory('dateFactory', function() {
       }
       return dt;
     },
-    getms: function(dt, tm) {
+    getms: function (dt, tm) {
       var tmp = tm;
       tmp.setFullYear(dt.getFullYear(), dt.getMonth(), dt.getDate());
       return tmp.getTime();
