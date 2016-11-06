@@ -1,6 +1,9 @@
 app.register.controller('Backup', [
   '$rootScope', '$scope', '$http', '$q', '$window', '$stateParams', '$state', 'dateFactory',
   function ($rootScope, $scope, $http, $q, $window, $stateParams, $state, dateFactory) {
+    $scope.filelist = {
+      list: []
+    };
     $scope.backup = (function () {
       return {
         bDel: false,
