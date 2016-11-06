@@ -20,7 +20,10 @@
             <i class="weui_icon_checked"></i>
           </div>
           <div class="weui_cell_bd weui_cell_primary">
-            <p>{{item.desc}}</p>
+            <p>
+              <span>{{item.desc}}</span>
+              <span class="pull-right" ng-hide="0 === item.state">{{item.size|record_size}}</span>
+            </p>
             <p class="weui_cell_opsi_desc">
               <span>{{item.start|date: "MM-dd HH:mm"}}</span>
               <span class="pull-right" ng-hide="0 === item.state">{{item.end - item.start|duration}}</span>
