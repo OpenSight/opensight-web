@@ -23,6 +23,7 @@ Jwt.prototype = {
       this.binding_id = $.cookie('binding_id');
       // 不管缓存的jwt是否过期都去更新jwt，防止出现load页面的时候jwt正好没有过期，进去之后过期了而keepalive定时器第一次触发未开始
       this.updateJwt(false);
+      this.aud = this.parse().aud;
     }
 
     this.keepalive();
@@ -30,12 +31,13 @@ Jwt.prototype = {
   },
   jump2Authorize: function(){
     var href = window.location.href;
-    var url = this.getAuthorizeUrl(href);
+    var url = this.getAuthorizeUrl(href, this.url);
     window.location.replace(url);
     return this;
   },
-  getAuthorizeUrl: function(href){
-    href = encodeURIComponent(href);
+  getAuthorizeUrl: function(redirect_uri, state){
+    redirect_uri = encodeURIComponent(redirect_uri);
+    state = encodeURIComponent(state);
     return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd5bc8eb5c47795d6" + 
       "&redirect_uri=" + href + 
       "&response_type=code&scope=snsapi_userinfo" +
@@ -67,12 +69,13 @@ Jwt.prototype = {
         this.binding_id = json.binding_id;
         return true;
       },
-      error: function (err) {
-        if (err === undefined || err.responseText === undefined || err.responseText.indexOf("Wechat Binding") >= 0) {
+      error: function (xhr) {
+        // code login 接口http status代表code超时，此时重新获取code，其他情况一律跳转到bind页面
+        if (xhr && 452 === xhr.status){
+          this.jump2Authorize();
+        } else {
           this.jump2Bind();
-          return false;
-        } 
-        this.jump2Authorize();
+        }
         return false;
       },
       context: this
@@ -85,7 +88,7 @@ Jwt.prototype = {
   },
   jump2Bind: function(){
     var bind_url = this.getBindUrl();
-    var url = this.getAuthorizeUrl(bind_url);
+    var url = this.getAuthorizeUrl(bind_url, this.url);
     window.location.replace(url);
     return this;
   },
@@ -99,7 +102,7 @@ Jwt.prototype = {
     return (claim.exp - t);
   },
 
-  update: function (async, timeeffect) {
+  updateJwt: function (async, timeeffect) {
     async = async || false;
     timeeffect = timeeffect || '3600000';
     if (true === this.updateing) {
@@ -133,7 +136,7 @@ Jwt.prototype = {
   },
   getJwt: function () {
     var timeeffect = $.cookie('timeeffect') || '3600000';
-    return this.update(false, timeeffect);
+    return this.updateJwt(false, timeeffect);
   },
   parse: function () {
     var a = this.jwt.split('.');
@@ -154,7 +157,7 @@ Jwt.prototype = {
     //_this.setJqueryHeader();
     setInterval(function () {
       if (interval > _this.check()) {
-        _this.update(true);
+        _this.updateJwt(true);
       }
     }, interval);
   },
