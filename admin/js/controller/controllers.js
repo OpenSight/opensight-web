@@ -13,7 +13,7 @@ G_token = jwt.get().jwt;
 G_salt = "opensight.cn";
 
 
-app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore', function($scope, $http, $q, $window, $cookies){
+app.controller('ModalCtrl', ['$scope', '$rootScope', '$timeout', '$http', '$q', '$window', '$cookieStore', function($scope, $rootScope, $timeout, $http, $q, $window, $cookies){
     //$scope.token = G_GetQueryString("token");
     //$scope.user = G_GetQueryString("user");
     // G_token = $cookies.get('jwt');
@@ -103,6 +103,62 @@ app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore',
         };
     })();
 
+  $scope.message = {
+    bshow: false,
+    list: [],
+    timer: undefined,
+    remove: function(idx) {
+      $scope.message.list.splice(idx, 1);
+      if (0 === $scope.message.list.length) {
+        $scope.message.hide();
+      }
+    },
+    show: function(msg) {
+      $scope.message.clear();
+      $scope.message.list = [msg];
+      $scope.message.bshow = true;
+      $scope.message.autohide();
+      // $scope.$apply();
+    },
+    hide: function() {
+      $scope.message.list = [];
+      $scope.message.bshow = false;
+      $scope.message.clear();
+      // $scope.$apply();
+    },
+    clear: function() {
+      if (undefined === $scope.message.timer) {
+        return;
+      }
+      $timeout.cancel($scope.message.timer);
+      $scope.message.timer = undefined;
+    },
+    push: function(msg) {
+      $scope.message.clear();
+      $scope.message.list.push(msg);
+      $scope.message.bshow = true;
+      $scope.message.autohide();
+      // $scope.$apply();
+    },
+    autohide: function() {
+      $scope.message.timer = $timeout(function() {
+        $scope.message.timer = undefined;
+        $scope.message.hide();
+      }, 5000);
+    }
+  };
+  $rootScope.$on('messageShow', function(event, data) {
+    console.log('messageShow');
+    $scope.message.show(data);
+  });
+  $rootScope.$on('messageHide', function(event) {
+    console.log('messageHide');
+    $scope.message.hide();
+  });
+  $rootScope.$on('messagePush', function(event, data) {
+    $scope.message.push(data);
+    console.log('messagePush');
+  });
 
     $scope.Login = (function () {
         return {
@@ -143,63 +199,6 @@ app.controller('ModalCtrl', ['$scope', '$http', '$q', '$window', '$cookieStore',
         };
     })();
 
-    // $scope.keepalive = (function () {
-    //     return {
-    //         check: function (errMsg) {
-    //             if (undefined === $cookies.get('jwt')){
-    //                 return -1;
-    //             }
-    //             var claim = $scope.keepalive.parse();
-    //             if (undefined === claim.exp){
-    //                 return -1;
-    //             }
-    //             var t = Math.ceil((new Date().getTime()) / 1000)
-    //             return (claim.exp - t);
-    //         },
-    //         update:function () {
-    //             if (true === $scope.keepalive.updateing){
-    //                 return false;
-    //             }
-    //             $scope.keepalive.updateing = true;
-    //             var d = new Date ();
-    //             d.setHours(d.getHours() + 1);
-    //             var e = Math.ceil(d.getTime() / 1000);
 
-    //             var postData = {username: $cookies.get('username'), password: $cookies.get('password'), expired: e};
-    //             $scope.aborter = $q.defer(),
-    //                 $http.post("http://api.opensight.cn/api/ivc/v1/user_login", postData, {
-    //                     timeout: $scope.aborter.promise
-    //                 }).success(function (response) {
-    //                         $cookies.put('jwt',response.jwt,{'expires': 30});
-    //                         $cookies.put('username',postData.username,{'expires': 30});
-    //                         $cookies.put('password',postData.password,{'expires': 30});
-    //                         $scope.keepalive.updateing = false;
-    //                         G_token = $cookies.get('jwt');
-    //                     }).error(function (response,state) {
-    //                         $scope.keepalive.updateing = false;
-    //                     });
-
-
-    //         },
-    //         parse:function () {
-    //             var list = Base64.decode($cookies.get('jwt')).match(/\{[^\{\}]*\}/g);
-    //             for (var i = 0, l = list.length; i < l; i++){
-    //                 var obj = JSON.parse(list[i]);
-    //                 if (undefined === obj.aud || undefined === obj.exp){
-    //                     continue;
-    //                 }
-    //                 return obj;
-    //             }
-    //             return {};
-    //         }
-    //     };
-    // })();
-
-    // var interval = 10 * 60 * 1000;
-    // setInterval(function(){
-    //     if (interval > $scope.keepalive.check()){
-    //         $scope.keepalive.update();
-    //     }
-    // }, interval);
 
 }]);

@@ -503,3 +503,14 @@ body{
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.msg {
+    position: fixed;
+    z-index: 999999999;
+    top: 25px;
+}
+
+.msg > .panel,
+.msg > .panel .table {
+    margin-bottom: 0;
+}

@@ -1,6 +1,6 @@
 app.register.controller('Project', [
-  '$scope', '$http', '$q', '$state', 'FileSaver', 'Blob', 'dateFactory', 'pageFactory', 'flagFactory',
-  function($scope, $http, $q, $state, FileSaver, Blob, dateFactory, pageFactory, flagFactory) {
+  '$scope', '$rootScope', '$http', '$q', '$state', 'FileSaver', 'Blob', 'dateFactory', 'pageFactory', 'flagFactory',
+  function($scope, $rootScope, $http, $q, $state, FileSaver, Blob, dateFactory, pageFactory, flagFactory) {
     $scope.showDetail = function(obj, item, index) {
       if (true === item.bDetailShown) {
         item.bDetailShown = false;
@@ -229,14 +229,6 @@ app.register.controller('Project', [
             },
             initData: function(item) {
               if ($scope.project.data_mod.bDetailShown === true) {
-                /*
-                $scope.project.data_mod.name = item.name;
-                $scope.project.data_mod.title = item.title;
-                $scope.project.data_mod.max_media_sessions = item.max_media_sessions;
-                $scope.project.data_mod.desc = item.desc;
-                $scope.project.data_mod.long_desc = item.long_desc;
-                $scope.project.data_mod.ctime = item.ctime;
-                $scope.project.data_mod.utime = item.utime;*/
                 $scope.project.data_mod.data = item;
               }
             },
@@ -248,11 +240,6 @@ app.register.controller('Project', [
               $scope.aborter = $q.defer(),
                 $http.get("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name, {
                   timeout: $scope.aborter.promise
-                    /*                       headers:  {
-                     "Authorization" : "Bearer "+$scope.authToken,
-                     "Content-Type": "application/json"
-                     }
-                     */
                 }).success(function(response) {
                   $scope.project.data_mod.initData(response);
                 }).error(function(response, status) {
@@ -284,17 +271,12 @@ app.register.controller('Project', [
                 is_public: $scope.project.data_mod.data.is_public
               };
 
-              //$scope.project.data_mod.submitForm = Math.random();
               $scope.aborter = $q.defer(),
                 $http.put("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name, postData, {
                   timeout: $scope.aborter.promise
-                    /*                       headers:  {
-                     "Authorization" : "Bearer "+$scope.authToken,
-                     "Content-Type": "application/json"
-                     }
-                     */
                 }).success(function(response) {
-
+                    $rootScope.$emit('messageShow', { succ: true, text: '更新成功。' });
+                    //$rootScope.$emit('messageShow', { succ: false, text: '重启失败。' });
                 }).error(function(response, status) {
                   var tmpMsg = {};
                   tmpMsg.Label = "错误";
@@ -904,7 +886,8 @@ app.register.controller('Project', [
           $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.project.data_mod.selectItem.name + "/cameras/" + item.uuid + "/reboot", {
             timeout: $scope.aborter.promise
           }).success(function(response) {
-
+              $rootScope.$emit('messageShow', { succ: true, text: '重启成功。' });
+              //$rootScope.$emit('messageShow', { succ: false, text: '重启失败。' });
           }).error(function(response, status) {
             var tmpMsg = {};
             tmpMsg.Label = "错误";
@@ -2274,20 +2257,8 @@ app.register.controller('Project', [
     };
 
     $scope.$on('$destroy', $scope.destroy);
-    //    $scope.$on("newToken",$scope.projectlist.getKey);
-    //   $scope.$on("project.show",$scope.project.show);
 
-
-    //add all callback
-    //    $scope.$on('modMdCallBack', $scope.project.data_mod.modMdCallBack);
-    //    $scope.$on('addMdCallBack', $scope.project.data_add.addMdCallBack);
-    //    $scope.$on('delMdCallBack', $scope.project.delMdCallBack);
-
-
-
-    //init project list
     $scope.project.show();
-    //$scope.$emit("freshToken","project.show");
 
   }
 ]);
