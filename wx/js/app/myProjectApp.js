@@ -240,7 +240,7 @@ app.filter('online', [function () {
       var str = '';
       for (var i = 0, l = unit.length; i < l; i++){
         if (size < step){
-          str = Math.round(size * 10) / 10 + unit[i];
+          str = size.toFixed(1) + unit[i];
           break;
         }
         size = size / step;
