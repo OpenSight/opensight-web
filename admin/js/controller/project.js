@@ -263,6 +263,7 @@ app.register.controller('Project', [
 
             submitForm: function() {
               var postData = {
+                //name: $scope.project.data_mod.data.name,
                 title: $scope.project.data_mod.data.title,
                 max_media_sessions: $scope.project.data_mod.data.max_media_sessions,
                 media_server: $scope.project.data_mod.data.media_server,
