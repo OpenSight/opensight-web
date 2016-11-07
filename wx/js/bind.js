@@ -83,7 +83,7 @@ Bind.prototype = {
     $('#loadingToast').show();
 
     $.ajax({
-      url: _this.api + 'bindings',
+      url: this.api + 'bindings',
       data: {
         username: u,
         password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(p, "opensight.cn", 10000)),
