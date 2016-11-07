@@ -31,7 +31,7 @@ Jwt.prototype = {
   },
   jump2Authorize: function(){
     var href = window.location.href;
-    var url = this.getAuthorizeUrl(href, this.url);
+    var url = this.getAuthorizeUrl(href, href);
     window.location.replace(url);
     return this;
   },
@@ -44,6 +44,7 @@ Jwt.prototype = {
       "&state=" + encodeURIComponent(this.url) + "#wechat_redirect";
   },
   getExpired: function(timeeffect){
+    timeeffect = timeeffect || '3600000';
     timeeffect = parseInt(timeeffect, 10);
 
     var d = new Date();
@@ -88,7 +89,8 @@ Jwt.prototype = {
   },
   jump2Bind: function(){
     var bind_url = this.getBindUrl();
-    var url = this.getAuthorizeUrl(bind_url, this.url);
+    
+    var url = this.getAuthorizeUrl(bind_url, window.location.href;);
     window.location.replace(url);
     return this;
   },
