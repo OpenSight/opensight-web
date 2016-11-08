@@ -14,29 +14,26 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window', function ($scope, 
   $scope.codeLoginUrl = getUrl('myInfo', 'myInfo');
 
   $scope.unbind = (function () {
+    debugger;
     $scope.aborter = $q.defer(),
       $http.delete($scope.wx_api + "bindings/" +
         $.cookie('binding_id'), {
           timeout: $scope.aborter.promise
         }).success(function (response) {
-        $.removeCookie('jwt');
-        $.removeCookie('binding_id');
-        $scope.ToastTxt = "解绑成功";
-        $('#loadingToast').show();
-        setTimeout(function () {
-          $('#loadingToast').hide();
-        }, 2000);
-        $window.location.replace($scope.bindUrl);
-      }).error(function (response) {
-        $.removeCookie('jwt');
-        $.removeCookie('binding_id');
-        $scope.ToastTxt = "解绑失败";
-        $('#loadingToast').show();
-        setTimeout(function () {
-          $('#loadingToast').hide();
-        }, 2000);
-        $window.location.replace($scope.codeLoginUrl);
-      });
+          $scope.ToastTxt = "解绑成功";
+          $('#loadingToast').show();
+          setTimeout(function () {
+            debugger;
+            $('#loadingToast').hide();
+            jwt.logout();
+          }, 1000);
+        }).error(function (response) {
+          $scope.ToastTxt = "解绑失败";
+          $('#loadingToast').show();
+          setTimeout(function () {
+            $('#loadingToast').hide();
+          }, 2000);
+        });
   });
 
   $scope.userinfo = (function () {
@@ -74,7 +71,7 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window', function ($scope, 
               expires: 1440 * 360
             });
           },
-          setTimeeffect: function(){
+          setTimeeffect: function () {
             $.cookie('timeeffect', $scope.timeeffect, {
               expires: 1440 * 360
             });
@@ -193,7 +190,7 @@ app.controller('MyInfo', ['$scope', '$http', '$q', '$window', function ($scope, 
 
 
 
-          destroy: function () {}
+          destroy: function () { }
         };
       })()
 

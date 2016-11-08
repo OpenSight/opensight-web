@@ -1,6 +1,7 @@
 var Bind = function(){
   this.api = 'http://api.opensight.cn/api/ivc/v1/wechat/';
 
+  debugger;
   this.init();
 
   return this;
@@ -10,14 +11,17 @@ Bind.prototype = {
   init: function(){
     var params = this.getUrlParams();
 
-    this.state = params.state;
-    if (true === this.isEmpty(this.state)){
-      this.state = this.getDefaultState();
+    var state = params.state;
+    if (true === this.isEmpty(state)){
+      state = 'myInfo.html';
+    } else {
+      state = decodeURIComponent(state);
     }
+    this.uri = this.getUriByState(state);
 
     if (true === this.isEmpty(params.code)){
       var redirect_uri = encodeURIComponent(window.location.href);
-      this.jump2Authorize(redirect_uri, this.state);
+      this.jump2Authorize(redirect_uri, this.uri);
     } else {
       this.code = params.code;
     }
@@ -32,6 +36,11 @@ Bind.prototype = {
 
     window.location.replace(uri);
     return this;
+  },
+  getUriByState: function(state){
+    var path = window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/') + 1);
+    var href = window.location.origin + path + state;
+    return href;
   },
   getDefaultState: function(){
     var path = window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/') + 1);
@@ -79,7 +88,7 @@ Bind.prototype = {
     return e;
   },
   bind: function(u, p){
-    $('#loadingTxt').val("正在进行绑定");
+    $('#loadingTxt').html("正在绑定");
     $('#loadingToast').show();
 
     $.ajax({
@@ -93,16 +102,16 @@ Bind.prototype = {
       type: 'POST',
       async: false,
       success: function (json) {
-        this.jump2Authorize(this.state, 'bind');
+        this.jump2Authorize(this.uri, 'bind');
       },
       error: function (err) {
         if (err === undefined || err.responseText === undefined){
-          $('#loadingTxt').val("绑定失败");
+          $('#loadingTxt').html("绑定失败");
         }
         else if (err.responseText.indexOf("Wechat Binding Already exists") >= 0) {
-          this.jump2Authorize(this.state, 'bind');
+          this.jump2Authorize(this.uri, 'bind');
         } else {
-          $('#loadingTxt').val("密码错误");
+          $('#loadingTxt').html("密码错误");
         }
         setTimeout(function(){
           $('#loadingToast').hide();
@@ -116,13 +125,13 @@ Bind.prototype = {
 };
 
 $(function () {
-  var login = new Bind();
+  var b = new Bind();
 
   $('#form').submit(function (event) {
     /* Act on the event */
     var u = $('#username').val();
     var p = $('#password').val();
-    Bind.bind(u, p);
+    b.bind(u, p);
     return false;
   });
 });
