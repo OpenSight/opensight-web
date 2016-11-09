@@ -11,6 +11,7 @@ Bind.prototype = {
   init: function(){
     var params = this.getUrlParams();
 
+    debugger;
     var state = params.state;
     if (true === this.isEmpty(state)){
       state = 'myInfo.html';
@@ -21,7 +22,7 @@ Bind.prototype = {
 
     if (true === this.isEmpty(params.code)){
       var redirect_uri = encodeURIComponent(window.location.href);
-      this.jump2Authorize(redirect_uri, this.uri);
+      this.jump2Authorize(redirect_uri, state);
     } else {
       this.code = params.code;
     }

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Open Sight</title>
+  <title>绑定用户</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -21,25 +21,35 @@
 
   <!-- Add your site or application content here -->
   <div class="container-fluid login-background">
-    <div class="login-container">
-      <form action="" method="POST" class="container-fluid" id="form">
-        <h4 class="login-header">
-          <span class="glyphicon glyphicon-user"></span>
-          将微信帐号与趣观用户绑定
-        </h4>
-        <div class="input-group">
-          <div class="input-group-addon"><span class="glyphicon glyphicon-user nput-group-addon"></span></div>
-          <input type="text" class="form-control" id="username" placeholder="用户名" name="username">
-        </div>
-        <div class="input-group">
-          <div class="input-group-addon"><span class="fa fa-key"></span></div>
-          <input type="password" class="form-control" id="password" placeholder="密码" name="password">
-        </div>
-        <div class="checkbox">
-          <button type="submit" class="btn btn-primary pull-right" id="login">绑定</button>
-        </div>
-      </form>
+    <div class="hd">
+      <div class="page_title">
+        绑定用户
+      </div>
+      <p class="page_desc">将微信帐号与趣观用户绑定</p>
     </div>
+    <form class="bd" action="" method="POST" id="form">
+      <div class="weui_cells weui_cells_form">
+        <div class="weui_cell">
+          <div class="weui_cell_hd">
+            <i class="glyphicon glyphicon-user nput-group-addon hight_light"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" type="text" placeholder="请填入用户名" id="username" name="username">
+          </div>
+        </div>
+        <div class="weui_cell">
+          <div class="weui_cell_hd">
+            <i class="fa fa-key hight_light"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" type="password" placeholder="请填入密码" id="password" name="password">
+          </div>
+        </div>
+      </div>
+      <div class="weui_btn_area">
+        <button type="submit" class="weui_btn weui_btn_primary" id="login">绑定</button>
+      </div>
+    </form>
   </div>
   <div id="loadingToast" class="weui_loading_toast" style="display:none;">
     <div class="weui_mask_transparent"></div>
