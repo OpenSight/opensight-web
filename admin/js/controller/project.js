@@ -34,13 +34,29 @@ app.register.controller('Project', [
           }];
           $scope.projectlist.seachKey = $scope.projectlist.searchKeyOptionsData[0].key;
           $scope.projectlist.seachValue = "";
-          $scope.projectlist.get();
+          $scope.projectlist.page = pageFactory.init({
+            query: $scope.projectlist.get,
+            jumperror: function() {
+              alert('页码输入不正确。');
+            }
+          });
+          var params = {
+            start: 0,
+            limit: $scope.projectlist.page.limit
+          };
+          $scope.projectlist.get(params);
         },
         search: function() { //clean input,close add div
+          var params = {
+            start: 0,
+            limit: $scope.projectlist.page.limit
+          };
+
           $scope.project.data_add.clean_data();
           $scope.aborter = $q.defer(),
+
             $http.get("http://api.opensight.cn/api/ivc/v1/projects?filter_key=" + $scope.projectlist.seachKey + "&filter_value=" + $scope.projectlist.seachValue +
-              "&start=0&limit=100", {
+              "&start=0&limit=" + $scope.projectlist.page.limit, {
                 timeout: $scope.aborter.promise
                   /*                       headers:  {
                    "Authorization" : "Bearer "+$scope.authToken,
@@ -49,6 +65,7 @@ app.register.controller('Project', [
                    */
 
               }).success(function(response) {
+                pageFactory.set(response, params);
               $scope.projectlist.data = response;
             }).error(function(response, status) {
               var tmpMsg = {};
@@ -173,6 +190,7 @@ app.register.controller('Project', [
                  }
                  */
             }).success(function(response) {
+
               $scope.project.refresh();
             }).error(function(response, status) {
               var tmpMsg = {};
@@ -313,11 +331,15 @@ app.register.controller('Project', [
 
     $scope.projectlist = (function() {
       return {
-        get: function() { //clean input,close add div
+        get: function(params) { //clean input,close add div
           $scope.project.data_add.clean_data();
+
+          //$scope.projectlist.page.limit = 10;
+
           //$scope.project.addShown = false;
           $scope.aborter = $q.defer(),
-            $http.get("http://api.opensight.cn/api/ivc/v1/projects?start=0&limit=100", {
+            $http.get("http://api.opensight.cn/api/ivc/v1/projects" , {
+              params: params,
               timeout: $scope.aborter.promise
                 /*                       headers:  {
                  "Authorization" : "Bearer "+$scope.authToken,
@@ -326,6 +348,7 @@ app.register.controller('Project', [
                  */
 
             }).success(function(response) {
+              pageFactory.set(response, params);
               $scope.projectlist.data = response;
             }).error(function(response, status) {
               var tmpMsg = {};
