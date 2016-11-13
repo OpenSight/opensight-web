@@ -124,7 +124,10 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                             email: $scope.customer.data_add.email
                         };
 
-                        $scope.customer.data_add.token = Math.random();
+                      $scope.dataClean(postData);
+                      //console.log(postData);
+
+                      $scope.customer.data_add.token = Math.random();
                         $scope.aborter = $q.defer(),
                             $http.post("http://api.opensight.cn/api/ivc/v1/users", postData, {
                                 timeout: $scope.aborter.promise
@@ -275,13 +278,16 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
                     },
 
                     submitForm: function (item, index) {
-                        var postData =  {
+                      var postData =  {
                             cellphone: $scope.customer.data_mod.data[index].cellphone,
                             title: $scope.customer.data_mod.data[index].title,
                             desc: $scope.customer.data_mod.data[index].desc,
                             long_desc: $scope.customer.data_mod.data[index].long_desc,
                             email: $scope.customer.data_mod.data[index].email
-                        };
+                      };
+
+                      $scope.dataClean(postData);
+                      //console.log(postData);
 
                         $scope.customer.data_mod.updateCustomers = Math.random();
                         $scope.aborter = $q.defer(),
@@ -399,6 +405,14 @@ app.register.controller('Customers', ['$scope', '$http', '$q', function($scope, 
 
         };
     })();
+
+  $scope.dataClean = function (data) {
+    for(var k in data){
+      if (data[k] === ""){
+        delete data[k];
+      }
+    }
+  };
 
     $scope.destroy = function () {
         if (undefined !== $scope.aborter) {

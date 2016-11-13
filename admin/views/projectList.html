@@ -95,6 +95,16 @@
           </tr>
         </tbody>
       </table>
+      <div class="pagination-container">
+        <uib-pagination total-items="projectlist.page.total" ng-model="projectlist.page.curr" max-size="projectlist.page.max" items-per-page="projectlist.page.limit" previous-text="&laquo;" next-text="&raquo;" ng-change="projectlist.page.pageChanged()" boundary-link-numbers="true" class="pagination-sm">
+        </uib-pagination>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <label class="pagination-jump">
+          <span>跳转到：</span>
+          <input type="text" class="form-control input-sm" ng-model="projectlist.page.jumpto">
+        </label>
+        <button class="btn btn-default btn-sm" ng-click="projectlist.page.jump()">Go</button>
+      </div>
     </div>
   </div>
   <div class="row row-in-tab os-row-no-padding ng-hide" ng-show="project.data_mod.bDetailShown">
@@ -113,6 +123,7 @@
                       <label class="col-sm-2 control-label">项目名称</label>
                       <div class="col-sm-4">
                         <p class="form-control-static">{{project.data_mod.data.name}}</p>
+                        <!--<input type="text" class="form-control" ng-model="project.data_mod.data.name" />-->
                       </div>
                     </div>
                     <div class="form-group">
@@ -614,7 +625,8 @@
                       <th class="col-sm-2">摄像机名称</th>
                       <th class="col-sm-1">在线状态</th>
                       <th class="col-sm-2">直播状态</th>
-                      <th class="col-sm-4">支持流类型</th>
+                      <th class="col-sm-1">录像状态</th>
+                      <th class="col-sm-3">支持流类型</th>
                       <th class="col-sm-2">描述</th>
                       <th class="col-sm-1">删除</th>
                     </tr>
@@ -629,6 +641,7 @@
                           <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[u.live]" title="禁止直播" ng-click="project.camera.play_switch(u, $index, false)">禁止</button>
                         </div>
                       </td>
+                      <td ng-click="showDetail(project.camera, u, $index)" style="cursor:pointer;">{{u.record_state|record_state}}</td>
                       <td ng-click="showDetail(project.camera, u, $index)" style="cursor:pointer;">
                         <div class="btn-group btn-group-xs">
                           <button ng-repeat="it in u.ability" class="btn btn-default text-primary" ng-disabled="!u.live" role="group" title={{it.title}}>{{it.text}}</button>
@@ -711,6 +724,12 @@
                                 <label class="col-sm-2 control-label">在线状态</label>
                                 <div class="col-sm-4">
                                   <p class="form-control-static">{{project.camera.detail[$index].is_online|online}}</p>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label">录像状态</label>
+                                <div class="col-sm-4">
+                                  <p class="form-control-static">{{project.camera.detail[$index].record_state|record_state}}</p>
                                 </div>
                               </div>
                               <div class="form-group">
