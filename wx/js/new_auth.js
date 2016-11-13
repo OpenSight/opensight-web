@@ -37,7 +37,7 @@ Jwt.prototype = {
   },
   jump2Authorize: function () {
     debugger;
-    var href = window.location.href;
+    var href = window.location.origin + window.location.pathname;
     var state = this.getStateByUri(href);
     var url = this.getAuthorizeUrl(href, state);
     window.location.replace(url);
@@ -88,7 +88,8 @@ Jwt.prototype = {
       error: function (xhr) {
         // code login 接口http status代表code超时，此时重新获取code，其他情况一律跳转到bind页面
         if (xhr && 452 === xhr.status) {
-          this.jump2Authorize();
+          this.jump2Bind();
+          // this.jump2Authorize();
         } else {
           debugger;
           this.jump2Bind();

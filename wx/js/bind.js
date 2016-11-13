@@ -21,7 +21,8 @@ Bind.prototype = {
     this.uri = this.getUriByState(state);
 
     if (true === this.isEmpty(params.code)){
-      var redirect_uri = encodeURIComponent(window.location.href);
+      var redirect_uri = window.location.origin + window.location.pathname;
+      redirect_uri = encodeURIComponent(redirect_uri);
       this.jump2Authorize(redirect_uri, state);
     } else {
       this.code = params.code;
@@ -97,7 +98,7 @@ Bind.prototype = {
       data: {
         username: u,
         password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(p, "opensight.cn", 10000)),
-        expired: this.getExpired(),
+        expired: this.getExpired(3600000 * 24 * 365),
         code: this.code
       },
       type: 'POST',
@@ -105,15 +106,19 @@ Bind.prototype = {
       success: function (json) {
         this.jump2Authorize(this.uri, 'bind');
       },
-      error: function (err) {
-        if (err === undefined || err.responseText === undefined){
-          $('#loadingTxt').html("绑定失败");
-        }
-        else if (err.responseText.indexOf("Wechat Binding Already exists") >= 0) {
-          this.jump2Authorize(this.uri, 'bind');
+      error: function (xhr) {
+        if (xhr && xhr.status){
+          if (453 === xhr.status || 454 === xhr.status){
+            $('#loadingTxt').html("用户名或密码错误");
+          } else if (455 === xhr.status){
+            this.jump2Authorize(this.uri, 'bind');
+          } else {
+            $('#loadingTxt').html('绑定失败');
+          }
         } else {
-          $('#loadingTxt').html("密码错误");
+          $('#loadingTxt').html('网络异常');
         }
+
         setTimeout(function(){
           $('#loadingToast').hide();
         }, 2000);
