@@ -1,105 +1,123 @@
 var Jwt = function (urlname) {
+  this.api = "http://api.opensight.cn/api/ivc/v1/wechat/";
   this.url = urlname;
   this.init();
-  this.keepalive();
 };
 
 Jwt.prototype = {
   init: function () {
-    // if (Base64 === undefined) alert("Base64 not load well!");
+    // 检查cookie中jwt是否存在
+    // 如果jwt不存在，检查url参数中是否携带了code，如果携带了code，使用code后期binding id，如果没有携带code，跳转获取code
+    // 如果jwt存在，更新jwt，并启动定时器自动更新jwt
     this.jwt = $.cookie('jwt');
     this.binding_id = $.cookie('binding_id');
-    this.api = "http://api.opensight.cn/api/ivc/v1/wechat/";
-
-      this.selfUrl = this.getUrl(this.url, true);
-      this.bindUrl = this.getUrl(this.url, false);
-
-    if (0 >= this.check()) {//check jwt is valueable
-      this.jump();
+    if (undefined === this.jwt || undefined === this.binding_id) {
+      var code = this.getUrlParam("code");
+      if (code === undefined || code === null || code === "") {
+        // 跳转到微信认证页面获取code
+        this.jump2Authorize();
+        return this;
+      }
+      // 使用code进行登录
+      this.loginByCode(code);
+    } else {
+      // 不管缓存的jwt是否过期都去更新jwt，防止出现load页面的时候jwt正好没有过期，进去之后过期了而keepalive定时器第一次触发未开始
+      this.updateJwt(false);
+      this.aud = this.parse().aud;
     }
 
-
-
-//      checkJwt
-//      checkBindlogin
-//      checkCodeLogin
-//      goBind
+    this.keepalive();
+    return this;
   },
-
-    getUrl: function (url, self) {
-        var href = window.location.origin + window.location.pathname;
-        if (true !== self) {
-            var path = window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/') + 1);
-            href = window.location.origin + path + 'bind.html';
-        }
-        href = encodeURIComponent(href);
-        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd5bc8eb5c47795d6"+ "&redirect_uri=" + href +  "&response_type=code&scope=snsapi_userinfo" +
-            "&state=" + url + "#wechat_redirect";
-    },
-
-    getUrlParam: function (name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-        var r = window.location.search.substr(1).match(reg); //匹配目标参数
-        if (r != null) return unescape(r[2]);
-        return null; //返回参数值
-    },
-
-    codeLogin: function (code) {
-        var d = new Date();
-        d.setHours(d.getHours() + 1);
-        var e = Math.ceil(d.getTime() / 1000);
-        var data = {
-            code: code,
-            expired: e
-        };
-        var _this = this;
-        $.ajax({
-            async: false,
-            url: _this.api + 'code_login',
-            data: data,
-            type: 'POST',
-            cache: false,
-            success: function (json) {
-                $.cookie('jwt', json.jwt);
-                $.cookie('binding_id', json.binding_id);
-                _this.aud = json.username;
-                _this.jwt = json.jwt;
-                _this.binding_id = json.binding_id;
-                return true;
-            },
-            error: function (err) {
-                if (err === undefined || err.responseText === undefined || err.responseText.indexOf("Wechat Binding") >= 0) {
-                    window.location.replace(_this.bindUrl);
-                    return false;
-                } else {
-                    alert(err.responseText);
-                    window.location.replace(_this.selfUrl);
-                    return false;
-                }
-
-            }
-        });
-    },
-
-    code_jump: function () {
-        var code = this.getUrlParam("code");
-        if (code !== undefined && code !== null && code !== "")
-            return this.codeLogin(code);
-        else {//no code ,get one
-            $.removeCookie('jwt');
-            $.removeCookie('binding_id');
-            //jamken advice go bind let's check
-          //  window.location.replace(this.selfUrl);
-            window.location.replace(this.bindUrl);
-            return false;
-        }
-
-    },
-
-  check: function () {
-    if (undefined === this.jwt || this.binding_id === undefined) { //must have two cookies
-      return -1;
+  getUrlParam: function (name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg); //匹配目标参数
+    if (r != null) return unescape(r[2]);
+    return null; //返回参数值
+  },
+  jump2Authorize: function () {
+    debugger;
+    var href = window.location.origin + window.location.pathname;
+    var state = this.getStateByUri(href);
+    var url = this.getAuthorizeUrl(href, state);
+    window.location.replace(url);
+    return this;
+  },
+  getStateByUri: function(href){
+    var m = href.match(/[a-zA-Z\d]+.html/);
+    if (0 === m.length){
+      return 'myInfo.html';
     }
+    return m[0];
+  },
+  getAuthorizeUrl: function (redirect_uri, state) {
+    redirect_uri = encodeURIComponent(redirect_uri);
+    state = encodeURIComponent(state);
+    return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd5bc8eb5c47795d6" +
+      "&redirect_uri=" + redirect_uri +
+      "&response_type=code&scope=snsapi_userinfo" +
+      "&state=" + state + "#wechat_redirect";
+  },
+  getExpired: function (timeeffect) {
+    timeeffect = timeeffect || '3600000';
+    timeeffect = parseInt(timeeffect, 10);
+
+    var d = new Date();
+    var e = Math.ceil((d.getTime() + timeeffect) / 1000);
+    return e;
+  },
+  loginByCode: function (code) {
+    var e = this.getExpired();
+    $.ajax({
+      async: false,
+      url: this.api + 'code_login',
+      data: {
+        code: code,
+        expired: e
+      },
+      type: 'POST',
+      cache: false,
+      success: function (json) {
+        $.cookie('jwt', json.jwt);
+        $.cookie('binding_id', json.binding_id);
+        this.aud = json.username;
+        this.jwt = json.jwt;
+        this.binding_id = json.binding_id;
+        return true;
+      },
+      error: function (xhr) {
+        // code login 接口http status代表code超时，此时重新获取code，其他情况一律跳转到bind页面
+        if (xhr && 452 === xhr.status) {
+          this.jump2Bind();
+          // this.jump2Authorize();
+        } else {
+          debugger;
+          this.jump2Bind();
+        }
+        return false;
+      },
+      context: this
+    });
+  },
+  getBindUrl: function () {
+    var path = window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/') + 1);
+    var href = window.location.origin + path + 'bind.html';
+    return href;
+  },
+  jump2Bind: function () {
+    debugger;    
+    var bind_url = this.getBindUrl();
+    var state = this.getStateByUri(window.location.href);
+
+    var url = this.getAuthorizeUrl(bind_url, state);
+
+    $.removeCookie('jwt');
+    $.removeCookie('binding_id');
+
+    window.location.replace(url);
+    return this;
+  },
+  check: function () {
     var claim = this.parse();
     if (undefined === claim.exp || undefined === claim.aud) {
       return -1;
@@ -109,74 +127,42 @@ Jwt.prototype = {
     return (claim.exp - t);
   },
 
-  update: function (syncOp) {
+  updateJwt: function (async, timeeffect) {
+    async = async || false;
+    timeeffect = timeeffect || '3600000';
     if (true === this.updateing) {
       return false;
     }
     this.updateing = true;
-    var d = new Date();
-    d.setHours(d.getHours() + 1);
-    var e = Math.ceil(d.getTime() / 1000);
+    var e = this.getExpired(timeeffect);
 
-    var _this = this;
     $.ajax({
-      url: _this.api + 'binding_login',
+      url: this.api + 'binding_login',
       data: {
         binding_id: this.binding_id,
         expired: e
       },
       type: 'POST',
       cache: false,
-      async: syncOp,
+      async: async,
       success: function (json) {
-        _this.jwt = json.jwt;
+        this.jwt = json.jwt;
         $.cookie('jwt', json.jwt);
         //_this.setJqueryHeader();
-        _this.updateing = false;
+        this.updateing = false;
       },
       error: function () {
-//        window.location.replace(_this.bindUrl);
-        _this.code_jump();
-        _this.updateing = false;
-      }
+        this.jump2Bind();
+        this.updateing = false;
+      },
+      context: this
     });
+    return this.jwt;
   },
-
   getJwt: function () {
-    if (true === this.updateing) {
-      return false;
-    }
-    this.updateing = true;
-
     var timeeffect = $.cookie('timeeffect') || '3600000';
-    timeeffect = parseInt(timeeffect, 10);
-    var d = new Date();
-    var e = Math.ceil((d.getTime() + timeeffect) / 1000);
-
-    var _this = this;
-    $.ajax({
-      url: _this.api + 'binding_login',
-      data: {
-        binding_id: this.binding_id,
-        expired: e
-      },
-      type: 'POST',
-      cache: false,
-      async: false,
-      success: function (json) {
-        _this.jwt = json.jwt;
-        $.cookie('jwt', json.jwt);
-        _this.updateing = false;
-      },
-      error: function () {
-//        window.location.replace(_this.bindUrl);
-        _this.code_jump();
-        _this.updateing = false;
-      }
-    });
-    return _this.jwt;
+    return this.updateJwt(false, timeeffect);
   },
-
   parse: function () {
     var a = this.jwt.split('.');
     if (a.length < 2) {
@@ -190,28 +176,17 @@ Jwt.prototype = {
 
     return obj;
   },
-
-  jump: function () {
-    if (this.binding_id !== undefined && this.binding_id !== null && this.binding_id !== "") {
-      this.update(false);
-    } else
-//      window.location.replace(this.bindUrl);
-          this.code_jump()
-  },
-
   keepalive: function () {
     var _this = this;
     var interval = 10 * 60 * 1000;
     //_this.setJqueryHeader();
     setInterval(function () {
       if (interval > _this.check()) {
-        _this.update(true);
+        _this.updateJwt(true);
       }
     }, interval);
   },
-
   logout: function () {
-      $.removeCookie('jwt');
-      this.jump();
-    }
+    this.jump2Bind();
+  }
 };

@@ -462,7 +462,7 @@ Tip.prototype = {
 
 var Session = function (camera) {
   this.camera = camera;
-  this.interval = 10000;
+  this.interval = 120000;
   this.stop();
   this.get();
   return this;

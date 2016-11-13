@@ -11,7 +11,7 @@ app.register.controller('BackupRecord', ['$rootScope', '$scope', '$http', '$q', 
         $scope.caminfo = $rootScope.pCamera;
         $scope.recInfo = $rootScope.pRecInfo;
 
-        $scope.start = new Date(Math.round($scope.recInfo.start / 1000 + $scope.recInfo.currentTime) * 1000);
+        $scope.start = new Date(Math.ceil(($scope.recInfo.start / 1000 + $scope.recInfo.currentTime) / 60 ) * 1000 * 60);
         $scope.desc = $scope.caminfo.name + '_' + padding($scope.start.getMonth() + 1, 2) + padding($scope.start.getDate(), 2);
         $scope.duration = "5";
         $scope.long_desc = '';
@@ -24,11 +24,19 @@ app.register.controller('BackupRecord', ['$rootScope', '$scope', '$http', '$q', 
       backup: function() {
         $('#ToastTxt').html("正在备份");
         $('#loadingToast').show();
+        var start = $scope.start.getTime();
+        var end = $scope.start.getTime() + parseInt($scope.duration, 10) * 60 *1000;
+        if (start < $scope.recInfo.start){
+          start = $scope.recInfo.start;
+        }
+        if (end > $scope.recInfo.end){
+          end = $scope.recInfo.end
+        }
         $http.post("http://api.opensight.cn/api/ivc/v1/projects/" + $scope.caminfo.project_name + '/record/events', {
           desc: $scope.desc,
           camera_id: $scope.caminfo.uuid,
-          start: $scope.start.getTime(),
-          end: $scope.start.getTime() + parseInt($scope.duration, 10) * 60 *1000,
+          start: start,
+          end: end,
           long_desc: $scope.long_desc
         }).success(function(response) {
           setTimeout(function() {

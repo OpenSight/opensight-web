@@ -1,132 +1,58 @@
-var Login = function () {
-  this.url = 'http://www.opensight.cn/wx/';
+var Bind = function(){
   this.api = 'http://api.opensight.cn/api/ivc/v1/wechat/';
 
-  var params = this.getUrlParams();
-  if (params === undefined || undefined === params.state || null === params.state || "" === params.state) {
-    alert("unknown from url!");
-    params.state = "myInfo";
-  }
-  this.url += params.state;
-  this.codeLoginUrl = this.getUrl(params.state, params.state);
-  this.bindUrl = this.getUrl('bind', params.state);
+  debugger;
+  this.init();
 
-  if (undefined === params.code || null === params.code || "" === params.code) {
-    alert("wrong code!");
-    window.location.replace(this.bindUrl);
-  } else {
-    this.code = params.code;
-  }
+  return this;
 };
 
-Login.prototype = {
-  bindLogin: function (bid) {
-    $('#loadingTxt').val("正在登录");
-    $('#loadingToast').show();
-    var d = new Date();
-    d.setHours(d.getHours() + 1);
-    var e = Math.ceil(d.getTime() / 1000);
-    var _this = this;
-    var data = {
-      binding_id: bid,
-      expired: e
-    };
+Bind.prototype = {
+  init: function(){
+    var params = this.getUrlParams();
 
-    $.ajax({
-      url: _this.api + 'binding_login',
-      data: data,
-      type: 'POST',
-      async: false,
-      success: function (json) {
-        $.cookie('jwt', json.jwt);
-        $('#loadingTxt').val("登录成功");
-        setTimeout(function () {
-          $('#loadingToast').hide();
-        }, 2000);
-        //_this.logining = false;
-        window.location.replace(_this.codeLoginUrl);
-      },
-      error: function (err) {
-        $('#loadingTxt').val("登录失败");
-        setTimeout(function () {
-          $('#loadingToast').hide();
-        }, 2000);
-        alert("bind login err, err info: " + err.responseText);
-        //_this.logining = false;
-        $.removeCookie('jwt');
-        $.removeCookie('binding_id');
-        //window.location.replace(_this.codeLoginUrl);
-      }
-    });
-  },
-  getUrl: function (file, state) {
-    var pathname = window.location.pathname;
-    var path = pathname.substr(0, pathname.lastIndexOf('/') + 1);
-    var href = window.location.origin + path + file + '.html';
-    href = encodeURIComponent(href);
-    return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd5bc8eb5c47795d6&response_type=code&scope=snsapi_userinfo" +
-      "&state=" + state + "&redirect_uri=" + href + "#wechat_redirect";
-  },
-  goBind: function (u, p) {
-    //alert("begin sjcl!");
-    var d = new Date();
-    d.setTime(d.getTime() + 370 * 24 * 3600 * 1000);
-    var e = Math.ceil(d.getTime() / 1000);
-    var data = {};
-    var _this = this;
-    data = {
-      username: u,
-      password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(p, "opensight.cn", 10000)),
-      expired: e,
-      code: _this.code
-    };
-    $.ajax({
-      url: _this.api + 'bindings',
-      data: data,
-      type: 'POST',
-      async: false,
-      success: function (json) {
-        $.cookie('binding_id', json.binding_id);
-        _this.bindLogin(json.binding_id);
-      },
-      error: function (err) {
-        $('#loadingToast').hide();
-
-        if (err === undefined || err.responseText === undefined){
-              alert("bind error!");
-        }
-        else if (err.responseText.indexOf("Wechat Binding Already exists") >= 0) {
-          alert("bind error!err info: " + err.responseText);
-          // _this.logining = false;
-          //window.location.replace(_this.codeLoginUrl);
-        } else {
-          alert("bind error!");
-          //_this.logining = false;
-          //window.location.replace(_this.codeLoginUrl);
-        }
-
-      }
-    });
-  },
-
-  login: function (u, p) {
-    if (undefined === u || "" === u) {
-      return false;
+    debugger;
+    var state = params.state;
+    if (true === this.isEmpty(state)){
+      state = 'myInfo.html';
+    } else {
+      state = decodeURIComponent(state);
     }
-    if (undefined === p || "" === p) {
-      return false;
+    this.uri = this.getUriByState(state);
+
+    if (true === this.isEmpty(params.code)){
+      var redirect_uri = window.location.origin + window.location.pathname;
+      redirect_uri = encodeURIComponent(redirect_uri);
+      this.jump2Authorize(redirect_uri, state);
+    } else {
+      this.code = params.code;
     }
 
-    $('#loadingTxt').val("正在进行绑定");
-    $('#loadingToast').show();
-
-
-    this.goBind(u, p);
-
-    return false;
+    return this;
   },
+  jump2Authorize: function(redirect_uri, state){
+    var uri = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd5bc8eb5c47795d6" + 
+      "&redirect_uri=" + redirect_uri + 
+      "&response_type=code&scope=snsapi_userinfo" +
+      "&state=" + state + "#wechat_redirect";
 
-  getUrlParams: function () {
+    window.location.replace(uri);
+    return this;
+  },
+  getUriByState: function(state){
+    var path = window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/') + 1);
+    var href = window.location.origin + path + state;
+    return href;
+  },
+  getDefaultState: function(){
+    var path = window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/') + 1);
+    var href = window.location.origin + path + 'myInfo.html';
+    return encodeURIComponent(href);
+  },
+  isEmpty: function(value){
+    return undefined === value || '' === value;
+  },
+  getUrlParams: function(){
     var href = window.location.href;
     var start = href.indexOf('?') + 1;
     if (0 === start) {
@@ -141,7 +67,6 @@ Login.prototype = {
     window.history.replaceState({}, '', url);
     return this.parseStr(seach, '&');
   },
-
   parseStr: function (str, sp) {
     var arr = str.split(sp);
     var data = {};
@@ -155,17 +80,64 @@ Login.prototype = {
       idx++;
     }
     return data;
+  },
+  getExpired: function(timeeffect){
+    timeeffect = timeeffect || '3600000';
+    timeeffect = parseInt(timeeffect, 10);
+
+    var d = new Date();
+    var e = Math.ceil((d.getTime() + timeeffect) / 1000);
+    return e;
+  },
+  bind: function(u, p){
+    $('#loadingTxt').html("正在绑定");
+    $('#loadingToast').show();
+
+    $.ajax({
+      url: this.api + 'bindings',
+      data: {
+        username: u,
+        password: sjcl.codec.hex.fromBits(sjcl.misc.pbkdf2(p, "opensight.cn", 10000)),
+        expired: this.getExpired(3600000 * 24 * 365),
+        code: this.code
+      },
+      type: 'POST',
+      async: false,
+      success: function (json) {
+        this.jump2Authorize(this.uri, 'bind');
+      },
+      error: function (xhr) {
+        if (xhr && xhr.status){
+          if (453 === xhr.status || 454 === xhr.status){
+            $('#loadingTxt').html("用户名或密码错误");
+          } else if (455 === xhr.status){
+            this.jump2Authorize(this.uri, 'bind');
+          } else {
+            $('#loadingTxt').html('绑定失败');
+          }
+        } else {
+          $('#loadingTxt').html('网络异常');
+        }
+
+        setTimeout(function(){
+          $('#loadingToast').hide();
+        }, 2000);
+      },
+      context: this
+    });
+
+    return this;
   }
 };
 
 $(function () {
-  var login = new Login();
+  var b = new Bind();
 
   $('#form').submit(function (event) {
     /* Act on the event */
     var u = $('#username').val();
     var p = $('#password').val();
-    login.login(u, p);
+    b.bind(u, p);
     return false;
   });
 });

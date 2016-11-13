@@ -5,7 +5,7 @@
         <button class="weui_btn weui_btn_plain_default weui_btn_mini weui_btn_opsi_nobordered" ng-click="backup.backProject();">
           <i class="fa fa-chevron-left"></i> 返回
         </button>
-        <button class="weui_btn weui_btn_plain_default weui_btn_mini weui_btn_opsi_nobordered pull-right" ng-hide="backup.bDel" ng-click="backup.bDel = true">
+        <button class="weui_btn weui_btn_plain_default weui_btn_mini weui_btn_opsi_nobordered pull-right" ng-hide="backup.bDel || 0 === filelist.list.length" ng-click="backup.bDel = true">
           <i class="fa fa-trash"></i> 删除
         </button>
         <button class="weui_btn weui_btn_mini weui_btn_primary pull-right" ng-show="backup.bDel" ng-click="backup.bDel = false">
@@ -20,7 +20,10 @@
             <i class="weui_icon_checked"></i>
           </div>
           <div class="weui_cell_bd weui_cell_primary">
-            <p>{{item.desc}}</p>
+            <p>
+              <span>{{item.desc}}</span>
+              <span class="pull-right weui_cell_opsi_desc" ng-hide="0 === item.state">{{item.size|record_size}}</span>
+            </p>
             <p class="weui_cell_opsi_desc">
               <span>{{item.start|date: "MM-dd HH:mm"}}</span>
               <span class="pull-right" ng-hide="0 === item.state">{{item.end - item.start|duration}}</span>
@@ -28,6 +31,13 @@
             </p>
           </div>
         </label>
+      </div>
+      <div style="min-height: 420px" ng-show="0 === filelist.list.length">
+        <div class="weui_panel_bd">
+          <div class="weui_media_box weui_media_text">
+            <h4 class="weui_media_title" style="text-align: center">～～空～～</h4>
+          </div>
+        </div>
       </div>
       <div class="weui_cells weui_cells_checkbox weui_cells_opsi_footer" ng-show="backup.bDel">
         <div class="weui_cell">

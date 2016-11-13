@@ -1,6 +1,9 @@
 app.register.controller('Backup', [
   '$rootScope', '$scope', '$http', '$q', '$window', '$stateParams', '$state', 'dateFactory',
   function ($rootScope, $scope, $http, $q, $window, $stateParams, $state, dateFactory) {
+    $scope.filelist = {
+      list: []
+    };
     $scope.backup = (function () {
       return {
         bDel: false,
@@ -129,8 +132,17 @@ app.register.controller('Backup', [
               });
             }
           }
+          var getTip = function(succ_num, err_num){
+            var str = '';
+            str += '成功' + succ_num;
+            if (0 !== err_num){
+              str += '，失败' + err_num;
+            }
+            return str;
+          };
           var timer = setInterval(function(){
-            $('#ToastTxt').html('成功' + succ_num + '，失败' + err_num + '。');            
+            var tip = getTip(succ_num, err_num);
+            $('#ToastTxt').html(tip);
             if (succ_num + err_num === total){
               clearInterval(timer);
               setTimeout(function() {
