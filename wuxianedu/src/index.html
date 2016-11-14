@@ -41,7 +41,7 @@
   </div>
   <div class="navbar-collapse collapse">
     <ul class="nav navbar-nav">
-      <li><a ui-sref="square" ui-sref-active="active" class="nav-ui-sref" ng-class="{active: $state.is('live')}">直播广场</a></li>
+      <li><a ui-sref="square" ui-sref-active="active" class="nav-ui-sref" ng-class="{active: $state.is('live') || $state.is('detail')}">直播广场</a></li>
       <li><a ui-sref="config" ui-sref-active="active" class="nav-ui-sref">配置</a></li>
     </ul>
   </div>
