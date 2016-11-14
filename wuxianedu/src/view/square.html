@@ -2,11 +2,11 @@
   <div class="col-sm-12 page-header page-header-condensed">
     <h3>教室</h3>
   </div>
-  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12" ng-repeat="it in classroom" on-finish-render>
+  <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" ng-repeat="it in classroom" on-finish-render>
     <div class="row camera-list">
-      <div class="thumbnail camera-card classroom-card" ng-click="click(it)">
-        <img ng-src="{{it.preview}}" alt="{{it.name}}">
-        <div class="caption">
+      <div class="thumbnail camera-card classroom-card">
+        <img ng-src="{{it.preview}}" alt="{{it.name}}"  ng-click="click(it)">
+        <div class="caption"  ng-click="click(it)">
           <div class="row">
             <div class="col-lg-8 col-sm-9 col-xs-9">
               <span class="camera-name" title="{{it.name}}" ng-class="{true: 'text-primary', false: 'text-muted'}[it.is_online === 1 || it.is_online === 2]">
@@ -17,13 +17,20 @@
           </div>
           <p class="text-muted camera-desc" title="{{it.desc}}">{{it.desc}}</p>
         </div>
+        <div class="row opsi_grig3">
+          <div class="col-xs-4 opsi_grig_ceil_left text-primary" ng-click="click(it)">实况</div>
+          <div class="col-xs-4 opsi_grig_ceil_center text-primary" ng-click="replay(it)">回放</div>
+          <div class="col-xs-4 opsi_grig_ceil_right">
+            <a ui-sref="detail({camera_uuid: it.uuid})" class="opsi_grig_ceil_link">配置</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <div class="col-sm-12 page-header page-header-condensed">
     <h3>桌面</h3>
   </div>
-  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12" ng-repeat="it in desktop" on-finish-render>
+  <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" ng-repeat="it in desktop" on-finish-render>
     <div class="row camera-list">
       <div class="thumbnail camera-card classroom-card" ng-click="click(it)">
         <img ng-src="{{it.preview}}" alt="{{it.name}}">
