@@ -139,3 +139,21 @@ body {
 .btn-save{
   min-width: 100px;
 }
+.opsi_grig3{
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+.opsi_grig3 > div{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.opsi_grig3 .opsi_grig_ceil_left{
+  border-right: 1px solid #eee;
+}
+.opsi_grig3 .opsi_grig_ceil_right{
+  border-left: 1px solid #eee;
+}
+.opsi_grig_ceil_link:hover{
+  text-decoration: none;
+  color: #337ab7;
+}

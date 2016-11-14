@@ -1,0 +1,28 @@
+<div class="container" ng-controller="detail">
+  <div class="col-sm-12 page-header page-header-condensed">
+    <h3>摄像机配置</h3>
+  </div>
+  <form>
+    <div class="form-group">
+      <label>摄像名称</label>
+      <p class="form-control-static">{{cam.name}}</p>
+    </div>
+    <div class="form-group">
+      <label>摄像机描述</label>
+      <p class="form-control-static">{{cam.desc}}</p>
+    </div>
+    <div class="form-group">
+      <label>NVR拉流地址</label>
+      <p class="form-control-static">{{cam.rtp_url}}</p>
+    </div>
+    <div class="form-group">
+      <label>回放地址</label>
+      <input type="text" class="form-control" ng-model="replay_url">
+    </div>
+    <div class="form-group">
+      <label>详细描述</label>
+      <p class="form-control-static">{{cam.long_desc}}</p>
+    </div>
+    <button type="submit" class="btn btn-primary btn-save" ng-click="save()">保存</button>
+  </form>
+</div>

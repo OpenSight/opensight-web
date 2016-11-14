@@ -123,6 +123,11 @@ var app = angular.module('wuxianedu', [
       templateUrl: 'view/config.html'
     })
 
+    .state('detail', {
+      url: '/detail/:camera_uuid',
+      templateUrl: 'view/detail.html'
+    })
+
     .state('live', {
       url: '/live/:camera_uuid',
       templateUrl: 'view/live.html'
