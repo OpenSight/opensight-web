@@ -91,7 +91,7 @@ angular.module('app.controller', [])
       $scope.classroom = project.classroom();
       $scope.desktop = project.desktop();
 
-      // var url = window.location.protocol + '//' + window.location.host + '/api/ivc/v1/projects/' + project.getName() + '/cameras/';
+      var ivcproxy = window.location.protocol + '//' + window.location.host + '/api/ivc/v1/projects/' + project.getName() + '/cameras/';
       var uri = api + 'projects/' + project.getName() + '/cameras/';
       $scope.click = function (it) {
         if (1 !== it.is_online && 2 !== it.is_online) {
@@ -103,8 +103,8 @@ angular.module('app.controller', [])
       };
 
       $scope.replay = function (it) {
-        $http.get(uri + it.uuid + '/ivcproxy/replay_config', {}).success(function (info) {
-          if ('' === info.replay_url) {
+        $http.get(ivcproxy + it.uuid + '/ivcproxy/replay_config', {}).success(function (info) {
+          if (undefined === info.replay_url || '' === info.replay_url) {
             $rootScope.$emit('messageShow', {
               succ: false,
               text: '回放地址未设置。'
@@ -128,23 +128,23 @@ angular.module('app.controller', [])
     function ($scope, $rootScope, $http) {
       var uuid = $rootScope.$state.params.camera_uuid;
 
-      // var api = window.location.protocol + '//' + window.location.host + '/api/ivc/v1/projects/' + project.getName() + '/cameras/' + uuid;
+      var ivcproxy = window.location.protocol + '//' + window.location.host + '/api/ivc/v1/projects/' + project.getName() + '/cameras/' + uuid;
       var uri = api + 'projects/' + project.getName() + '/cameras/' + uuid;;
 
       $http.get(uri, {}).success(function (info) {
         $scope.cam = info;
       });
 
-      $http.get(uri + '/ivcproxy/rtp_url', {}).success(function (info) {
+      $http.get(ivcproxy + '/ivcproxy/rtp_url', {}).success(function (info) {
         $scope.rtp_url = info.rtp_url;
       });
 
-      $http.get(uri + '/ivcproxy/replay_config', {}).success(function (info) {
+      $http.get(ivcproxy + '/ivcproxy/replay_config', {}).success(function (info) {
         $scope.replay_url = info.replay_url;
       });
 
       $scope.save = function () {
-        $http.put(uri + '/ivcproxy/replay_config', {
+        $http.put(ivcproxy + '/ivcproxy/replay_config', {
           replay_url: $scope.replay_url
         }).success(function () {
           $rootScope.$emit('messageShow', {
