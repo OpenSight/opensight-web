@@ -3,7 +3,7 @@ var api = api || 'http://api.opensight.cn/api/ivc/v1/';
 
 var config = (function () {
   var def = {
-    classroom: '3',
+    classroom: '4',
     desktop: '2'
   };
   var c = {
