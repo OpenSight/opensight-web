@@ -1,3 +1,15 @@
+(function ($) {
+  $.getScript = function (src, func) {
+    var script = document.createElement('script');
+    script.async = "async";
+    script.src = src;
+    if (func) {
+      script.onload = func;
+    }
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+})($);
+
 var getUrlParams = function () {
   var href = window.location.href;
   var start = href.indexOf('?') + 1;
@@ -34,15 +46,6 @@ var getPath = function () {
   var path = pathname.substr(0, pathname.lastIndexOf('/') + 1);
   return window.location.origin + path;
 };
-
-var params = getUrlParams();
-
-(function () {
-  if (undefined === params.live_show) {
-    return false;
-  }
-  $('#SOHUCS').attr('sid', params.live_show);
-})();
 
 var play = function (hls, autoplay) {
   hideState();
@@ -96,9 +99,12 @@ var pause = (function () {
   };
 })();
 
-var api = 'http://api.opensight.cn/api/ivc/v1/projects/' + params.project;
+var api = '';
 
 $(function () {
+  var params = getUrlParams();
+  api = 'http://api.opensight.cn/api/ivc/v1/projects/' + params.project;
+
   if (undefined === params.live_show) {
     showState(0);
     showCover();
@@ -174,7 +180,7 @@ $(function () {
   });
 
   //初始化评论框
-  new Comment();
+  new Comment(params.live_show);
 });
 
 var showState = function (state) {
@@ -695,42 +701,34 @@ RecordEvent.prototype = {
   }
 };
 
-var Comment = function () {
-  this.input = '#cy-cbox-wrapper';
-  this.bar = '.section-floatbar-wap';
-  this.container = $('#SOHUCS');
+var Comment = function (sid) {
 
-  this.init();
+  this.init(sid);
+
   return this;
 };
 Comment.prototype = {
-  init: function () {
-    var _t = this;
+  init: function (sid) {
+    debugger;
+    $('#tab1').html('<div id="SOHUCS" sid="'+sid+'"></div><script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=cysz4Q4lo&conf=prod_4193b6bf7521a984e9ed89e4407582cc"></script>');
+
+    var _this = this;
     setTimeout(function () {
-      if (0 === $(_t.input).length) {
-        _t.init();
-      } else {
-        _t.on();
-      }
-    }, 1000);
+      $.getScript("http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=cysz4Q4lo&conf=prod_4193b6bf7521a984e9ed89e4407582cc", function (data, status, jqxhr) {
+        _this.on();
+      });
+    }, 100);
     return this;
   },
-  on: function () {
-    // $(this.bar).on('click', '.issue-text-wap', this, function(e){
-    //   $(e.data.input).css('display', 'block');
-    //   $(e.data.bar).css('display', 'none');
-    // });
-    // $(this.input).on('click', '.mutual-btn-wap', this, function(e){
-    //   $(e.data.bar).css('display', 'block');
-    //   $(e.data.input).css('display', 'none');
-    // });
-    this.container.find('textarea').focus(function () {
-      $('.live-card').addClass('hidden');
-    }).blur(function () {
-      $('.live-card').removeClass('hidden');
+  on: function(){
+    $('#SOHUCS').on('click', '.comment-textarea, .ctrl-item-ico.reply-ico', function(){
+      $('.live-card').css({'display': 'none'});
     });
-    return this;
-  },
+
+    $('#SOHUCS').on('click', '.cmt-box-title-right', function(){
+      $('.live-card').css({'display': 'block'});
+    });
+  }
 };
 
 var Share = function () {
