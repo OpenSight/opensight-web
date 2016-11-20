@@ -709,7 +709,7 @@ RecordEvent.prototype = {
 var Comment = function (sid) {
 
   this.init(sid);
-
+  this.on();
   return this;
 };
 Comment.prototype = {
@@ -719,18 +719,20 @@ Comment.prototype = {
     var _this = this;
     setTimeout(function () {
       $.getScript("http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=cysz4Q4lo&conf=prod_4193b6bf7521a984e9ed89e4407582cc", function (data, status, jqxhr) {
-        _this.on();
+        
       });
     }, 100);
     return this;
   },
   on: function () {
     $('#SOHUCS').on('click', '.comment-textarea, .ctrl-item-ico.reply-ico', function () {
-      $('.live-card').css({ 'display': 'none' });
+      // $('.live-card').css({ 'display': 'none' });
+      $('body').removeClass('landscape');
     });
 
-    $('#SOHUCS').on('click', '.cmt-box-title-right', function () {
-      $('.live-card').css({ 'display': 'block' });
+    $('#SOHUCS').on('click', '.cmt-box-title-right, .box-footer-right', function () {
+      // $('.live-card').css({ 'display': 'block' });
+      $('body').addClass('landscape');
     });
   }
 };
