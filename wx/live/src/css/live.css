@@ -172,18 +172,8 @@ body{
 .record-list .record.disabled .item-text{
   color: #c8c9cb;
 }
-/*#SOHUCS #cy-cbox-wrapper{
-  display: none;
-}*/
-/*#SOHUCS .reset-g.section-floatbar-wap{
-  display: none;
-}
-#SOHUCS .cy-newlogin-body{
+
+#SOHUCS .login-by-mobile,
+#SOHUCS .other-note{
   display: none;
 }
-#SOHUCS .cy-newlogin-wap .cy-newlogin-wrapper .cy-newlogin-footer.login-wrap-wap{
-  border-top: 0 none;
-}
-#SOHUCS .cy-newlogin-wap .cy-newlogin-wrapper .cy-newlogin-footer.login-wrap-wap h4{
-  display: none;
-}*/

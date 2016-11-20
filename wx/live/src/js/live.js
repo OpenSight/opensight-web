@@ -105,6 +105,11 @@ $(function () {
   var params = getUrlParams();
   api = 'http://api.opensight.cn/api/ivc/v1/projects/' + params.project;
 
+  // (function () {
+  //   var height = $('.live-card').height() + 44;
+  //   $('.buttons-tab').fixedTab({ offset: height });
+  // })();
+
   if (undefined === params.live_show) {
     showState(0);
     showCover();
@@ -709,8 +714,7 @@ var Comment = function (sid) {
 };
 Comment.prototype = {
   init: function (sid) {
-    debugger;
-    $('#tab1').html('<div id="SOHUCS" sid="'+sid+'"></div><script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=cysz4Q4lo&conf=prod_4193b6bf7521a984e9ed89e4407582cc"></script>');
+    $('#tab1').html('<div id="SOHUCS" sid="' + sid + '"></div><script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=cysz4Q4lo&conf=prod_4193b6bf7521a984e9ed89e4407582cc"></script>');
 
     var _this = this;
     setTimeout(function () {
@@ -720,13 +724,13 @@ Comment.prototype = {
     }, 100);
     return this;
   },
-  on: function(){
-    $('#SOHUCS').on('click', '.comment-textarea, .ctrl-item-ico.reply-ico', function(){
-      $('.live-card').css({'display': 'none'});
+  on: function () {
+    $('#SOHUCS').on('click', '.comment-textarea, .ctrl-item-ico.reply-ico', function () {
+      $('.live-card').css({ 'display': 'none' });
     });
 
-    $('#SOHUCS').on('click', '.cmt-box-title-right', function(){
-      $('.live-card').css({'display': 'block'});
+    $('#SOHUCS').on('click', '.cmt-box-title-right', function () {
+      $('.live-card').css({ 'display': 'block' });
     });
   }
 };
