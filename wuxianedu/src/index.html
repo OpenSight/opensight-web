@@ -44,6 +44,20 @@
       <li><a ui-sref="square" ui-sref-active="active" class="nav-ui-sref" ng-class="{active: $state.is('live') || $state.is('detail')}">直播广场</a></li>
       <li><a ui-sref="config" ui-sref-active="active" class="nav-ui-sref">配置</a></li>
     </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+         <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            帮助
+            <span class="caret"></span>
+            &nbsp;&nbsp;
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="http://public.opensight.cn/doc/OBS%E8%B6%A3%E8%A7%82%E5%B9%B3%E5%8F%B0%E9%85%8D%E7%BD%AE%E6%89%8B%E5%86%8C20161121.pdf" target="_blank">OBS趣观平台配置手册</a></li>
+          </ul>
+        </li>
+      </li>
+    </ul>
   </div>
 
   <div class="col-xs-6 col-sm-4 col-sm-offset-4 col-xs-offset-3 hidden" ng-class="{true: 'hidden', false: 'show'}[message.list.length === 0]">
