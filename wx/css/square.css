@@ -68,6 +68,17 @@ a:hover{
     width: 100%;
     background:  url(../img/play.png) no-repeat center;
 }
+.opsi_play_container{
+  position: relative;
+}
+.opsi_play{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background:  url(../img/play.png) no-repeat center;
+}
 
 .topimg-container1{
     position: absolute;
