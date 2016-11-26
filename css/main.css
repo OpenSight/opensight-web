@@ -67,6 +67,14 @@ body{
   height: 460px;
   background: #000 url(../img/slogan.png) right center no-repeat;
 }
+.we-slogan{
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  color: #fff;
+  height: 460px;
+  background: #000 url(../img/weWatch.jpg) right center no-repeat;
+}
 .slogan-text{
   margin-top: 150px;
 }
