@@ -54,11 +54,17 @@ body{
   margin-bottom: 10px;
   padding-bottom: 0;
 }
-.slogan-jumbotron{
+.weWatch-slogan-jumbotron{
   padding: 0;
   margin-bottom: 0;
   background: url(../img/wewatchBG460.jpg) repeat-x 50% 50%;
 }
+.slogan-jumbotron{
+    padding: 0;
+    margin-bottom: 0;
+    background: #000;
+}
+
 .slogan{
   padding: 0;
   margin-bottom: 0;
