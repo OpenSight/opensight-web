@@ -39,12 +39,11 @@
                     <p class="text-name" style="display: block">回放</p>
                   </div>
                 </a>
-                <div ng-click="cameralist.showEdit(item)" style="display: block-inline;height:40px;margin:2px;"
-                  class="weui_btn_dialog">
+                <a ng-click="cameralist.showEdit(item)" style="display: block-inline;height:40px;margin:2px;" class="weui_btn_dialog">
                   <div style="margin:10px">
-                    <img src="./img/article_16px.png" alt="" />
+                    <img src="./img/more.png" alt="" />
                   </div>
-                </div>
+                </a>
               </div>
               <div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;margin-bottom: 15px;"
                 ng-show="editView[item.uuid]">
