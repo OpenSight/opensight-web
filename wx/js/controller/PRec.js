@@ -1,10 +1,22 @@
-app.register.controller('PRec', ['$rootScope', '$scope', '$http', '$q', '$window', '$stateParams', '$state', 'dateFactory', function($rootScope, $scope, $http, $q, $window, $stateParams, $state, dateFactory){
+app.register.controller('PRec', ['$rootScope', '$scope', '$http', '$q', '$window', '$stateParams', '$state', 'dateFactory', function ($rootScope, $scope, $http, $q, $window, $stateParams, $state, dateFactory) {
   $scope.prec = (function () {
     return {
-      init: function(){
+      getDt: function(){
+        var dt = $.cookie('selected_date');
+        if (undefined === dt){
+          return new Date();
+        }
+        return new Date(dt);
+      },
+      cacheDt: function(dt){
+        var str = dt.toLocaleDateString();
+        $.cookie('selected_date', str);
+      },
+      init: function () {
         var item = $rootScope.pCamera;
         $scope.prec.url = "http://api.opensight.cn/api/ivc/v1/projects/" + item.project_name + '/cameras/' + item.uuid + '/record/search';
-        $scope.dt = new Date();
+        $scope.dt = $scope.prec.getDt();
+        
         $scope.timepicker = {
           start: '00:00:00',
           end: '23:59:59'
@@ -13,7 +25,7 @@ app.register.controller('PRec', ['$rootScope', '$scope', '$http', '$q', '$window
         $scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
         $scope.seglength = '60';
       },
-      query: function() {
+      query: function () {
         $('#ToastTxt').html("正在获取录像列表");
         $('#loadingToast').show();
         $http.get($scope.prec.url, {
@@ -22,20 +34,22 @@ app.register.controller('PRec', ['$rootScope', '$scope', '$http', '$q', '$window
             end: dateFactory.getms($scope.dt, $scope.timepicker.enddt),
             seglength: parseInt($scope.seglength, 10)
           }
-        }).success(function(response) {
-            $scope.reclist = response;
-            setTimeout(function () {
-              $('#loadingToast').hide();
-            }, 100);
-          }).error(function (response,status) {
-            $('#ToastTxt').html("获取录像列表失败");
-            $('#loadingToast').show();
-            setTimeout(function () {
-              $('#loadingToast').hide();
-            }, 2000);
-          });
+        }).success(function (response) {
+          $scope.reclist = response;
+          setTimeout(function () {
+            $('#loadingToast').hide();
+          }, 100);
+        }).error(function (response, status) {
+          $('#ToastTxt').html("获取录像列表失败");
+          $('#loadingToast').show();
+          setTimeout(function () {
+            $('#loadingToast').hide();
+          }, 2000);
+        });
       },
-      timechange: function() {
+      timechange: function () {
+        $scope.prec.cacheDt($scope.dt);
+
         $scope.timepicker = {
           start: '00:00:00',
           end: '23:59:59'
@@ -45,25 +59,25 @@ app.register.controller('PRec', ['$rootScope', '$scope', '$http', '$q', '$window
         $scope.seglength = '60';
         $scope.prec.query();
       },
-      play: function(item) {
+      play: function (item) {
         $rootScope.pRecInfo = item;
         $state.go('precplay');
       },
-      backToCameraList: function() {
+      backToCameraList: function () {
         $scope.prec.stopRec();
-//                $state.go('camera');
+        //                $state.go('camera');
         window.history.back();
       },
-      stopRec: function(){
+      stopRec: function () {
         var player = $rootScope.RecPlayer;
-        if (player!==null && player!==undefined && player.currentTime){
+        if (player !== null && player !== undefined && player.currentTime) {
           player.currentTime = 0;
           player.pause();
-          player.src="movie.ogg";
+          player.src = "movie.ogg";
           player.load();
         }
       },
-      actionShow:function() {
+      actionShow: function () {
         var mask = $('#mask');
         var weuiActionsheet = $('#weui_actionsheet');
         weuiActionsheet.addClass('weui_actionsheet_toggle');
@@ -81,8 +95,8 @@ app.register.controller('PRec', ['$rootScope', '$scope', '$http', '$q', '$window
           mask.on('transitionend', function () {
             mask.hide();
           }).on('webkitTransitionEnd', function () {
-              mask.hide();
-            })
+            mask.hide();
+          })
         }
       }
     }
@@ -96,7 +110,7 @@ app.register.controller('PRec', ['$rootScope', '$scope', '$http', '$q', '$window
   };
 
   $scope.$on('$destroy', $scope.destroy);
-  $scope.prec.init();    
+  $scope.prec.init();
   $scope.prec.query();
 
 }]);
