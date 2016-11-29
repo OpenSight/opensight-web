@@ -40,6 +40,7 @@ app.register.controller('Project', [
               alert('页码输入不正确。');
             }
           });
+          $scope.projectlist.page.limit = 20;
           var params = {
             start: 0,
             limit: $scope.projectlist.page.limit
@@ -222,6 +223,9 @@ app.register.controller('Project', [
               $scope.project.data_mod.bDetailShown = !(true === $scope.project.data_mod.bDetailShown);
               */
               //$state.go('home.projectDetail');
+              $scope.projectlist.curPageMark = $scope.projectlist.page.curr;
+              $scope.projectlist.totalMark = $scope.projectlist.page.total;
+              $scope.projectlist.limitMark = $scope.projectlist.page.limit;
               $scope.project.listShown = false;
               $scope.project.data_mod.bDetailShown = true;
               if ($scope.project.data_mod.bDetailShown === true) { //开
@@ -229,6 +233,7 @@ app.register.controller('Project', [
                 if ($scope.project.data_mod.tabs === undefined)
                   $scope.project.data_mod.tabs = [];
                 $scope.project.data_mod.tabs[0] = true;
+                $scope.project.data_mod.tabs[1] = false;
                 $scope.project.data_mod.initDetail();
 
 
@@ -242,6 +247,21 @@ app.register.controller('Project', [
         data_mod: (function() {
           return {
             showList: function() {
+              $scope.projectlist.page = pageFactory.init({
+                query: $scope.projectlist.get,
+                jumperror: function() {
+                  alert('页码输入不正确。');
+                }
+              });
+
+              $scope.projectlist.page.curr = ($scope.projectlist.curPageMark===undefined)?0:$scope.projectlist.curPageMark;
+              $scope.projectlist.page.total = ($scope.projectlist.totalMark===undefined)?0:$scope.projectlist.totalMark;
+              $scope.projectlist.page.limit = ($scope.projectlist.limitMark===undefined)?0:$scope.projectlist.limitMark;
+              var params = {
+                start:  $scope.projectlist.page.limit*($scope.projectlist.page.curr-1),
+                limit: $scope.projectlist.page.limit
+              };
+              $scope.projectlist.get(params);
               $scope.project.listShown = true;
               $scope.project.data_mod.bDetailShown = false;
             },
@@ -756,6 +776,7 @@ app.register.controller('Project', [
           var it = camera.detail[index];
           var flag = flagFactory.encodeCamera(it.qualityList, it.pic, !it.live, it.ptz);
           var params = {
+            name: it.name,
             flags: flag,
             desc: it.desc,
             long_desc: it.long_desc,

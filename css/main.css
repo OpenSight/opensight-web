@@ -11,7 +11,7 @@ body{
 }
 .thumbnail{
   border: 0 none;
-  height: 275px;
+  height: 400px;
 }
 /*.caption h4{
   font-weight: bold;
@@ -54,11 +54,17 @@ body{
   margin-bottom: 10px;
   padding-bottom: 0;
 }
-.slogan-jumbotron{
+.weWatch-slogan-jumbotron{
   padding: 0;
   margin-bottom: 0;
-  background: #000;
+  background: url(../img/wewatchBG460.jpg) repeat-x 50% 50%;
 }
+.slogan-jumbotron{
+    padding: 0;
+    margin-bottom: 0;
+    background: #000;
+}
+
 .slogan{
   padding: 0;
   margin-bottom: 0;
@@ -66,6 +72,14 @@ body{
   color: #fff;
   height: 460px;
   background: #000 url(../img/slogan.png) right center no-repeat;
+}
+.we-slogan{
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  color: #fff;
+  height: 460px;
+  background:  url(../img/weWatch.png) center no-repeat;
 }
 .slogan-text{
   margin-top: 150px;
@@ -214,3 +228,77 @@ body{
   }
 
 }
+
+.story-item {
+    position: relative;
+    padding: 45px 0;
+    overflow: hidden;
+}
+.story-image.menu {
+    padding-top: 28%;
+    background-image: url(../img/guiad/menu.png);
+}
+.story-image.live {
+    padding-top: 28%;
+    background-image: url(../img/guiad/live.png);
+}
+.story-image.camera {
+    padding-top: 28%;
+    background-image: url(../img/guiad/myCamera.png);
+}
+.story-image.record {
+    padding-top: 28%;
+    background-image: url(../img/guiad/record.png);
+}
+.story-image.share {
+    padding-top: 28%;
+    background-image: url(../img/guiad/share.png);
+}
+
+.image-on-right .story-image {
+    float: right;
+}
+
+.image-on-left .story-image {
+    float: left;
+}
+.story-image {
+    width: 50%;
+    height: 0;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: contain;
+}
+
+
+.story-content{
+    width:50%;
+    max-width:450px;
+    position:absolute;
+    top:50%;
+    -webkit-transform:translateY(-50%);
+    -ms-transform:translateY(-50%);
+    transform:translateY(-50%);
+    padding-left:50px
+}
+
+.image-on-left .story-content{left:50%}
+
+@media only screen and (max-width: 960px){
+    .story-content{position:static;top:auto;-webkit-transform:none;-ms-transform:none;transform:none;}
+    .image-on-left .story-content{
+        float:right;left:initial
+    }
+    .image-on-right .story-content{
+        float:left
+    }
+}
+@media only screen and (max-width: 600px){
+    .story-content{width:100%;padding:0;}
+    .image-on-left .story-content,
+    .image-on-right .story-content{
+        float:none;max-width:initial
+    }
+}
+
+
