@@ -141,6 +141,16 @@ $(function () {
     success: function (info) {
       document.title = info.name;
       // $('title').html(info.name);
+      var iframe = document.createElement('iframe');
+      iframe.style.visibility = 'hidden';
+      iframe.style.width = '1px';
+      iframe.style.height = '1px';
+      iframe.onload = function () {
+          setTimeout(function () {
+              document.body.removeChild(iframe);
+          }, 0);
+      };
+      document.body.appendChild(iframe);
       $('#show-name').html(info.desc);
       $('#show-desc').html(info.long_desc);
       showCover(info.cover_url);
