@@ -139,7 +139,8 @@ $(function () {
     type: 'GET',
     // async: false,
     success: function (info) {
-      $('title').html(info.name);
+      document.title = info.name;
+      // $('title').html(info.name);
       $('#show-name').html(info.desc);
       $('#show-desc').html(info.long_desc);
       showCover(info.cover_url);
