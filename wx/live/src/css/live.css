@@ -124,7 +124,7 @@ body{
   position: absolute;
   bottom: 0px;
   right: 10px;
-  display: none;
+  display: block;
 }
 .play .about{
   display: block;
