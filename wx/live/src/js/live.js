@@ -152,7 +152,9 @@ $(function () {
       };
       document.body.appendChild(iframe);
       $('#show-name').html(info.desc);
-      $('#show-desc').html(info.long_desc);
+
+      var long_desc = info.long_desc.replace(/[\r\n]{1,2}/g, '<br>')
+      $('#show-desc').html(long_desc);
       showCover(info.cover_url);
 
       if (1 === info.state) {
@@ -187,7 +189,7 @@ $(function () {
         showState(info.state);
       }
 
-      sh.onShare('【趣观微直播】' + info.name, info.long_desc + '-正在直播');
+      sh.onShare('【趣观微直播】' + info.name + '-正在直播', info.long_desc, info.wechat_url);
     },
     error: function () {
       showState(0);
@@ -834,9 +836,13 @@ Share.prototype = {
     });
     return this;
   },
-  onShare: function (title, desc) {
+  onShare: function (title, desc, wechat_url) {
     this.title = title;
     this.desc = desc;
+    if (undefined !== wechat_url && '' !== wechat_url) {
+      this.url = wechat_url;
+    }
+    
     if (true === this.inited) {
       this.onMenuShare();
     }
