@@ -201,7 +201,7 @@ angular.module('app.controller', [])
       cam.format = format;
       $scope.cam = cam;
       var modalInstance = $uibModal.open({
-        backdrop: 'static',
+        backdrop: 'static', 
         keyboard: false,
         templateUrl: path + 'views/sessionModalContent.html',
         controller: 'session',
@@ -244,6 +244,7 @@ angular.module('app.controller', [])
     var project = $rootScope.$stateParams.project;
     $scope.camera = $rootScope.$stateParams.camera;
     var url = api + "projects/" + project + '/cameras/' + $scope.camera;
+
     var live_ability, preview_ability;
 
     $scope.refresh = function(enabled) {
@@ -293,7 +294,25 @@ angular.module('app.controller', [])
         console.log('error');
       });
     };
+    $scope.infoEdit = function() {
+      var basicUrl =  url + '/basic_info';
+      var data = {
+        name: $scope.info.name
+      };
 
+      $rootScope.$emit('messageHide');
+      $http.put(basicUrl, data).success(function(response) {
+        console.log('success');
+        $rootScope.$emit('messagePush', { succ: true, text: '修改摄像机信息成功。' });
+      }).error(function(response, status) {
+          console.log('error');
+          $rootScope.$emit('messagePush', { succ: false, text: '修改摄像机信息失败。' });
+        });
+      //if (live_ability === $scope.info.live_ability) {
+      //  return;
+      //}
+      //$scope.enable($scope.info.live_ability);
+    };
     $scope.save = function() {
       var data = {
         flags: $scope.info.flags,
@@ -321,7 +340,7 @@ angular.module('app.controller', [])
       cam.format = format;
       $scope.cam = cam;
       var modalInstance = $uibModal.open({
-        backdrop: 'static',
+        backdrop: 'static', 
         keyboard: false,
         templateUrl: path + 'views/sessionModalContent.html',
         controller: 'session',
@@ -337,6 +356,82 @@ angular.module('app.controller', [])
     $scope.refresh();
   }
 ])
+
+.controller('camera-alarm', [
+    '$scope', '$rootScope', '$http', 'flagFactory',
+    function($scope, $rootScope, $http, flagFactory) {
+
+      var project = $rootScope.$stateParams.project;
+      $scope.camera = $rootScope.$stateParams.camera;
+      var url = api + "projects/" + project + '/cameras/' + $scope.camera + '/alarm/linkage_config';
+
+      $scope.refresh = function() {
+        $http.get(url, {}).success(function(response) {
+          $scope.info = response;
+        }).error(function(response, status) {
+            console.log('error');
+          });
+      };
+
+      $scope.save = function() {
+        var data = {
+          start: $scope.info.start,
+          end: $scope.info.end,
+          move_detect_enabled: $scope.info.move_detect_enabled,
+          external_alarm_enabled: $scope.info.external_alarm_enabled
+        };
+        $rootScope.$emit('messageHide');
+        $http.put(url, data).success(function(response) {
+          console.log('success');
+          $rootScope.$emit('messagePush', { succ: true, text: '修改摄像机报警联动配置成功。' });
+        }).error(function(response, status) {
+            console.log('error');
+            $rootScope.$emit('messagePush', { succ: false, text: '修改摄像机报警联动配置失败。' });
+          });
+      };
+
+      $scope.refresh();
+    }
+  ])
+
+.controller('camera-detect', [
+    '$scope', '$rootScope', '$http', 'flagFactory',
+    function($scope, $rootScope, $http, flagFactory) {
+
+      var project = $rootScope.$stateParams.project;
+      $scope.camera = $rootScope.$stateParams.camera;
+      var url = api + "projects/" + project + '/cameras/' + $scope.camera + '/remote_config/move_detect';
+
+      $scope.refresh = function() {
+        $http.get(url, {}).success(function(response) {
+          $scope.info = response;
+        }).error(function(response, status) {
+            console.log('error');
+          });
+      };
+
+      $scope.save = function() {
+        var data = {
+          enable: $scope.info.enable,
+          start: $scope.info.start,
+          end: $scope.info.end,
+          sensibility: $scope.info.sensibility,
+          delay: $scope.info.delay
+        };
+        $rootScope.$emit('messageHide');
+        $http.put(url, data).success(function(response) {
+          console.log('success');
+          $rootScope.$emit('messagePush', { succ: true, text: '修改摄像机移动侦测配置成功。' });
+        }).error(function(response, status) {
+            console.log('error');
+            $rootScope.$emit('messagePush', { succ: false, text: '修改摄像机移动侦测配置失败。' });
+          });
+      };
+
+      $scope.refresh();
+    }
+  ])
+
 
 .controller('camera-record-plan', [
   '$scope', '$rootScope', '$http', 'flagFactory',
@@ -470,7 +565,7 @@ angular.module('app.controller', [])
       it.camname = $scope.camname;
       $scope.selected = it;
       var modalInstance = $uibModal.open({
-        backdrop: 'static',
+        backdrop: 'static', 
         keyboard: false,
         templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
@@ -487,7 +582,7 @@ angular.module('app.controller', [])
       it.camera_id = $rootScope.$stateParams.camera;
       $scope.selected = it;
       var modalInstance = $uibModal.open({
-        backdrop: 'static',
+        backdrop: 'static', 
         keyboard: false,
         templateUrl: 'backupModalContent.html',
         controller: 'backupModalController',
@@ -1045,7 +1140,7 @@ angular.module('app.controller', [])
     $scope.open = function(key_id) {
       $scope.key_id = key_id;
       var modalInstance = $uibModal.open({
-        backdrop: 'static',
+        backdrop: 'static', 
         keyboard: false,
         templateUrl: 'secretModalContent.html',
         controller: 'secret',
@@ -1160,10 +1255,6 @@ angular.module('app.controller', [])
         create: true,
         user: user
       }).success(function(response) {
-        if (undefined === response.url || '' === response.url){
-          return;
-        }
-        $scope.url = response.url;
         $scope.id = response.session_id;
         playerFactory.load(response.url, playerId);
         keepalive(response);
@@ -1199,9 +1290,7 @@ angular.module('app.controller', [])
       }, intrvl);
     };
     var stop = function() {
-      if (undefined !== $scope.url){
-        playerFactory.stop(playerId);
-      }
+      playerFactory.stop(playerId);
       if (undefined !== alivetimer) {
         $interval.cancel(alivetimer);
         alivetimer = undefined;
@@ -1561,7 +1650,7 @@ angular.module('app.controller', [])
       $scope.selected = angular.copy(it);
       $scope.selected.camname = it.camera_name;
       var modalInstance = $uibModal.open({
-        backdrop: 'static',
+        backdrop: 'static', 
         keyboard: false,
         templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
@@ -1621,7 +1710,7 @@ angular.module('app.controller', [])
       $scope.selected = angular.copy(info);
       $scope.selected.camname = info.camera_name;
       var modalInstance = $uibModal.open({
-        backdrop: 'static',
+        backdrop: 'static', 
         keyboard: false,
         templateUrl: path + 'views/replayModalContent.html',
         controller: 'replayModalController',
@@ -1885,3 +1974,4 @@ angular.module('app.controller', [])
             $scope.getLiveDetail();
         }
     ]);
+
