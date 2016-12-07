@@ -469,7 +469,8 @@ angular.module('app.controller', [])
       var data = {
         stream_quality: $scope.info.stream_quality.toLowerCase(),
         schedule_id: schedule_id,
-        record_lifecycle: $scope.info.record_lifecycle
+        record_lifecycle: $scope.info.record_lifecycle,
+        move_detect_enable: $scope.info.move_detect_enable
       };
       $rootScope.$emit('messageHide');
       $http.post(url, data).success(function(response) {
