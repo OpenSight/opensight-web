@@ -59,6 +59,14 @@ body{
   margin-bottom: 0;
   background: url(../img/wewatchBG460.jpg) repeat-x 50% 50%;
 }
+
+.weLive-slogan-jumbotron{
+    padding: 0;
+    margin-bottom: 0;
+    background: url(../img/weliveBG460.jpg) repeat-x 50% 50%;
+}
+
+
 .slogan-jumbotron{
     padding: 0;
     margin-bottom: 0;
@@ -80,6 +88,15 @@ body{
   color: #fff;
   height: 460px;
   background:  url(../img/weWatch.png) center no-repeat;
+}
+
+.welive-slogan{
+    padding: 0;
+    margin-bottom: 0;
+    margin-top: 0;
+    color: #fff;
+    height: 460px;
+    background:  url(../img/weLive.png) center no-repeat;
 }
 .slogan-text{
   margin-top: 150px;
@@ -257,6 +274,21 @@ body{
 .story-image.backup {
     padding-top: 28%;
     background-image: url(../img/guiad/backup.png);
+}
+
+.story-image.live_in {
+    padding-top: 28%;
+    background-image: url(../img/guiad/livein.png);
+}
+
+.story-image.live_reply {
+    padding-top: 28%;
+    background-image: url(../img/guiad/livere.png);
+}
+
+.story-image.live_share {
+    padding-top: 28%;
+    background-image: url(../img/guiad/livesh.png);
 }
 .image-on-right .story-image {
     float: right;
