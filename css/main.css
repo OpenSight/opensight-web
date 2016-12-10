@@ -254,7 +254,10 @@ body{
     padding-top: 28%;
     background-image: url(../img/guiad/share.png);
 }
-
+.story-image.backup {
+    padding-top: 28%;
+    background-image: url(../img/guiad/backup.png);
+}
 .image-on-right .story-image {
     float: right;
 }
