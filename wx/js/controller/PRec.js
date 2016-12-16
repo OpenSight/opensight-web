@@ -27,6 +27,54 @@ app.register.controller('PRec', [
           $scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
           $scope.seglength = '60';
         },
+        rank: function(segments){
+          var list = [];
+          var info = {
+            opened: false,
+            duration: 0
+          };
+          for (var i = 0, l = segments.length; i < l; i++){
+            if (3600000 <= segments[i].duration){
+              if (0 < info.duration){
+                list.push(info);
+              }
+              list.push({
+                start: segments[i].start,
+                end: segments[i].end,
+                opened: false,
+                duration: segments[i].duration,
+                segments: [segments[i]]
+              });
+              info = {
+                opened: false,
+                duration: 0
+              };
+              continue;
+            }
+            if (0 === info.duration){
+              info = {
+                start: segments[i].start,
+                end: segments[i].end,
+                duration: segments[i].duration,
+                opened: false,
+                segments: [segments[i]]
+              };
+              continue;
+            }
+            info.end = segments[i].end;
+            info.opened = false;
+            info.duration = info.duration + segments[i].duration;
+            info.segments.push(segments[i]);
+            if (3600000 <= info.duration){
+              list.push(info);
+              info = {
+                opened: false,
+                duration: 0
+              };
+            }
+          }
+          return list;
+        },
         query: function () {
           $('#ToastTxt').html("正在获取录像列表");
           $('#loadingToast').show();
@@ -37,7 +85,8 @@ app.register.controller('PRec', [
               seglength: parseInt($scope.seglength, 10)
             }
           }).success(function (response) {
-            $scope.reclist = response;
+            $scope.segments = $scope.prec.rank(response.segments);
+            // $scope.reclist = response;
             setTimeout(function () {
               $('#loadingToast').hide();
             }, 100);
@@ -64,6 +113,13 @@ app.register.controller('PRec', [
         play: function (item) {
           $rootScope.pRecInfo = item;
           $state.go('precplay');
+        },
+        open: function(item){
+          if (1 === item.segments.length){
+            $scope.prec.play(item);
+          } else {
+            item.opened = !item.opened;
+          }
         },
         backToCameraList: function () {
           $scope.prec.stopRec();
