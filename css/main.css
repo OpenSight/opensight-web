@@ -280,7 +280,14 @@ body{
     padding-top: 28%;
     background-image: url(../img/guiad/livein.png);
 }
-
+.story-image.live_air {
+    padding-top: 28%;
+    background-image: url(../img/guiad/liveair.png);
+}
+.story-image.live_op {
+     padding-top: 28%;
+     background-image: url(../img/guiad/liveop.png);
+ }
 .story-image.live_reply {
     padding-top: 28%;
     background-image: url(../img/guiad/livere.png);
