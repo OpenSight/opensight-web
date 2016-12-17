@@ -242,7 +242,7 @@ button.weui_btn_opsi_nobordered{
   display: inline-block;
 }
 .weui_cells_compact{
-  margin-top: 10px;
+  margin-top: -1px;
 }
 .weui_cells_access .weui_cell_ft_up:after{
   -webkit-transform: rotate(315deg);

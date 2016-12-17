@@ -18,7 +18,7 @@
           <i class="fa fa-chevron-left "></i> 返回摄像头列表
         </span>
       </div>
-      <div class="weui_cells weui_cells_access">
+      <div class="weui_cells weui_cells_access" style="margin-bottom: 10px;">
         <div class="weui_cell" style="font-size: 17px;outline: 0;">
           <div class="weui_cell_hd">
             <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -34,7 +34,7 @@
       <div class="weui_cells weui_cells_access weui_cells_compact" ng-repeat="item in segments">
         <div class="weui_cell" ng-click="prec.open(item);">
           <div class="weui_cell_bd weui_cell_primary">
-            <i class="fa fa-film text-highlight" ng-show="1 === item.segments.length"></i>
+            <i class="fa fa-film" ng-show="1 === item.segments.length"></i>
             <i class="fa text-warn" ng-hide="1 === item.segments.length" ng-class="{true: 'fa-folder-open', false: 'fa-folder'}[item.opened]"></i>
             &nbsp;
             {{item.start|date: "HH:mm"}} - {{item.end|date: "HH:mm"}}
@@ -48,7 +48,8 @@
         </div>
         <div class="weui_cell" ng-click="prec.play(item);" ng-repeat="it in item.segments" ng-hide="(1 === item.segments.length) || (!item.opened)">
           <div class="weui_cell_bd weui_cell_primary">
-            <i class="fa fa-film text-highlight"></i>
+            &nbsp;&nbsp;&nbsp;
+            <i class="fa fa-film"></i>
             &nbsp;
             {{it.start|date: "HH:mm"}} - {{it.end|date: "HH:mm"}}
           </div>
