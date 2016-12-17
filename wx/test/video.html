@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>Video</title> 
+</head>
+<body>
+
+<video width="100%" height="50%" controls webkit-playsinline="true" playsinline="true" autoplay="autoplay">
+  <source src="http://media01.opensight.cn/hls_quick/s83xK4GgT4iwyz2Kk-fx2A.m3u8" type="application/x-mpegURL">
+</video>
+<script>
+  setTimeout(function(){
+    var player = document.getElementById('player');
+    player.play();
+    player.pause();
+    player.play();
+  }, 1000);
+  
+</script>
+</body>
+</html>
