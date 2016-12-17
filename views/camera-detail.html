@@ -199,8 +199,13 @@
 
       </form>
     </uib-tab>
-    <uib-tab index="2" heading="动检配置">
-      <form ng-controller="camera-detect">
+    <uib-tab index="2" heading="远程配置">
+      <!--<button type="button" class="btn btn-default" ng-click="moveDisplay = true">动检配置</button>-->
+      <!--<button type="button" class="btn btn-primary" ng-click="moveDisplay = false">报警配置</button>-->
+      <button class="btn" role="group" ng-class="{true:'btn-success btn-lg',false:'btn-default'}[(moveDisplay === undefined || moveDisplay === true)]" title="启用" ng-click="moveDisplay = true">动检配置</button>
+      <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-success btn-lg'}[(moveDisplay === undefined || moveDisplay === true)]" title="禁用" ng-click="moveDisplay = false">报警配置</button>
+
+      <form ng-controller="camera-detect" ng-show="(moveDisplay === undefined || moveDisplay === true)">
         <div class="form-group">
           <label>移动侦测</label>
           <div class="btn-group-sm">
@@ -229,22 +234,21 @@
           <button type="submit" class="btn btn-default" ui-sref="project.camera">取消</button>
         </div>
       </form>
-    </uib-tab>
-    <uib-tab index="3" heading="报警配置">
-      <form ng-controller="camera-alarm">
+
+      <form ng-controller="camera-alarm" ng-show="(moveDisplay === false)">
         <div class="form-group">
           <label>动检联动</label>
-            <div class="btn-group-sm">
-              <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[info.move_detect_enabled]" title="启用" ng-click="info.move_detect_enabled = true">启用</button>
-              <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[info.move_detect_enabled]" title="禁用" ng-click="info.move_detect_enabled = false">禁用</button>
-            </div>
+          <div class="btn-group-sm">
+            <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[info.move_detect_enabled]" title="启用" ng-click="info.move_detect_enabled = true">启用</button>
+            <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[info.move_detect_enabled]" title="禁用" ng-click="info.move_detect_enabled = false">禁用</button>
+          </div>
         </div>
         <div class="form-group">
           <label>外部报警联动</label>
-            <div class="btn-group-sm">
-              <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[info.external_alarm_enabled]" title="启用" ng-click="info.external_alarm_enabled = true">启用</button>
-              <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[info.external_alarm_enabled]" title="禁用" ng-click="info.external_alarm_enabled = false">禁用</button>
-            </div>
+          <div class="btn-group-sm">
+            <button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[info.external_alarm_enabled]" title="启用" ng-click="info.external_alarm_enabled = true">启用</button>
+            <button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[info.external_alarm_enabled]" title="禁用" ng-click="info.external_alarm_enabled = false">禁用</button>
+          </div>
         </div>
         <div class="form-group">
           <label>联动启用时间</label>
@@ -261,5 +265,36 @@
         </div>
       </form>
     </uib-tab>
+    <!--<uib-tab index="3" heading="报警配置">-->
+      <!--<form ng-controller="camera-alarm">-->
+        <!--<div class="form-group">-->
+          <!--<label>动检联动</label>-->
+            <!--<div class="btn-group-sm">-->
+              <!--<button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[info.move_detect_enabled]" title="启用" ng-click="info.move_detect_enabled = true">启用</button>-->
+              <!--<button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[info.move_detect_enabled]" title="禁用" ng-click="info.move_detect_enabled = false">禁用</button>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label>外部报警联动</label>-->
+            <!--<div class="btn-group-sm">-->
+              <!--<button class="btn" role="group" ng-class="{true:'btn-primary',false:'btn-default'}[info.external_alarm_enabled]" title="启用" ng-click="info.external_alarm_enabled = true">启用</button>-->
+              <!--<button class="btn" role="group" ng-class="{true:'btn-default',false:'btn-primary'}[info.external_alarm_enabled]" title="禁用" ng-click="info.external_alarm_enabled = false">禁用</button>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label>联动启用时间</label>-->
+          <!--<input type="text" class="form-control" ng-model="info.start">-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label>联动关闭时间</label>-->
+          <!--<input type="text" class="form-control" ng-model="info.end">-->
+        <!--</div>-->
+
+        <!--<div class="btn-group form-group dropup">-->
+          <!--<button type="submit" class="btn btn-primary" ng-click="save()">保存</button>-->
+          <!--<button type="submit" class="btn btn-default" ui-sref="project.camera">取消</button>-->
+        <!--</div>-->
+      <!--</form>-->
+    <!--</uib-tab>-->
   </uib-tabset>
 </div>
