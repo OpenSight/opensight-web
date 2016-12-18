@@ -66,17 +66,12 @@ app.register.controller('PRec', [
             if (segments[i].start - info.start >= 3600000){
               list.push(info);
               info = {
-                opened: false,
-                duration: 0,
-                segments: []
-              };
-              list.push({
                 start: segments[i].start,
                 end: segments[i].end,
-                opened: false,
                 duration: segments[i].duration,
+                opened: false,
                 segments: [segments[i]]
-              });
+              };
               continue;
             }
             info.end = segments[i].end;
