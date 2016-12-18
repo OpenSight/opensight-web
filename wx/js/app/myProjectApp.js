@@ -267,7 +267,23 @@ app.filter('online', [function () {
   // })
   ;
 
-app.factory('dateFactory', function () {
+app.factory('cookieFactory', function() {
+  var cookie = {};
+  return {
+    get: function(key) {
+      return cookie[key];
+    },
+    set: function(key, value) {
+      cookie[key] = value;
+      return value;
+    },
+    remove: function(key){
+      var value = cookie[key];
+      cookie[key] = undefined;
+      return value;
+    }
+  };
+}).factory('dateFactory', function () {
   var padding = function (n) {
     if (10 > n) {
       return '0' + n;

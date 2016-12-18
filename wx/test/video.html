@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Video</title>
+</head>
+
+<body>
+  <video width="100%" height="50%" controls="controls" webkit-playsinline="true" playsinline="true" autoplay="autoplay">
+    <source src="http://media01.opensight.cn/hls_quick/BEm8_NdPSEeO8EWEBbIaUQ.m3u8" type="application/x-mpegURL">
+  </video>
+  <p id="info">loading</p>
+  <button id="play" onClick="play">play</button>
+  <script>
+    var player = document.getElementById('player');
+    var play = function(){
+      var info = document.getElementById('info');
+      info.innerHTML = 'finish load.';
+      setTimeout(function(){
+        player.play();
+        // player.load();
+        player.pause();
+        // player.load();
+        player.play();
+      }, 100);
+    };
+    // try {
+    //   player.play();
+    //   player.load();
+    //   player.pause();
+    //   player.load();
+    //   player.play();
+    // } catch (err) { }
+    // setTimeout(function () {
+    //   try {
+    //     player.play();
+    //     player.load();
+    //     player.pause();
+    //     player.load();
+    //     player.play();
+    //   } catch (err) { }
+    // }, 1000);
+
+    // setTimeout(function () {
+    //   var info = document.getElementById('info');
+    //   info.innerHTML = 'finish load.';
+    //   try {
+    //     player.play();
+    //     player.load();
+    //     player.pause();
+    //     player.load();
+    //     player.play();
+    //   } catch (err) { }
+    // }, 10000);
+
+  </script>
+</body>
+
+</html>

@@ -1,7 +1,6 @@
 var Bind = function(){
   this.api = 'http://api.opensight.cn/api/ivc/v1/wechat/';
 
-  debugger;
   this.init();
 
   return this;
@@ -11,7 +10,6 @@ Bind.prototype = {
   init: function(){
     var params = this.getUrlParams();
 
-    debugger;
     var state = params.state;
     if (true === this.isEmpty(state)){
       state = 'myInfo.html';

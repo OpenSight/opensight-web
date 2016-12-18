@@ -117,6 +117,9 @@ a:hover{
 .text-highlight{
   color: #25A8E1;
 }
+.text-warn{
+  color: #FFBE00;
+}
 .play-tip{
   padding: 5px;
   color: #FFF;
@@ -237,4 +240,15 @@ button.weui_btn_opsi_nobordered{
 }
 .weui_cells_checkbox .weui_icon_checked_opsi:before{
   display: inline-block;
+}
+.weui_cells_compact{
+  margin-top: -1px;
+}
+.weui_cells_access .weui_cell_ft_up:after{
+  -webkit-transform: rotate(315deg);
+  transform: rotate(315deg);
+}
+.weui_cells_access .weui_cell_ft_down:after{
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
 }

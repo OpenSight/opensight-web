@@ -156,9 +156,9 @@ app.register.controller('PLive', ['$rootScope', '$scope', '$http', '$q', '$windo
       latitude: $scope.c.latitude,
       altitude: $scope.c.altitude,
       disable_share: !$scope.share_status
-    }).success(function(response) {
+    }).success(function (response) {
       $('#loadingToast').hide();
-    }).error(function (response,status) {
+    }).error(function (response, status) {
       $('#ToastTxt').html("保存失败");
       $('#loadingToast').show();
       setTimeout(function () {

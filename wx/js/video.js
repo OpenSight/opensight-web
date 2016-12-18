@@ -53,7 +53,7 @@ HlsVideo.prototype = {
   */
   addVideoTag: function(info){
     var id = 'videoPlayer';
-    var html = '<video id="' + id + '" class="video" controls preload autoplay="autoplay" webkit-playsinline="" width="100%" height="100%">' +
+    var html = '<video id="' + id + '" class="video" controls preload autoplay="autoplay" webkit-playsinline="true" playsinline="true" width="100%" height="100%">' +
       '<source src = "' + info.url + '" type = "application/x-mpegURL" />' +
     '</video>';
     var el = $('#' + id).parent().html(html);

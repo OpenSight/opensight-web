@@ -36,7 +36,6 @@ Jwt.prototype = {
     return null; //返回参数值
   },
   jump2Authorize: function () {
-    debugger;
     var href = window.location.origin + window.location.pathname;
     var state = this.getStateByUri(href);
     var url = this.getAuthorizeUrl(href, state);
@@ -91,7 +90,6 @@ Jwt.prototype = {
           this.jump2Bind();
           // this.jump2Authorize();
         } else {
-          debugger;
           this.jump2Bind();
         }
         return false;
@@ -105,7 +103,6 @@ Jwt.prototype = {
     return href;
   },
   jump2Bind: function () {
-    debugger;    
     var bind_url = this.getBindUrl();
     var state = this.getStateByUri(window.location.href);
 

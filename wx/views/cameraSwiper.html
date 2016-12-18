@@ -3,8 +3,8 @@
     <div class="swiper-slide" ng-repeat="u in projectlist.data">
       <div class="col-sm-12 os-table-container" style="padding-left: 0px;padding-right: 0px;">
         <div class="weui_cell_hd" style="padding-left: 0px;">
-          <span class="btn-small" style="cursor:pointer;float:left;padding:10px;font-size:16px;">
-              {{u.name}}
+          <span class="btn-small" style="cursor:pointer;float:left;padding:10px;font-size:16px;text-align: center; width: 100%;">
+              {{u.title}}
             </span>
         </div>
       </div>
@@ -39,9 +39,10 @@
                     <p class="text-name" style="display: block">回放</p>
                   </div>
                 </a>
-                <a ng-click="cameralist.showEdit(item)" style="display: block-inline;height:40px;margin:2px;" class="weui_btn_dialog">
-                  <div style="margin:10px">
+                <a ng-click="cameralist.showEdit(item)" class="weui_btn_dialog" style="color: #25A8E1;">
+                  <div style="display: block-inline;height:40px;margin:2px;border-right:solid 1px #ABAAAA;">
                     <img src="./img/more.png" alt="" />
+                    <p class="text-name" style="display: block">更多</p>
                   </div>
                 </a>
               </div>
@@ -51,6 +52,12 @@
                   <div style="display: block-inline;height:40px;margin:2px;">
                     <img src="./img/config_24px.png" alt="" />
                     <p class="text-name" style="display: block">编辑</p>
+                  </div>
+                </a>
+                <a ng-click="cameralist.editConfigShow(item)" class="weui_btn_dialog" style="color: #25A8E1;">
+                  <div style="display: block-inline;height:40px;margin:2px;" style="color: #25A8E1;">
+                    <img src="./img/alarm.png" alt="" />
+                    <p class="text-name" style="display: block">报警</p>
                   </div>
                 </a>
               </div>
@@ -64,14 +71,17 @@
   <!-- 如果需要分页器 -->
   <div class="swiper-pagination" ng-show="cameralist.swiperShow"></div>
 
-  <div style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.editConfig">
-    <div class="weui_cells_title" style="text-align:right;margin-top: 0px;margin-bottom: 0px;padding-right: 0px;padding-top: 10px;padding-bottom: 10px;">
+  <form style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.editConfig" name="cameraEditForm">
+    <!--<div class="weui_cells_title" style="text-align:right;margin-top: 0px;margin-bottom: 0px;padding-right: 0px;padding-top: 10px;padding-bottom: 10px;">
+      <span class="btn-small">取消</span>
       <span class="btn-small" style="padding: 10px;cursor:pointer;color: #333;font-size:16px;" title="完成编辑" ng-click="cameralist.editSubmit();">
-          <!--<i  class="fa fa-cog "></i>-->
           完成编辑
           </span>
+    </div>-->
+    <div class="weui_cells_title">
+      <span class="btn-small" ng-click="cameralist.cancelSubmit();">取消</span>
+      <span class="btn-small pull-right" ng-click="cameralist.editSubmit();" ng-class="{true:'text-highlight', false: ''}[cameraEditForm.$dirty]">完成编辑</span>
     </div>
-
     <div class="weui_cells">
       <div class="weui_cell">
         <div class="weui_cell_hd"><label for="" class="weui_label" style="width:4em">名称</label></div>
@@ -103,6 +113,6 @@
       </div>
     </div>
 
-  </div>
+  </form>
   <!--edit end-->
 </div>
