@@ -31,12 +31,18 @@ app.register.controller('PRec', [
           var list = [];
           var info = {
             opened: false,
-            duration: 0
+            duration: 0,
+            segments: []
           };
           for (var i = 0, l = segments.length; i < l; i++){
             if (3600000 <= segments[i].duration){
               if (0 < info.duration){
                 list.push(info);
+                info = {
+                  opened: false,
+                  duration: 0,
+                  segments: []
+                };
               }
               list.push({
                 start: segments[i].start,
@@ -45,10 +51,6 @@ app.register.controller('PRec', [
                 duration: segments[i].duration,
                 segments: [segments[i]]
               });
-              info = {
-                opened: false,
-                duration: 0
-              };
               continue;
             }
             if (0 === info.duration){
@@ -61,17 +63,34 @@ app.register.controller('PRec', [
               };
               continue;
             }
+            if (segments[i].start - info.start >= 3600000){
+              list.push(info);
+              info = {
+                opened: false,
+                duration: 0,
+                segments: []
+              };
+              list.push({
+                start: segments[i].start,
+                end: segments[i].end,
+                opened: false,
+                duration: segments[i].duration,
+                segments: [segments[i]]
+              });
+              continue;
+            }
             info.end = segments[i].end;
             info.opened = false;
             info.duration = info.duration + segments[i].duration;
             info.segments.push(segments[i]);
-            if (3600000 <= info.duration){
-              list.push(info);
-              info = {
-                opened: false,
-                duration: 0
-              };
-            }
+          }
+          if (0 !== info.duration){
+            list.push(info);
+            info = {
+              opened: false,
+              duration: 0,
+              segments: []
+            };
           }
           return list;
         },
