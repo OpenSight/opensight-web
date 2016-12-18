@@ -7,54 +7,50 @@
 </head>
 
 <body>
-  <video width="100%" height="50%" controls="controls" webkit-playsinline="true" playsinline="true" autoplay="autoplay">
-    <source src="http://media01.opensight.cn/hls_quick/BEm8_NdPSEeO8EWEBbIaUQ.m3u8" type="application/x-mpegURL">
+  <video id="player" width="100%" height="50%" controls="controls" webkit-playsinline="true" playsinline="true" autoplay="autoplay">
+    <source src="" type="application/x-mpegURL">
   </video>
   <p id="info">loading</p>
-  <button id="play" onClick="play">play</button>
-  <script>
-    var player = document.getElementById('player');
-    var play = function(){
-      var info = document.getElementById('info');
-      info.innerHTML = 'finish load.';
-      setTimeout(function(){
-        player.play();
-        // player.load();
-        player.pause();
-        // player.load();
-        player.play();
-      }, 100);
-    };
-    // try {
-    //   player.play();
-    //   player.load();
-    //   player.pause();
-    //   player.load();
-    //   player.play();
-    // } catch (err) { }
-    // setTimeout(function () {
-    //   try {
-    //     player.play();
-    //     player.load();
-    //     player.pause();
-    //     player.load();
-    //     player.play();
-    //   } catch (err) { }
-    // }, 1000);
+  <p id="container"></p>
+  <button id="play" onClick="play();" style="display: block; height:100px;"> play</button>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script>
+  var player = document.getElementById('player');
+  var btn = document.getElementById('play');
+  var info = document.getElementById('info');
+  var play = function () {
+    player.play();
+    player.pause();
+    // player.play();
+    setTimeout(function () {
+      // player.play();
+      // player.pause();
+      player.src = "http://media01.opensight.cn/hls_quick/_Gp68b8ATpGQVm5wH5tt4Q.m3u8";
+      player.load();
+      player.play();
+      if (player.cancelFullscreen) {
+        info.innerHTML = 'cancelFullscreen';
+        player.cancelFullscreen();
+      } else if (player.webkitCancelFullScreen) {
+        info.innerHTML = 'webkitCancelFullScreen';
+        player.webkitCancelFullScreen();
+      } else if (player.mozCancelFullScreen) {
+        info.innerHTML = 'mozCancelFullScreen';
+        player.mozCancelFullScreen();
+      }
+    }, 5000);
 
-    // setTimeout(function () {
-    //   var info = document.getElementById('info');
-    //   info.innerHTML = 'finish load.';
-    //   try {
-    //     player.play();
-    //     player.load();
-    //     player.pause();
-    //     player.load();
-    //     player.play();
-    //   } catch (err) { }
-    // }, 10000);
+  };
 
-  </script>
+  setTimeout(function () {
+    // debugger;
+    var event1 = document.createEvent('HTMLEvents');
+    event1.initEvent("click", true, true);
+    event1.eventType = 'click';
+    // btn.dispatchEvent(event1);
+  }, 5000);
+
+</script>
 </body>
 
 </html>

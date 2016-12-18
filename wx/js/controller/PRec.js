@@ -116,7 +116,7 @@ app.register.controller('PRec', [
         },
         open: function(item){
           if (1 === item.segments.length){
-            $scope.prec.play(item);
+            $scope.prec.play(item.segments[0]);
           } else {
             item.opened = !item.opened;
           }

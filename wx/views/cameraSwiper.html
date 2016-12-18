@@ -25,28 +25,42 @@
                 <img style="width:100%;min-height: 120px;" ng-src="{{item.preview}}" alt="{{item.name}}">
                 <div class="opsi_play"></div>
               </div>
+              <div class="weui_grids">
+                <div ng-click="cameralist.showMore(item)" class="weui_grid" style="padding-top: 5px;padding-bottom: 5px;">
+                  <div class="weui_grid_icon"><img src="./img/replay24.png" alt="" /></div>
+                  <div class="weui_grid_label" style="margin-top: 2px;">实时</div>
+                </div>
+                <div ng-click="cameralist.showRec(item)" class="weui_grid" style="padding-top: 5px;padding-bottom: 5px;">
+                  <div class="weui_grid_icon"><i class="fa fa-film" style="font-size: 24px;color: #25A8E1;"></i></div>
+                  <div class="weui_grid_label" style="margin-top: 2px;">回放</div>
+                </div>
+                <div ng-click="cameralist.editConfigShow(item)" class="weui_grid" style="padding-top: 5px;padding-bottom: 5px;">
+                  <div class="weui_grid_icon"><img src="./img/config_24px.png" alt="" /></div>
+                  <div class="weui_grid_label" style="margin-top: 2px;">配置</div>
+                </div>
+              </div>
               <!--<div class="topimg-container" ng-click="cameralist.showMore(item)" ng-show="preShow"></div>-->
-              <div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;" ng-class="editMargin[item.uuid]">
+              <!--<div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;" ng-class="editMargin[item.uuid]">
                 <a ng-click="cameralist.showMore(item)" class="weui_btn_dialog" style="color: #25A8E1;border-right:solid 1px #ABAAAA;">
                   <div style="display: block-inline;height:40px;margin:2px;">
-                    <img src="./img/live24.png" alt="" />
+                    <img src="./img/play24.png" alt="" />
                     <p class="text-name" style="display: block">实时</p>
                   </div>
                 </a>
-                <a ng-click="cameralist.showRec(item)" class="weui_btn_dialog" style="color: #25A8E1;">
+                <a ng-click="cameralist.showRec(item)" class="weui_btn_dialog" style="color: #09bb07;">
                   <div style="display: block-inline;height:40px;margin:2px;border-right:solid 1px #ABAAAA;">
-                    <img src="./img/replay24.png" alt="" />
+                    <img src="./img/record24.png" alt="" />
                     <p class="text-name" style="display: block">回放</p>
                   </div>
                 </a>
-                <a ng-click="cameralist.showEdit(item)" class="weui_btn_dialog" style="color: #25A8E1;">
-                  <div style="display: block-inline;height:40px;margin:2px;border-right:solid 1px #ABAAAA;">
-                    <img src="./img/more.png" alt="" />
-                    <p class="text-name" style="display: block">更多</p>
+                <a ng-click="cameralist.editConfigShow(item)" class="weui_btn_dialog" style="color: #09bb07;">
+                  <div style="display: block-inline;height:40px;margin:2px;border-right:solid 1px #09bb07;">
+                    <img src="./img/config24.png" alt="" />
+                    <p class="text-name" style="display: block">配置</p>
                   </div>
                 </a>
-              </div>
-              <div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;margin-bottom: 15px;"
+              </div>-->
+              <!--<div class="weui_dialog_ft" style="line-height:1em;font-size:1em;height: 44px;text-align: center;margin-top: 0px;margin-bottom: 15px;"
                 ng-show="editView[item.uuid]">
                 <a ng-click="cameralist.editConfigShow(item)" class="weui_btn_dialog" style="color: #25A8E1;">
                   <div style="display: block-inline;height:40px;margin:2px;">
@@ -60,7 +74,7 @@
                     <p class="text-name" style="display: block">报警</p>
                   </div>
                 </a>
-              </div>
+              </div>-->
             </div>
           </div>
         </div>
@@ -69,7 +83,7 @@
     </div>
   </div>
   <!-- 如果需要分页器 -->
-  <div class="swiper-pagination" ng-show="cameralist.swiperShow"></div>
+  <div class="swiper-pagination" ng-show="cameralist.swiperShow" style="visibility: hidden;"></div>
 
   <form style="padding-right: 0px;padding-left: 0px;" ng-show="cameralist.editConfig" name="cameraEditForm">
     <!--<div class="weui_cells_title" style="text-align:right;margin-top: 0px;margin-bottom: 0px;padding-right: 0px;padding-top: 10px;padding-bottom: 10px;">
