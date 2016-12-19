@@ -233,6 +233,7 @@ angular.module('app.controller', [])
   '$scope', '$rootScope', '$http', 'flagFactory',
   function($scope, $rootScope, $http, flagFactory) {
     $scope.caminfo = {};
+    $scope.isOnline = !($rootScope.$stateParams.isOnline === '0');
   }
 ])
 
@@ -368,12 +369,24 @@ angular.module('app.controller', [])
       $scope.refresh = function() {
         $http.get(url, {}).success(function(response) {
           $scope.info = response;
+          if ($scope.info.start !== undefined){
+            $scope.info.startHH = parseInt($scope.info.start/(60*60),10);
+            $scope.info.startMM = parseInt($scope.info.start%(60*60)/60,10);
+          }
+          if ($scope.info.end !== undefined){
+            $scope.info.endHH = parseInt($scope.info.end/(60*60),10);
+            $scope.info.endMM = parseInt($scope.info.end%(60*60)/60,10);
+          }
         }).error(function(response, status) {
             console.log('error');
           });
       };
 
       $scope.save = function() {
+        $scope.info.start = parseInt($scope.info.startHH, 10)*60*60;
+        $scope.info.start += parseInt($scope.info.startMM, 10)*60;
+        $scope.info.end = parseInt($scope.info.endHH, 10)*60*60;
+        $scope.info.end += parseInt($scope.info.endMM, 10)*60;
         var data = {
           start: $scope.info.start,
           end: $scope.info.end,
@@ -405,12 +418,24 @@ angular.module('app.controller', [])
       $scope.refresh = function() {
         $http.get(url, {}).success(function(response) {
           $scope.info = response;
+          if ($scope.info.start !== undefined){
+            $scope.info.startHH = parseInt($scope.info.start/(60*60),10);
+            $scope.info.startMM = parseInt($scope.info.start%(60*60)/60,10);
+          }
+          if ($scope.info.end !== undefined){
+            $scope.info.endHH = parseInt($scope.info.end/(60*60),10);
+            $scope.info.endMM = parseInt($scope.info.end%(60*60)/60,10);
+          }
         }).error(function(response, status) {
             console.log('error');
           });
       };
 
       $scope.save = function() {
+        $scope.info.start = parseInt($scope.info.startHH, 10)*60*60;
+        $scope.info.start += parseInt($scope.info.startMM, 10)*60;
+        $scope.info.end = parseInt($scope.info.endHH, 10)*60*60;
+        $scope.info.end += parseInt($scope.info.endMM, 10)*60;
         var data = {
           enable: $scope.info.enable,
           start: $scope.info.start,

@@ -77,7 +77,7 @@ var app = angular.module('client', [
         templateUrl: path + 'views/camera.html'
       })
       .state('project.camera-detail', {
-        url: '/camera/:camera',
+        url: '/camera/:camera?isOnline',
         templateUrl: path + 'views/camera-detail.html'
       })
       .state('project.camera-replay', {
