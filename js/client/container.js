@@ -804,15 +804,17 @@ angular.module('app.controller', [])
       } else {
         it.monthday = 0;
       }
-      var s = new Date();
-
 
       $scope.info.entries.push(it);
       $scope.datepicker.push(false);
 
       var t = {
-        start: dateFactory.str2time(it.start, true),
-        end: dateFactory.str2time(it.end, false)
+        startHH: 0,
+        startMM: 0,
+        startSS: 0,
+        endHH: 23,
+        endMM: 59,
+        endSS: 59
       };
       $scope.timepicker.push(t);
     };
@@ -826,12 +828,15 @@ angular.module('app.controller', [])
       $scope.timepicker.splice(index, 1);
     };
 
-    $scope.timechange = function(index, key) {
-      var d = $scope.timepicker[index][key];
-      $scope.timepicker[key] = dateFactory.time2str(d);
+    $scope.timeGather = function() {
+      for (var i = 0, l = $scope.info.entries.length; i < l; i++) {
+        $scope.info.entries[i].start = dateFactory.hmsFormat($scope.timepicker[i].startHH, $scope.timepicker[i].startMM, $scope.timepicker[i].startSS);
+        $scope.info.entries[i].end = dateFactory.hmsFormat($scope.timepicker[i].endHH, $scope.timepicker[i].endMM, $scope.timepicker[i].endSS);
+      }
     };
 
     $scope.add = function() {
+      $scope.timeGather();
       $http.post(url, $scope.info).success(function(response) {
         $rootScope.$emit('messageShow', { succ: true, text: '添加成功。' });
         $scope.typechange('weekday');
@@ -901,15 +906,17 @@ angular.module('app.controller', [])
       } else {
         it.monthday = 0;
       }
-      var s = new Date();
-
 
       $scope.info.entries.push(it);
       $scope.datepicker.push(false);
 
       var t = {
-        start: dateFactory.str2time(it.start, true),
-        end: dateFactory.str2time(it.end, false)
+        startHH: 0,
+        startMM: 0,
+        startSS: 0,
+        endHH: 23,
+        endMM: 59,
+        endSS: 59
       };
       $scope.timepicker.push(t);
     };
@@ -923,13 +930,18 @@ angular.module('app.controller', [])
       $scope.timepicker.splice(index, 1);
     };
 
-    $scope.timechange = function(index, key) {
-      var d = $scope.timepicker[index][key];
-      $scope.timepicker[key] = dateFactory.time2str(d);
+    $scope.timeGather = function() {
+      for (var i = 0, l = $scope.info.entries.length; i < l; i++) {
+        $scope.info.entries[i].start = dateFactory.hmsFormat($scope.timepicker[i].startHH, $scope.timepicker[i].startMM, $scope.timepicker[i].startSS);
+        $scope.info.entries[i].end = dateFactory.hmsFormat($scope.timepicker[i].endHH, $scope.timepicker[i].endMM, $scope.timepicker[i].endSS);
+      }
     };
 
     $scope.modify = function() {
-      $http.post(url, $scope.info).success(function(response) {
+      $scope.timeGather();
+      delete $scope.info.project_name;
+      delete $scope.info.id;
+      $http.put(url, $scope.info).success(function(response) {
         $rootScope.$emit('messageShow', { succ: true, text: '修改录像计划模板成功。' });
         // $scope.typechange('weekday');
       }).error(function(response, status) {
@@ -946,9 +958,19 @@ angular.module('app.controller', [])
           $scope.type = 'monthday';
         }
         for (var i = 0, l = $scope.info.entries.length; i < l; i++) {
+          if ($scope.info.entries[i].monthday === null || $scope.info.entries[i].monthday === "") $scope.info.entries[i].monthday = 0;
+          if ($scope.info.entries[i].weekday === null || $scope.info.entries[i].weekday === "") $scope.info.entries[i].weekday = 0;
+          if ($scope.info.entries[i].date === null) $scope.info.entries[i].date = "";
+          var start = $scope.info.entries[i].start.split(':');
+          var end = $scope.info.entries[i].end.split(':');
+
           var t = {
-            start: dateFactory.str2time($scope.info.entries[i].start, true),
-            end: dateFactory.str2time($scope.info.entries[i].end, false)
+            startHH: parseInt(start[0],10),
+            startMM: parseInt(start[1],10),
+            startSS: parseInt(start[2],10),
+            endHH: parseInt(end[0],10),
+            endMM: parseInt(end[1],10),
+            endSS: parseInt(end[2],10)
           };
           $scope.timepicker.push(t);
         }
