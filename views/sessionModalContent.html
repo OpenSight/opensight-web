@@ -108,7 +108,7 @@
 </div>
 <div class="modal-footer">
   <!-- Single button -->
-  <div class="btn-group dropup">
+  <div class="btn-group dropup" ng-show="(modShow===false || modShow===undefined)">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       开始录像
       <span class="caret"></span>
@@ -117,8 +117,15 @@
       <li><a class="pointer" ng-click="startRecord(10)">10分钟</a></li>
       <li><a class="pointer" ng-click="startRecord(30)">30分钟</a></li>
       <li><a class="pointer" ng-click="startRecord(60)">1小时</a></li>
+      <li><a class="pointer" ng-click="startRecord(120)">2小时</a></li>
+      <li><a class="pointer" ng-click="startRecord(240)">4小时</a></li>
+      <li><a class="pointer" ng-click="modShow=true;">自定义</a></li>
     </ul>
   </div>
+
+    <input ng-show="modShow" ng-model="setZone" type="number" min="0" />
+
+  <button ng-show="modShow" class="btn btn-default" type="button" ng-click="startRecord(setZone);modShow=false;">开始录像</button>
   <button class="btn btn-default" type="button" ng-click="stopRecord()">停止录像</button>
   <button class="btn btn-primary" type="button" ng-click="ok()">关闭</button>
 </div>
