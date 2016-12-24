@@ -16,33 +16,48 @@
         </span>
       </span>
     </div>
+
     <div class="form-group" ng-hide="hidden">
       <label>开始</label>
       <div class="input-group input-group-150">
-        <input type="text" class="form-control" ng-model="timepicker.start">
-        <div class="input-group-btn" uib-dropdown auto-close="disabled">
-          <button type="button" class="btn btn-default" uib-dropdown-toggle>
-            <i class="glyphicon glyphicon-time"></i>
-          </button>
-          <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
-            <uib-timepicker ng-model="timepicker.startdt" ng-change="timechange(timepicker.startdt, 'start')" show-seconds="true" show-meridian="false"></uib-timepicker>
-          </span>
-        </div>
+        <input type="number" min = "0" max="24" value="0" style="max-width: 35px" ng-model="timepicker.startHH">
+        ：
+        <input type="number"  min = "0" max="59" value="0" style="max-width: 35px" ng-model="timepicker.startMM">
+        ：
+        <input type="number"  min = "0" max="59" value="0" style="max-width: 35px" ng-model="timepicker.startSS">
       </div>
+      <!--<div class="input-group input-group-150">-->
+        <!--<input type="text" class="form-control" ng-model="timepicker.start">-->
+        <!--<div class="input-group-btn" uib-dropdown auto-close="disabled">-->
+          <!--<button type="button" class="btn btn-default" uib-dropdown-toggle>-->
+            <!--<i class="glyphicon glyphicon-time"></i>-->
+          <!--</button>-->
+          <!--<span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>-->
+            <!--<uib-timepicker ng-model="timepicker.startdt" ng-change="timechange(timepicker.startdt, 'start')" show-seconds="true" show-meridian="false"></uib-timepicker>-->
+          <!--</span>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
     <div class="form-group" ng-hide="hidden">
       <label>结束</label>
       <div class="input-group input-group-150">
-        <input type="text" class="form-control" ng-model="timepicker.end">
-        <div class="input-group-btn" uib-dropdown auto-close="disabled">
-          <button type="button" class="btn btn-default" uib-dropdown-toggle>
-            <i class="glyphicon glyphicon-time"></i>
-          </button>
-          <span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>
-            <uib-timepicker ng-model="timepicker.enddt" ng-change="timechange(timepicker.enddt, 'end')" show-seconds="true" show-meridian="false"></uib-timepicker>
-          </span>
-        </div>
+        <input type="number" min = "0" max="24" value="0" style="max-width: 35px" ng-model="timepicker.endHH">
+        ：
+        <input type="number"  min = "0" max="59" value="0" style="max-width: 35px" ng-model="timepicker.endMM">
+        ：
+        <input type="number"  min = "0" max="59" value="0" style="max-width: 35px" ng-model="timepicker.endSS">
       </div>
+      <!--<div class="input-group input-group-150">-->
+        <!--<input type="text" class="form-control" ng-model="timepicker.end">-->
+        <!--<div class="input-group-btn" uib-dropdown auto-close="disabled">-->
+          <!--<button type="button" class="btn btn-default" uib-dropdown-toggle>-->
+            <!--<i class="glyphicon glyphicon-time"></i>-->
+          <!--</button>-->
+          <!--<span class="dropdown-menu dropdown-menu-right timepicker-container" uib-dropdown-menu>-->
+            <!--<uib-timepicker ng-model="timepicker.enddt" ng-change="timechange(timepicker.enddt, 'end')" show-seconds="true" show-meridian="false"></uib-timepicker>-->
+          <!--</span>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
     <div class="form-group" ng-hide="hidden">
       <label>分段时长</label>

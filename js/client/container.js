@@ -560,19 +560,29 @@ angular.module('app.controller', [])
       $scope.dt = new Date();
       $scope.opened = false;
 
+      //$scope.timepicker = {
+      //  start: '00:00:00',
+      //  end: '23:59:59'
+      //};
+      //$scope.timepicker.startdt = dateFactory.str2time($scope.timepicker.start, true);
+      //$scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
+
       $scope.timepicker = {
-        start: '00:00:00',
-        end: '23:59:59'
+        startHH: 0,
+        startMM: 0,
+        startSS: 0,
+        endHH: 23,
+        endMM: 59,
+        endSS: 59
       };
-      $scope.timepicker.startdt = dateFactory.str2time($scope.timepicker.start, true);
-      $scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
       $scope.seglength = '60';
     })();
-    $scope.timechange = function(time, key) {
-      $scope.timepicker[key] = dateFactory.time2str(time);
-    };
 
     $scope.query = function() {
+      $scope.timepicker.start = dateFactory.hmsFormat($scope.timepicker.startHH, $scope.timepicker.startMM, $scope.timepicker.startSS);
+      $scope.timepicker.end = dateFactory.hmsFormat($scope.timepicker.endHH, $scope.timepicker.endMM, $scope.timepicker.endSS);
+      $scope.timepicker.startdt = dateFactory.str2time($scope.timepicker.start, true);
+      $scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
       $http.get(url, {
         params: {
           start: dateFactory.getms($scope.dt, $scope.timepicker.startdt),
