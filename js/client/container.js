@@ -142,6 +142,7 @@ angular.module('app.controller', [])
       filter_value: ''
     };
     var query = function(params) {
+
       $http.get(api + "projects/" + $scope.project + '/cameras', {
         params: params
       }).success(function(response) {
@@ -157,7 +158,8 @@ angular.module('app.controller', [])
         }
         $scope.camera = response;
         pageFactory.set(response, params);
-      }).error(function(response, status) {
+        $rootScope.cameraCurPageTmp = $scope.page.curr;
+        }).error(function(response, status) {
         console.log('error');
       });
     };
@@ -176,6 +178,11 @@ angular.module('app.controller', [])
         params.filter_key = $scope.params.filter_key;
         params.filter_value = $scope.params.filter_value;
       }
+      if ($rootScope.cameraCurPageMark > 1){
+        params.start = ($rootScope.cameraCurPageMark-1) * params.limit;
+        $rootScope.cameraCurPage = 1;
+      }
+
       query(params);
     };
 
@@ -230,10 +237,11 @@ angular.module('app.controller', [])
 ])
 
 .controller('camera-tab', [
-  '$scope', '$rootScope', '$http', 'flagFactory',
-  function($scope, $rootScope, $http, flagFactory) {
+  '$scope', '$rootScope', '$http', 'flagFactory','pageFactory',
+  function($scope, $rootScope, $http, flagFactory, pageFactory) {
     $scope.caminfo = {};
     $scope.isOnline = !($rootScope.$stateParams.isOnline === '0');
+    $rootScope.cameraCurPageMark = $rootScope.cameraCurPageTmp;
   }
 ])
 
@@ -549,6 +557,7 @@ angular.module('app.controller', [])
   '$scope', '$rootScope', '$http', '$uibModal', 'playerFactory', 'dateFactory',
   function($scope, $rootScope, $http, $uibModal, playerFactory, dateFactory) {
     $scope.camname = $rootScope.$stateParams.camname;
+    $rootScope.cameraCurPageMark = $rootScope.cameraCurPageTmp;
     var url = api + "projects/" + $rootScope.$stateParams.project + '/cameras/' + $rootScope.$stateParams.camera + '/record/search';
 
     (function() {
