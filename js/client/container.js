@@ -142,6 +142,7 @@ angular.module('app.controller', [])
       filter_value: ''
     };
     var query = function(params) {
+
       $http.get(api + "projects/" + $scope.project + '/cameras', {
         params: params
       }).success(function(response) {
@@ -157,7 +158,8 @@ angular.module('app.controller', [])
         }
         $scope.camera = response;
         pageFactory.set(response, params);
-      }).error(function(response, status) {
+        $rootScope.cameraCurPageTmp = $scope.page.curr;
+        }).error(function(response, status) {
         console.log('error');
       });
     };
@@ -176,6 +178,11 @@ angular.module('app.controller', [])
         params.filter_key = $scope.params.filter_key;
         params.filter_value = $scope.params.filter_value;
       }
+      if ($rootScope.cameraCurPageMark > 1){
+        params.start = ($rootScope.cameraCurPageMark-1) * params.limit;
+        $rootScope.cameraCurPage = 1;
+      }
+
       query(params);
     };
 
@@ -230,10 +237,11 @@ angular.module('app.controller', [])
 ])
 
 .controller('camera-tab', [
-  '$scope', '$rootScope', '$http', 'flagFactory',
-  function($scope, $rootScope, $http, flagFactory) {
+  '$scope', '$rootScope', '$http', 'flagFactory','pageFactory',
+  function($scope, $rootScope, $http, flagFactory, pageFactory) {
     $scope.caminfo = {};
     $scope.isOnline = !($rootScope.$stateParams.isOnline === '0');
+    $rootScope.cameraCurPageMark = $rootScope.cameraCurPageTmp;
   }
 ])
 
@@ -549,6 +557,7 @@ angular.module('app.controller', [])
   '$scope', '$rootScope', '$http', '$uibModal', 'playerFactory', 'dateFactory',
   function($scope, $rootScope, $http, $uibModal, playerFactory, dateFactory) {
     $scope.camname = $rootScope.$stateParams.camname;
+    $rootScope.cameraCurPageMark = $rootScope.cameraCurPageTmp;
     var url = api + "projects/" + $rootScope.$stateParams.project + '/cameras/' + $rootScope.$stateParams.camera + '/record/search';
 
     (function() {
@@ -560,19 +569,29 @@ angular.module('app.controller', [])
       $scope.dt = new Date();
       $scope.opened = false;
 
+      //$scope.timepicker = {
+      //  start: '00:00:00',
+      //  end: '23:59:59'
+      //};
+      //$scope.timepicker.startdt = dateFactory.str2time($scope.timepicker.start, true);
+      //$scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
+
       $scope.timepicker = {
-        start: '00:00:00',
-        end: '23:59:59'
+        startHH: 0,
+        startMM: 0,
+        startSS: 0,
+        endHH: 23,
+        endMM: 59,
+        endSS: 59
       };
-      $scope.timepicker.startdt = dateFactory.str2time($scope.timepicker.start, true);
-      $scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
       $scope.seglength = '60';
     })();
-    $scope.timechange = function(time, key) {
-      $scope.timepicker[key] = dateFactory.time2str(time);
-    };
 
     $scope.query = function() {
+      $scope.timepicker.start = dateFactory.hmsFormat($scope.timepicker.startHH, $scope.timepicker.startMM, $scope.timepicker.startSS);
+      $scope.timepicker.end = dateFactory.hmsFormat($scope.timepicker.endHH, $scope.timepicker.endMM, $scope.timepicker.endSS);
+      $scope.timepicker.startdt = dateFactory.str2time($scope.timepicker.start, true);
+      $scope.timepicker.enddt = dateFactory.str2time($scope.timepicker.end, false);
       $http.get(url, {
         params: {
           start: dateFactory.getms($scope.dt, $scope.timepicker.startdt),
@@ -804,15 +823,17 @@ angular.module('app.controller', [])
       } else {
         it.monthday = 0;
       }
-      var s = new Date();
-
 
       $scope.info.entries.push(it);
       $scope.datepicker.push(false);
 
       var t = {
-        start: dateFactory.str2time(it.start, true),
-        end: dateFactory.str2time(it.end, false)
+        startHH: 0,
+        startMM: 0,
+        startSS: 0,
+        endHH: 23,
+        endMM: 59,
+        endSS: 59
       };
       $scope.timepicker.push(t);
     };
@@ -826,12 +847,15 @@ angular.module('app.controller', [])
       $scope.timepicker.splice(index, 1);
     };
 
-    $scope.timechange = function(index, key) {
-      var d = $scope.timepicker[index][key];
-      $scope.timepicker[key] = dateFactory.time2str(d);
+    $scope.timeGather = function() {
+      for (var i = 0, l = $scope.info.entries.length; i < l; i++) {
+        $scope.info.entries[i].start = dateFactory.hmsFormat($scope.timepicker[i].startHH, $scope.timepicker[i].startMM, $scope.timepicker[i].startSS);
+        $scope.info.entries[i].end = dateFactory.hmsFormat($scope.timepicker[i].endHH, $scope.timepicker[i].endMM, $scope.timepicker[i].endSS);
+      }
     };
 
     $scope.add = function() {
+      $scope.timeGather();
       $http.post(url, $scope.info).success(function(response) {
         $rootScope.$emit('messageShow', { succ: true, text: '添加成功。' });
         $scope.typechange('weekday');
@@ -901,15 +925,17 @@ angular.module('app.controller', [])
       } else {
         it.monthday = 0;
       }
-      var s = new Date();
-
 
       $scope.info.entries.push(it);
       $scope.datepicker.push(false);
 
       var t = {
-        start: dateFactory.str2time(it.start, true),
-        end: dateFactory.str2time(it.end, false)
+        startHH: 0,
+        startMM: 0,
+        startSS: 0,
+        endHH: 23,
+        endMM: 59,
+        endSS: 59
       };
       $scope.timepicker.push(t);
     };
@@ -923,13 +949,18 @@ angular.module('app.controller', [])
       $scope.timepicker.splice(index, 1);
     };
 
-    $scope.timechange = function(index, key) {
-      var d = $scope.timepicker[index][key];
-      $scope.timepicker[key] = dateFactory.time2str(d);
+    $scope.timeGather = function() {
+      for (var i = 0, l = $scope.info.entries.length; i < l; i++) {
+        $scope.info.entries[i].start = dateFactory.hmsFormat($scope.timepicker[i].startHH, $scope.timepicker[i].startMM, $scope.timepicker[i].startSS);
+        $scope.info.entries[i].end = dateFactory.hmsFormat($scope.timepicker[i].endHH, $scope.timepicker[i].endMM, $scope.timepicker[i].endSS);
+      }
     };
 
     $scope.modify = function() {
-      $http.post(url, $scope.info).success(function(response) {
+      $scope.timeGather();
+      delete $scope.info.project_name;
+      delete $scope.info.id;
+      $http.put(url, $scope.info).success(function(response) {
         $rootScope.$emit('messageShow', { succ: true, text: '修改录像计划模板成功。' });
         // $scope.typechange('weekday');
       }).error(function(response, status) {
@@ -946,9 +977,19 @@ angular.module('app.controller', [])
           $scope.type = 'monthday';
         }
         for (var i = 0, l = $scope.info.entries.length; i < l; i++) {
+          if ($scope.info.entries[i].monthday === null || $scope.info.entries[i].monthday === "") $scope.info.entries[i].monthday = 0;
+          if ($scope.info.entries[i].weekday === null || $scope.info.entries[i].weekday === "") $scope.info.entries[i].weekday = 0;
+          if ($scope.info.entries[i].date === null) $scope.info.entries[i].date = "";
+          var start = $scope.info.entries[i].start.split(':');
+          var end = $scope.info.entries[i].end.split(':');
+
           var t = {
-            start: dateFactory.str2time($scope.info.entries[i].start, true),
-            end: dateFactory.str2time($scope.info.entries[i].end, false)
+            startHH: parseInt(start[0],10),
+            startMM: parseInt(start[1],10),
+            startSS: parseInt(start[2],10),
+            endHH: parseInt(end[0],10),
+            endMM: parseInt(end[1],10),
+            endSS: parseInt(end[2],10)
           };
           $scope.timepicker.push(t);
         }

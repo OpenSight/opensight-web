@@ -127,6 +127,14 @@ angular.module('app.filter', []).filter('online', [function() {
   };
 })
 
+.filter('size_format', function() {
+    return function(size) {
+      var formatSize;
+      formatSize = Math.floor(size/(1024*1024));
+      return formatSize+"M";
+    };
+})
+
 .filter('listlength', function() {
   return function(length) {
     return 0 === length ? '无' : '有';

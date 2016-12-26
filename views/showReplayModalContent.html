@@ -18,7 +18,7 @@
       </div>
       <div class="col-sm-2">
         <form>
-          <div class="form-group" ng-show="undefined !== record.desc">
+          <div class="form-group" ng-show="'' !== record.desc && undefined !== record.desc">
             <label>描述</label>
             <p class="form-control-static">{{record.desc}}</p>
           </div>

@@ -122,6 +122,20 @@ angular.module('app.services', [])
         .replace('HH', padding(dt.getHours()))
         .replace('mm', padding(dt.getMinutes()))
         .replace('ss', padding(dt.getSeconds()));
+    },
+
+    hmsFormat: function(h, m, s){
+      if (h < 0) h = "00";
+      else if (h > 24) h = "24";
+      else if (h < 10) h = "0"+h;
+      if (m < 0) m = "00";
+      else if (m > 59) m = "59";
+      else if (m < 10) m = "0"+m;
+      if (s < 0) s = "00";
+      else if (s > 59) s = "59";
+      else if (s < 10) s = "0"+s;
+
+      return h+":"+m+":"+s;
     }
   };
 })
