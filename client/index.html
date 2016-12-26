@@ -61,7 +61,7 @@ var path = '../';
               {{selected}}
               <span class="caret"></span>
             </span>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" style="overflow:auto;max-height: 500px;">
               <li><a ui-sref="default">default</a></li>
               <li role="separator" class="divider"></li>
               <li ng-repeat="pro in project">

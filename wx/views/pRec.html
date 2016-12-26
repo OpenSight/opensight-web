@@ -46,7 +46,7 @@
             {{item.duration|duration}}&nbsp;&nbsp;
           </div>
         </div>
-        <div class="weui_cell" ng-click="prec.play(item);" ng-repeat="it in item.segments" ng-hide="(1 === item.segments.length) || (!item.opened)">
+        <div class="weui_cell" ng-click="prec.play(it);" ng-repeat="it in item.segments" ng-hide="(1 === item.segments.length) || (!item.opened)">
           <div class="weui_cell_bd weui_cell_primary">
             &nbsp;&nbsp;&nbsp;
             <i class="fa fa-film"></i>
