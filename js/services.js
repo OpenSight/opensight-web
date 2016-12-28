@@ -197,11 +197,16 @@ angular.module('app.services', [])
 .factory('playerFactory', function() {
   var flash = {
     load: function(src, id) {
+      var buf = $.cookie('buffTime');
+      if (buf === null || buf === undefined || buf === ''){
+        buf = 4;
+      }
       src = encodeURIComponent(src);
       var flashvars = {
         src: src,
         plugin_hls: "../flashlsOSMF.swf",
-        autoPlay: true
+        autoPlay: true,
+        bufferTime: buf
       };
 
       var params = {
@@ -225,11 +230,16 @@ angular.module('app.services', [])
   };
   var video = {
     load: function(src, id) {
+      var buf = $.cookie('buffTime');
+      if (buf === null || buf === undefined || buf === ''){
+        buf = 4;
+      }
       src = encodeURIComponent(src);
       var flashvars = {
         src: src,
         plugin_hls: "../flashlsOSMF.swf",
-        autoPlay: true
+        autoPlay: true,
+        bufferTime: buf
       };
 
       var params = {
@@ -264,6 +274,22 @@ angular.module('app.services', [])
          getObj().stop(id);
       } catch(e){}
 
+    },
+    getBuf: function(id) {
+      var player = document.getElementById(id);
+      try {
+        var bt;
+        bt = player.getBufferTime();
+        return bt;
+      } catch(e){}
+    },
+    setBuf: function(id, bt) {
+      var player = document.getElementById(id);
+      try {
+         player.setBufferTime(bt);
+      } catch(e){}
     }
+    //getBufferTime
+    //setBufferTime
   };
 });

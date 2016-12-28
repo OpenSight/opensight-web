@@ -1324,6 +1324,10 @@ angular.module('app.controller', [])
       }).success(function(response) {
         $scope.id = response.session_id;
         playerFactory.load(response.url, playerId);
+          setTimeout(function() {
+            var lbufTime = playerFactory.getBuf(playerId);
+            if (lbufTime !== undefined) $scope.bufTime = lbufTime;
+          }, 1500);
         keepalive(response);
         if (tiptimer) {
           $interval.cancel(tiptimer);
@@ -1509,6 +1513,24 @@ angular.module('app.controller', [])
       stop();
       $scope.stopGetRecordStatus();
       $uibModalInstance.close();
+    };
+
+    //buf scope
+    var bufTime = $.cookie('buffTime');
+    if (bufTime === null || bufTime === undefined || bufTime === ''){
+      $scope.bufTime = 4;
+    }else $scope.bufTime = bufTime;
+
+    $scope.setBuf = function(duration) {
+      $.cookie('buffTime', duration, {
+        expires: 10000
+      });
+      playerFactory.setBuf(playerId, duration);
+      setTimeout(function() {
+        var mbufTime = playerFactory.getBuf(playerId);
+        if (mbufTime !== undefined) $scope.bufTime = mbufTime;
+      }, 1000);
+
     };
   }
 ])
