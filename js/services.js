@@ -218,7 +218,9 @@ angular.module('app.services', [])
     },
     stop: function(id) {
       var player = document.getElementById(id);
-      player.stop2();
+      try {
+        player.stop2();
+      } catch(e){}
     }
   };
   var video = {
@@ -258,7 +260,10 @@ angular.module('app.services', [])
       getObj().load(src, id);
     },
     stop: function(id){
-      getObj().stop(id);
+      try {
+         getObj().stop(id);
+      } catch(e){}
+
     }
   };
 });
