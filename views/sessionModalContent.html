@@ -108,6 +108,23 @@
 </div>
 <div class="modal-footer">
   <!-- Single button -->
+  <div class="btn-group dropup" ng-show="(buffShow===false || buffShow===undefined)">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      缓冲时间：{{bufTime}} s
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="pointer" ng-click="setBuf(1)">1s</a></li>
+      <li><a class="pointer" ng-click="setBuf(2)">2s</a></li>
+      <li><a class="pointer" ng-click="setBuf(4)">4s</a></li>
+      <li><a class="pointer" ng-click="setBuf(6)">6s</a></li>
+      <li><a class="pointer" ng-click="buffShow=true;">自定义</a></li>
+    </ul>
+  </div>
+  <input ng-show="buffShow" ng-model="dyzone" type="number" min="0" />
+
+  <button ng-show="buffShow" class="btn btn-default" type="button" ng-click="setBuf(dyzone);buffShow=false;">确认缓冲时间</button>
+
   <div class="btn-group dropup" ng-show="(modShow===false || modShow===undefined)">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       开始录像
